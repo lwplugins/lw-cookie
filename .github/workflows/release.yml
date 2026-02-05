@@ -1,0 +1,91 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'lw-cookie.php'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from plugin file
+        id: get_version
+        run: |
+          VERSION=$(grep -m1 "Version:" lw-cookie.php | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Check if tag exists
+        id: check_tag
+        env:
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v$VERSION already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag v$VERSION does not exist"
+          fi
+
+      - name: Create release ZIP
+        if: steps.check_tag.outputs.exists == 'false'
+        env:
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          mkdir -p dist
+          zip -r "dist/lw-cookie-${VERSION}.zip" . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "dist/*" \
+            -x "builds/*" \
+            -x "composer.json" \
+            -x "composer.lock" \
+            -x "phpcs.xml.dist" \
+            -x "vendor/*" \
+            -x "node_modules/*" \
+            -x ".gitignore" \
+            -x "*.log"
+
+      - name: Create tag and release
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: v${{ steps.get_version.outputs.version }}
+          body: |
+            ## LW Cookie v${{ steps.get_version.outputs.version }}
+
+            ### Installation
+
+            **Via Composer:**
+            ```bash
+            composer require lwplugins/lw-cookie
+            ```
+
+            **Manual Installation:**
+            1. Download `lw-cookie-${{ steps.get_version.outputs.version }}.zip`
+            2. Upload to `/wp-content/plugins/`
+            3. Activate in WordPress admin
+
+            ### Changelog
+
+            See [readme.txt](https://github.com/lwplugins/lw-cookie/blob/main/readme.txt) for full changelog.
+          files: |
+            dist/lw-cookie-${{ steps.get_version.outputs.version }}.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
