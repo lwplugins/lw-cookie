@@ -3,15 +3,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
-"Report-Msgid-Bugs-To: https://github.com/lwplugins/lw-cookie/issues\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
+"POT-Creation-Date: 2026-02-05T14:10:55+00:00\n"
+"PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-05T09:07:22+00:00\n"
-"PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "X-Generator: Codex\n"
 "X-Domain: lw-cookie\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -28,14 +28,16 @@ msgstr "https://github.com/lwplugins/lw-cookie"
 
 #. Description of the plugin
 #: lw-cookie.php
-msgid "GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance."
-msgstr "GDPR-kompatibilis cookie-hozzájárulási sáv WordPresshez – minimális terhelés, teljes megfelelés."
+msgid ""
+"GDPR-compliant cookie consent banner for WordPress - minimal footprint, full "
+"compliance."
+msgstr ""
+"GDPR-kompatibilis cookie-hozzájárulási sáv WordPresshez – minimális "
+"terhelés, teljes megfelelés."
 
 #. Author of the plugin
-#: lw-cookie.php
-#: includes/Admin/ParentPage.php:99
-#: includes/Admin/ParentPage.php:100
-#: includes/Admin/ParentPage.php:121
+#: lw-cookie.php includes/Admin/ParentPage.php:99
+#: includes/Admin/ParentPage.php:100 includes/Admin/ParentPage.php:121
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -106,7 +108,8 @@ msgstr "Hozzájárulás időtartama"
 
 #: includes/Admin/Settings/TabAdvanced.php:71
 msgid "Days until consent expires and user is asked again."
-msgstr "Ennyi nap után lejár a hozzájárulás, és újra megkérdezzük a felhasználót."
+msgstr ""
+"Ennyi nap után lejár a hozzájárulás, és újra megkérdezzük a felhasználót."
 
 #: includes/Admin/Settings/TabAdvanced.php:79
 msgid "Script Blocking"
@@ -117,42 +120,66 @@ msgid "Block scripts until consent is given"
 msgstr "Szkriptek blokkolása a hozzájárulásig"
 
 #: includes/Admin/Settings/TabAdvanced.php:91
-msgid "Automatically blocks known tracking scripts (Google Analytics, Facebook Pixel, etc.) until user consents."
-msgstr "Automatikusan blokkolja az ismert követőszkripteket (Google Analytics, Facebook Pixel stb.) a hozzájárulásig."
+msgid ""
+"Automatically blocks known tracking scripts (Google Analytics, Facebook "
+"Pixel, etc.) until user consents."
+msgstr ""
+"Automatikusan blokkolja az ismert követőszkripteket (Google Analytics, "
+"Facebook Pixel stb.) a hozzájárulásig."
 
 #: includes/Admin/Settings/TabAdvanced.php:97
+msgid "Content Blocking"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:104
+msgid "Block embedded content until consent is given"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:109
+msgid ""
+"Blocks YouTube, Vimeo, Google Maps and other embedded content until user "
+"consents."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:115
 msgid "Google Consent Mode v2"
 msgstr "Google Consent Mode v2"
 
-#: includes/Admin/Settings/TabAdvanced.php:104
+#: includes/Admin/Settings/TabAdvanced.php:122
 msgid "Enable Google Consent Mode v2"
 msgstr "Google Consent Mode v2 engedélyezése"
 
-#: includes/Admin/Settings/TabAdvanced.php:109
-msgid "Required for Google Ads and Analytics in the EU. Sends consent signals to Google services."
-msgstr "Az EU-ban kötelező a Google Ads és Analytics használatához. Hozzájárulási jeleket küld a Google szolgáltatásainak."
+#: includes/Admin/Settings/TabAdvanced.php:127
+msgid ""
+"Required for Google Ads and Analytics in the EU. Sends consent signals to "
+"Google services."
+msgstr ""
+"Az EU-ban kötelező a Google Ads és Analytics használatához. Hozzájárulási "
+"jeleket küld a Google szolgáltatásainak."
 
-#: includes/Admin/Settings/TabAdvanced.php:115
+#: includes/Admin/Settings/TabAdvanced.php:133
 msgid "Floating Button"
 msgstr "Lebegő gomb"
 
-#: includes/Admin/Settings/TabAdvanced.php:119
+#: includes/Admin/Settings/TabAdvanced.php:137
 msgid "Show Floating Button"
 msgstr "Lebegő gomb megjelenítése"
 
-#: includes/Admin/Settings/TabAdvanced.php:126
+#: includes/Admin/Settings/TabAdvanced.php:144
 msgid "Show a floating button for users to change their consent"
-msgstr "Lebegő gomb megjelenítése, hogy a felhasználók módosíthassák a hozzájárulásukat"
+msgstr ""
+"Lebegő gomb megjelenítése, hogy a felhasználók módosíthassák a "
+"hozzájárulásukat"
 
-#: includes/Admin/Settings/TabAdvanced.php:134
+#: includes/Admin/Settings/TabAdvanced.php:152
 msgid "Button Position"
 msgstr "Gomb pozíciója"
 
-#: includes/Admin/Settings/TabAdvanced.php:142
+#: includes/Admin/Settings/TabAdvanced.php:160
 msgid "Bottom Left"
 msgstr "Bal alsó"
 
-#: includes/Admin/Settings/TabAdvanced.php:143
+#: includes/Admin/Settings/TabAdvanced.php:161
 msgid "Bottom Right"
 msgstr "Jobb alsó"
 
@@ -229,8 +256,10 @@ msgid "Cookie Categories"
 msgstr "Cookie-kategóriák"
 
 #: includes/Admin/Settings/TabCategories.php:56
-msgid "Customize the names and descriptions of cookie categories shown to users."
-msgstr "Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és leírását."
+msgid ""
+"Customize the names and descriptions of cookie categories shown to users."
+msgstr ""
+"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és leírását."
 
 #: includes/Admin/Settings/TabCategories.php:73
 msgid "Necessary Cookies"
@@ -248,9 +277,8 @@ msgid "Name"
 msgstr "Név"
 
 #: includes/Admin/Settings/TabCategories.php:80
-#: includes/Admin/Settings/TabCookies.php:58
-#: includes/Options.php:160
-#: includes/Shortcodes/CookieDeclaration.php:180
+#: includes/Admin/Settings/TabCookies.php:59 includes/Options.php:161
+#: includes/Shortcodes/CookieDeclaration.php:183
 msgid "Necessary"
 msgstr "Szükséges"
 
@@ -261,8 +289,7 @@ msgstr "Szükséges"
 msgid "Description"
 msgstr "Leírás"
 
-#: includes/Admin/Settings/TabCategories.php:85
-#: includes/Options.php:161
+#: includes/Admin/Settings/TabCategories.php:85 includes/Options.php:162
 msgid "Essential cookies required for the website to function."
 msgstr "A weboldal működéséhez szükséges alapvető cookie-k."
 
@@ -278,139 +305,212 @@ msgstr "Analitikai cookie-k"
 msgid "Marketing Cookies"
 msgstr "Marketing cookie-k"
 
-#: includes/Admin/Settings/TabCookies.php:34
+#: includes/Admin/Settings/TabCookies.php:35
+#: includes/Admin/Settings/TabCookies.php:563
 msgid "Cookies"
 msgstr "Cookie-k"
 
-#: includes/Admin/Settings/TabCookies.php:59
-#: includes/Shortcodes/CookieDeclaration.php:184
+#: includes/Admin/Settings/TabCookies.php:60
+#: includes/Shortcodes/CookieDeclaration.php:187
 msgid "Functional"
 msgstr "Funkcionális"
 
-#: includes/Admin/Settings/TabCookies.php:60
-#: includes/Shortcodes/CookieDeclaration.php:188
+#: includes/Admin/Settings/TabCookies.php:61
+#: includes/Shortcodes/CookieDeclaration.php:191
 msgid "Analytics"
 msgstr "Analitika"
 
-#: includes/Admin/Settings/TabCookies.php:61
-#: includes/Shortcodes/CookieDeclaration.php:192
+#: includes/Admin/Settings/TabCookies.php:62
+#: includes/Shortcodes/CookieDeclaration.php:195
 msgid "Marketing"
 msgstr "Marketing"
 
-#: includes/Admin/Settings/TabCookies.php:68
+#: includes/Admin/Settings/TabCookies.php:73
+msgid "Cookie Scanner"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:74
+msgid "Scan your website to detect cookies in use."
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:79
+msgid "Scan Website"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:89
+msgid "Scan Results"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:96
+#: includes/Admin/Settings/TabCookies.php:458
+msgid "Scanning your website for cookies..."
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:105 includes/Banner/Renderer.php:136
+msgid "Close"
+msgstr "Bezárás"
+
+#: includes/Admin/Settings/TabCookies.php:109
+msgid "Add Selected"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:122
 msgid "Cookie Name"
 msgstr "Cookie neve"
 
-#: includes/Admin/Settings/TabCookies.php:69
+#: includes/Admin/Settings/TabCookies.php:123
 #: includes/Shortcodes/CookieDeclaration.php:125
 #: includes/Shortcodes/CookieDeclaration.php:137
 msgid "Provider"
 msgstr "Szolgáltató"
 
-#: includes/Admin/Settings/TabCookies.php:70
+#: includes/Admin/Settings/TabCookies.php:124
 #: includes/Shortcodes/CookieDeclaration.php:126
 #: includes/Shortcodes/CookieDeclaration.php:140
 msgid "Purpose"
 msgstr "Cél"
 
-#: includes/Admin/Settings/TabCookies.php:71
+#: includes/Admin/Settings/TabCookies.php:125
 #: includes/Shortcodes/CookieDeclaration.php:127
 #: includes/Shortcodes/CookieDeclaration.php:143
 msgid "Duration"
 msgstr "Időtartam"
 
-#: includes/Admin/Settings/TabCookies.php:72
+#: includes/Admin/Settings/TabCookies.php:126
 msgid "Category"
 msgstr "Kategória"
 
-#: includes/Admin/Settings/TabCookies.php:73
+#: includes/Admin/Settings/TabCookies.php:127
 #: includes/Shortcodes/CookieDeclaration.php:128
 #: includes/Shortcodes/CookieDeclaration.php:146
 msgid "Type"
 msgstr "Típus"
 
-#: includes/Admin/Settings/TabCookies.php:74
+#: includes/Admin/Settings/TabCookies.php:128
 msgid "Actions"
 msgstr "Műveletek"
 
-#: includes/Admin/Settings/TabCookies.php:90
+#: includes/Admin/Settings/TabCookies.php:144
 msgid "+ Add Cookie"
 msgstr "+ Cookie hozzáadása"
 
-#: includes/Admin/Settings/TabCookies.php:93
+#: includes/Admin/Settings/TabCookies.php:147
 msgid "+ Add Common Cookies"
 msgstr "+ Gyakori cookie-k hozzáadása"
 
-#: includes/Admin/Settings/TabCookies.php:105
-msgid "Use the shortcode [lw_cookie_declaration] to display this cookie list on any page."
-msgstr "Használd a [lw_cookie_declaration] rövidkódot, hogy bármelyik oldalon megjelenítsd ezt a cookie-listát."
+#: includes/Admin/Settings/TabCookies.php:159
+msgid ""
+"Use the shortcode [lw_cookie_declaration] to display this cookie list on any "
+"page."
+msgstr ""
+"Használd a [lw_cookie_declaration] rövidkódot, hogy bármelyik oldalon "
+"megjelenítsd ezt a cookie-listát."
 
-#: includes/Admin/Settings/TabCookies.php:132
+#: includes/Admin/Settings/TabCookies.php:443
 msgid "Stores cookie consent preferences"
 msgstr "Eltárolja a cookie-hozzájárulási beállításokat"
 
-#: includes/Admin/Settings/TabCookies.php:133
+#: includes/Admin/Settings/TabCookies.php:443
 msgid "1 year"
 msgstr "1 év"
 
-#: includes/Admin/Settings/TabCookies.php:140
+#: includes/Admin/Settings/TabCookies.php:444
 msgid "Authentication cookie for logged-in users"
 msgstr "Hitelesítő cookie bejelentkezett felhasználóknak"
 
-#: includes/Admin/Settings/TabCookies.php:141
-#: includes/Admin/Settings/TabCookies.php:149
-#: includes/Admin/Settings/TabCookies.php:263
+#: includes/Admin/Settings/TabCookies.php:444
+#: includes/Admin/Settings/TabCookies.php:445
+#: includes/Admin/Settings/TabCookies.php:738
 #: includes/Shortcodes/CookieDeclaration.php:149
 msgid "Session"
 msgstr "Munkamenet"
 
-#: includes/Admin/Settings/TabCookies.php:148
+#: includes/Admin/Settings/TabCookies.php:445
 msgid "Indicates when user is logged in"
 msgstr "Jelzi, hogy a felhasználó be van jelentkezve"
 
-#: includes/Admin/Settings/TabCookies.php:156
-msgid "Distinguishes unique users"
-msgstr "Megkülönbözteti az egyedi felhasználókat"
+#: includes/Admin/Settings/TabCookies.php:506
+msgid "Deep scanning for additional cookies..."
+msgstr ""
 
-#: includes/Admin/Settings/TabCookies.php:157
-#: includes/Admin/Settings/TabCookies.php:165
-msgid "2 years"
-msgstr "2 év"
+#: includes/Admin/Settings/TabCookies.php:549
+msgid "No cookies detected. Try visiting your site first to set some cookies."
+msgstr ""
 
-#: includes/Admin/Settings/TabCookies.php:164
-msgid "Maintains session state"
-msgstr "Fenntartja a munkamenet állapotát"
+#: includes/Admin/Settings/TabCookies.php:551
+msgid "All detected cookies are already in your list!"
+msgstr ""
 
-#: includes/Admin/Settings/TabCookies.php:172
-msgid "Tracks visits across websites for advertising"
-msgstr "Hirdetési célból követi a látogatásokat weboldalak között"
+#: includes/Admin/Settings/TabCookies.php:554
+msgid "new cookie(s)"
+msgstr ""
 
-#: includes/Admin/Settings/TabCookies.php:173
-msgid "3 months"
-msgstr "3 hónap"
+#: includes/Admin/Settings/TabCookies.php:555
+msgid "external domain(s)"
+msgstr ""
 
-#: includes/Admin/Settings/TabCookies.php:227
+#: includes/Admin/Settings/TabCookies.php:556
+msgid "external font(s)"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:557
+msgid "found."
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:567
+msgid "Already added"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:576
+msgid "Unknown"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:578
+msgid "Unknown provider"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:578
+msgid "Purpose not specified"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:587
+msgid "External Domains"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:593
+msgid "External"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:602
+msgid "External Fonts"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:611
+msgid "Font"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:702
 msgid "e.g. _ga"
 msgstr "pl. _ga"
 
-#: includes/Admin/Settings/TabCookies.php:234
+#: includes/Admin/Settings/TabCookies.php:709
 msgid "e.g. Google"
 msgstr "pl. Google"
 
-#: includes/Admin/Settings/TabCookies.php:241
+#: includes/Admin/Settings/TabCookies.php:716
 msgid "Purpose description"
 msgstr "Cél leírása"
 
-#: includes/Admin/Settings/TabCookies.php:248
+#: includes/Admin/Settings/TabCookies.php:723
 msgid "e.g. 1 year"
 msgstr "pl. 1 év"
 
-#: includes/Admin/Settings/TabCookies.php:266
+#: includes/Admin/Settings/TabCookies.php:741
 #: includes/Shortcodes/CookieDeclaration.php:150
 msgid "Persistent"
 msgstr "Állandó"
 
-#: includes/Admin/Settings/TabCookies.php:272
+#: includes/Admin/Settings/TabCookies.php:747
 msgid "Remove"
 msgstr "Eltávolítás"
 
@@ -440,7 +540,8 @@ msgstr "Adatvédelmi irányelvek oldala"
 
 #: includes/Admin/Settings/TabGeneral.php:82
 msgid "Select your privacy policy page to link from the banner."
-msgstr "Válaszd ki az adatvédelmi irányelvek oldalát, amelyre a sáv hivatkozik."
+msgstr ""
+"Válaszd ki az adatvédelmi irányelvek oldalát, amelyre a sáv hivatkozik."
 
 #: includes/Admin/Settings/TabGeneral.php:88
 msgid "Policy Version"
@@ -448,7 +549,9 @@ msgstr "Irányelv verziója"
 
 #: includes/Admin/Settings/TabGeneral.php:95
 msgid "Change this when you update your privacy policy to request new consent."
-msgstr "Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új hozzájárulást kérj."
+msgstr ""
+"Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új "
+"hozzájárulást kérj."
 
 #: includes/Admin/Settings/TabGeneral.php:103
 msgid "GDPR Compliance Notes"
@@ -456,11 +559,14 @@ msgstr "GDPR-megfelelési megjegyzések"
 
 #: includes/Admin/Settings/TabGeneral.php:106
 msgid "All optional cookie categories are OFF by default (opt-in required)."
-msgstr "Minden opcionális cookie-kategória alapból KI van kapcsolva (opt-in szükséges)."
+msgstr ""
+"Minden opcionális cookie-kategória alapból KI van kapcsolva (opt-in "
+"szükséges)."
 
 #: includes/Admin/Settings/TabGeneral.php:107
 msgid "Users can granularly choose which categories to accept."
-msgstr "A felhasználók részletesen kiválaszthatják, mely kategóriákat fogadják el."
+msgstr ""
+"A felhasználók részletesen kiválaszthatják, mely kategóriákat fogadják el."
 
 #: includes/Admin/Settings/TabGeneral.php:108
 msgid "Consent is logged with timestamp for compliance proof."
@@ -524,25 +630,31 @@ msgstr "Cookie-hozzájárulás"
 msgid "Cookie"
 msgstr "Cookie"
 
-#: includes/Banner/Renderer.php:72
+#: includes/Banner/Renderer.php:74
 msgid "Cookie Settings"
 msgstr "Cookie-beállítások"
 
-#: includes/Banner/Renderer.php:102
+#: includes/Banner/Renderer.php:104
 msgid "Privacy Policy"
 msgstr "Adatvédelmi irányelvek"
 
-#: includes/Banner/Renderer.php:134
-msgid "Close"
-msgstr "Bezárás"
-
-#: includes/Banner/Renderer.php:139
+#: includes/Banner/Renderer.php:141
 msgid "Cookie Preferences"
 msgstr "Cookie-beállítások"
 
-#: includes/Banner/Renderer.php:154
+#: includes/Banner/Renderer.php:156
 msgid "(Required)"
 msgstr "(Kötelező)"
+
+#. translators: %s: hostname (e.g. youtube.com)
+#: includes/Blocking/ContentBlocker.php:212
+#, php-format
+msgid "Content from %s is blocked until you accept cookies."
+msgstr ""
+
+#: includes/Blocking/ContentBlocker.php:216
+msgid "Accept & Load Content"
+msgstr ""
 
 #: includes/Shortcodes/CookieDeclaration.php:63
 #: includes/Shortcodes/CookieDeclaration.php:75
@@ -557,6 +669,25 @@ msgstr "Mindig aktív"
 msgid "Manage Cookie Preferences"
 msgstr "Cookie-beállítások kezelése"
 
-#: includes/Shortcodes/CookieDeclaration.php:181
+#: includes/Shortcodes/CookieDeclaration.php:167
+msgid "Delete All Cookies"
+msgstr ""
+
+#: includes/Shortcodes/CookieDeclaration.php:184
 msgid "Essential cookies required for the website to function properly."
 msgstr "A weboldal megfelelő működéséhez szükséges alapvető cookie-k."
+
+#~ msgid "Distinguishes unique users"
+#~ msgstr "Megkülönbözteti az egyedi felhasználókat"
+
+#~ msgid "2 years"
+#~ msgstr "2 év"
+
+#~ msgid "Maintains session state"
+#~ msgstr "Fenntartja a munkamenet állapotát"
+
+#~ msgid "Tracks visits across websites for advertising"
+#~ msgstr "Hirdetési célból követi a látogatásokat weboldalak között"
+
+#~ msgid "3 months"
+#~ msgstr "3 hónap"

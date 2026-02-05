@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,6 +43,19 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 * Built-in support for Google Consent Mode v2
 * Required for Google Ads and Analytics in the EU
 * Automatic consent signal updates
+* Loads before any tracking scripts (-PHP_INT_MAX priority)
+* EEA region-specific defaults
+
+**Meta Pixel (Facebook) Support**
+
+* Automatic `fbq('consent', 'revoke/grant')` API calls
+* Works with existing Facebook Pixel implementations
+
+**Third-Party Plugin Integration**
+
+* dataLayer.push events for GTM triggers (`lw_cookie_consent_update`)
+* WordPress filters for other plugins to query consent state
+* Script blocking override filter for plugin compatibility
 
 **Admin Features**
 
@@ -153,6 +166,13 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.3.6 =
+* New: Google Consent Mode v2 now loads at -PHP_INT_MAX priority (before any other script)
+* New: Meta Pixel (Facebook) consent API support - automatic revoke/grant calls
+* New: dataLayer.push event for GTM triggers (`lw_cookie_consent_update`)
+* New: WordPress filters for third-party plugin integration
+* New: Script blocking override filter (`lw_cookie_should_block_script`)
 
 = 1.3.5 =
 * Improved: Scanner auto-enables all cookie categories during scan for complete detection

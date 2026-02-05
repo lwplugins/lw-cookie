@@ -19,6 +19,7 @@ use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
+use LightweightPlugins\Cookie\Hooks;
 
 /**
  * Main plugin class.
@@ -64,6 +65,9 @@ final class Plugin {
 
 		// Scanner (handles both admin and frontend).
 		Scanner::init();
+
+		// WordPress hooks for third-party plugin integration.
+		new Hooks( $this->consent_manager );
 
 		// Shortcodes (always available).
 		new CookieDeclaration();

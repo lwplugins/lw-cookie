@@ -31,7 +31,8 @@ final class GoogleConsentMode {
 	public function __construct( ConsentManager $consent_manager ) {
 		$this->consent_manager = $consent_manager;
 
-		add_action( 'wp_head', [ $this, 'output_consent_defaults' ], 1 );
+		// Priority -PHP_INT_MAX ensures this runs before ANY other script (GTM, GA, etc.).
+		add_action( 'wp_head', [ $this, 'output_consent_defaults' ], -PHP_INT_MAX );
 	}
 
 	/**
@@ -70,6 +71,13 @@ final class GoogleConsentMode {
 			'ad_personalization': 'denied',
 			'region': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
 		});
+
+		// Meta Pixel (Facebook) - revoke consent by default if marketing not allowed
+		<?php if ( ! $categories['marketing'] ) : ?>
+		if (typeof fbq === 'function') {
+			fbq('consent', 'revoke');
+		}
+		<?php endif; ?>
 		</script>
 		<?php
 	}

@@ -77,6 +77,20 @@ final class ScriptBlocker {
 			return $tag;
 		}
 
+		/**
+		 * Allow other plugins to override script blocking.
+		 *
+		 * @param bool   $should_block Whether to block the script. Default true.
+		 * @param string $handle       Script handle (e.g., 'google-analytics').
+		 * @param string $src          Script source URL.
+		 * @param string $category     Consent category (analytics, marketing, functional).
+		 */
+		$should_block = apply_filters( 'lw_cookie_should_block_script', true, $handle, $src, $category );
+
+		if ( ! $should_block ) {
+			return $tag;
+		}
+
 		// Block by changing type and adding data attribute.
 		return $this->convert_to_blocked( $tag, $category );
 	}

@@ -365,6 +365,7 @@
 	 * @param {string} actionType Action type.
 	 */
 	function dispatchConsentEvent(categories, actionType) {
+		// 1. Custom Event for JavaScript listeners.
 		const event = new CustomEvent(
 			'lwCookieConsent',
 			{
@@ -374,10 +375,24 @@
 				}
 			}
 		);
-
 		window.dispatchEvent( event );
 
-		// Also update Google Consent Mode if available.
+		// 2. dataLayer.push for GTM triggers.
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push(
+			{
+				'event': 'lw_cookie_consent_update',
+				'lw_cookie_consent': {
+					'necessary': true,
+					'functional': categories.functional || false,
+					'analytics': categories.analytics || false,
+					'marketing': categories.marketing || false
+				},
+				'lw_cookie_action': actionType
+			}
+		);
+
+		// 3. Google Consent Mode v2 update.
 		if (typeof gtag === 'function') {
 			gtag(
 				'consent',
@@ -389,6 +404,15 @@
 					'ad_personalization': categories.marketing ? 'granted' : 'denied'
 				}
 			);
+		}
+
+		// 4. Meta Pixel (Facebook) consent API.
+		if (typeof fbq === 'function') {
+			if (categories.marketing) {
+				fbq( 'consent', 'grant' );
+			} else {
+				fbq( 'consent', 'revoke' );
+			}
 		}
 	}
 
