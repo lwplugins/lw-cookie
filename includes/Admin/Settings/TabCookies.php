@@ -455,7 +455,7 @@ final class TabCookies implements TabInterface {
 				var $btn = $(this);
 				$btn.addClass('scanning');
 				$('#lw-cookie-scanner-modal').fadeIn(200);
-				$('#lw-cookie-scan-progress').show();
+				$('#lw-cookie-scan-progress').show().find('p').text('<?php echo esc_js( __( 'Scanning your website for cookies...', 'lw-cookie' ) ); ?>');
 				$('#lw-cookie-scan-results').hide();
 				$('#lw-cookie-add-selected').hide();
 
@@ -502,21 +502,34 @@ final class TabCookies implements TabInterface {
 			}
 
 			function fetchScanResults() {
+				// Update progress text for deep scan phase.
+				$('#lw-cookie-scan-progress').find('p').text('<?php echo esc_js( __( 'Deep scanning for additional cookies...', 'lw-cookie' ) ); ?>');
+
+				// Run remote scan to catch additional cookies.
 				$.ajax({
-					url: restUrl + 'scan-results',
-					method: 'GET',
+					url: restUrl + 'remote-scan',
+					method: 'POST',
 					headers: { 'X-WP-Nonce': restNonce },
-					success: function(response) {
-						$('#lw-cookie-scan-btn').removeClass('scanning');
-						if (response.success) {
-							displayScanResults(response.cookies || [], response.domains || [], response.fonts || []);
-						} else {
-							displayScanResults([], [], []);
-						}
-					},
-					error: function() {
-						$('#lw-cookie-scan-btn').removeClass('scanning');
-						displayScanResults([], [], []);
+					timeout: 120000,
+					complete: function() {
+						// Fetch combined results (local + remote merged on server).
+						$.ajax({
+							url: restUrl + 'scan-results',
+							method: 'GET',
+							headers: { 'X-WP-Nonce': restNonce },
+							success: function(response) {
+								$('#lw-cookie-scan-btn').removeClass('scanning');
+								if (response.success) {
+									displayScanResults(response.cookies || [], response.domains || [], response.fonts || []);
+								} else {
+									displayScanResults([], [], []);
+								}
+							},
+							error: function() {
+								$('#lw-cookie-scan-btn').removeClass('scanning');
+								displayScanResults([], [], []);
+							}
+						});
 					}
 				});
 			}

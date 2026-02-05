@@ -497,6 +497,18 @@ class Scanner {
 				},
 			]
 		);
+
+		register_rest_route(
+			'lw-cookie/v1',
+			'/remote-scan',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ __CLASS__, 'rest_remote_scan' ],
+				'permission_callback' => function () {
+					return current_user_can( 'manage_options' );
+				},
+			]
+		);
 	}
 
 	/**
@@ -565,6 +577,45 @@ class Scanner {
 			[
 				'success'    => true,
 				'urls_count' => count( $urls ),
+			]
+		);
+	}
+
+	/**
+	 * Perform remote scan using headless browser API.
+	 *
+	 * @param array $urls URLs to scan.
+	 * @return array Results with cookies and domains.
+	 */
+	public static function remote_scan( array $urls ): array {
+		$result = RemoteApi::scan_multiple( $urls, 5 );
+
+		if ( ! empty( $result['cookies'] ) ) {
+			self::save_scanned_data( self::SCANNED_COOKIES, $result['cookies'] );
+		}
+
+		if ( ! empty( $result['domains'] ) ) {
+			self::save_scanned_data( self::SCANNED_DOMAINS, $result['domains'] );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * REST endpoint: Remote scan using headless browser.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public static function rest_remote_scan(): \WP_REST_Response {
+		$urls   = self::get_scan_urls();
+		$result = self::remote_scan( $urls );
+
+		return new \WP_REST_Response(
+			[
+				'success'      => true,
+				'cookies'      => $result['cookies'],
+				'domains'      => $result['domains'],
+				'urls_scanned' => $result['scanned'],
 			]
 		);
 	}

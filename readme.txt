@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.3.2
+Stable tag: 1.3.4
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,14 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.3.4 =
+* New: Deep scan using remote headless browser for better cookie detection
+* Improved: Scanner now combines local and remote scan results automatically
+
+= 1.3.3 =
+* Fix: Preferences modal now always renders (floating button works after consent given)
+* New: "Delete All Cookies" button in cookie declaration shortcode
 
 = 1.3.2 =
 * Fix: ContentBlocker output buffer compatibility with AJAX and REST requests
