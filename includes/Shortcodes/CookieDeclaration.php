@@ -109,9 +109,7 @@ final class CookieDeclaration {
 					<h3 class="lw-cookie-declaration-category-title">
 						<?php echo esc_html( $categories[ $category ]['name'] ?? ucfirst( $category ) ); ?>
 						<?php if ( 'necessary' === $category ) : ?>
-							<span class="lw-cookie-required-badge">
-								<?php esc_html_e( 'Always Active', 'lw-cookie' ); ?>
-							</span>
+							<span class="lw-cookie-required-badge"><?php esc_html_e( 'Always Active', 'lw-cookie' ); ?></span>
 						<?php endif; ?>
 					</h3>
 					<?php if ( ! empty( $categories[ $category ]['description'] ) ) : ?>
