@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.3.2 =
+* Fix: ContentBlocker output buffer compatibility with AJAX and REST requests
+* Fix: ContentBlocker now only processes HTML documents
 
 = 1.3.1 =
 * New: Content Blocking - blocks YouTube, Vimeo, Google Maps, and other embeds until consent
