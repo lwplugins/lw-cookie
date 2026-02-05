@@ -41,11 +41,42 @@ Automatic blocking of known tracking scripts until consent:
 - Pinterest Tag
 - Snapchat Pixel
 
+### Content Blocking
+
+Block third-party embeds until consent is given:
+
+- YouTube videos
+- Vimeo videos
+- Google Maps
+- Other iframes
+
+### Cookie Scanner
+
+Detect cookies on your website:
+
+- Server-side scanning (detects HttpOnly cookies)
+- Deep scan with remote headless browser
+- Cookie Database API integration (2000+ known cookies)
+- Automatic cookie enrichment with provider, purpose, duration
+
 ### Google Consent Mode v2
 
 - Built-in support for Google Consent Mode v2
+- Loads at highest priority (before any tracking script)
+- EEA region-specific defaults
 - Required for Google Ads and Analytics in the EU
 - Automatic consent signal updates
+
+### Meta Pixel (Facebook) Support
+
+- Automatic `fbq('consent', 'revoke/grant')` API calls
+- Works with existing Facebook Pixel implementations
+
+### Third-Party Plugin Integration
+
+- **dataLayer.push** events for GTM triggers (`lw_cookie_consent_update`)
+- **WordPress filters** for querying consent state
+- **Script blocking override** filter for plugin compatibility
 
 ### WP-CLI Support
 
@@ -121,6 +152,51 @@ window.addEventListener('lwCookieConsent', function(e) {
     console.log('Categories:', e.detail.categories);
     console.log('Action:', e.detail.action);
 });
+
+// Delete all cookies (for "forget me" functionality)
+LWCookie.deleteAllCookies();
+```
+
+## WordPress Hooks (PHP)
+
+For third-party plugin integration:
+
+```php
+// Get all consent categories
+$categories = apply_filters( 'lw_cookie_consent_categories', [] );
+// ['necessary' => true, 'functional' => false, 'analytics' => true, 'marketing' => false]
+
+// Check if user has given any consent
+$has_consent = apply_filters( 'lw_cookie_has_consent', false );
+
+// Check if specific category is allowed
+$analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
+
+// Prevent blocking specific scripts (e.g., if your plugin handles consent)
+add_filter( 'lw_cookie_should_block_script', function( $should_block, $handle, $src, $category ) {
+    if ( $handle === 'my-plugin-pixel' ) {
+        return false; // Don't block, I handle consent myself
+    }
+    return $should_block;
+}, 10, 4 );
+```
+
+## GTM Integration
+
+The plugin pushes events to dataLayer for GTM triggers:
+
+```javascript
+// Fired on every consent change
+{
+    event: 'lw_cookie_consent_update',
+    lw_cookie_consent: {
+        necessary: true,
+        functional: true,
+        analytics: true,
+        marketing: false
+    },
+    lw_cookie_action: 'customize' // or 'accept_all', 'reject_all'
+}
 ```
 
 ## Requirements

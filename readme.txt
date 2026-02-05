@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.3.6
+Stable tag: 1.4.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -167,7 +167,7 @@ Yes! LW Cookie has full WP-CLI support:
 
 == Changelog ==
 
-= 1.3.6 =
+= 1.4.0 =
 * New: Google Consent Mode v2 now loads at -PHP_INT_MAX priority (before any other script)
 * New: Meta Pixel (Facebook) consent API support - automatic revoke/grant calls
 * New: dataLayer.push event for GTM triggers (`lw_cookie_consent_update`)

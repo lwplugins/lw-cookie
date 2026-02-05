@@ -129,17 +129,19 @@ msgstr ""
 
 #: includes/Admin/Settings/TabAdvanced.php:97
 msgid "Content Blocking"
-msgstr ""
+msgstr "Tartalom blokkolása"
 
 #: includes/Admin/Settings/TabAdvanced.php:104
 msgid "Block embedded content until consent is given"
-msgstr ""
+msgstr "Beágyazott tartalom blokkolása a hozzájárulásig"
 
 #: includes/Admin/Settings/TabAdvanced.php:109
 msgid ""
 "Blocks YouTube, Vimeo, Google Maps and other embedded content until user "
 "consents."
 msgstr ""
+"Blokkolja a YouTube-, Vimeo-, Google Maps- és más beágyazott tartalmakat a "
+"hozzájárulásig."
 
 #: includes/Admin/Settings/TabAdvanced.php:115
 msgid "Google Consent Mode v2"
@@ -327,24 +329,24 @@ msgstr "Marketing"
 
 #: includes/Admin/Settings/TabCookies.php:73
 msgid "Cookie Scanner"
-msgstr ""
+msgstr "Cookie-szkenner"
 
 #: includes/Admin/Settings/TabCookies.php:74
 msgid "Scan your website to detect cookies in use."
-msgstr ""
+msgstr "Vizsgáld át a weboldalad, hogy felderítse a használt cookie-kat."
 
 #: includes/Admin/Settings/TabCookies.php:79
 msgid "Scan Website"
-msgstr ""
+msgstr "Weboldal vizsgálata"
 
 #: includes/Admin/Settings/TabCookies.php:89
 msgid "Scan Results"
-msgstr ""
+msgstr "Vizsgálat eredményei"
 
 #: includes/Admin/Settings/TabCookies.php:96
 #: includes/Admin/Settings/TabCookies.php:458
 msgid "Scanning your website for cookies..."
-msgstr ""
+msgstr "A weboldalad cookie-kat keres..."
 
 #: includes/Admin/Settings/TabCookies.php:105 includes/Banner/Renderer.php:136
 msgid "Close"
@@ -352,7 +354,7 @@ msgstr "Bezárás"
 
 #: includes/Admin/Settings/TabCookies.php:109
 msgid "Add Selected"
-msgstr ""
+msgstr "Kijelöltek hozzáadása"
 
 #: includes/Admin/Settings/TabCookies.php:122
 msgid "Cookie Name"
@@ -431,63 +433,65 @@ msgstr "Jelzi, hogy a felhasználó be van jelentkezve"
 
 #: includes/Admin/Settings/TabCookies.php:506
 msgid "Deep scanning for additional cookies..."
-msgstr ""
+msgstr "Mélyebb vizsgálat további cookie-kért..."
 
 #: includes/Admin/Settings/TabCookies.php:549
 msgid "No cookies detected. Try visiting your site first to set some cookies."
 msgstr ""
+"Nem találtunk cookie-kat. Előbb látogasd meg az oldalt, hogy cookie-k "
+"keletkezzenek."
 
 #: includes/Admin/Settings/TabCookies.php:551
 msgid "All detected cookies are already in your list!"
-msgstr ""
+msgstr "Minden észlelt cookie már szerepel a listádban!"
 
 #: includes/Admin/Settings/TabCookies.php:554
 msgid "new cookie(s)"
-msgstr ""
+msgstr "új cookie(k)"
 
 #: includes/Admin/Settings/TabCookies.php:555
 msgid "external domain(s)"
-msgstr ""
+msgstr "külső domain(ek)"
 
 #: includes/Admin/Settings/TabCookies.php:556
 msgid "external font(s)"
-msgstr ""
+msgstr "külső betűtípus(ok)"
 
 #: includes/Admin/Settings/TabCookies.php:557
 msgid "found."
-msgstr ""
+msgstr "találva."
 
 #: includes/Admin/Settings/TabCookies.php:567
 msgid "Already added"
-msgstr ""
+msgstr "Már hozzáadva"
 
 #: includes/Admin/Settings/TabCookies.php:576
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: includes/Admin/Settings/TabCookies.php:578
 msgid "Unknown provider"
-msgstr ""
+msgstr "Ismeretlen szolgáltató"
 
 #: includes/Admin/Settings/TabCookies.php:578
 msgid "Purpose not specified"
-msgstr ""
+msgstr "A cél nincs megadva"
 
 #: includes/Admin/Settings/TabCookies.php:587
 msgid "External Domains"
-msgstr ""
+msgstr "Külső domainek"
 
 #: includes/Admin/Settings/TabCookies.php:593
 msgid "External"
-msgstr ""
+msgstr "Külső"
 
 #: includes/Admin/Settings/TabCookies.php:602
 msgid "External Fonts"
-msgstr ""
+msgstr "Külső betűtípusok"
 
 #: includes/Admin/Settings/TabCookies.php:611
 msgid "Font"
-msgstr ""
+msgstr "Betűtípus"
 
 #: includes/Admin/Settings/TabCookies.php:702
 msgid "e.g. _ga"
@@ -650,11 +654,11 @@ msgstr "(Kötelező)"
 #: includes/Blocking/ContentBlocker.php:212
 #, php-format
 msgid "Content from %s is blocked until you accept cookies."
-msgstr ""
+msgstr "A(z) %s tartalma blokkolva van, amíg el nem fogadod a cookie-kat."
 
 #: includes/Blocking/ContentBlocker.php:216
 msgid "Accept & Load Content"
-msgstr ""
+msgstr "Elfogadom és betöltöm a tartalmat"
 
 #: includes/Shortcodes/CookieDeclaration.php:63
 #: includes/Shortcodes/CookieDeclaration.php:75
@@ -671,7 +675,7 @@ msgstr "Cookie-beállítások kezelése"
 
 #: includes/Shortcodes/CookieDeclaration.php:167
 msgid "Delete All Cookies"
-msgstr ""
+msgstr "Minden cookie törlése"
 
 #: includes/Shortcodes/CookieDeclaration.php:184
 msgid "Essential cookies required for the website to function properly."
