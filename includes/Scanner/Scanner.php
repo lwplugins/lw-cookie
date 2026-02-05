@@ -250,6 +250,7 @@ class Scanner {
 					'numberposts' => 1,
 					'post_type'   => 'product',
 					'post_status' => 'publish',
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'meta_query'  => [
 						[
 							'key'   => '_stock_status',

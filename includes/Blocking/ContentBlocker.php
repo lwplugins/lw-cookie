@@ -83,6 +83,11 @@ class ContentBlocker {
 			return;
 		}
 
+		// Skip AJAX and REST API requests.
+		if ( wp_doing_ajax() || defined( 'REST_REQUEST' ) ) {
+			return;
+		}
+
 		ob_start( [ $this, 'process_buffer' ] );
 	}
 
@@ -92,8 +97,14 @@ class ContentBlocker {
 	 * @param string $html HTML content.
 	 * @return string Modified HTML.
 	 */
-	public function process_buffer( string $html ): string {
-		if ( empty( $html ) ) {
+	public function process_buffer( $html ): string {
+		// Handle non-string input.
+		if ( ! is_string( $html ) || empty( $html ) ) {
+			return (string) $html;
+		}
+
+		// Only process HTML documents.
+		if ( strpos( $html, '</html>' ) === false ) {
 			return $html;
 		}
 
