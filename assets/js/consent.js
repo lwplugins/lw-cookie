@@ -301,6 +301,48 @@
 	}
 
 	/**
+	 * Delete all cookies for the current domain.
+	 */
+	function deleteAllCookies() {
+		var cookies       = document.cookie.split( ';' );
+		var domain        = window.location.hostname;
+		var paths         = ['/', window.location.pathname];
+		var cookiesLength = cookies.length;
+		var pathsLength   = paths.length;
+
+		for (var i = 0; i < cookiesLength; i++) {
+			var cookie     = cookies[i];
+			var eqPos      = cookie.indexOf( '=' );
+			var cookieName = eqPos > -1 ? cookie.substr( 0, eqPos ).trim() : cookie.trim();
+
+			if ( ! cookieName) {
+				continue;
+			}
+
+			// Delete for each path.
+			for (var j = 0; j < pathsLength; j++) {
+				// Delete without domain.
+				document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=' + paths[j];
+
+				// Delete with current domain.
+				document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=' + paths[j] + ';domain=' + domain;
+
+				// Delete with dot prefix domain (for subdomains).
+				if (domain.indexOf( 'www.' ) !== 0) {
+					document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=' + paths[j] + ';domain=.' + domain;
+				}
+			}
+		}
+
+		// Reset config state.
+		config.categories = {};
+		config.isValid    = false;
+
+		// Reload page to show banner again.
+		window.location.reload();
+	}
+
+	/**
 	 * Generate a UUID v4.
 	 *
 	 * @return {string}
@@ -362,6 +404,7 @@
 		acceptAll: acceptAll,
 		rejectAll: rejectAll,
 		openPreferences: openPreferences,
+		deleteAllCookies: deleteAllCookies,
 		getConsent: function () {
 			return config.categories;
 		},

@@ -105,6 +105,25 @@
 	color: #fff;
 }
 
+.lw-cookie-delete-btn {
+	display: inline-block;
+	padding: 0.75em 1.5em;
+	background: #dc2626;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	font-size: 0.9375em;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s ease;
+	margin-left: 0.5em;
+}
+
+.lw-cookie-delete-btn:hover {
+	background: #b91c1c;
+	color: #fff;
+}
+
 /* Responsive table. */
 @media screen and (max-width: 768px) {
 	.lw-cookie-declaration-table,

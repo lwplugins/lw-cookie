@@ -52,11 +52,43 @@ final class Manager {
 	}
 
 	/**
+	 * Check if we're in scanner mode (allow all for cookie detection).
+	 *
+	 * @return bool
+	 */
+	public function is_scan_mode(): bool {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET['lw_cookie_scan'] ) ) {
+			return false;
+		}
+
+		// Local scan: admin is logged in.
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		// Remote scan: check for our scanner header.
+		if ( isset( $_SERVER['HTTP_X_LW_COOKIE_SCAN'] ) ) {
+			$scan_header = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_LW_COOKIE_SCAN'] ) );
+			if ( '1' === $scan_header ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check if user has given consent.
 	 *
 	 * @return bool
 	 */
 	public function has_consent(): bool {
+		// In scan mode, pretend we have full consent to detect all cookies.
+		if ( $this->is_scan_mode() ) {
+			return true;
+		}
+
 		return null !== $this->consent && ! empty( $this->consent['id'] );
 	}
 
@@ -83,6 +115,11 @@ final class Manager {
 	 * @return bool
 	 */
 	public function is_category_allowed( string $category ): bool {
+		// In scan mode, all categories are allowed.
+		if ( $this->is_scan_mode() ) {
+			return true;
+		}
+
 		// Necessary cookies are always allowed.
 		if ( 'necessary' === $category ) {
 			return true;
@@ -101,6 +138,16 @@ final class Manager {
 	 * @return array<string, bool>
 	 */
 	public function get_allowed_categories(): array {
+		// In scan mode, all categories are allowed.
+		if ( $this->is_scan_mode() ) {
+			return [
+				'necessary'  => true,
+				'functional' => true,
+				'analytics'  => true,
+				'marketing'  => true,
+			];
+		}
+
 		$categories = [
 			'necessary'  => true,
 			'functional' => false,

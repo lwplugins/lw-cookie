@@ -163,6 +163,9 @@ final class CookieDeclaration {
 				<button type="button" onclick="if(window.LWCookie){window.LWCookie.openPreferences();}" class="lw-cookie-manage-btn">
 					<?php esc_html_e( 'Manage Cookie Preferences', 'lw-cookie' ); ?>
 				</button>
+				<button type="button" onclick="if(window.LWCookie){window.LWCookie.deleteAllCookies();}" class="lw-cookie-delete-btn">
+					<?php esc_html_e( 'Delete All Cookies', 'lw-cookie' ); ?>
+				</button>
 			</p>
 		</div>
 		<?php

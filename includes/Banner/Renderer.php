@@ -42,13 +42,15 @@ final class Renderer {
 	 * @return void
 	 */
 	public function render_banner(): void {
-		// Don't show if consent is valid.
+		// Always render the preferences modal (for floating button to work).
+		$this->output_preferences_modal();
+
+		// Don't show banner if consent is valid.
 		if ( $this->consent_manager->is_consent_valid() ) {
 			return;
 		}
 
 		$this->output_banner_html();
-		$this->output_preferences_modal();
 	}
 
 	/**
