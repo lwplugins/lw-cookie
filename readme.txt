@@ -1,0 +1,172 @@
+=== LW Cookie ===
+Contributors: lwplugins
+Tags: cookie, gdpr, consent, privacy, compliance
+Requires at least: 6.0
+Tested up to: 6.7
+Stable tag: 1.0.0
+Requires PHP: 8.1
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance.
+
+== Description ==
+
+LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No bloat, no upsells, no tracking - just clean and efficient cookie management.
+
+= Features =
+
+**GDPR Compliance**
+
+* Opt-in by default - all optional categories are OFF until user consents
+* Granular category selection (Necessary, Functional, Analytics, Marketing)
+* Consent logging with timestamp for compliance proof
+* Policy version tracking - automatic re-consent on policy changes
+* Anonymized IP logging (GDPR-compliant)
+
+**Cookie Banner**
+
+* Customizable position (top, bottom, modal)
+* Customizable layout (full-width bar, floating box)
+* Customizable colors and border radius
+* Accept All / Reject All / Customize buttons
+* Floating button for easy access to change preferences
+
+**Script Blocking**
+
+* Automatic blocking of known tracking scripts until consent
+* Supports Google Analytics, Facebook Pixel, Hotjar, and more
+* Scripts unblock dynamically when consent is given
+
+**Google Consent Mode v2**
+
+* Built-in support for Google Consent Mode v2
+* Required for Google Ads and Analytics in the EU
+* Automatic consent signal updates
+
+**Admin Features**
+
+* Unified "LW Plugins" admin menu
+* Modern tabbed settings interface
+* Easy customization of all texts and labels
+* Privacy policy page linking
+
+**WP-CLI Support**
+
+* Full command-line management of settings
+* View and export consent statistics
+* Bulk operations and automation support
+* Perfect for deployment scripts and cron jobs
+
+= Cookie Categories =
+
+* **Necessary** - Always enabled, essential for website function
+* **Functional** - Enhanced functionality and personalization
+* **Analytics** - Visitor analytics and statistics
+* **Marketing** - Advertising and remarketing
+
+= GDPR Notes =
+
+This plugin helps you comply with GDPR and other privacy regulations by:
+
+1. **Prior Consent** - No cookies (except necessary) set before consent
+2. **Granular Control** - Users choose which categories to accept
+3. **Easy Withdrawal** - Floating button allows changing consent anytime
+4. **Consent Proof** - All consents logged with timestamp and policy version
+5. **Re-consent** - Changing policy version triggers new consent request
+
+**Note:** This plugin is a tool to help with compliance. You are responsible for ensuring your complete website and cookie usage complies with applicable laws.
+
+== Installation ==
+
+1. Upload the `lw-cookie` folder to `/wp-content/plugins/`
+2. Activate the plugin through the 'Plugins' menu
+3. Go to **LW Plugins → Cookie** to configure
+
+Or install via Composer:
+
+`composer require lwplugins/lw-cookie`
+
+== Frequently Asked Questions ==
+
+= Is this plugin GDPR compliant? =
+
+This plugin provides the technical framework for GDPR-compliant cookie consent. However, compliance also depends on how you configure it and your overall privacy practices. Ensure you have a proper privacy policy and only use cookies as described.
+
+= How do I customize the banner appearance? =
+
+Go to **LW Plugins → Cookie → Appearance** to customize colors, position, and layout.
+
+= How do I change the text on the banner? =
+
+Go to **LW Plugins → Cookie → Texts** to customize all labels and messages.
+
+= What scripts are automatically blocked? =
+
+The plugin automatically detects and blocks known tracking scripts including:
+- Google Analytics / Google Tag Manager
+- Facebook Pixel
+- Hotjar
+- LinkedIn Insight Tag
+- Twitter Pixel
+- TikTok Pixel
+- Microsoft Clarity
+- And more
+
+= How does Google Consent Mode work? =
+
+When enabled, the plugin sets Google Consent Mode v2 signals based on user consent. This is required for Google Ads and Analytics to function properly in the EU.
+
+= Can users change their consent after accepting? =
+
+Yes, if you enable the floating button in settings, users can click it anytime to open the preferences modal and change their choices.
+
+= Is consent logged? =
+
+Yes, all consent actions are logged to the database with:
+- Unique consent ID
+- Anonymized IP hash (GDPR-compliant)
+- Categories selected
+- Policy version
+- Timestamp
+
+= What happens when I update my privacy policy? =
+
+Change the "Policy Version" setting in the General tab. Users will be asked for consent again on their next visit.
+
+= Can I manage settings via WP-CLI? =
+
+Yes! LW Cookie has full WP-CLI support:
+
+`wp lw-cookie settings list` - View all settings
+`wp lw-cookie settings set enabled true` - Change a setting
+`wp lw-cookie stats` - View consent statistics
+`wp lw-cookie export --format=csv` - Export consent logs
+`wp lw-cookie clear-logs --older-than=365` - Clean up old logs
+
+== Screenshots ==
+
+1. Cookie consent banner (bottom position)
+2. Cookie preferences modal with category selection
+3. Settings page - General tab
+4. Settings page - Appearance tab
+5. Settings page - Categories tab
+
+== Changelog ==
+
+= 1.0.0 =
+* Initial release
+* GDPR-compliant cookie consent banner
+* 4 cookie categories (Necessary, Functional, Analytics, Marketing)
+* Customizable appearance (position, layout, colors)
+* Script blocking for known tracking scripts
+* Google Consent Mode v2 support
+* Consent logging with anonymized IP
+* Floating button for consent changes
+* Modern tabbed admin interface
+* Full WP-CLI support for settings, stats, and export
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+Initial release.
