@@ -524,20 +524,20 @@ final class TabCookies implements TabInterface {
 					headers: { 'X-WP-Nonce': restNonce },
 					success: function(response) {
 						$('#lw-cookie-scan-btn').removeClass('scanning');
-						if (response.success && response.cookies) {
-							displayScanResults(response.cookies);
+						if (response.success) {
+							displayScanResults(response.cookies || [], response.domains || [], response.fonts || []);
 						} else {
-							displayScanResults([]);
+							displayScanResults([], [], []);
 						}
 					},
 					error: function() {
 						$('#lw-cookie-scan-btn').removeClass('scanning');
-						displayScanResults([]);
+						displayScanResults([], [], []);
 					}
 				});
 			}
 
-			function displayScanResults(cookies) {
+			function displayScanResults(cookies, domains, fonts) {
 				$('#lw-cookie-scan-progress').hide();
 				$('#lw-cookie-scan-results').show();
 
@@ -546,35 +546,78 @@ final class TabCookies implements TabInterface {
 				$list.empty();
 
 				var newCookies = cookies.filter(function(c) { return !c.is_declared; });
+				var totalItems = cookies.length + domains.length + fonts.length;
 
-				if (cookies.length === 0) {
+				if (totalItems === 0) {
 					$summary.removeClass('warning').html('<span class="dashicons dashicons-info"></span><strong><?php echo esc_js( __( 'No cookies detected. Try visiting your site first to set some cookies.', 'lw-cookie' ) ); ?></strong>');
-				} else if (newCookies.length === 0) {
+				} else if (newCookies.length === 0 && domains.length === 0 && fonts.length === 0) {
 					$summary.removeClass('warning').html('<span class="dashicons dashicons-yes-alt"></span><strong><?php echo esc_js( __( 'All detected cookies are already in your list!', 'lw-cookie' ) ); ?></strong>');
 				} else {
-					$summary.addClass('warning').html('<span class="dashicons dashicons-warning"></span><strong>' + newCookies.length + ' <?php echo esc_js( __( 'new cookie(s) found that are not in your declaration.', 'lw-cookie' ) ); ?></strong>');
-					$('#lw-cookie-add-selected').show();
+					var msg = '';
+					if (newCookies.length > 0) msg += newCookies.length + ' <?php echo esc_js( __( 'new cookie(s)', 'lw-cookie' ) ); ?>';
+					if (domains.length > 0) msg += (msg ? ', ' : '') + domains.length + ' <?php echo esc_js( __( 'external domain(s)', 'lw-cookie' ) ); ?>';
+					if (fonts.length > 0) msg += (msg ? ', ' : '') + fonts.length + ' <?php echo esc_js( __( 'external font(s)', 'lw-cookie' ) ); ?>';
+					$summary.addClass('warning').html('<span class="dashicons dashicons-warning"></span><strong>' + msg + ' <?php echo esc_js( __( 'found.', 'lw-cookie' ) ); ?></strong>');
+					if (newCookies.length > 0) $('#lw-cookie-add-selected').show();
 				}
 
-				cookies.forEach(function(cookie) {
-					var checked = !cookie.is_declared ? 'checked' : '';
-					var disabledClass = cookie.is_declared ? 'already-added' : '';
-					var badge = cookie.is_declared ? '<span class="lw-cookie-scan-item-badge">✓ <?php echo esc_js( __( 'Already added', 'lw-cookie' ) ); ?></span>' : '';
-					var sourceTag = cookie.source === 'api' ? '<span class="lw-cookie-scan-item-source">API</span>' : '';
-					var categoryClass = cookie.category || 'unknown';
+				// Display cookies.
+				if (cookies.length > 0) {
+					$list.append('<h4 style="margin:15px 0 10px;color:#1d2327;"><?php echo esc_js( __( 'Cookies', 'lw-cookie' ) ); ?> (' + cookies.length + ')</h4>');
+					cookies.forEach(function(cookie) {
+						var checked = !cookie.is_declared ? 'checked' : '';
+						var disabledClass = cookie.is_declared ? 'already-added' : '';
+						var badge = cookie.is_declared ? '<span class="lw-cookie-scan-item-badge">✓ <?php echo esc_js( __( 'Already added', 'lw-cookie' ) ); ?></span>' : '';
+						var sourceTag = cookie.source === 'api' ? '<span class="lw-cookie-scan-item-source">API</span>' : '';
+						var categoryClass = cookie.category || 'unknown';
 
-					$list.append(
-						'<div class="lw-cookie-scan-item ' + disabledClass + '" data-cookie=\'' + JSON.stringify(cookie).replace(/'/g, '&#39;') + '\'>' +
-						'<input type="checkbox" ' + checked + ' ' + (cookie.is_declared ? 'disabled' : '') + '>' +
-						'<div class="lw-cookie-scan-item-content">' +
-						'<span class="lw-cookie-scan-item-name">' + escapeHtml(cookie.original_name || cookie.name) + '</span>' +
-						'<span class="lw-cookie-scan-item-category ' + categoryClass + '">' + escapeHtml(cookie.category || '<?php echo esc_js( __( 'Unknown', 'lw-cookie' ) ); ?>') + '</span>' +
-						sourceTag + badge +
-						'<div class="lw-cookie-scan-item-meta">' + escapeHtml(cookie.provider || '<?php echo esc_js( __( 'Unknown provider', 'lw-cookie' ) ); ?>') + ' — ' + escapeHtml(cookie.purpose || '<?php echo esc_js( __( 'Purpose not specified', 'lw-cookie' ) ); ?>') + '</div>' +
-						'</div>' +
-						'</div>'
-					);
-				});
+						$list.append(
+							'<div class="lw-cookie-scan-item ' + disabledClass + '" data-cookie=\'' + JSON.stringify(cookie).replace(/'/g, '&#39;') + '\'>' +
+							'<input type="checkbox" ' + checked + ' ' + (cookie.is_declared ? 'disabled' : '') + '>' +
+							'<div class="lw-cookie-scan-item-content">' +
+							'<span class="lw-cookie-scan-item-name">' + escapeHtml(cookie.original_name || cookie.name) + '</span>' +
+							'<span class="lw-cookie-scan-item-category ' + categoryClass + '">' + escapeHtml(cookie.category || '<?php echo esc_js( __( 'Unknown', 'lw-cookie' ) ); ?>') + '</span>' +
+							sourceTag + badge +
+							'<div class="lw-cookie-scan-item-meta">' + escapeHtml(cookie.provider || '<?php echo esc_js( __( 'Unknown provider', 'lw-cookie' ) ); ?>') + ' — ' + escapeHtml(cookie.purpose || '<?php echo esc_js( __( 'Purpose not specified', 'lw-cookie' ) ); ?>') + '</div>' +
+							'</div>' +
+							'</div>'
+						);
+					});
+				}
+
+				// Display external domains.
+				if (domains.length > 0) {
+					$list.append('<h4 style="margin:15px 0 10px;color:#1d2327;"><?php echo esc_js( __( 'External Domains', 'lw-cookie' ) ); ?> (' + domains.length + ')</h4>');
+					domains.forEach(function(domain) {
+						$list.append(
+							'<div class="lw-cookie-scan-item lw-cookie-scan-domain">' +
+							'<div class="lw-cookie-scan-item-content">' +
+							'<span class="lw-cookie-scan-item-name">' + escapeHtml(domain) + '</span>' +
+							'<span class="lw-cookie-scan-item-category functional"><?php echo esc_js( __( 'External', 'lw-cookie' ) ); ?></span>' +
+							'</div>' +
+							'</div>'
+						);
+					});
+				}
+
+				// Display external fonts.
+				if (fonts.length > 0) {
+					$list.append('<h4 style="margin:15px 0 10px;color:#1d2327;"><?php echo esc_js( __( 'External Fonts', 'lw-cookie' ) ); ?> (' + fonts.length + ')</h4>');
+					fonts.forEach(function(font) {
+						var parts = font.split('|');
+						var family = parts[0] || font;
+						var host = parts[1] || '';
+						$list.append(
+							'<div class="lw-cookie-scan-item lw-cookie-scan-font">' +
+							'<div class="lw-cookie-scan-item-content">' +
+							'<span class="lw-cookie-scan-item-name">' + escapeHtml(family) + '</span>' +
+							'<span class="lw-cookie-scan-item-category functional"><?php echo esc_js( __( 'Font', 'lw-cookie' ) ); ?></span>' +
+							'<div class="lw-cookie-scan-item-meta">' + escapeHtml(host) + '</div>' +
+							'</div>' +
+							'</div>'
+						);
+					});
+				}
 			}
 
 			function escapeHtml(text) {
