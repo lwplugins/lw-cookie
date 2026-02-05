@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,14 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Server-side Cookie Scanner - detects all cookies including HttpOnly
+* New: LW Plugins Cookie Database API integration (2000+ cookies)
+* New: Automatic cookie enrichment with provider, purpose, and duration
+* New: REST API endpoints for scan results
+* New: Multi-page scanning (home, WooCommerce cart/checkout, posts)
+* Improved: Modern scanner UI with networkidle detection
 
 = 1.2.0 =
 * New: Hungarian (hu_HU) translation by @trueqap

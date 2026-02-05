@@ -17,6 +17,7 @@ use LightweightPlugins\Cookie\Blocking\ScriptBlocker;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
+use LightweightPlugins\Cookie\Scanner\Scanner;
 
 /**
  * Main plugin class.
@@ -59,6 +60,9 @@ final class Plugin {
 	private function init_components(): void {
 		// CLI commands.
 		CLICommands::register();
+
+		// Scanner (handles both admin and frontend).
+		Scanner::init();
 
 		// Shortcodes (always available).
 		new CookieDeclaration();
