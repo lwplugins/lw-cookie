@@ -11,6 +11,7 @@ namespace LightweightPlugins\Cookie\Banner;
 
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
+use LightweightPlugins\Cookie\Blocking\ContentBlocker;
 
 /**
  * Handles CSS and JS assets for the banner.
@@ -34,6 +35,7 @@ final class Assets {
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_action( 'wp_head', [ $this, 'output_custom_css' ], 100 );
+		add_action( 'wp_footer', [ $this, 'output_content_blocker_js' ], 100 );
 	}
 
 	/**
@@ -82,7 +84,32 @@ final class Assets {
 				--lw-cookie-bg: <?php echo esc_attr( $background_color ); ?>;
 				--lw-cookie-radius: <?php echo esc_attr( $border_radius ); ?>px;
 			}
+			<?php
+			if ( Options::get( 'content_blocking' ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS is safe.
+				echo ContentBlocker::get_placeholder_css();
+			}
+			?>
 		</style>
+		<?php
+	}
+
+	/**
+	 * Output content blocker JavaScript.
+	 *
+	 * @return void
+	 */
+	public function output_content_blocker_js(): void {
+		if ( ! Options::get( 'content_blocking' ) ) {
+			return;
+		}
+		?>
+		<script id="lw-cookie-content-blocker">
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo ContentBlocker::get_placeholder_js();
+		?>
+		</script>
 		<?php
 	}
 

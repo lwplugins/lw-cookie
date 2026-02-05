@@ -173,61 +173,45 @@ final class TabCookies implements TabInterface {
 	private function render_scanner_styles(): void {
 		?>
 		<style>
+		/* Scanner Box - WordPress native style */
 		.lw-cookie-scanner-box {
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			border-radius: 12px;
-			padding: 24px 30px;
-			margin-bottom: 24px;
+			background: #fff;
+			border: 1px solid #c3c4c7;
+			padding: 20px;
+			margin-bottom: 20px;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			gap: 20px;
-			box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 		}
 		.lw-cookie-scanner-header {
 			display: flex;
 			align-items: center;
-			gap: 16px;
-			color: #fff;
+			gap: 12px;
 		}
 		.lw-cookie-scanner-header .dashicons {
-			font-size: 40px;
-			width: 40px;
-			height: 40px;
-			opacity: 0.9;
+			font-size: 32px;
+			width: 32px;
+			height: 32px;
+			color: #2271b1;
 		}
 		.lw-cookie-scanner-header h3 {
 			margin: 0 0 4px 0;
-			font-size: 18px;
+			font-size: 14px;
 			font-weight: 600;
-			color: #fff;
+			color: #1d2327;
 		}
 		.lw-cookie-scanner-header p {
 			margin: 0;
-			opacity: 0.9;
-			font-size: 14px;
-		}
-		#lw-cookie-scan-btn {
-			background: #fff;
-			color: #667eea;
-			border: none;
-			padding: 12px 28px;
-			font-weight: 600;
-			display: flex;
-			align-items: center;
-			gap: 8px;
-			transition: transform 0.2s, box-shadow 0.2s;
-		}
-		#lw-cookie-scan-btn:hover {
-			background: #fff;
-			color: #764ba2;
-			transform: translateY(-2px);
-			box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+			color: #646970;
+			font-size: 13px;
 		}
 		#lw-cookie-scan-btn .dashicons {
-			font-size: 20px;
-			width: 20px;
-			height: 20px;
+			font-size: 16px;
+			width: 16px;
+			height: 16px;
+			margin-right: 4px;
+			vertical-align: text-bottom;
 		}
 		#lw-cookie-scan-btn.scanning .dashicons {
 			animation: lw-spin 1s linear infinite;
@@ -236,80 +220,77 @@ final class TabCookies implements TabInterface {
 			100% { transform: rotate(360deg); }
 		}
 
-		/* Modal */
+		/* Modal - WordPress native style */
 		.lw-cookie-modal {
 			position: fixed;
 			top: 0;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background: rgba(0,0,0,0.6);
+			background: rgba(0,0,0,0.5);
 			z-index: 100000;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			backdrop-filter: blur(4px);
 		}
 		.lw-cookie-modal-content {
 			background: #fff;
-			border-radius: 16px;
+			border: 1px solid #c3c4c7;
+			box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 			width: 90%;
 			max-width: 700px;
 			max-height: 80vh;
 			display: flex;
 			flex-direction: column;
-			box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-			animation: lw-modal-in 0.3s ease;
-		}
-		@keyframes lw-modal-in {
-			from { opacity: 0; transform: scale(0.9) translateY(20px); }
-			to { opacity: 1; transform: scale(1) translateY(0); }
 		}
 		.lw-cookie-modal-header {
-			padding: 20px 24px;
-			border-bottom: 1px solid #e5e7eb;
+			padding: 15px 20px;
+			border-bottom: 1px solid #c3c4c7;
+			background: #f6f7f7;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 		}
 		.lw-cookie-modal-header h2 {
 			margin: 0;
-			font-size: 20px;
+			font-size: 14px;
+			font-weight: 600;
 			display: flex;
 			align-items: center;
-			gap: 10px;
+			gap: 8px;
 		}
 		.lw-cookie-modal-header .dashicons {
-			color: #667eea;
+			color: #2271b1;
 		}
 		.lw-cookie-modal-close {
 			background: none;
 			border: none;
-			font-size: 28px;
+			font-size: 24px;
 			cursor: pointer;
-			color: #9ca3af;
+			color: #646970;
 			padding: 0;
 			line-height: 1;
 		}
-		.lw-cookie-modal-close:hover { color: #374151; }
+		.lw-cookie-modal-close:hover { color: #1d2327; }
 		.lw-cookie-modal-body {
-			padding: 24px;
+			padding: 20px;
 			overflow-y: auto;
 			flex: 1;
 		}
 		.lw-cookie-modal-footer {
-			padding: 16px 24px;
-			border-top: 1px solid #e5e7eb;
+			padding: 15px 20px;
+			border-top: 1px solid #c3c4c7;
+			background: #f6f7f7;
 			display: flex;
 			justify-content: flex-end;
-			gap: 12px;
+			gap: 10px;
 		}
 		.lw-cookie-modal-footer .button-primary .dashicons {
-			font-size: 16px;
-			width: 16px;
-			height: 16px;
+			font-size: 14px;
+			width: 14px;
+			height: 14px;
 			margin-right: 4px;
-			vertical-align: middle;
+			vertical-align: text-bottom;
 		}
 
 		/* Progress */
@@ -318,100 +299,96 @@ final class TabCookies implements TabInterface {
 			padding: 40px 20px;
 		}
 		.lw-cookie-scan-spinner {
-			width: 50px;
-			height: 50px;
-			border: 4px solid #e5e7eb;
-			border-top-color: #667eea;
+			width: 40px;
+			height: 40px;
+			border: 3px solid #c3c4c7;
+			border-top-color: #2271b1;
 			border-radius: 50%;
-			margin: 0 auto 20px;
+			margin: 0 auto 15px;
 			animation: lw-spin 0.8s linear infinite;
 		}
 		.lw-cookie-scan-progress p {
-			color: #6b7280;
-			font-size: 15px;
+			color: #646970;
+			font-size: 13px;
 		}
 
-		/* Results */
+		/* Results - WordPress notice style */
 		.lw-cookie-scan-summary {
-			background: #f0fdf4;
-			border: 1px solid #bbf7d0;
-			border-radius: 8px;
-			padding: 16px 20px;
-			margin-bottom: 20px;
+			background: #fff;
+			border: 1px solid #c3c4c7;
+			border-left-width: 4px;
+			border-left-color: #00a32a;
+			padding: 12px 15px;
+			margin-bottom: 15px;
 			display: flex;
 			align-items: center;
-			gap: 12px;
+			gap: 10px;
 		}
 		.lw-cookie-scan-summary.warning {
-			background: #fef3c7;
-			border-color: #fcd34d;
+			border-left-color: #dba617;
 		}
 		.lw-cookie-scan-summary .dashicons {
-			font-size: 24px;
-			width: 24px;
-			height: 24px;
-			color: #16a34a;
+			font-size: 20px;
+			width: 20px;
+			height: 20px;
+			color: #00a32a;
 		}
-		.lw-cookie-scan-summary.warning .dashicons { color: #d97706; }
-		.lw-cookie-scan-summary strong { font-size: 15px; }
+		.lw-cookie-scan-summary.warning .dashicons { color: #dba617; }
+		.lw-cookie-scan-summary strong { font-size: 13px; }
 
-		/* Cookie List */
+		/* Cookie List - WordPress table row style */
 		.lw-cookie-scan-item {
-			border: 1px solid #e5e7eb;
-			border-radius: 8px;
-			padding: 16px;
-			margin-bottom: 12px;
+			border: 1px solid #c3c4c7;
+			padding: 12px 15px;
+			margin-bottom: 8px;
 			display: flex;
 			align-items: flex-start;
-			gap: 12px;
-			transition: border-color 0.2s, box-shadow 0.2s;
+			gap: 10px;
+			background: #fff;
 		}
 		.lw-cookie-scan-item:hover {
-			border-color: #667eea;
-			box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+			background: #f6f7f7;
 		}
 		.lw-cookie-scan-item.already-added {
-			background: #f9fafb;
-			opacity: 0.7;
+			background: #f6f7f7;
+			opacity: 0.6;
 		}
 		.lw-cookie-scan-item input[type="checkbox"] {
-			margin-top: 4px;
-			width: 18px;
-			height: 18px;
+			margin-top: 2px;
 		}
 		.lw-cookie-scan-item-content { flex: 1; }
 		.lw-cookie-scan-item-name {
 			font-weight: 600;
-			font-family: monospace;
-			font-size: 14px;
-			color: #374151;
-			background: #f3f4f6;
-			padding: 2px 8px;
-			border-radius: 4px;
+			font-family: Consolas, Monaco, monospace;
+			font-size: 13px;
+			color: #1d2327;
+			background: #f0f0f1;
+			padding: 2px 6px;
 			display: inline-block;
 		}
 		.lw-cookie-scan-item-meta {
-			margin-top: 6px;
-			font-size: 13px;
-			color: #6b7280;
+			margin-top: 4px;
+			font-size: 12px;
+			color: #646970;
 		}
 		.lw-cookie-scan-item-category {
 			display: inline-block;
-			font-size: 11px;
+			font-size: 10px;
 			font-weight: 600;
 			text-transform: uppercase;
-			padding: 2px 8px;
-			border-radius: 4px;
-			margin-left: 8px;
+			padding: 2px 6px;
+			margin-left: 6px;
+			background: #f0f0f1;
+			color: #646970;
 		}
-		.lw-cookie-scan-item-category.necessary { background: #dbeafe; color: #1d4ed8; }
-		.lw-cookie-scan-item-category.functional { background: #f3e8ff; color: #7c3aed; }
-		.lw-cookie-scan-item-category.analytics { background: #fef3c7; color: #b45309; }
-		.lw-cookie-scan-item-category.marketing { background: #fee2e2; color: #dc2626; }
-		.lw-cookie-scan-item-category.unknown { background: #f3f4f6; color: #6b7280; }
+		.lw-cookie-scan-item-category.necessary { background: #d5e5f2; color: #135e96; }
+		.lw-cookie-scan-item-category.functional { background: #f0e6f4; color: #6b3276; }
+		.lw-cookie-scan-item-category.analytics { background: #fcf0c8; color: #826200; }
+		.lw-cookie-scan-item-category.marketing { background: #facfd2; color: #a02222; }
+		.lw-cookie-scan-item-category.unknown { background: #f0f0f1; color: #646970; }
 		.lw-cookie-scan-item-badge {
 			font-size: 11px;
-			color: #16a34a;
+			color: #00a32a;
 			font-weight: 500;
 		}
 		.lw-cookie-scan-item-source {
@@ -419,11 +396,10 @@ final class TabCookies implements TabInterface {
 			font-size: 9px;
 			font-weight: 600;
 			text-transform: uppercase;
-			padding: 2px 6px;
-			border-radius: 3px;
-			margin-left: 6px;
-			background: #dbeafe;
-			color: #1d4ed8;
+			padding: 2px 5px;
+			margin-left: 5px;
+			background: #d5e5f2;
+			color: #135e96;
 		}
 		</style>
 		<?php
@@ -483,10 +459,18 @@ final class TabCookies implements TabInterface {
 				$('#lw-cookie-scan-results').hide();
 				$('#lw-cookie-add-selected').hide();
 
-				// Clear previous scan results.
+				// Clear previous scan results, then prescan HTTP headers, then scan pages.
 				$.post(restUrl + 'clear-scan', {}, function() {
-					scanIndex = 0;
-					scanNextUrl();
+					// Pre-scan HTTP headers for Set-Cookie (catches cookies before JS runs).
+					$.ajax({
+						url: restUrl + 'prescan-headers',
+						method: 'POST',
+						headers: { 'X-WP-Nonce': restNonce },
+						complete: function() {
+							scanIndex = 0;
+							scanNextUrl();
+						}
+					});
 				}).fail(function() {
 					scanIndex = 0;
 					scanNextUrl();

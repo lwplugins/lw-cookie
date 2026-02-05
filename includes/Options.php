@@ -65,6 +65,7 @@ final class Options {
 			// Advanced.
 			'consent_duration'     => 365,
 			'script_blocking'      => true,
+			'content_blocking'     => true,
 			'gcm_enabled'          => false,
 			'show_floating_button' => true,
 			'floating_button_pos'  => 'bottom-left',

@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,13 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.3.1 =
+* New: Content Blocking - blocks YouTube, Vimeo, Google Maps, and other embeds until consent
+* New: HTTP header cookie detection via wp_remote_head()
+* Improved: Scanner now includes random blog posts (not just pages)
+* Improved: External content scan limit removed (scans all posts)
+* Improved: Native WordPress admin style for scanner UI
 
 = 1.3.0 =
 * New: Server-side Cookie Scanner - detects all cookies including HttpOnly

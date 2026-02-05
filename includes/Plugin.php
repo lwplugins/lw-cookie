@@ -14,6 +14,7 @@ use LightweightPlugins\Cookie\Banner\Renderer as BannerRenderer;
 use LightweightPlugins\Cookie\Banner\Assets as BannerAssets;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\ScriptBlocker;
+use LightweightPlugins\Cookie\Blocking\ContentBlocker;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
@@ -84,6 +85,11 @@ final class Plugin {
 		// Script blocking.
 		if ( Options::get( 'script_blocking' ) ) {
 			new ScriptBlocker( $this->consent_manager );
+		}
+
+		// Content blocking (iframes, embeds).
+		if ( Options::get( 'content_blocking' ) ) {
+			new ContentBlocker( $this->consent_manager );
 		}
 
 		// Google Consent Mode v2.

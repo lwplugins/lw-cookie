@@ -134,6 +134,67 @@ class Scanner {
 	}
 
 	/**
+	 * Scan URL for Set-Cookie headers via HTTP HEAD request.
+	 *
+	 * @param string $url URL to scan.
+	 * @return array Array of cookie names found in headers.
+	 */
+	public static function scan_http_headers( string $url ): array {
+		$cookie_names = [];
+
+		$response = wp_remote_head(
+			$url,
+			[
+				'timeout'     => 10,
+				'sslverify'   => false,
+				'redirection' => 3,
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $cookie_names;
+		}
+
+		$headers = wp_remote_retrieve_headers( $response );
+
+		if ( empty( $headers['set-cookie'] ) ) {
+			return $cookie_names;
+		}
+
+		$set_cookies = (array) $headers['set-cookie'];
+
+		foreach ( $set_cookies as $set_cookie ) {
+			$parts = explode( '=', $set_cookie, 2 );
+			if ( ! empty( $parts[0] ) ) {
+				$cookie_names[] = trim( $parts[0] );
+			}
+		}
+
+		return $cookie_names;
+	}
+
+	/**
+	 * Pre-scan all URLs for HTTP header cookies.
+	 *
+	 * @param array $urls URLs to scan.
+	 * @return void
+	 */
+	public static function prescan_http_cookies( array $urls ): void {
+		$all_cookies = [];
+
+		foreach ( $urls as $url ) {
+			$cookies = self::scan_http_headers( $url );
+			if ( ! empty( $cookies ) ) {
+				$all_cookies = array_merge( $all_cookies, $cookies );
+			}
+		}
+
+		if ( ! empty( $all_cookies ) ) {
+			self::save_scanned_data( self::SCANNED_COOKIES, array_unique( $all_cookies ) );
+		}
+	}
+
+	/**
 	 * Get URLs to scan.
 	 *
 	 * @return array Array of URLs.
@@ -153,6 +214,19 @@ class Scanner {
 		);
 		foreach ( $pages as $page ) {
 			$urls[] = get_permalink( $page );
+		}
+
+		// Random posts (5).
+		$posts = get_posts(
+			[
+				'numberposts' => 5,
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+				'orderby'     => 'rand',
+			]
+		);
+		foreach ( $posts as $post ) {
+			$urls[] = get_permalink( $post );
 		}
 
 		// WooCommerce URLs.
@@ -207,7 +281,7 @@ class Scanner {
 		$external_query = new \WP_Query(
 			[
 				'post_type'      => 'any',
-				'posts_per_page' => 100,
+				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 				's'              => '//',
 			]
@@ -410,6 +484,18 @@ class Scanner {
 				},
 			]
 		);
+
+		register_rest_route(
+			'lw-cookie/v1',
+			'/prescan-headers',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ __CLASS__, 'rest_prescan_headers' ],
+				'permission_callback' => function () {
+					return current_user_can( 'manage_options' );
+				},
+			]
+		);
 	}
 
 	/**
@@ -463,6 +549,23 @@ class Scanner {
 		}
 
 		return new \WP_REST_Response( [ 'success' => true ] );
+	}
+
+	/**
+	 * REST endpoint: Pre-scan URLs for HTTP header cookies.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public static function rest_prescan_headers(): \WP_REST_Response {
+		$urls = self::get_scan_urls();
+		self::prescan_http_cookies( $urls );
+
+		return new \WP_REST_Response(
+			[
+				'success'    => true,
+				'urls_count' => count( $urls ),
+			]
+		);
 	}
 
 	/**

@@ -94,6 +94,24 @@ final class TabAdvanced implements TabInterface {
 			</tr>
 			<tr>
 				<th scope="row">
+					<label for="content_blocking"><?php esc_html_e( 'Content Blocking', 'lw-cookie' ); ?></label>
+				</th>
+				<td>
+					<?php
+					$this->render_checkbox_field(
+						[
+							'name'  => 'content_blocking',
+							'label' => __( 'Block embedded content until consent is given', 'lw-cookie' ),
+						]
+					);
+					?>
+					<p class="description">
+						<?php esc_html_e( 'Blocks YouTube, Vimeo, Google Maps and other embedded content until user consents.', 'lw-cookie' ); ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<label for="gcm_enabled"><?php esc_html_e( 'Google Consent Mode v2', 'lw-cookie' ); ?></label>
 				</th>
 				<td>
