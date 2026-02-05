@@ -1,0 +1,560 @@
+# Copyright (C) 2026 LW Plugins
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: LW Cookie 1.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/lwplugins/lw-cookie/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-02-05T09:07:22+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: lw-cookie\n"
+
+#. Plugin Name of the plugin
+#: lw-cookie.php
+msgid "Lightweight Cookie"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: lw-cookie.php
+msgid "https://github.com/lwplugins/lw-cookie"
+msgstr ""
+
+#. Description of the plugin
+#: lw-cookie.php
+msgid "GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance."
+msgstr ""
+
+#. Author of the plugin
+#: lw-cookie.php
+#: includes/Admin/ParentPage.php:99
+#: includes/Admin/ParentPage.php:100
+#: includes/Admin/ParentPage.php:121
+msgid "LW Plugins"
+msgstr ""
+
+#. Author URI of the plugin
+#: lw-cookie.php
+msgid "https://lwplugins.com"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:31
+msgid "Essential SEO features without the bloat."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:40
+msgid "Disable WordPress features like comments."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:49
+msgid "Site maintenance via AI/REST using Abilities API."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:58
+msgid "Lightweight membership system with WooCommerce."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:67
+msgid "Courses, lessons, and progress tracking."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:76
+msgid "GDPR-compliant cookie consent banner."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:122
+msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:175
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:182
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:186
+msgid "Get Plugin"
+msgstr ""
+
+#: includes/Admin/Settings/FieldRendererTrait.php:174
+msgid "— Select Page —"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:34
+msgid "Advanced"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:53
+msgid "Advanced Settings"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:56
+msgid "Advanced configuration options."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:62
+msgid "Consent Duration"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:71
+msgid "Days until consent expires and user is asked again."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:79
+msgid "Script Blocking"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:86
+msgid "Block scripts until consent is given"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:91
+msgid "Automatically blocks known tracking scripts (Google Analytics, Facebook Pixel, etc.) until user consents."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:97
+msgid "Google Consent Mode v2"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:104
+msgid "Enable Google Consent Mode v2"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:109
+msgid "Required for Google Ads and Analytics in the EU. Sends consent signals to Google services."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:115
+msgid "Floating Button"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:119
+msgid "Show Floating Button"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:126
+msgid "Show a floating button for users to change their consent"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:134
+msgid "Button Position"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:142
+msgid "Bottom Left"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:143
+msgid "Bottom Right"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:34
+msgid "Appearance"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:53
+msgid "Appearance Settings"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:56
+msgid "Customize the look and feel of your cookie banner."
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:62
+msgid "Banner Position"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:70
+msgid "Bottom"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:71
+msgid "Top"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:72
+msgid "Modal (Center)"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:81
+msgid "Banner Layout"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:89
+msgid "Full-width Bar"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:90
+msgid "Floating Box"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:99
+msgid "Primary Color"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:103
+msgid "Button and accent color."
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:108
+msgid "Text Color"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:116
+msgid "Background Color"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:124
+msgid "Border Radius"
+msgstr ""
+
+#: includes/Admin/Settings/TabAppearance.php:133
+msgid "Border radius in pixels."
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:34
+msgid "Categories"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:53
+msgid "Cookie Categories"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:56
+msgid "Customize the names and descriptions of cookie categories shown to users."
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:73
+msgid "Necessary Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:75
+msgid "This category is always enabled and cannot be customized."
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:79
+#: includes/Admin/Settings/TabCategories.php:103
+#: includes/Admin/Settings/TabCategories.php:128
+#: includes/Admin/Settings/TabCategories.php:153
+msgid "Name"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:80
+#: includes/Admin/Settings/TabCookies.php:58
+#: includes/Options.php:160
+#: includes/Shortcodes/CookieDeclaration.php:180
+msgid "Necessary"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:83
+#: includes/Admin/Settings/TabCategories.php:109
+#: includes/Admin/Settings/TabCategories.php:134
+#: includes/Admin/Settings/TabCategories.php:159
+msgid "Description"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:85
+#: includes/Options.php:161
+msgid "Essential cookies required for the website to function."
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:99
+msgid "Functional Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:124
+msgid "Analytics Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCategories.php:149
+msgid "Marketing Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:34
+msgid "Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:59
+#: includes/Shortcodes/CookieDeclaration.php:184
+msgid "Functional"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:60
+#: includes/Shortcodes/CookieDeclaration.php:188
+msgid "Analytics"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:61
+#: includes/Shortcodes/CookieDeclaration.php:192
+msgid "Marketing"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:68
+msgid "Cookie Name"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:69
+#: includes/Shortcodes/CookieDeclaration.php:125
+#: includes/Shortcodes/CookieDeclaration.php:137
+msgid "Provider"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:70
+#: includes/Shortcodes/CookieDeclaration.php:126
+#: includes/Shortcodes/CookieDeclaration.php:140
+msgid "Purpose"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:71
+#: includes/Shortcodes/CookieDeclaration.php:127
+#: includes/Shortcodes/CookieDeclaration.php:143
+msgid "Duration"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:72
+msgid "Category"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:73
+#: includes/Shortcodes/CookieDeclaration.php:128
+#: includes/Shortcodes/CookieDeclaration.php:146
+msgid "Type"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:74
+msgid "Actions"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:90
+msgid "+ Add Cookie"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:93
+msgid "+ Add Common Cookies"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:105
+msgid "Use the shortcode [lw_cookie_declaration] to display this cookie list on any page."
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:132
+msgid "Stores cookie consent preferences"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:133
+msgid "1 year"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:140
+msgid "Authentication cookie for logged-in users"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:141
+#: includes/Admin/Settings/TabCookies.php:149
+#: includes/Admin/Settings/TabCookies.php:263
+#: includes/Shortcodes/CookieDeclaration.php:149
+msgid "Session"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:148
+msgid "Indicates when user is logged in"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:156
+msgid "Distinguishes unique users"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:157
+#: includes/Admin/Settings/TabCookies.php:165
+msgid "2 years"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:164
+msgid "Maintains session state"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:172
+msgid "Tracks visits across websites for advertising"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:173
+msgid "3 months"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:227
+msgid "e.g. _ga"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:234
+msgid "e.g. Google"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:241
+msgid "Purpose description"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:248
+msgid "e.g. 1 year"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:266
+#: includes/Shortcodes/CookieDeclaration.php:150
+msgid "Persistent"
+msgstr ""
+
+#: includes/Admin/Settings/TabCookies.php:272
+msgid "Remove"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:34
+msgid "General"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:53
+msgid "General Settings"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:56
+msgid "Basic configuration for your cookie consent banner."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:62
+msgid "Enable Banner"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:69
+msgid "Show cookie consent banner on the frontend"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:77
+msgid "Privacy Policy Page"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:82
+msgid "Select your privacy policy page to link from the banner."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:88
+msgid "Policy Version"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:95
+msgid "Change this when you update your privacy policy to request new consent."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:103
+msgid "GDPR Compliance Notes"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:106
+msgid "All optional cookie categories are OFF by default (opt-in required)."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:107
+msgid "Users can granularly choose which categories to accept."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:108
+msgid "Consent is logged with timestamp for compliance proof."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:109
+msgid "Policy version changes trigger re-consent requests."
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:34
+msgid "Texts"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:53
+msgid "Banner Texts"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:56
+msgid "Customize the text displayed on the cookie consent banner."
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:62
+msgid "Banner Title"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:70
+msgid "Banner Message"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:77
+msgid "Main message explaining cookie usage."
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:85
+msgid "Button Labels"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:89
+msgid "Accept All Button"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:97
+msgid "Reject All Button"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:105
+msgid "Customize Button"
+msgstr ""
+
+#: includes/Admin/Settings/TabTexts.php:113
+msgid "Save Preferences Button"
+msgstr ""
+
+#: includes/Admin/SettingsPage.php:80
+msgid "Cookie Consent"
+msgstr ""
+
+#: includes/Admin/SettingsPage.php:81
+#: includes/Shortcodes/CookieDeclaration.php:124
+#: includes/Shortcodes/CookieDeclaration.php:134
+msgid "Cookie"
+msgstr ""
+
+#: includes/Banner/Renderer.php:72
+msgid "Cookie Settings"
+msgstr ""
+
+#: includes/Banner/Renderer.php:102
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/Banner/Renderer.php:134
+msgid "Close"
+msgstr ""
+
+#: includes/Banner/Renderer.php:139
+msgid "Cookie Preferences"
+msgstr ""
+
+#: includes/Banner/Renderer.php:154
+msgid "(Required)"
+msgstr ""
+
+#: includes/Shortcodes/CookieDeclaration.php:63
+#: includes/Shortcodes/CookieDeclaration.php:75
+msgid "No cookies have been declared."
+msgstr ""
+
+#: includes/Shortcodes/CookieDeclaration.php:112
+msgid "Always Active"
+msgstr ""
+
+#: includes/Shortcodes/CookieDeclaration.php:164
+msgid "Manage Cookie Preferences"
+msgstr ""
+
+#: includes/Shortcodes/CookieDeclaration.php:181
+msgid "Essential cookies required for the website to function properly."
+msgstr ""
