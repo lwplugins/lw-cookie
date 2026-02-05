@@ -26,14 +26,9 @@
 }
 
 .lw-cookie-required-badge {
-	font-size: 0.7em;
+	font-size: 0.75em;
 	font-weight: 500;
-	background: #10b981;
-	color: #fff;
-	padding: 0.25em 0.75em;
-	border-radius: 9999px;
-	text-transform: uppercase;
-	letter-spacing: 0.025em;
+	color: #10b981;
 }
 
 .lw-cookie-declaration-category-desc {
