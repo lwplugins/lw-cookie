@@ -68,6 +68,9 @@ final class Options {
 			'gcm_enabled'          => false,
 			'show_floating_button' => true,
 			'floating_button_pos'  => 'bottom-left',
+
+			// Cookie declaration.
+			'declared_cookies'     => [],
 		];
 	}
 

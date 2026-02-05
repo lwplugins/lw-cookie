@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -154,6 +154,14 @@ Yes! LW Cookie has full WP-CLI support:
 
 == Changelog ==
 
+= 1.1.0 =
+* New: Cookie Declaration admin tab for managing cookie list
+* New: [lw_cookie_declaration] shortcode to display cookies on any page
+* New: "Add Common Cookies" quick-add feature
+* New: GDPR consent search by consent ID or IP address (CLI)
+* New: GDPR consent deletion/erasure support (CLI)
+* Improved: Full GDPR compliance with cookie transparency
+
 = 1.0.0 =
 * Initial release
 * GDPR-compliant cookie consent banner
@@ -167,6 +175,9 @@ Yes! LW Cookie has full WP-CLI support:
 * Full WP-CLI support for settings, stats, and export
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Cookie Declaration feature for GDPR transparency - declare and display all cookies used on your site.
 
 = 1.0.0 =
 Initial release.

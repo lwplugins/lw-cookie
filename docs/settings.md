@@ -705,6 +705,80 @@ add_filter('lw_cookie_duration', function($days) {
 
 ---
 
+## Cookie Declaration
+
+### Admin Management
+
+Navigate to **LW Plugins → Cookie → Cookies** to declare all cookies used on your website.
+
+For each cookie, you can specify:
+- **Cookie Name** - The actual cookie name (e.g., `_ga`, `_fbp`)
+- **Provider** - Who sets this cookie (e.g., Google Analytics, Facebook)
+- **Purpose** - What the cookie is used for
+- **Duration** - How long the cookie is stored (e.g., 1 year, Session)
+- **Category** - Which consent category it belongs to
+- **Type** - Session (deleted when browser closes) or Persistent
+
+Use the "Add Common Cookies" button to quickly add commonly used cookies (WordPress, Google Analytics, Facebook Pixel).
+
+### Shortcode
+
+Display your cookie declaration on any page using the shortcode:
+
+```
+[lw_cookie_declaration]
+```
+
+**Attributes:**
+
+| Attribute | Default | Description |
+|-----------|---------|-------------|
+| `class` | (empty) | Additional CSS class for styling |
+
+**Example:**
+
+```
+[lw_cookie_declaration class="my-custom-table"]
+```
+
+The shortcode displays:
+- Cookies grouped by category
+- Category names and descriptions
+- Full cookie details (name, provider, purpose, duration, type)
+- "Manage Cookie Preferences" button
+- Responsive table design (mobile-friendly)
+
+---
+
+## GDPR Data Requests (CLI)
+
+### Find Consent Records
+
+Search for consent records by consent ID or IP address:
+
+```bash
+# Search by consent ID
+wp lw-cookie consent --consent-id=abc123-def456-xyz789
+
+# Search by IP address (will be hashed internally)
+wp lw-cookie consent --ip=192.168.1.100
+
+# Export to JSON
+wp lw-cookie consent --ip=192.168.1.100 --format=json
+```
+
+### Delete Consent Records (Right to Erasure)
+
+```bash
+# Find and delete records
+wp lw-cookie consent --consent-id=abc123-def456 --delete
+
+# With confirmation skip
+wp lw-cookie consent --ip=192.168.1.100 --delete --yes
+```
+
+---
+
 ## Support
 
 - **GitHub Issues:** [github.com/lwplugins/lw-cookie/issues](https://github.com/lwplugins/lw-cookie/issues)

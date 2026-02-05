@@ -16,6 +16,7 @@ use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\ScriptBlocker;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
+use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 
 /**
  * Main plugin class.
@@ -58,6 +59,9 @@ final class Plugin {
 	private function init_components(): void {
 		// CLI commands.
 		CLICommands::register();
+
+		// Shortcodes (always available).
+		new CookieDeclaration();
 
 		// Admin components.
 		if ( is_admin() ) {

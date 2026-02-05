@@ -14,6 +14,7 @@ use LightweightPlugins\Cookie\Admin\Settings\TabGeneral;
 use LightweightPlugins\Cookie\Admin\Settings\TabAppearance;
 use LightweightPlugins\Cookie\Admin\Settings\TabCategories;
 use LightweightPlugins\Cookie\Admin\Settings\TabTexts;
+use LightweightPlugins\Cookie\Admin\Settings\TabCookies;
 use LightweightPlugins\Cookie\Admin\Settings\TabAdvanced;
 use LightweightPlugins\Cookie\Options;
 
@@ -61,6 +62,7 @@ final class SettingsPage {
 			new TabAppearance(),
 			new TabCategories(),
 			new TabTexts(),
+			new TabCookies(),
 			new TabAdvanced(),
 		];
 	}
@@ -154,6 +156,44 @@ final class SettingsPage {
 			} else {
 				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $default;
 			}
+		}
+
+		// Handle declared cookies array separately.
+		if ( isset( $input['declared_cookies'] ) && is_array( $input['declared_cookies'] ) ) {
+			$sanitized['declared_cookies'] = $this->sanitize_cookies( $input['declared_cookies'] );
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize declared cookies array.
+	 *
+	 * @param array $cookies Raw cookies data.
+	 * @return array
+	 */
+	private function sanitize_cookies( array $cookies ): array {
+		$sanitized        = [];
+		$valid_categories = [ 'necessary', 'functional', 'analytics', 'marketing' ];
+		$valid_types      = [ 'session', 'persistent' ];
+
+		foreach ( $cookies as $cookie ) {
+			if ( ! is_array( $cookie ) || empty( $cookie['name'] ) ) {
+				continue;
+			}
+
+			$sanitized[] = [
+				'name'     => sanitize_text_field( $cookie['name'] ?? '' ),
+				'provider' => sanitize_text_field( $cookie['provider'] ?? '' ),
+				'purpose'  => sanitize_text_field( $cookie['purpose'] ?? '' ),
+				'duration' => sanitize_text_field( $cookie['duration'] ?? '' ),
+				'category' => in_array( $cookie['category'] ?? '', $valid_categories, true )
+					? $cookie['category']
+					: 'necessary',
+				'type'     => in_array( $cookie['type'] ?? '', $valid_types, true )
+					? $cookie['type']
+					: 'persistent',
+			];
 		}
 
 		return $sanitized;

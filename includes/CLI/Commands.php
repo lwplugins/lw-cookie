@@ -426,6 +426,111 @@ class Commands {
 	}
 
 	/**
+	 * Find and export consent data for GDPR requests.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--consent-id=<id>]
+	 * : Find by consent ID (UUID).
+	 *
+	 * [--ip=<ip>]
+	 * : Find by IP address (will be hashed for lookup).
+	 *
+	 * [--format=<format>]
+	 * : Output format (table, json, csv). Default: table.
+	 *
+	 * [--delete]
+	 * : Delete the found records (GDPR erasure request).
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp lw-cookie consent --consent-id=abc123-def456
+	 *     wp lw-cookie consent --ip=192.168.1.1
+	 *     wp lw-cookie consent --ip=192.168.1.1 --format=json
+	 *     wp lw-cookie consent --consent-id=abc123 --delete
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 * @return void
+	 */
+	public function consent( array $args, array $assoc_args ): void {
+		global $wpdb;
+
+		unset( $args ); // Unused.
+
+		$consent_id = $assoc_args['consent-id'] ?? null;
+		$ip         = $assoc_args['ip'] ?? null;
+		$format     = $assoc_args['format'] ?? 'table';
+		$delete     = isset( $assoc_args['delete'] );
+		$table      = $wpdb->prefix . Schema::TABLE_CONSENTS;
+
+		if ( ! $consent_id && ! $ip ) {
+			WP_CLI::error( 'Please provide --consent-id or --ip to search.' );
+		}
+
+		// Build query.
+		$where_clauses = [];
+		$where_values  = [];
+
+		if ( $consent_id ) {
+			$where_clauses[] = 'consent_id = %s';
+			$where_values[]  = $consent_id;
+		}
+
+		if ( $ip ) {
+			$ip_hash         = hash( 'sha256', $ip );
+			$where_clauses[] = 'ip_hash = %s';
+			$where_values[]  = $ip_hash;
+		}
+
+		$where = implode( ' OR ', $where_clauses );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+				"SELECT id, consent_id, ip_hash, action_type, policy_version, categories, user_agent, created_at FROM {$table} WHERE {$where} ORDER BY created_at DESC",
+				...$where_values
+			),
+			ARRAY_A
+		);
+
+		if ( empty( $results ) ) {
+			WP_CLI::warning( 'No consent records found.' );
+			return;
+		}
+
+		WP_CLI::success( sprintf( 'Found %d consent record(s).', count( $results ) ) );
+
+		// Display results.
+		WP_CLI\Utils\format_items(
+			$format,
+			$results,
+			[ 'id', 'consent_id', 'action_type', 'policy_version', 'categories', 'created_at' ]
+		);
+
+		// Handle deletion (GDPR erasure).
+		if ( $delete ) {
+			WP_CLI::confirm( 'Delete these consent records? This cannot be undone.', $assoc_args );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$deleted = $wpdb->query(
+				$wpdb->prepare(
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+					"DELETE FROM {$table} WHERE {$where}",
+					...$where_values
+				)
+			);
+
+			if ( false === $deleted ) {
+				WP_CLI::error( 'Failed to delete records.' );
+			}
+
+			WP_CLI::success( sprintf( 'Deleted %d consent record(s).', $deleted ) );
+		}
+	}
+
+	/**
 	 * Show available setting keys and their descriptions.
 	 *
 	 * ## OPTIONS
