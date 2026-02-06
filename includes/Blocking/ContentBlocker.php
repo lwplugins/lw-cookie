@@ -291,47 +291,45 @@ class ContentBlocker {
 	 */
 	public static function get_placeholder_js(): string {
 		return "
+		function lwCookieLoadIframe(container) {
+			var src = container.dataset.src;
+			var iframe = document.createElement('iframe');
+			iframe.src = src;
+			iframe.style.width = container.style.width || '100%';
+			iframe.style.height = container.style.height || '400px';
+			iframe.style.border = 'none';
+			iframe.setAttribute('allowfullscreen', '');
+			iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+			container.parentNode.replaceChild(iframe, container);
+		}
+
 		document.addEventListener('click', function(e) {
 			if (e.target.classList.contains('lw-cookie-load-content')) {
 				var container = e.target.closest('.lw-cookie-blocked-content');
 				if (container) {
-					var src = container.dataset.src;
 					var category = container.dataset.category;
 
-					// Trigger consent for this category.
-					if (window.lwCookieConsent) {
-						var categories = window.lwCookieConsent.getConsent();
+					// Save consent for this category (skip reload, we load iframes in-place).
+					if (window.LWCookie) {
+						var categories = Object.assign({}, window.LWCookie.getConsent() || {});
+						categories.necessary = true;
 						categories[category] = true;
-						window.lwCookieConsent.saveConsent(categories, 'customize');
+						window.LWCookie.saveConsent(categories, 'customize', true);
 					}
 
-					// Replace placeholder with iframe.
-					var iframe = document.createElement('iframe');
-					iframe.src = src;
-					iframe.style.width = container.style.width || '100%';
-					iframe.style.height = container.style.height || '400px';
-					iframe.style.border = 'none';
-					iframe.setAttribute('allowfullscreen', '');
-					iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-					container.parentNode.replaceChild(iframe, container);
+					// Load all blocked content for the accepted category.
+					document.querySelectorAll('.lw-cookie-blocked-content[data-category=\"' + category + '\"]').forEach(lwCookieLoadIframe);
 				}
 			}
 		});
 
-		// Auto-load when consent is given.
-		document.addEventListener('lw_cookie_consent_saved', function(e) {
+		// Auto-load when consent is given via the main banner.
+		window.addEventListener('lwCookieConsent', function(e) {
 			var consent = e.detail.categories;
 			document.querySelectorAll('.lw-cookie-blocked-content').forEach(function(container) {
 				var category = container.dataset.category;
 				if (consent[category]) {
-					var src = container.dataset.src;
-					var iframe = document.createElement('iframe');
-					iframe.src = src;
-					iframe.style.width = container.style.width || '100%';
-					iframe.style.height = container.style.height || '400px';
-					iframe.style.border = 'none';
-					iframe.setAttribute('allowfullscreen', '');
-					container.parentNode.replaceChild(iframe, container);
+					lwCookieLoadIframe(container);
 				}
 			});
 		});

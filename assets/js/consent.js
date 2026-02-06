@@ -213,7 +213,7 @@
 	 * @param {Object} categories Category consent states.
 	 * @param {string} actionType Action type.
 	 */
-	function saveConsent(categories, actionType) {
+	function saveConsent(categories, actionType, skipReload) {
 		// Save to cookie immediately (for instant effect).
 		saveCookie( categories );
 
@@ -247,8 +247,8 @@
 		// Dispatch event for other scripts.
 		dispatchConsentEvent( categories, actionType );
 
-		// Reload page if scripts need to load.
-		if (actionType === 'accept_all' || (actionType === 'customize' && hasAnalyticsOrMarketing( categories ))) {
+		// Reload page if scripts need to load (skip when content blocker handles it).
+		if ( ! skipReload && (actionType === 'accept_all' || (actionType === 'customize' && hasAnalyticsOrMarketing( categories )))) {
 			// Give a moment for cookie to be set, then reload.
 			setTimeout(
 				function () {
@@ -429,6 +429,7 @@
 		rejectAll: rejectAll,
 		openPreferences: openPreferences,
 		deleteAllCookies: deleteAllCookies,
+		saveConsent: saveConsent,
 		getConsent: function () {
 			return config.categories;
 		},

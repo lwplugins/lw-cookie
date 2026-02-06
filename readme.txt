@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.4.1 =
+* Fix: "Accept & Load Content" button now properly saves consent and loads blocked iframes in-place
+* Fix: Cookie banner now hides when accepting content via blocked content placeholder
+* Fix: All blocked content of the same category loads when any placeholder is accepted
 
 = 1.4.0 =
 * New: Google Consent Mode v2 now loads at -PHP_INT_MAX priority (before any other script)
