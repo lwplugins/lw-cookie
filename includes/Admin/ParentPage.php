@@ -20,60 +20,65 @@ final class ParentPage {
 	public const SLUG = 'lw-plugins';
 
 	/**
-	 * Get all LW plugins registry.
+	 * Remote registry URL (raw GitHub).
+	 */
+	private const REGISTRY_URL = 'https://raw.githubusercontent.com/lwplugins/registry/main/plugins.json';
+
+	/**
+	 * Transient cache key and TTL.
+	 */
+	private const CACHE_KEY = 'lw_plugins_registry';
+	private const CACHE_TTL = 43200; // 12 hours in seconds.
+
+	/**
+	 * Get all LW plugins registry (remote with local fallback).
 	 *
-	 * @return array<string, array{name: string, description: string, icon: string, icon_color: string, constant: string, settings_page: string, github: string}>
+	 * @return array<string, array<string, string>>
 	 */
 	public static function get_plugins_registry(): array {
+		$cached = get_transient( self::CACHE_KEY );
+
+		if ( is_array( $cached ) && ! empty( $cached ) ) {
+			return $cached;
+		}
+
+		$remote = self::fetch_remote_registry();
+
+		if ( $remote ) {
+			set_transient( self::CACHE_KEY, $remote, self::CACHE_TTL );
+			return $remote;
+		}
+
+		return self::get_local_fallback();
+	}
+
+	/**
+	 * Fetch plugin registry from GitHub.
+	 *
+	 * @return array<string, array<string, string>>|null
+	 */
+	private static function fetch_remote_registry(): ?array {
+		$response = wp_remote_get( self::REGISTRY_URL, [ 'timeout' => 5 ] );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return null;
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		return is_array( $data ) && ! empty( $data ) ? $data : null;
+	}
+
+	/**
+	 * Local fallback when remote is unavailable.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	private static function get_local_fallback(): array {
 		return [
-			'lw-seo'          => [
-				'name'          => 'LW SEO',
-				'description'   => __( 'Essential SEO features without the bloat.', 'lw-cookie' ),
-				'icon'          => 'dashicons-search',
-				'icon_color'    => '#2271b1',
-				'constant'      => 'LW_SEO_VERSION',
-				'settings_page' => 'lw-seo',
-				'github'        => 'https://github.com/lwplugins/lw-seo',
-			],
-			'lw-disable'      => [
-				'name'          => 'LW Disable',
-				'description'   => __( 'Disable WordPress features like comments.', 'lw-cookie' ),
-				'icon'          => 'dashicons-dismiss',
-				'icon_color'    => '#d63638',
-				'constant'      => 'LW_DISABLE_VERSION',
-				'settings_page' => 'lw-disable',
-				'github'        => 'https://github.com/lwplugins/lw-disable',
-			],
-			'lw-site-manager' => [
-				'name'          => 'LW Site Manager',
-				'description'   => __( 'Site maintenance via AI/REST using Abilities API.', 'lw-cookie' ),
-				'icon'          => 'dashicons-admin-tools',
-				'icon_color'    => '#135e96',
-				'constant'      => 'LW_SITE_MANAGER_VERSION',
-				'settings_page' => 'lw-site-manager',
-				'github'        => 'https://github.com/lwplugins/lw-site-manager',
-			],
-			'lw-memberships'  => [
-				'name'          => 'LW Memberships',
-				'description'   => __( 'Lightweight membership system with WooCommerce.', 'lw-cookie' ),
-				'icon'          => 'dashicons-groups',
-				'icon_color'    => '#7b5e57',
-				'constant'      => 'LW_MEMBERSHIPS_VERSION',
-				'settings_page' => 'lw-memberships',
-				'github'        => 'https://github.com/lwplugins/lw-memberships',
-			],
-			'lw-lms'          => [
-				'name'          => 'LW LMS',
-				'description'   => __( 'Courses, lessons, and progress tracking.', 'lw-cookie' ),
-				'icon'          => 'dashicons-welcome-learn-more',
-				'icon_color'    => '#4a9c5d',
-				'constant'      => 'LW_LMS_VERSION',
-				'settings_page' => 'lw-lms',
-				'github'        => 'https://github.com/lwplugins/lw-lms',
-			],
-			'lw-cookie'       => [
+			'lw-cookie' => [
 				'name'          => 'LW Cookie',
-				'description'   => __( 'GDPR-compliant cookie consent banner.', 'lw-cookie' ),
+				'description'   => 'GDPR-compliant cookie consent banner.',
 				'icon'          => 'dashicons-shield',
 				'icon_color'    => '#00a32a',
 				'constant'      => 'LW_COOKIE_VERSION',
