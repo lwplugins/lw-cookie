@@ -13,6 +13,7 @@
 	function init() {
 		initTabs();
 		initColorPickers();
+		initFormHashPreserver();
 	}
 
 	/**
@@ -52,6 +53,23 @@
 				$targetTab.trigger( 'click' );
 			}
 		}
+	}
+
+	/**
+	 * Preserve the active tab hash across form save.
+	 */
+	function initFormHashPreserver() {
+		$( '.lw-cookie-settings' ).closest( 'form' ).on(
+			'submit',
+			function () {
+				var hash     = window.location.hash;
+				var $referer = $( this ).find( 'input[name="_wp_http_referer"]' );
+
+				if (hash && $referer.length) {
+					$referer.val( $referer.val().replace( /#.*$/, '' ) + hash );
+				}
+			}
+		);
 	}
 
 	/**
