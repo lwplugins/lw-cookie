@@ -39,6 +39,16 @@ jobs:
             echo "Tag v$VERSION does not exist"
           fi
 
+      - name: Setup PHP
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install production dependencies
+        if: steps.check_tag.outputs.exists == 'false'
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
       - name: Create release ZIP
         if: steps.check_tag.outputs.exists == 'false'
         env:
@@ -53,7 +63,6 @@ jobs:
             -x "composer.json" \
             -x "composer.lock" \
             -x "phpcs.xml.dist" \
-            -x "vendor/*" \
             -x "node_modules/*" \
             -x ".gitignore" \
             -x "*.log"
