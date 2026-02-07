@@ -94,6 +94,8 @@ final class ParentPage {
 	 * @return void
 	 */
 	public static function maybe_register(): void {
+		NoticeManager::init();
+
 		global $admin_page_hooks;
 
 		if ( ! empty( $admin_page_hooks[ self::SLUG ] ) ) {
