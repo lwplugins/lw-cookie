@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-02-05T14:10:55+00:00\n"
+"Report-Msgid-Bugs-To: https://github.com/lwplugins/lw-cookie/issues\n"
+"POT-Creation-Date: 2026-02-07T08:43:28+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -36,8 +36,8 @@ msgstr ""
 "terhelés, teljes megfelelés."
 
 #. Author of the plugin
-#: lw-cookie.php includes/Admin/ParentPage.php:99
-#: includes/Admin/ParentPage.php:100 includes/Admin/ParentPage.php:121
+#: lw-cookie.php includes/Admin/ParentPage.php:104
+#: includes/Admin/ParentPage.php:105 includes/Admin/ParentPage.php:126
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -46,43 +46,19 @@ msgstr "LW Plugins"
 msgid "https://lwplugins.com"
 msgstr "https://lwplugins.com"
 
-#: includes/Admin/ParentPage.php:31
-msgid "Essential SEO features without the bloat."
-msgstr "Lényeges SEO funkciók felesleges terhelés nélkül."
-
-#: includes/Admin/ParentPage.php:40
-msgid "Disable WordPress features like comments."
-msgstr "Kapcsold ki az olyan WordPress funkciókat, mint a hozzászólások."
-
-#: includes/Admin/ParentPage.php:49
-msgid "Site maintenance via AI/REST using Abilities API."
-msgstr "Oldal karbantartása AI/REST-en keresztül az Abilities API-val."
-
-#: includes/Admin/ParentPage.php:58
-msgid "Lightweight membership system with WooCommerce."
-msgstr "Könnyű tagsági rendszer WooCommerce-szel."
-
-#: includes/Admin/ParentPage.php:67
-msgid "Courses, lessons, and progress tracking."
-msgstr "Kurzusok, leckék és haladáskövetés."
-
-#: includes/Admin/ParentPage.php:76
-msgid "GDPR-compliant cookie consent banner."
-msgstr "GDPR-kompatibilis cookie-hozzájárulási sáv."
-
-#: includes/Admin/ParentPage.php:122
+#: includes/Admin/ParentPage.php:127
 msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
 msgstr "Könnyű WordPress bővítmények – minimális terhelés, maximális hatás."
 
-#: includes/Admin/ParentPage.php:175
+#: includes/Admin/ParentPage.php:180
 msgid "Active"
 msgstr "Aktív"
 
-#: includes/Admin/ParentPage.php:182
+#: includes/Admin/ParentPage.php:187
 msgid "Settings"
 msgstr "Beállítások"
 
-#: includes/Admin/ParentPage.php:186
+#: includes/Admin/ParentPage.php:191
 msgid "Get Plugin"
 msgstr "Bővítmény beszerzése"
 
@@ -680,6 +656,24 @@ msgstr "Minden cookie törlése"
 #: includes/Shortcodes/CookieDeclaration.php:184
 msgid "Essential cookies required for the website to function properly."
 msgstr "A weboldal megfelelő működéséhez szükséges alapvető cookie-k."
+
+#~ msgid "Essential SEO features without the bloat."
+#~ msgstr "Lényeges SEO funkciók felesleges terhelés nélkül."
+
+#~ msgid "Disable WordPress features like comments."
+#~ msgstr "Kapcsold ki az olyan WordPress funkciókat, mint a hozzászólások."
+
+#~ msgid "Site maintenance via AI/REST using Abilities API."
+#~ msgstr "Oldal karbantartása AI/REST-en keresztül az Abilities API-val."
+
+#~ msgid "Lightweight membership system with WooCommerce."
+#~ msgstr "Könnyű tagsági rendszer WooCommerce-szel."
+
+#~ msgid "Courses, lessons, and progress tracking."
+#~ msgstr "Kurzusok, leckék és haladáskövetés."
+
+#~ msgid "GDPR-compliant cookie consent banner."
+#~ msgstr "GDPR-kompatibilis cookie-hozzájárulási sáv."
 
 #~ msgid "Distinguishes unique users"
 #~ msgstr "Megkülönbözteti az egyedi felhasználókat"

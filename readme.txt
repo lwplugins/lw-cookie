@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.4.4 =
+* Add fresh POT file and Hungarian (hu_HU) translation
 
 = 1.4.3 =
 * New: Plugin registry fetched from central GitHub JSON (no more per-plugin registry updates)

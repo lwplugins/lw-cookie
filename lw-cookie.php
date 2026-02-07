@@ -3,7 +3,7 @@
  * Plugin Name:       Lightweight Cookie
  * Plugin URI:        https://github.com/lwplugins/lw-cookie
  * Description:       GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance.
- * Version:           1.4.3
+ * Version:           1.4.4
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Author:            LW Plugins
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_COOKIE_VERSION', '1.4.3' );
+define( 'LW_COOKIE_VERSION', '1.4.4' );
 define( 'LW_COOKIE_FILE', __FILE__ );
 define( 'LW_COOKIE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LW_COOKIE_URL', plugin_dir_url( __FILE__ ) );
