@@ -86,7 +86,11 @@ final class NoticeManager {
 	 */
 	public static function inject_styles(): void {
 		if ( self::is_lw_page() ) {
-			echo '<style>.lw-notice-wrap{display:none}</style>';
+			echo '<style>'
+				. '.lw-notice-wrap{display:none}'
+				. 'body.lw-plugins-admin-page .notice:not(.lw-notice){display:none!important}'
+				. 'body.lw-plugins-admin-page .updated:not(.lw-notice){display:none!important}'
+				. '</style>';
 		}
 	}
 
