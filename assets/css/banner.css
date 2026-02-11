@@ -291,6 +291,9 @@
 .lw-cookie-floating-btn {
 	position: fixed;
 	z-index: 999998;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 48px;
 	height: 48px;
 	padding: 0;
@@ -308,11 +311,10 @@
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-.lw-cookie-floating-btn .dashicons {
-	font-size: 24px;
+.lw-cookie-floating-btn svg {
 	width: 24px;
 	height: 24px;
-	line-height: 1;
+	display: block;
 }
 
 .lw-cookie-floating-bottom-left {

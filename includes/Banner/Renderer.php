@@ -73,7 +73,7 @@ final class Renderer {
 		<button type="button" class="lw-cookie-floating-btn lw-cookie-floating-<?php echo esc_attr( $position ); ?>"
 			aria-label="<?php esc_attr_e( 'Cookie Settings', 'lw-cookie' ); ?>"
 			data-lw-cookie-open-preferences>
-			<span class="dashicons dashicons-shield"></span>
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2s3 2 7 2c0 6-3 11-7 14C6 15 3 10 3 4c4 0 7-2 7-2z"/></svg>
 		</button>
 		<?php
 	}
