@@ -54,18 +54,12 @@ jobs:
         env:
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
-          mkdir -p dist
-          zip -r "dist/lw-cookie-${VERSION}.zip" . \
-            -x ".git/*" \
-            -x ".github/*" \
-            -x "dist/*" \
-            -x "builds/*" \
-            -x "composer.json" \
-            -x "composer.lock" \
-            -x "phpcs.xml.dist" \
-            -x "node_modules/*" \
-            -x ".gitignore" \
-            -x "*.log"
+          mkdir -p dist/lw-cookie
+          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' \
+            --exclude='builds' --exclude='composer.json' --exclude='composer.lock' \
+            --exclude='phpcs.xml.dist' --exclude='node_modules' --exclude='.gitignore' \
+            --exclude='*.log' . dist/lw-cookie/
+          cd dist && zip -r "lw-cookie-${VERSION}.zip" lw-cookie/
 
       - name: Create tag and release
         if: steps.check_tag.outputs.exists == 'false'
