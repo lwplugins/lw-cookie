@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.4.9
+Stable tag: 1.5.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.5.0 =
+* Hash-based tab navigation on settings page
+* New cookie-bite icon
+* Updated ParentPage with SVG icon support from registry
 
 = 1.4.9 =
 * Fix: Replace dashicons with inline SVG on floating button (dashicons not available on frontend)

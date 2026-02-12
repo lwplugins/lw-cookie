@@ -211,7 +211,11 @@ final class SettingsPage {
 
 		?>
 		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<h1>
+				<img src="<?php echo esc_url( LW_COOKIE_URL . 'assets/img/title-icon.svg' ); ?>" alt="" class="lw-title-icon" />
+				<?php esc_html_e( 'Lightweight Cookie Consent', 'lw-cookie' ); ?>
+				<span style="font-size: 13px; font-weight: 400; color: #888;">(<?php echo esc_html( LW_COOKIE_VERSION ); ?>)</span>
+			</h1>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( self::SETTINGS_GROUP ); ?>

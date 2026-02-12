@@ -173,10 +173,18 @@ final class ParentPage {
 	 */
 	private static function render_plugin_card( string $slug, array $plugin ): void {
 		$is_active = defined( $plugin['constant'] );
+		$svg_path  = WP_PLUGIN_DIR . '/' . $slug . '/assets/img/title-icon.svg';
+		$svg_url   = $is_active && file_exists( $svg_path )
+			? plugins_url( $slug . '/assets/img/title-icon.svg' )
+			: ( $plugin['icon_svg'] ?? '' );
 		?>
 		<div class="lw-plugin-card" style="background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; padding: 20px; width: 300px;">
 			<h2 style="margin-top: 0;">
-				<span class="dashicons <?php echo esc_attr( $plugin['icon'] ); ?>" style="color: <?php echo esc_attr( $plugin['icon_color'] ); ?>;"></span>
+				<?php if ( $svg_url ) : ?>
+					<img src="<?php echo esc_url( $svg_url ); ?>" alt="" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px;" />
+				<?php else : ?>
+					<span class="dashicons <?php echo esc_attr( $plugin['icon'] ); ?>" style="color: <?php echo esc_attr( $plugin['icon_color'] ); ?>;"></span>
+				<?php endif; ?>
 				<?php echo esc_html( $plugin['name'] ); ?>
 				<?php if ( $is_active ) : ?>
 					<span style="display: inline-block; background: #00a32a; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin-left: 8px; vertical-align: middle;"><?php esc_html_e( 'Active', 'lw-cookie' ); ?></span>
