@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.5.2 =
+* Fix: Cookie banner buttons now work correctly with LiteSpeed Cache and WP Rocket (JS delay/defer compatibility)
+* New: Cache plugin compatibility layer for LiteSpeed Cache, WP Rocket, Cloudflare Rocket Loader, and PageSpeed
 
 = 1.5.1 =
 * Minor fix

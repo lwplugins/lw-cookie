@@ -16,6 +16,7 @@ use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\ScriptBlocker;
 use LightweightPlugins\Cookie\Blocking\ContentBlocker;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
+use LightweightPlugins\Cookie\Integrations\CacheCompat;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
@@ -83,6 +84,7 @@ final class Plugin {
 		}
 
 		// Frontend components.
+		new CacheCompat();
 		new BannerAssets( $this->consent_manager );
 		new BannerRenderer( $this->consent_manager );
 

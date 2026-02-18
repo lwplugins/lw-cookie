@@ -1,6 +1,3 @@
-> **Warning**
-> !! This plugin is currently in **alpha stage** and under active development. It is **not recommended for production use**. APIs and database schemas may change without notice. Use at your own risk. !!
-
 # LW Cookie
 
 GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance.
