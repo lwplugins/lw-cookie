@@ -9,6 +9,12 @@
 
 	const config      = window.lwCookieConfig || {};
 	const COOKIE_NAME = 'lw_cookie_consent';
+	const DEFAULT_CATEGORIES = {
+		necessary: true,
+		functional: false,
+		analytics: false,
+		marketing: false
+	};
 
 	/**
 	 * Initialize the consent manager.
@@ -16,10 +22,22 @@
 	function init() {
 		bindEvents();
 
-		// If we need to show banner (no valid consent), make sure it's visible.
-		if ( ! config.isValid) {
-			showBanner();
+		// Resolve consent from the real browser cookie to avoid stale cache state.
+		const cookieConsent = getConsentFromCookie();
+		const hasValidCookie = isConsentValid( cookieConsent );
+
+		if (hasValidCookie) {
+			config.categories = normalizeCategories( cookieConsent.categories );
+			config.hasConsent = true;
+			config.isValid    = true;
+			hideBanner();
+			return;
 		}
+
+		config.categories = normalizeCategories( config.categories );
+		config.hasConsent = false;
+		config.isValid    = false;
+		showBanner();
 	}
 
 	/**
@@ -214,6 +232,8 @@
 	 * @param {string} actionType Action type.
 	 */
 	function saveConsent(categories, actionType, skipReload) {
+		categories = normalizeCategories( categories );
+
 		// Save to cookie immediately (for instant effect).
 		saveCookie( categories );
 
@@ -297,7 +317,91 @@
 	 * @return {boolean}
 	 */
 	function hasConsent() {
-		return document.cookie.indexOf( COOKIE_NAME + '=' ) !== -1;
+		return isConsentValid( getConsentFromCookie() );
+	}
+
+	/**
+	 * Read consent object from cookie.
+	 *
+	 * @return {Object|null}
+	 */
+	function getConsentFromCookie() {
+		const prefix  = COOKIE_NAME + '=';
+		const cookies = document.cookie ? document.cookie.split( '; ' ) : [];
+		let fallback  = null;
+
+		for (let i = 0; i < cookies.length; i++) {
+			if (cookies[i].indexOf( prefix ) !== 0) {
+				continue;
+			}
+
+			const value = cookies[i].substring( prefix.length );
+
+			try {
+				const decoded = JSON.parse( atob( value ) );
+				if ( ! decoded || typeof decoded !== 'object') {
+					continue;
+				}
+
+				if ( ! fallback) {
+					fallback = decoded;
+				}
+
+				if (isConsentValid( decoded )) {
+					return decoded;
+				}
+			} catch (e) {
+				continue;
+			}
+		}
+
+		return fallback;
+	}
+
+	/**
+	 * Check if consent object is valid for current policy version.
+	 *
+	 * @param {Object|null} consent Consent payload.
+	 * @return {boolean}
+	 */
+	function isConsentValid(consent) {
+		if ( ! consent || typeof consent !== 'object') {
+			return false;
+		}
+
+		if (typeof consent.id !== 'string' || consent.id.length === 0) {
+			return false;
+		}
+
+		if (typeof consent.version !== 'string' || consent.version.length === 0) {
+			return false;
+		}
+
+		if (typeof config.policyVersion === 'string' && config.policyVersion.length > 0) {
+			return consent.version === config.policyVersion;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Normalize consent categories.
+	 *
+	 * @param {Object|undefined} categories Category states.
+	 * @return {Object}
+	 */
+	function normalizeCategories(categories) {
+		const normalized = Object.assign( {}, DEFAULT_CATEGORIES );
+
+		if (categories && typeof categories === 'object') {
+			normalized.functional = categories.functional === true;
+			normalized.analytics  = categories.analytics === true;
+			normalized.marketing  = categories.marketing === true;
+		}
+
+		normalized.necessary = true;
+
+		return normalized;
 	}
 
 	/**

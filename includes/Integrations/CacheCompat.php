@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Integrations;
 
+use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
+
 /**
  * Ensures the cookie consent script is not delayed or deferred by cache plugins.
  */
@@ -40,6 +42,7 @@ final class CacheCompat {
 		// WP Rocket exclusions.
 		add_filter( 'rocket_delay_js_exclusions', [ $this, 'wp_rocket_exclude' ] );
 		add_filter( 'rocket_exclude_defer_js', [ $this, 'wp_rocket_exclude' ] );
+		add_filter( 'rocket_cache_reject_cookies', [ $this, 'wp_rocket_reject_cookie' ] );
 
 		// LiteSpeed Cache exclusions.
 		add_filter( 'litespeed_optimize_js_excludes', [ $this, 'litespeed_exclude' ] );
@@ -87,6 +90,18 @@ final class CacheCompat {
 		$exclusions[] = 'lwCookieConfig';
 
 		return $exclusions;
+	}
+
+	/**
+	 * Prevent serving a stale full-page cache when consent cookie exists.
+	 *
+	 * @param array<int, string> $cookies Existing rejected cookies.
+	 * @return array<int, string>
+	 */
+	public function wp_rocket_reject_cookie( array $cookies ): array {
+		$cookies[] = ConsentManager::COOKIE_NAME;
+
+		return array_values( array_unique( $cookies ) );
 	}
 
 	/**

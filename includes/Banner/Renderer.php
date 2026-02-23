@@ -45,12 +45,7 @@ final class Renderer {
 		// Always render the preferences modal (for floating button to work).
 		$this->output_preferences_modal();
 
-		// Don't show banner if consent is valid.
-		if ( $this->consent_manager->is_consent_valid() ) {
-			return;
-		}
-
-		$this->output_banner_html();
+		$this->output_banner_html( $this->consent_manager->is_consent_valid() );
 	}
 
 	/**
@@ -83,10 +78,14 @@ final class Renderer {
 	 *
 	 * @return void
 	 */
-	private function output_banner_html(): void {
+	private function output_banner_html( bool $hidden = false ): void {
 		$position = Options::get( 'banner_position' );
 		$layout   = Options::get( 'banner_layout' );
 		$classes  = sprintf( 'lw-cookie-banner lw-cookie-pos-%s lw-cookie-layout-%s', $position, $layout );
+
+		if ( $hidden ) {
+			$classes .= ' lw-cookie-hidden';
+		}
 
 		$privacy_page_id = (int) Options::get( 'privacy_policy_page' );
 		$privacy_link    = $privacy_page_id ? get_permalink( $privacy_page_id ) : '';
