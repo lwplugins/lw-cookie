@@ -10,32 +10,25 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Banner;
 
 use LightweightPlugins\Cookie\Options;
-use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
-use LightweightPlugins\Cookie\Blocking\ContentBlocker;
+use LightweightPlugins\Cookie\Consent\Storage;
+use LightweightPlugins\Cookie\Blocking\Entities;
+use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 
 /**
  * Handles CSS and JS assets for the banner.
+ *
+ * No consent state in the config (v2.0) — everything is
+ * cache-safe. Consent is read from the browser cookie
+ * by guard.js and consent.js.
  */
 final class Assets {
 
 	/**
-	 * Consent manager instance.
-	 *
-	 * @var ConsentManager
-	 */
-	private ConsentManager $consent_manager;
-
-	/**
 	 * Constructor.
-	 *
-	 * @param ConsentManager $consent_manager Consent manager instance.
 	 */
-	public function __construct( ConsentManager $consent_manager ) {
-		$this->consent_manager = $consent_manager;
-
+	public function __construct() {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		add_action( 'wp_head', [ $this, 'output_custom_css' ], 100 );
-		add_action( 'wp_footer', [ $this, 'output_content_blocker_js' ], 100 );
 	}
 
 	/**
@@ -67,7 +60,7 @@ final class Assets {
 	}
 
 	/**
-	 * Output custom CSS for colors.
+	 * Output custom CSS for colors and placeholder styles.
 	 *
 	 * @return void
 	 */
@@ -84,48 +77,24 @@ final class Assets {
 				--lw-cookie-bg: <?php echo esc_attr( $background_color ); ?>;
 				--lw-cookie-radius: <?php echo esc_attr( $border_radius ); ?>px;
 			}
-			<?php
-			if ( Options::get( 'content_blocking' ) ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS is safe.
-				echo ContentBlocker::get_placeholder_css();
-			}
-			?>
 		</style>
 		<?php
 	}
 
 	/**
-	 * Output content blocker JavaScript.
-	 *
-	 * @return void
-	 */
-	public function output_content_blocker_js(): void {
-		if ( ! Options::get( 'content_blocking' ) ) {
-			return;
-		}
-		?>
-		<script id="lw-cookie-content-blocker">
-		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo ContentBlocker::get_placeholder_js();
-		?>
-		</script>
-		<?php
-	}
-
-	/**
-	 * Get JavaScript configuration.
+	 * Get JavaScript configuration (cache-safe — no consent state).
 	 *
 	 * @return array<string, mixed>
 	 */
 	private function get_js_config(): array {
 		return [
-			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-			'nonce'         => wp_create_nonce( 'lw_cookie_consent' ),
-			'hasConsent'    => $this->consent_manager->has_consent(),
-			'isValid'       => $this->consent_manager->is_consent_valid(),
-			'categories'    => $this->consent_manager->get_allowed_categories(),
-			'policyVersion' => Options::get( 'policy_version' ),
+			'cookieName'      => Storage::COOKIE_NAME,
+			'policyVersion'   => (string) Options::get( 'policy_version' ),
+			'restUrl'         => rest_url( 'lw-cookie/v1/consent' ),
+			'blocking'        => Entities::get_js_config(),
+			'swUrl'           => ServiceWorkerManager::get_sw_url(),
+			'categories'      => Options::get_categories(),
+			'consentDuration' => (int) Options::get( 'consent_duration' ),
 		];
 	}
 }

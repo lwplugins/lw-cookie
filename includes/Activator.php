@@ -10,9 +10,10 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie;
 
 use LightweightPlugins\Cookie\Database\Schema;
+use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 
 /**
- * Handles plugin activation.
+ * Handles plugin activation and deactivation.
  */
 final class Activator {
 
@@ -24,6 +25,17 @@ final class Activator {
 	public static function activate(): void {
 		self::create_tables();
 		self::set_defaults();
+
+		ServiceWorkerManager::install();
+	}
+
+	/**
+	 * Deactivate the plugin.
+	 *
+	 * @return void
+	 */
+	public static function deactivate(): void {
+		ServiceWorkerManager::uninstall();
 	}
 
 	/**

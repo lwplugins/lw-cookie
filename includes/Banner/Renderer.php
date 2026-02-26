@@ -10,51 +10,36 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Banner;
 
 use LightweightPlugins\Cookie\Options;
-use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 
 /**
  * Renders the cookie consent banner.
+ *
+ * In v2.0 the banner is ALWAYS rendered with a `lw-cookie-hidden`
+ * class. The client-side guard.js toggles visibility based on the
+ * consent cookie — this makes the output fully cacheable.
  */
 final class Renderer {
 
 	/**
-	 * Consent manager instance.
-	 *
-	 * @var ConsentManager
-	 */
-	private ConsentManager $consent_manager;
-
-	/**
 	 * Constructor.
-	 *
-	 * @param ConsentManager $consent_manager Consent manager instance.
 	 */
-	public function __construct( ConsentManager $consent_manager ) {
-		$this->consent_manager = $consent_manager;
-
+	public function __construct() {
 		add_action( 'wp_footer', [ $this, 'render_banner' ], 100 );
 		add_action( 'wp_footer', [ $this, 'render_floating_button' ], 100 );
 	}
 
 	/**
-	 * Render the cookie banner.
+	 * Render the cookie banner and preferences modal.
 	 *
 	 * @return void
 	 */
 	public function render_banner(): void {
-		// Always render the preferences modal (for floating button to work).
 		$this->output_preferences_modal();
-
-		// Don't show banner if consent is valid.
-		if ( $this->consent_manager->is_consent_valid() ) {
-			return;
-		}
-
 		$this->output_banner_html();
 	}
 
 	/**
-	 * Render the floating button.
+	 * Render the floating button (always hidden by default, guard.js shows it).
 	 *
 	 * @return void
 	 */
@@ -63,14 +48,11 @@ final class Renderer {
 			return;
 		}
 
-		// Only show if consent was already given.
-		if ( ! $this->consent_manager->has_consent() ) {
-			return;
-		}
-
 		$position = Options::get( 'floating_button_pos' );
 		?>
-		<button type="button" class="lw-cookie-floating-btn lw-cookie-floating-<?php echo esc_attr( $position ); ?>"
+		<button type="button"
+			id="lw-cookie-floating-btn"
+			class="lw-cookie-floating-btn lw-cookie-floating-<?php echo esc_attr( $position ); ?> lw-cookie-hidden"
 			aria-label="<?php esc_attr_e( 'Cookie Settings', 'lw-cookie' ); ?>"
 			data-lw-cookie-open-preferences>
 			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2s3 2 7 2c0 6-3 11-7 14C6 15 3 10 3 4c4 0 7-2 7-2z"/></svg>
@@ -79,14 +61,18 @@ final class Renderer {
 	}
 
 	/**
-	 * Output the banner HTML.
+	 * Output the banner HTML — always rendered, hidden by default.
 	 *
 	 * @return void
 	 */
 	private function output_banner_html(): void {
 		$position = Options::get( 'banner_position' );
 		$layout   = Options::get( 'banner_layout' );
-		$classes  = sprintf( 'lw-cookie-banner lw-cookie-pos-%s lw-cookie-layout-%s', $position, $layout );
+		$classes  = sprintf(
+			'lw-cookie-banner lw-cookie-pos-%s lw-cookie-layout-%s lw-cookie-hidden',
+			$position,
+			$layout
+		);
 
 		$privacy_page_id = (int) Options::get( 'privacy_policy_page' );
 		$privacy_link    = $privacy_page_id ? get_permalink( $privacy_page_id ) : '';

@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.5.2
+Stable tag: 1.6.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,20 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.0 =
+* Major: Complete rewrite to client-side blocking architecture (cache-proof)
+* New: Service Worker for network-level request blocking
+* New: MutationObserver for DOM element interception (script/iframe/img)
+* New: document.cookie override to prevent tracking cookie writes
+* New: Inline guard.js runs before any body element is parsed
+* New: REST API endpoint for consent logging (replaces admin-ajax)
+* New: Works with ANY full-page cache plugin (WP Rocket, LiteSpeed, Cloudflare, etc.)
+* Removed: Server-side ScriptBlocker (replaced by client-side guard)
+* Removed: Server-side ContentBlocker output buffering (replaced by MutationObserver + SW)
+* Removed: AJAX nonce for consent saving (nonces get cached — now uses REST with rate limiting)
+* Improved: Google Consent Mode v2 always defaults to 'denied' (cache-safe)
+* Improved: Banner always rendered in HTML with hidden class (guard.js toggles visibility)
 
 = 1.5.2 =
 * Fix: Cookie banner buttons now work correctly with LiteSpeed Cache and WP Rocket (JS delay/defer compatibility)

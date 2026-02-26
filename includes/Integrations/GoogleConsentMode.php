@@ -1,6 +1,6 @@
 <?php
 /**
- * Google Consent Mode v2 Integration.
+ * Google Consent Mode v2 Integration (cache-safe).
  *
  * @package LightweightPlugins\Cookie
  */
@@ -9,34 +9,28 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Integrations;
 
-use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
-
 /**
  * Handles Google Consent Mode v2 integration.
+ *
+ * Always outputs 'denied' defaults for all optional categories (v2.0).
+ * The guard.js script reads the consent cookie client-side and issues
+ * a `gtag('consent', 'update', ...)` call if valid consent exists.
+ * This makes the output fully cacheable.
  */
 final class GoogleConsentMode {
 
 	/**
-	 * Consent manager instance.
-	 *
-	 * @var ConsentManager
-	 */
-	private ConsentManager $consent_manager;
-
-	/**
 	 * Constructor.
-	 *
-	 * @param ConsentManager $consent_manager Consent manager instance.
 	 */
-	public function __construct( ConsentManager $consent_manager ) {
-		$this->consent_manager = $consent_manager;
-
-		// Priority -PHP_INT_MAX ensures this runs before ANY other script (GTM, GA, etc.).
+	public function __construct() {
 		add_action( 'wp_head', [ $this, 'output_consent_defaults' ], -PHP_INT_MAX );
 	}
 
 	/**
 	 * Output Google Consent Mode default values.
+	 *
+	 * All optional categories default to 'denied'.
+	 * guard.js will update them client-side if the user has consented.
 	 *
 	 * @return void
 	 */
@@ -44,40 +38,33 @@ final class GoogleConsentMode {
 		if ( is_admin() ) {
 			return;
 		}
-
-		$categories = $this->consent_manager->get_allowed_categories();
 		?>
 		<script>
-		// Google Consent Mode v2 - Default values
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 
-		gtag('consent', 'default', {
-			'analytics_storage': '<?php echo $categories['analytics'] ? 'granted' : 'denied'; ?>',
-			'ad_storage': '<?php echo $categories['marketing'] ? 'granted' : 'denied'; ?>',
-			'ad_user_data': '<?php echo $categories['marketing'] ? 'granted' : 'denied'; ?>',
-			'ad_personalization': '<?php echo $categories['marketing'] ? 'granted' : 'denied'; ?>',
-			'functionality_storage': '<?php echo $categories['functional'] ? 'granted' : 'denied'; ?>',
-			'personalization_storage': '<?php echo $categories['functional'] ? 'granted' : 'denied'; ?>',
-			'security_storage': 'granted',
-			'wait_for_update': 500
-		});
-
-		// Set region-specific defaults (EEA requires stricter defaults)
 		gtag('consent', 'default', {
 			'analytics_storage': 'denied',
 			'ad_storage': 'denied',
 			'ad_user_data': 'denied',
 			'ad_personalization': 'denied',
-			'region': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
+			'functionality_storage': 'denied',
+			'personalization_storage': 'denied',
+			'security_storage': 'granted',
+			'wait_for_update': 500
 		});
 
-		// Meta Pixel (Facebook) - revoke consent by default if marketing not allowed
-		<?php if ( ! $categories['marketing'] ) : ?>
+		gtag('consent', 'default', {
+			'analytics_storage': 'denied',
+			'ad_storage': 'denied',
+			'ad_user_data': 'denied',
+			'ad_personalization': 'denied',
+			'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+		});
+
 		if (typeof fbq === 'function') {
 			fbq('consent', 'revoke');
 		}
-		<?php endif; ?>
 		</script>
 		<?php
 	}

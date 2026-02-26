@@ -1,6 +1,6 @@
 <?php
 /**
- * Main Plugin class.
+ * Main Plugin class (v2.0 — client-side blocking).
  *
  * @package LightweightPlugins\Cookie
  */
@@ -13,10 +13,11 @@ use LightweightPlugins\Cookie\Admin\SettingsPage;
 use LightweightPlugins\Cookie\Banner\Renderer as BannerRenderer;
 use LightweightPlugins\Cookie\Banner\Assets as BannerAssets;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
-use LightweightPlugins\Cookie\Blocking\ScriptBlocker;
-use LightweightPlugins\Cookie\Blocking\ContentBlocker;
+use LightweightPlugins\Cookie\Blocking\GuardScript;
+use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\Integrations\CacheCompat;
+use LightweightPlugins\Cookie\Rest\ConsentEndpoint;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
@@ -28,7 +29,7 @@ use LightweightPlugins\Cookie\Hooks;
 final class Plugin {
 
 	/**
-	 * Consent manager instance.
+	 * Consent manager instance (kept for Hooks/Scanner compatibility).
 	 *
 	 * @var ConsentManager
 	 */
@@ -51,8 +52,6 @@ final class Plugin {
 	 */
 	private function init_hooks(): void {
 		add_action( 'init', [ $this, 'load_textdomain' ] );
-		add_action( 'wp_ajax_lw_cookie_save_consent', [ $this, 'ajax_save_consent' ] );
-		add_action( 'wp_ajax_nopriv_lw_cookie_save_consent', [ $this, 'ajax_save_consent' ] );
 	}
 
 	/**
@@ -61,46 +60,37 @@ final class Plugin {
 	 * @return void
 	 */
 	private function init_components(): void {
-		// CLI commands.
 		CLICommands::register();
-
-		// Scanner (handles both admin and frontend).
 		Scanner::init();
 
 		// WordPress hooks for third-party plugin integration.
 		new Hooks( $this->consent_manager );
 
-		// Shortcodes (always available).
 		new CookieDeclaration();
 
-		// Admin components.
+		// REST API endpoint for consent logging (replaces AJAX).
+		new ConsentEndpoint();
+
+		// Service Worker fallback route.
+		ServiceWorkerManager::register_fallback();
+
 		if ( is_admin() ) {
 			new SettingsPage();
 		}
 
-		// Skip frontend if disabled.
 		if ( ! Options::get( 'enabled' ) ) {
 			return;
 		}
 
-		// Frontend components.
+		// Frontend — all cache-safe, no server-side consent checks.
 		new CacheCompat();
-		new BannerAssets( $this->consent_manager );
-		new BannerRenderer( $this->consent_manager );
-
-		// Script blocking.
-		if ( Options::get( 'script_blocking' ) ) {
-			new ScriptBlocker( $this->consent_manager );
-		}
-
-		// Content blocking (iframes, embeds).
-		if ( Options::get( 'content_blocking' ) ) {
-			new ContentBlocker( $this->consent_manager );
-		}
+		new BannerAssets();
+		new BannerRenderer();
+		new GuardScript();
 
 		// Google Consent Mode v2.
 		if ( Options::get( 'gcm_enabled' ) ) {
-			new GoogleConsentMode( $this->consent_manager );
+			new GoogleConsentMode();
 		}
 	}
 
@@ -115,32 +105,6 @@ final class Plugin {
 			false,
 			dirname( plugin_basename( LW_COOKIE_FILE ) ) . '/languages'
 		);
-	}
-
-	/**
-	 * AJAX handler for saving consent.
-	 *
-	 * @return void
-	 */
-	public function ajax_save_consent(): void {
-		check_ajax_referer( 'lw_cookie_consent', 'nonce' );
-
-		$categories = isset( $_POST['categories'] ) ? json_decode(
-			sanitize_text_field( wp_unslash( $_POST['categories'] ) ),
-			true
-		) : [];
-
-		$action_type = isset( $_POST['action_type'] )
-			? sanitize_text_field( wp_unslash( $_POST['action_type'] ) )
-			: 'customize';
-
-		if ( ! is_array( $categories ) ) {
-			wp_send_json_error( [ 'message' => 'Invalid categories' ] );
-		}
-
-		$this->consent_manager->save_consent( $categories, $action_type );
-
-		wp_send_json_success( [ 'message' => 'Consent saved' ] );
 	}
 
 	/**
