@@ -229,3 +229,12 @@ GPL-2.0-or-later. See [LICENSE](https://www.gnu.org/licenses/gpl-2.0.html) for d
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+
+## Sponsor
+
+<a href="https://sinann.io/">
+  <img src="https://sinann.io/favicon.svg" alt="Sinann" width="40">
+</a>
+
+Supported by [Sinann](https://sinann.io/)
