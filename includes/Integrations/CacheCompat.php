@@ -63,6 +63,7 @@ final class CacheCompat {
 		$attributes = [
 			'data-no-defer="1"',
 			'data-no-optimize="1"',
+			'data-no-lazy="1"',
 			'data-cfasync="false"',
 			'data-pagespeed-no-defer',
 		];
@@ -92,11 +93,15 @@ final class CacheCompat {
 	/**
 	 * Exclude consent script from LiteSpeed Cache JS optimization.
 	 *
+	 * Covers JS combine, defer, and delay features.
+	 *
 	 * @param array<int, string> $exclusions Existing exclusions.
 	 * @return array<int, string>
 	 */
 	public function litespeed_exclude( array $exclusions ): array {
 		$exclusions[] = self::SCRIPT_FILE;
+		$exclusions[] = 'lwCookieConfig';
+		$exclusions[] = 'lw-cookie';
 
 		return $exclusions;
 	}

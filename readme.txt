@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,12 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.1 =
+* Fix: Cookie banner buttons now work on LiteSpeed Cache servers (JS delay/defer bypassed inline config)
+* New: Inline fallback click handlers for cache-proof banner interaction
+* Improved: LiteSpeed exclusion patterns now cover lwCookieConfig inline script and lw-cookie prefix
+* Improved: Added data-no-lazy attribute to prevent lazy loading of consent script
 
 = 1.6.0 =
 * Major: Complete rewrite to client-side blocking architecture (cache-proof)
