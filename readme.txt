@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.2 =
+* Fix: Graceful error when autoloader is missing (shows admin notice instead of fatal error)
 
 = 1.6.1 =
 * Fix: Cookie banner buttons now work on LiteSpeed Cache servers (JS delay/defer bypassed inline config)
