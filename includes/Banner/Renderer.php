@@ -69,7 +69,7 @@ final class Renderer {
 		$position = Options::get( 'banner_position' );
 		$layout   = Options::get( 'banner_layout' );
 		$classes  = sprintf(
-			'lw-cookie-banner lw-cookie-pos-%s lw-cookie-layout-%s lw-cookie-hidden',
+			'lw-cookie-notice lw-cookie-pos-%s lw-cookie-layout-%s lw-cookie-hidden',
 			$position,
 			$layout
 		);
@@ -77,8 +77,8 @@ final class Renderer {
 		$privacy_page_id = (int) Options::get( 'privacy_policy_page' );
 		$privacy_link    = $privacy_page_id ? get_permalink( $privacy_page_id ) : '';
 		?>
-		<div id="lw-cookie-banner" class="<?php echo esc_attr( $classes ); ?>" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-title">
-			<div class="lw-cookie-banner-inner">
+		<div id="lw-cookie-notice" class="<?php echo esc_attr( $classes ); ?>" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-title">
+			<div class="lw-cookie-notice-inner">
 				<div class="lw-cookie-content">
 					<h2 id="lw-cookie-title" class="lw-cookie-title">
 						<?php echo esc_html( Options::get( 'banner_title' ) ); ?>

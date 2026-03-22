@@ -113,7 +113,7 @@
 	 * Show the cookie banner.
 	 */
 	function showBanner() {
-		var banner = document.getElementById( 'lw-cookie-banner' );
+		var banner = document.getElementById( 'lw-cookie-notice' );
 		if ( banner ) {
 			banner.classList.remove( 'lw-cookie-hidden' );
 			banner.style.display = '';
@@ -124,7 +124,7 @@
 	 * Hide the cookie banner.
 	 */
 	function hideBanner() {
-		var banner = document.getElementById( 'lw-cookie-banner' );
+		var banner = document.getElementById( 'lw-cookie-notice' );
 		if ( banner ) {
 			banner.classList.add( 'lw-cookie-hidden' );
 		}

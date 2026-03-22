@@ -44,7 +44,7 @@
 
 	// ── 2. Banner + floating button visibility ───────────────────────
 	function toggleVisibility() {
-		var banner = document.getElementById( 'lw-cookie-banner' );
+		var banner = document.getElementById( 'lw-cookie-notice' );
 		var btn    = document.getElementById( 'lw-cookie-floating-btn' );
 
 		if ( banner ) {

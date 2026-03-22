@@ -38,7 +38,7 @@ final class Assets {
 	 */
 	public function enqueue_assets(): void {
 		wp_enqueue_style(
-			'lw-cookie-banner',
+			'lw-cookie-notice',
 			LW_COOKIE_URL . 'assets/css/banner.css',
 			[],
 			LW_COOKIE_VERSION

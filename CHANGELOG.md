@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.5] - 2026-03-22
+
+### Fixed
+- Rename frontend CSS classes from `lw-cookie-banner` to `lw-cookie-notice` to prevent adblocker false positives
+
 ## [1.6.4] - 2026-03-22
 
 ### Added

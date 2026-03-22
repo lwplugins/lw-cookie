@@ -54,7 +54,7 @@ final class InlineFallback {
 document.addEventListener('click',function(e){
 if(window.LWCookie)return;
 var g=window.__lwGuardCfg||{},cn=g.cookieName||'lw_cookie_consent',
-pv=g.policyVersion||'1.0',bn=document.getElementById('lw-cookie-banner'),
+pv=g.policyVersion||'1.0',bn=document.getElementById('lw-cookie-notice'),
 md=document.getElementById('lw-cookie-preferences');
 function sv(cats){
 var d=JSON.stringify({id:Math.random().toString(36).substr(2,9),version:pv,
