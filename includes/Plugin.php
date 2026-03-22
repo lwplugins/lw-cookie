@@ -22,6 +22,7 @@ use LightweightPlugins\Cookie\Rest\ConsentEndpoint;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
+use LightweightPlugins\Cookie\SiteManager\Integration as SiteManagerIntegration;
 use LightweightPlugins\Cookie\Hooks;
 
 /**
@@ -63,6 +64,7 @@ final class Plugin {
 	private function init_components(): void {
 		CLICommands::register();
 		Scanner::init();
+		SiteManagerIntegration::init();
 
 		// WordPress hooks for third-party plugin integration.
 		new Hooks( $this->consent_manager );
