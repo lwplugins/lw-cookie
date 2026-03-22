@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.3 =
+* Fix: Smarter autoloader fallback - supports root Composer dependency installs
 
 = 1.6.2 =
 * Fix: Graceful error when autoloader is missing (shows admin notice instead of fatal error)
