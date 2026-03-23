@@ -642,38 +642,30 @@ WHERE consent_id = 'user-consent-uuid';
 
 ## Hooks & Filters
 
-### Actions
-
-```php
-// Fired when consent is saved
-do_action('lw_cookie_consent_saved', $categories, $action_type, $consent_id);
-
-// Fired when banner is rendered
-do_action('lw_cookie_before_banner');
-do_action('lw_cookie_after_banner');
-```
-
 ### Filters
 
 ```php
-// Modify known scripts list
-add_filter('lw_cookie_known_scripts', function($scripts) {
-    $scripts['custom_analytics'] = [
-        'pattern' => 'custom-analytics.com',
-        'category' => 'analytics',
-    ];
-    return $scripts;
-});
+// Get consent categories and their states
+$categories = apply_filters( 'lw_cookie_consent_categories', [] );
+// Returns: ['necessary' => true, 'analytics' => false, 'marketing' => true]
 
-// Modify banner output
-add_filter('lw_cookie_banner_html', function($html) {
-    return $html;
-});
+// Check if user has given any consent
+$has_consent = apply_filters( 'lw_cookie_has_consent', false );
 
-// Modify cookie duration
-add_filter('lw_cookie_duration', function($days) {
-    return 180; // 6 months
-});
+// Check if a specific category is allowed
+$analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
+
+// Get current consent ID
+$consent_id = apply_filters( 'lw_cookie_consent_id', null );
+```
+
+#### Example: conditional script loading
+
+```php
+// Load analytics only if user consented
+if ( apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' ) ) {
+    wp_enqueue_script( 'my-analytics', '...' );
+}
 ```
 
 ---
