@@ -53,15 +53,27 @@
 
 /* Layout Variants */
 .lw-cookie-layout-box {
-	left: 20px;
-	right: auto;
 	max-width: 400px;
 	margin: 20px;
 	border-radius: var(--lw-cookie-radius);
 }
 
+.lw-cookie-layout-box.lw-cookie-box-align-right {
+	left: auto;
+	right: 20px;
+}
+
+.lw-cookie-layout-box.lw-cookie-box-align-left {
+	left: 20px;
+	right: auto;
+}
+
 .lw-cookie-layout-box.lw-cookie-pos-bottom {
 	bottom: 0;
+}
+
+.lw-cookie-layout-box.lw-cookie-pos-top {
+	top: 0;
 }
 
 /* Banner Inner */
@@ -278,6 +290,92 @@
 	opacity: 0.75;
 }
 
+/* Cookie list inside category */
+.lw-cookie-category-details {
+	margin: 10px 0 0 28px;
+	font-size: 12px;
+}
+
+.lw-cookie-category-details > summary {
+	cursor: pointer;
+	color: var(--lw-cookie-primary);
+	padding: 4px 0;
+	user-select: none;
+	list-style: none;
+}
+
+.lw-cookie-category-details > summary::-webkit-details-marker {
+	display: none;
+}
+
+.lw-cookie-category-details > summary::before {
+	content: "▸";
+	display: inline-block;
+	margin-right: 6px;
+	transition: transform 0.15s ease;
+}
+
+.lw-cookie-category-details[open] > summary::before {
+	transform: rotate(90deg);
+}
+
+.lw-cookie-category-cookies {
+	width: 100%;
+	margin-top: 8px;
+	border-collapse: collapse;
+	font-size: 12px;
+}
+
+.lw-cookie-category-cookies th,
+.lw-cookie-category-cookies td {
+	padding: 6px 8px;
+	text-align: left;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	vertical-align: top;
+}
+
+.lw-cookie-category-cookies th {
+	font-weight: 600;
+	opacity: 0.7;
+	text-transform: uppercase;
+	font-size: 11px;
+	letter-spacing: 0.03em;
+}
+
+.lw-cookie-category-cookies td code {
+	background: rgba(0, 0, 0, 0.05);
+	padding: 1px 5px;
+	border-radius: 2px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 11px;
+}
+
+@media (max-width: 480px) {
+	.lw-cookie-category-cookies thead {
+		display: none;
+	}
+
+	.lw-cookie-category-cookies tr {
+		display: block;
+		margin-bottom: 10px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	}
+
+	.lw-cookie-category-cookies td {
+		display: block;
+		border: none;
+		padding: 2px 0;
+	}
+
+	.lw-cookie-category-cookies td::before {
+		content: attr(data-label) ": ";
+		font-weight: 600;
+		opacity: 0.7;
+		margin-right: 4px;
+	}
+}
+
 /* Modal Actions */
 .lw-cookie-modal-actions {
 	display: flex;
@@ -372,9 +470,10 @@
 	animation: lw-cookie-fade-in 0.3s ease;
 }
 
-/* Hide when consent given */
+/* Hide when consent given / before consent */
 .lw-cookie-notice.lw-cookie-hidden,
-.lw-cookie-modal.lw-cookie-hidden {
+.lw-cookie-modal.lw-cookie-hidden,
+.lw-cookie-floating-btn.lw-cookie-hidden {
 	display: none !important;
 }
 

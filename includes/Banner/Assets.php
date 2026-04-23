@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Banner;
 
+use LightweightPlugins\Cookie\I18n\Strings;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Consent\Storage;
 use LightweightPlugins\Cookie\Blocking\Entities;
@@ -93,7 +94,7 @@ final class Assets {
 			'restUrl'         => rest_url( 'lw-cookie/v1/consent' ),
 			'blocking'        => Entities::get_js_config(),
 			'swUrl'           => ServiceWorkerManager::get_sw_url(),
-			'categories'      => Options::get_categories(),
+			'categories'      => Strings::get_categories(),
 			'consentDuration' => (int) Options::get( 'consent_duration' ),
 		];
 	}

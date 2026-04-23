@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Shortcodes;
 
-use LightweightPlugins\Cookie\Options;
+use LightweightPlugins\Cookie\I18n\Strings;
 
 /**
  * Renders the cookie declaration table.
@@ -58,34 +58,12 @@ final class CookieDeclaration {
 			'lw_cookie_declaration'
 		);
 
-		$cookies = Options::get( 'declared_cookies', [] );
-		if ( ! is_array( $cookies ) || empty( $cookies ) ) {
-			return '<p>' . esc_html__( 'No cookies have been declared.', 'lw-cookie' ) . '</p>';
-		}
-
-		// Filter out empty rows.
-		$cookies = array_filter(
-			$cookies,
-			function ( $cookie ) {
-				return ! empty( $cookie['name'] );
-			}
-		);
-
-		if ( empty( $cookies ) ) {
+		$grouped = Strings::get_cookies_by_category();
+		if ( empty( $grouped ) ) {
 			return '<p>' . esc_html__( 'No cookies have been declared.', 'lw-cookie' ) . '</p>';
 		}
 
 		$categories = $this->get_categories();
-
-		// Group by category.
-		$grouped = [];
-		foreach ( $cookies as $cookie ) {
-			$cat = $cookie['category'] ?? 'necessary';
-			if ( ! isset( $grouped[ $cat ] ) ) {
-				$grouped[ $cat ] = [];
-			}
-			$grouped[ $cat ][] = $cookie;
-		}
 
 		// Sort by category order.
 		$category_order = [ 'necessary', 'functional', 'analytics', 'marketing' ];
@@ -173,28 +151,11 @@ final class CookieDeclaration {
 	}
 
 	/**
-	 * Get cookie categories with names and descriptions.
+	 * Get translated cookie category metadata.
 	 *
-	 * @return array
+	 * @return array<string, array{name: string, description: string, required: bool}>
 	 */
 	private function get_categories(): array {
-		return [
-			'necessary'  => [
-				'name'        => __( 'Necessary', 'lw-cookie' ),
-				'description' => __( 'Essential cookies required for the website to function properly.', 'lw-cookie' ),
-			],
-			'functional' => [
-				'name'        => Options::get( 'cat_functional_name', __( 'Functional', 'lw-cookie' ) ),
-				'description' => Options::get( 'cat_functional_desc', '' ),
-			],
-			'analytics'  => [
-				'name'        => Options::get( 'cat_analytics_name', __( 'Analytics', 'lw-cookie' ) ),
-				'description' => Options::get( 'cat_analytics_desc', '' ),
-			],
-			'marketing'  => [
-				'name'        => Options::get( 'cat_marketing_name', __( 'Marketing', 'lw-cookie' ) ),
-				'description' => Options::get( 'cat_marketing_desc', '' ),
-			],
-		];
+		return Strings::get_categories();
 	}
 }

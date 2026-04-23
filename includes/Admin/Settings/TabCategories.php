@@ -52,19 +52,23 @@ final class TabCategories implements TabInterface {
 		?>
 		<h2><?php esc_html_e( 'Cookie Categories', 'lw-cookie' ); ?></h2>
 
+		<?php MultilingualNotice::render(); ?>
+
 		<div class="lw-cookie-section-description">
 			<p><?php esc_html_e( 'Customize the names and descriptions of cookie categories shown to users.', 'lw-cookie' ); ?></p>
 		</div>
 
+		<?php MultilingualNotice::open_lock(); ?>
 		<?php $this->render_necessary_category(); ?>
 		<?php $this->render_functional_category(); ?>
 		<?php $this->render_analytics_category(); ?>
 		<?php $this->render_marketing_category(); ?>
+		<?php MultilingualNotice::close_lock(); ?>
 		<?php
 	}
 
 	/**
-	 * Render necessary category (readonly).
+	 * Render necessary category (name + description editable, always enabled).
 	 *
 	 * @return void
 	 */
@@ -72,18 +76,20 @@ final class TabCategories implements TabInterface {
 		?>
 		<h3><?php esc_html_e( 'Necessary Cookies', 'lw-cookie' ); ?></h3>
 		<p class="description">
-			<?php esc_html_e( 'This category is always enabled and cannot be customized.', 'lw-cookie' ); ?>
+			<?php esc_html_e( 'This category is always enabled, but you can customize the displayed name and description.', 'lw-cookie' ); ?>
 		</p>
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Name', 'lw-cookie' ); ?></th>
-				<td><code><?php esc_html_e( 'Necessary', 'lw-cookie' ); ?></code></td>
+				<th scope="row">
+					<label for="cat_necessary_name"><?php esc_html_e( 'Name', 'lw-cookie' ); ?></label>
+				</th>
+				<td><?php $this->render_text_field( [ 'name' => 'cat_necessary_name' ] ); ?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Description', 'lw-cookie' ); ?></th>
-				<td>
-					<em><?php esc_html_e( 'Essential cookies required for the website to function.', 'lw-cookie' ); ?></em>
-				</td>
+				<th scope="row">
+					<label for="cat_necessary_desc"><?php esc_html_e( 'Description', 'lw-cookie' ); ?></label>
+				</th>
+				<td><?php $this->render_textarea_field( [ 'name' => 'cat_necessary_desc' ] ); ?></td>
 			</tr>
 		</table>
 		<?php

@@ -102,11 +102,36 @@
 	}
 
 	/**
+	 * Unlock source-text fieldsets when a multilingual plugin is active.
+	 */
+	function initUnlockToggle() {
+		document.querySelectorAll( '.lw-cookie-unlock-source' ).forEach(
+			function (btn) {
+				btn.addEventListener(
+					'click',
+					function () {
+						var panel     = btn.closest( '.lw-cookie-tab-panel' ) || document;
+						var fieldsets = panel.querySelectorAll( '.lw-cookie-mlang-locked' );
+						fieldsets.forEach(
+							function (fs) {
+								fs.disabled = false;
+								fs.classList.add( 'lw-cookie-mlang-unlocked' );
+							}
+						);
+						btn.disabled = true;
+					}
+				);
+			}
+		);
+	}
+
+	/**
 	 * Initialize on DOM ready.
 	 */
 	function init() {
 		initTabs();
 		initColorPickers();
+		initUnlockToggle();
 	}
 
 	$( document ).ready( init );

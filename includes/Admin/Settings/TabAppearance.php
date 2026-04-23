@@ -96,6 +96,25 @@ final class TabAppearance implements TabInterface {
 			</tr>
 			<tr>
 				<th scope="row">
+					<label for="banner_box_alignment"><?php esc_html_e( 'Floating Box Alignment', 'lw-cookie' ); ?></label>
+				</th>
+				<td>
+					<?php
+					$this->render_select_field(
+						[
+							'name'    => 'banner_box_alignment',
+							'options' => [
+								'right' => __( 'Right', 'lw-cookie' ),
+								'left'  => __( 'Left', 'lw-cookie' ),
+							],
+						]
+					);
+					?>
+					<p class="description"><?php esc_html_e( 'Only applies when the layout is set to Floating Box.', 'lw-cookie' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<label for="primary_color"><?php esc_html_e( 'Primary Color', 'lw-cookie' ); ?></label>
 				</th>
 				<td>
@@ -134,6 +153,44 @@ final class TabAppearance implements TabInterface {
 						]
 					);
 					?>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'Floating Button', 'lw-cookie' ); ?></h3>
+		<table class="form-table">
+			<tr>
+				<th scope="row">
+					<label for="show_floating_button"><?php esc_html_e( 'Show Floating Button', 'lw-cookie' ); ?></label>
+				</th>
+				<td>
+					<?php
+					$this->render_checkbox_field(
+						[
+							'name'  => 'show_floating_button',
+							'label' => __( 'Show a floating button for users to change their consent', 'lw-cookie' ),
+						]
+					);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<label for="floating_button_pos"><?php esc_html_e( 'Button Position', 'lw-cookie' ); ?></label>
+				</th>
+				<td>
+					<?php
+					$this->render_select_field(
+						[
+							'name'    => 'floating_button_pos',
+							'options' => [
+								'bottom-left'  => __( 'Bottom Left', 'lw-cookie' ),
+								'bottom-right' => __( 'Bottom Right', 'lw-cookie' ),
+							],
+						]
+					);
+					?>
+					<p class="description"><?php esc_html_e( 'Applies only to the Full-width Bar layout. With the Floating Box layout the button mirrors the banner alignment.', 'lw-cookie' ); ?></p>
 				</td>
 			</tr>
 		</table>

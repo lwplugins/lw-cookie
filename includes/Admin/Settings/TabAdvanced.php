@@ -129,43 +129,6 @@ final class TabAdvanced implements TabInterface {
 				</td>
 			</tr>
 		</table>
-
-		<h3><?php esc_html_e( 'Floating Button', 'lw-cookie' ); ?></h3>
-		<table class="form-table">
-			<tr>
-				<th scope="row">
-					<label for="show_floating_button"><?php esc_html_e( 'Show Floating Button', 'lw-cookie' ); ?></label>
-				</th>
-				<td>
-					<?php
-					$this->render_checkbox_field(
-						[
-							'name'  => 'show_floating_button',
-							'label' => __( 'Show a floating button for users to change their consent', 'lw-cookie' ),
-						]
-					);
-					?>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
-					<label for="floating_button_pos"><?php esc_html_e( 'Button Position', 'lw-cookie' ); ?></label>
-				</th>
-				<td>
-					<?php
-					$this->render_select_field(
-						[
-							'name'    => 'floating_button_pos',
-							'options' => [
-								'bottom-left'  => __( 'Bottom Left', 'lw-cookie' ),
-								'bottom-right' => __( 'Bottom Right', 'lw-cookie' ),
-							],
-						]
-					);
-					?>
-				</td>
-			</tr>
-		</table>
 		<?php
 	}
 }

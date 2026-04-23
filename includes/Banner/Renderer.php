@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Banner;
 
+use LightweightPlugins\Cookie\I18n\Strings;
 use LightweightPlugins\Cookie\Options;
 
 /**
@@ -25,7 +26,6 @@ final class Renderer {
 	 */
 	public function __construct() {
 		add_action( 'wp_footer', [ $this, 'render_banner' ], 100 );
-		add_action( 'wp_footer', [ $this, 'render_floating_button' ], 100 );
 	}
 
 	/**
@@ -36,28 +36,6 @@ final class Renderer {
 	public function render_banner(): void {
 		$this->output_preferences_modal();
 		$this->output_banner_html();
-	}
-
-	/**
-	 * Render the floating button (always hidden by default, guard.js shows it).
-	 *
-	 * @return void
-	 */
-	public function render_floating_button(): void {
-		if ( ! Options::get( 'show_floating_button' ) ) {
-			return;
-		}
-
-		$position = Options::get( 'floating_button_pos' );
-		?>
-		<button type="button"
-			id="lw-cookie-floating-btn"
-			class="lw-cookie-floating-btn lw-cookie-floating-<?php echo esc_attr( $position ); ?> lw-cookie-hidden"
-			aria-label="<?php esc_attr_e( 'Cookie Settings', 'lw-cookie' ); ?>"
-			data-lw-cookie-open-preferences>
-			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2s3 2 7 2c0 6-3 11-7 14C6 15 3 10 3 4c4 0 7-2 7-2z"/></svg>
-		</button>
-		<?php
 	}
 
 	/**
@@ -74,6 +52,11 @@ final class Renderer {
 			$layout
 		);
 
+		if ( 'box' === $layout ) {
+			$alignment = 'left' === Options::get( 'banner_box_alignment' ) ? 'left' : 'right';
+			$classes  .= ' lw-cookie-box-align-' . $alignment;
+		}
+
 		$privacy_page_id = (int) Options::get( 'privacy_policy_page' );
 		$privacy_link    = $privacy_page_id ? get_permalink( $privacy_page_id ) : '';
 		?>
@@ -81,10 +64,10 @@ final class Renderer {
 			<div class="lw-cookie-notice-inner">
 				<div class="lw-cookie-content">
 					<h2 id="lw-cookie-title" class="lw-cookie-title">
-						<?php echo esc_html( Options::get( 'banner_title' ) ); ?>
+						<?php echo esc_html( Strings::get( 'banner_title' ) ); ?>
 					</h2>
 					<p class="lw-cookie-message">
-						<?php echo esc_html( Options::get( 'banner_message' ) ); ?>
+						<?php echo esc_html( Strings::get( 'banner_message' ) ); ?>
 						<?php if ( $privacy_link ) : ?>
 							<a href="<?php echo esc_url( $privacy_link ); ?>" target="_blank" rel="noopener">
 								<?php esc_html_e( 'Privacy Policy', 'lw-cookie' ); ?>
@@ -94,13 +77,13 @@ final class Renderer {
 				</div>
 				<div class="lw-cookie-actions">
 					<button type="button" class="lw-cookie-btn lw-cookie-btn-secondary" data-lw-cookie-customize>
-						<?php echo esc_html( Options::get( 'btn_customize' ) ); ?>
+						<?php echo esc_html( Strings::get( 'btn_customize' ) ); ?>
 					</button>
 					<button type="button" class="lw-cookie-btn lw-cookie-btn-outline" data-lw-cookie-reject>
-						<?php echo esc_html( Options::get( 'btn_reject_all' ) ); ?>
+						<?php echo esc_html( Strings::get( 'btn_reject_all' ) ); ?>
 					</button>
 					<button type="button" class="lw-cookie-btn lw-cookie-btn-primary" data-lw-cookie-accept>
-						<?php echo esc_html( Options::get( 'btn_accept_all' ) ); ?>
+						<?php echo esc_html( Strings::get( 'btn_accept_all' ) ); ?>
 					</button>
 				</div>
 			</div>
@@ -114,7 +97,8 @@ final class Renderer {
 	 * @return void
 	 */
 	private function output_preferences_modal(): void {
-		$categories = Options::get_categories();
+		$categories     = Strings::get_categories();
+		$cookies_by_cat = Strings::get_cookies_by_category();
 		?>
 		<div id="lw-cookie-preferences" class="lw-cookie-modal" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-prefs-title" style="display:none;">
 			<div class="lw-cookie-modal-overlay" data-lw-cookie-close-modal></div>
@@ -129,33 +113,80 @@ final class Renderer {
 
 				<div class="lw-cookie-categories">
 					<?php foreach ( $categories as $key => $category ) : ?>
-						<div class="lw-cookie-category">
-							<div class="lw-cookie-category-header">
-								<label class="lw-cookie-category-label">
-									<input type="checkbox"
-										name="lw_cookie_cat_<?php echo esc_attr( $key ); ?>"
-										data-category="<?php echo esc_attr( $key ); ?>"
-										<?php checked( $category['required'] ); ?>
-										<?php disabled( $category['required'] ); ?>>
-									<span class="lw-cookie-category-name"><?php echo esc_html( $category['name'] ); ?></span>
-									<?php if ( $category['required'] ) : ?>
-										<span class="lw-cookie-required"><?php esc_html_e( '(Required)', 'lw-cookie' ); ?></span>
-									<?php endif; ?>
-								</label>
-							</div>
-							<p class="lw-cookie-category-desc">
-								<?php echo esc_html( $category['description'] ); ?>
-							</p>
-						</div>
+						<?php $this->output_category_block( $key, $category, $cookies_by_cat[ $key ] ?? [] ); ?>
 					<?php endforeach; ?>
 				</div>
 
 				<div class="lw-cookie-modal-actions">
 					<button type="button" class="lw-cookie-btn lw-cookie-btn-primary" data-lw-cookie-save>
-						<?php echo esc_html( Options::get( 'btn_save' ) ); ?>
+						<?php echo esc_html( Strings::get( 'btn_save' ) ); ?>
 					</button>
 				</div>
 			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Output a single category block inside the preferences modal.
+	 *
+	 * @param string                                                   $key      Category key.
+	 * @param array{name: string, description: string, required: bool} $category Category data.
+	 * @param array<int, array<string, string>>                        $cookies  Cookies declared under this category.
+	 * @return void
+	 */
+	private function output_category_block( string $key, array $category, array $cookies ): void {
+		?>
+		<div class="lw-cookie-category">
+			<div class="lw-cookie-category-header">
+				<label class="lw-cookie-category-label">
+					<input type="checkbox"
+						name="lw_cookie_cat_<?php echo esc_attr( $key ); ?>"
+						data-category="<?php echo esc_attr( $key ); ?>"
+						<?php checked( $category['required'] ); ?>
+						<?php disabled( $category['required'] ); ?>>
+					<span class="lw-cookie-category-name"><?php echo esc_html( $category['name'] ); ?></span>
+					<?php if ( $category['required'] ) : ?>
+						<span class="lw-cookie-required"><?php esc_html_e( '(Required)', 'lw-cookie' ); ?></span>
+					<?php endif; ?>
+				</label>
+			</div>
+			<p class="lw-cookie-category-desc">
+				<?php echo esc_html( $category['description'] ); ?>
+			</p>
+			<?php if ( ! empty( $cookies ) ) : ?>
+				<details class="lw-cookie-category-details">
+					<summary>
+						<?php
+						printf(
+							/* translators: %d: number of cookies */
+							esc_html( _n( 'Show %d cookie', 'Show %d cookies', count( $cookies ), 'lw-cookie' ) ),
+							(int) count( $cookies )
+						);
+						?>
+					</summary>
+					<table class="lw-cookie-category-cookies">
+						<thead>
+							<tr>
+								<th scope="col"><?php esc_html_e( 'Cookie', 'lw-cookie' ); ?></th>
+								<th scope="col"><?php esc_html_e( 'Provider', 'lw-cookie' ); ?></th>
+								<th scope="col"><?php esc_html_e( 'Purpose', 'lw-cookie' ); ?></th>
+								<th scope="col"><?php esc_html_e( 'Duration', 'lw-cookie' ); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ( $cookies as $cookie ) : ?>
+								<tr>
+									<td data-label="<?php esc_attr_e( 'Cookie', 'lw-cookie' ); ?>"><code><?php echo esc_html( $cookie['name'] ); ?></code></td>
+									<td data-label="<?php esc_attr_e( 'Provider', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['provider'] ); ?></td>
+									<td data-label="<?php esc_attr_e( 'Purpose', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['purpose'] ); ?></td>
+									<td data-label="<?php esc_attr_e( 'Duration', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['duration'] ); ?></td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</details>
+			<?php endif; ?>
 		</div>
 		<?php
 	}

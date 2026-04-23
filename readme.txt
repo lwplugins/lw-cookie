@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.5
+Stable tag: 1.6.6
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,17 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.6 =
+* New: Polylang, WPML, and TranslatePress integration - all admin-editable strings registered for translation (banner texts, button labels, category names/descriptions, declared cookie provider/purpose/duration)
+* New: Texts and Categories tabs lock source-text fields when a multilingual plugin is active, with direct link to the matching translation UI and an "Unlock to edit source" button
+* New: Necessary category name and description are now editable
+* New: Cookie list shown per category inside the preferences modal (collapsible)
+* New: [lw_cookie_declaration] category names/descriptions now translatable via Polylang/WPML
+* New: Floating Box Alignment setting — choose left or right for the floating box banner
+* Change: Floating "box" layout now defaults to bottom-right (was bottom-left)
+* Change: Floating Button settings moved from Advanced to Appearance; with the Floating Box layout the button now automatically mirrors the banner alignment
+* Fix: Floating button now stays hidden while the consent banner is visible
 
 = 1.6.5 =
 * Fix: Rename frontend CSS classes from lw-cookie-banner to lw-cookie-notice to prevent adblocker false positives

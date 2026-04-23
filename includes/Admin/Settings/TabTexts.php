@@ -52,10 +52,13 @@ final class TabTexts implements TabInterface {
 		?>
 		<h2><?php esc_html_e( 'Banner Texts', 'lw-cookie' ); ?></h2>
 
+		<?php MultilingualNotice::render(); ?>
+
 		<div class="lw-cookie-section-description">
 			<p><?php esc_html_e( 'Customize the text displayed on the cookie consent banner.', 'lw-cookie' ); ?></p>
 		</div>
 
+		<?php MultilingualNotice::open_lock(); ?>
 		<table class="form-table">
 			<tr>
 				<th scope="row">
@@ -117,6 +120,7 @@ final class TabTexts implements TabInterface {
 				</td>
 			</tr>
 		</table>
+		<?php MultilingualNotice::close_lock(); ?>
 		<?php
 	}
 }

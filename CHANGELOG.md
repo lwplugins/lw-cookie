@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.6.6] - 2026-04-23
+
+### Added
+- Polylang, WPML, and TranslatePress integration — all admin-editable strings are registered for translation (banner texts, button labels, category names/descriptions, declared cookie provider/purpose/duration)
+- Texts and Categories tabs lock source-text fields when a multilingual plugin is active, with a direct link to the matching translation UI and an "Unlock to edit source" button
+- Inline lock-reason banner shown inside the disabled fieldset, naming the active multilingual plugin
+- Necessary category name and description are now editable from the Categories tab
+- Cookie list shown per category inside the Customize preferences modal (collapsible)
+- `[lw_cookie_declaration]` category names and descriptions now go through the Polylang/WPML translation bridge
+- Hungarian translation fully refreshed for the new strings
+- New `banner_box_alignment` setting (Appearance → Floating Box Alignment): choose left or right for the floating box banner
+
+### Changed
+- Floating "box" banner layout now defaults to the bottom-right corner (was bottom-left)
+- Floating Button settings moved from Advanced to Appearance (visual grouping)
+- With the Floating Box layout, the floating button now automatically mirrors the banner alignment — `floating_button_pos` still applies to the Full-width Bar layout
+
+### Fixed
+- Floating button stays hidden while the consent banner is visible (CSS `.lw-cookie-hidden` now covers `.lw-cookie-floating-btn` too)
+- Settings sanitizer now preserves the stored value for keys missing from the submitted form, so locked source strings are not reset to defaults when saving any other tab
+
 ## [1.6.5] - 2026-03-22
 
 ### Fixed

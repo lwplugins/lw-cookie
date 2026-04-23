@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Admin;
 
 use LightweightPlugins\Cookie\Admin\Settings\TabInterface;
+use LightweightPlugins\Cookie\I18n\MultilingualDetector;
 use LightweightPlugins\Cookie\Admin\Settings\TabGeneral;
 use LightweightPlugins\Cookie\Admin\Settings\TabAppearance;
 use LightweightPlugins\Cookie\Admin\Settings\TabCategories;
@@ -144,23 +145,34 @@ final class SettingsPage {
 	 */
 	public function sanitize_settings( array $input ): array {
 		$defaults  = Options::get_defaults();
+		$current   = Options::get_all();
 		$sanitized = [];
 
-		foreach ( $defaults as $key => $default ) {
-			if ( is_bool( $default ) ) {
-				$sanitized[ $key ] = ! empty( $input[ $key ] );
-			} elseif ( is_int( $default ) ) {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? absint( $input[ $key ] ) : $default;
-			} elseif ( str_contains( $key, 'color' ) ) {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_hex_color( $input[ $key ] ) : $default;
-			} else {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $default;
-			}
-		}
+		// A locked multilingual fieldset is submitted as disabled, so its keys are
+		// absent from $input. Preserve the stored value in that case instead of
+		// resetting to the hard-coded default.
+		$locked = MultilingualDetector::is_active();
 
-		// Handle declared cookies array separately.
-		if ( isset( $input['declared_cookies'] ) && is_array( $input['declared_cookies'] ) ) {
-			$sanitized['declared_cookies'] = $this->sanitize_cookies( $input['declared_cookies'] );
+		foreach ( $defaults as $key => $default ) {
+			$fallback = $current[ $key ] ?? $default;
+
+			if ( is_bool( $default ) ) {
+				// If the tab containing this checkbox is locked, the key won't be
+				// posted and we'd flip it to false. Preserve current value instead.
+				$sanitized[ $key ] = $locked && ! isset( $input[ $key ] )
+					? (bool) $fallback
+					: ! empty( $input[ $key ] );
+			} elseif ( is_int( $default ) ) {
+				$sanitized[ $key ] = isset( $input[ $key ] ) ? absint( $input[ $key ] ) : $fallback;
+			} elseif ( str_contains( $key, 'color' ) ) {
+				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_hex_color( $input[ $key ] ) : $fallback;
+			} elseif ( 'declared_cookies' === $key ) {
+				$sanitized[ $key ] = isset( $input[ $key ] ) && is_array( $input[ $key ] )
+					? $this->sanitize_cookies( $input[ $key ] )
+					: (array) $fallback;
+			} else {
+				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $fallback;
+			}
 		}
 
 		return $sanitized;

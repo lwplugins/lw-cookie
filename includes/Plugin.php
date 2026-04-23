@@ -13,6 +13,7 @@ use LightweightPlugins\Cookie\Admin\SettingsPage;
 use LightweightPlugins\Cookie\Banner\Renderer as BannerRenderer;
 use LightweightPlugins\Cookie\Banner\Assets as BannerAssets;
 use LightweightPlugins\Cookie\Banner\InlineFallback;
+use LightweightPlugins\Cookie\Banner\FloatingButton;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\GuardScript;
 use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
@@ -23,6 +24,7 @@ use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 use LightweightPlugins\Cookie\SiteManager\Integration as SiteManagerIntegration;
+use LightweightPlugins\Cookie\I18n\Strings;
 use LightweightPlugins\Cookie\Hooks;
 
 /**
@@ -65,6 +67,7 @@ final class Plugin {
 		CLICommands::register();
 		Scanner::init();
 		SiteManagerIntegration::init();
+		Strings::init();
 
 		// WordPress hooks for third-party plugin integration.
 		new Hooks( $this->consent_manager );
@@ -89,6 +92,7 @@ final class Plugin {
 		new CacheCompat();
 		new BannerAssets();
 		new BannerRenderer();
+		new FloatingButton();
 		new InlineFallback();
 		new GuardScript();
 

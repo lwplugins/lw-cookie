@@ -41,12 +41,15 @@ final class Options {
 			// Appearance.
 			'banner_position'      => 'bottom',
 			'banner_layout'        => 'bar',
+			'banner_box_alignment' => 'right',
 			'primary_color'        => '#2271b1',
 			'text_color'           => '#1d2327',
 			'background_color'     => '#ffffff',
 			'border_radius'        => '4',
 
 			// Categories - all OFF by default (GDPR compliance).
+			'cat_necessary_name'   => 'Necessary',
+			'cat_necessary_desc'   => 'Essential cookies required for the website to function.',
 			'cat_functional_name'  => 'Functional',
 			'cat_functional_desc'  => 'These cookies enable enhanced functionality and personalization.',
 			'cat_analytics_name'   => 'Analytics',
@@ -158,8 +161,8 @@ final class Options {
 	public static function get_categories(): array {
 		return [
 			'necessary'  => [
-				'name'        => __( 'Necessary', 'lw-cookie' ),
-				'description' => __( 'Essential cookies required for the website to function.', 'lw-cookie' ),
+				'name'        => self::get( 'cat_necessary_name' ),
+				'description' => self::get( 'cat_necessary_desc' ),
 				'required'    => true,
 			],
 			'functional' => [
