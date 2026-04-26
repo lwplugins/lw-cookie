@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.6
+Stable tag: 1.6.7
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,13 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.7 =
+* New: Privacy Policy link text is now editable in the Texts tab and translatable via Polylang/WPML
+* New: Preferences modal title, "(Required)" badge, and Cookie/Provider/Purpose/Duration column headers are now editable and translatable
+* New: Cookie declaration shortcode buttons (Manage / Delete All) and column headers (incl. Type) are now editable and translatable
+* Change: Texts tab is grouped into Banner / Buttons / Preferences Modal / Cookie Declaration Page sections; each new field shows the built-in default as its placeholder
+* Fix: Declared-cookie translations now register and resolve correctly for cookie names with special characters (e.g. wildcards or dashes)
 
 = 1.6.6 =
 * New: Polylang, WPML, and TranslatePress integration - all admin-editable strings registered for translation (banner texts, button labels, category names/descriptions, declared cookie provider/purpose/duration)

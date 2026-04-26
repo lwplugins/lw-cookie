@@ -46,6 +46,23 @@ final class Strings {
 	}
 
 	/**
+	 * Get the translated value for an option key, falling back to a default
+	 * when the user has not set a custom value.
+	 *
+	 * Used for strings that have a sensible textdomain-translated default
+	 * (e.g. "Privacy Policy") but can be overridden in the Texts tab.
+	 *
+	 * @param string $key             Option key.
+	 * @param string $textdomain_text The default text, already passed through __().
+	 * @return string
+	 */
+	public static function get_or_default( string $key, string $textdomain_text ): string {
+		$value = self::get( $key );
+
+		return '' !== $value ? $value : $textdomain_text;
+	}
+
+	/**
 	 * Get translated cookie category definitions.
 	 *
 	 * @return array<string, array{name: string, description: string, required: bool}>
@@ -79,14 +96,18 @@ final class Strings {
 				continue;
 			}
 
-			$category = ! empty( $cookie['category'] ) ? (string) $cookie['category'] : 'necessary';
-			$name     = (string) $cookie['name'];
+			$category  = ! empty( $cookie['category'] ) ? (string) $cookie['category'] : 'necessary';
+			$name      = (string) $cookie['name'];
+			$safe_name = sanitize_key( $name );
+			if ( '' === $safe_name ) {
+				$safe_name = md5( $name );
+			}
 
 			$grouped[ $category ][] = [
 				'name'     => $name,
-				'provider' => self::translate( 'cookie_' . $name . '_provider', (string) ( $cookie['provider'] ?? '' ) ),
-				'purpose'  => self::translate( 'cookie_' . $name . '_purpose', (string) ( $cookie['purpose'] ?? '' ) ),
-				'duration' => self::translate( 'cookie_' . $name . '_duration', (string) ( $cookie['duration'] ?? '' ) ),
+				'provider' => self::translate( 'cookie_' . $safe_name . '_provider', (string) ( $cookie['provider'] ?? '' ) ),
+				'purpose'  => self::translate( 'cookie_' . $safe_name . '_purpose', (string) ( $cookie['purpose'] ?? '' ) ),
+				'duration' => self::translate( 'cookie_' . $safe_name . '_duration', (string) ( $cookie['duration'] ?? '' ) ),
 				'type'     => (string) ( $cookie['type'] ?? 'persistent' ),
 			];
 		}

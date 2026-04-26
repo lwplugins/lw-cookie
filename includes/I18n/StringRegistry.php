@@ -32,6 +32,16 @@ final class StringRegistry {
 		'cat_functional_name',
 		'cat_analytics_name',
 		'cat_marketing_name',
+		'link_privacy_policy',
+		'modal_title',
+		'label_required',
+		'col_cookie',
+		'col_provider',
+		'col_purpose',
+		'col_duration',
+		'col_type',
+		'btn_manage_preferences',
+		'btn_delete_all',
 	];
 
 	/**
@@ -97,13 +107,17 @@ final class StringRegistry {
 			if ( empty( $cookie['name'] ) ) {
 				continue;
 			}
-			$name = (string) $cookie['name'];
+			$name      = (string) $cookie['name'];
+			$safe_name = sanitize_key( $name );
+			if ( '' === $safe_name ) {
+				$safe_name = md5( $name );
+			}
 
 			foreach ( [ 'provider', 'purpose', 'duration' ] as $field ) {
 				if ( empty( $cookie[ $field ] ) ) {
 					continue;
 				}
-				$key = 'cookie_' . $name . '_' . $field;
+				$key = 'cookie_' . $safe_name . '_' . $field;
 				self::register( $key, 'purpose' === $field, $pll, $wpml, (string) $cookie[ $field ] );
 			}
 		}

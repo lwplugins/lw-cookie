@@ -79,6 +79,14 @@ final class CookieDeclaration {
 			$class .= ' ' . sanitize_html_class( $atts['class'] );
 		}
 
+		$col_cookie   = Strings::get_or_default( 'col_cookie', __( 'Cookie', 'lw-cookie' ) );
+		$col_provider = Strings::get_or_default( 'col_provider', __( 'Provider', 'lw-cookie' ) );
+		$col_purpose  = Strings::get_or_default( 'col_purpose', __( 'Purpose', 'lw-cookie' ) );
+		$col_duration = Strings::get_or_default( 'col_duration', __( 'Duration', 'lw-cookie' ) );
+		$col_type     = Strings::get_or_default( 'col_type', __( 'Type', 'lw-cookie' ) );
+		$btn_manage   = Strings::get_or_default( 'btn_manage_preferences', __( 'Manage Cookie Preferences', 'lw-cookie' ) );
+		$btn_delete   = Strings::get_or_default( 'btn_delete_all', __( 'Delete All Cookies', 'lw-cookie' ) );
+
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( $class ); ?>">
@@ -99,29 +107,29 @@ final class CookieDeclaration {
 					<table class="lw-cookie-declaration-table">
 						<thead>
 							<tr>
-								<th><?php esc_html_e( 'Cookie', 'lw-cookie' ); ?></th>
-								<th><?php esc_html_e( 'Provider', 'lw-cookie' ); ?></th>
-								<th><?php esc_html_e( 'Purpose', 'lw-cookie' ); ?></th>
-								<th><?php esc_html_e( 'Duration', 'lw-cookie' ); ?></th>
-								<th><?php esc_html_e( 'Type', 'lw-cookie' ); ?></th>
+								<th><?php echo esc_html( $col_cookie ); ?></th>
+								<th><?php echo esc_html( $col_provider ); ?></th>
+								<th><?php echo esc_html( $col_purpose ); ?></th>
+								<th><?php echo esc_html( $col_duration ); ?></th>
+								<th><?php echo esc_html( $col_type ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ( $category_cookies as $cookie ) : ?>
 								<tr>
-									<td data-label="<?php esc_attr_e( 'Cookie', 'lw-cookie' ); ?>">
+									<td data-label="<?php echo esc_attr( $col_cookie ); ?>">
 										<code><?php echo esc_html( $cookie['name'] ); ?></code>
 									</td>
-									<td data-label="<?php esc_attr_e( 'Provider', 'lw-cookie' ); ?>">
+									<td data-label="<?php echo esc_attr( $col_provider ); ?>">
 										<?php echo esc_html( $cookie['provider'] ); ?>
 									</td>
-									<td data-label="<?php esc_attr_e( 'Purpose', 'lw-cookie' ); ?>">
+									<td data-label="<?php echo esc_attr( $col_purpose ); ?>">
 										<?php echo esc_html( $cookie['purpose'] ); ?>
 									</td>
-									<td data-label="<?php esc_attr_e( 'Duration', 'lw-cookie' ); ?>">
+									<td data-label="<?php echo esc_attr( $col_duration ); ?>">
 										<?php echo esc_html( $cookie['duration'] ); ?>
 									</td>
-									<td data-label="<?php esc_attr_e( 'Type', 'lw-cookie' ); ?>">
+									<td data-label="<?php echo esc_attr( $col_type ); ?>">
 										<?php
 										$type_labels = [
 											'session'    => __( 'Session', 'lw-cookie' ),
@@ -139,10 +147,10 @@ final class CookieDeclaration {
 
 			<p class="lw-cookie-declaration-footer">
 				<button type="button" onclick="if(window.LWCookie){window.LWCookie.openPreferences();}" class="lw-cookie-manage-btn">
-					<?php esc_html_e( 'Manage Cookie Preferences', 'lw-cookie' ); ?>
+					<?php echo esc_html( $btn_manage ); ?>
 				</button>
 				<button type="button" onclick="if(window.LWCookie){window.LWCookie.deleteAllCookies();}" class="lw-cookie-delete-btn">
-					<?php esc_html_e( 'Delete All Cookies', 'lw-cookie' ); ?>
+					<?php echo esc_html( $btn_delete ); ?>
 				</button>
 			</p>
 		</div>

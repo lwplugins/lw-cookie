@@ -19,19 +19,21 @@ trait FieldRendererTrait {
 	/**
 	 * Render a text input field.
 	 *
-	 * @param array{name: string, description?: string} $args Field arguments.
+	 * @param array{name: string, description?: string, placeholder?: string} $args Field arguments.
 	 * @return void
 	 */
 	protected function render_text_field( array $args ): void {
-		$name  = $args['name'];
-		$value = Options::get( $name );
-		$desc  = $args['description'] ?? '';
+		$name        = $args['name'];
+		$value       = Options::get( $name );
+		$desc        = $args['description'] ?? '';
+		$placeholder = $args['placeholder'] ?? '';
 
 		printf(
-			'<input type="text" id="%1$s" name="%2$s[%1$s]" value="%3$s" class="regular-text" />',
+			'<input type="text" id="%1$s" name="%2$s[%1$s]" value="%3$s" placeholder="%4$s" class="regular-text" />',
 			esc_attr( $name ),
 			esc_attr( Options::OPTION_NAME ),
-			esc_attr( (string) $value )
+			esc_attr( (string) $value ),
+			esc_attr( (string) $placeholder )
 		);
 
 		if ( $desc ) {
@@ -42,19 +44,21 @@ trait FieldRendererTrait {
 	/**
 	 * Render a textarea field.
 	 *
-	 * @param array{name: string, description?: string} $args Field arguments.
+	 * @param array{name: string, description?: string, placeholder?: string} $args Field arguments.
 	 * @return void
 	 */
 	protected function render_textarea_field( array $args ): void {
-		$name  = $args['name'];
-		$value = Options::get( $name );
-		$desc  = $args['description'] ?? '';
+		$name        = $args['name'];
+		$value       = Options::get( $name );
+		$desc        = $args['description'] ?? '';
+		$placeholder = $args['placeholder'] ?? '';
 
 		printf(
-			'<textarea id="%1$s" name="%2$s[%1$s]" rows="3" class="large-text">%3$s</textarea>',
+			'<textarea id="%1$s" name="%2$s[%1$s]" rows="3" placeholder="%4$s" class="large-text">%3$s</textarea>',
 			esc_attr( $name ),
 			esc_attr( Options::OPTION_NAME ),
-			esc_textarea( (string) $value )
+			esc_textarea( (string) $value ),
+			esc_attr( (string) $placeholder )
 		);
 
 		if ( $desc ) {

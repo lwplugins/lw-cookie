@@ -70,7 +70,7 @@ final class Renderer {
 						<?php echo esc_html( Strings::get( 'banner_message' ) ); ?>
 						<?php if ( $privacy_link ) : ?>
 							<a href="<?php echo esc_url( $privacy_link ); ?>" target="_blank" rel="noopener">
-								<?php esc_html_e( 'Privacy Policy', 'lw-cookie' ); ?>
+								<?php echo esc_html( Strings::get_or_default( 'link_privacy_policy', __( 'Privacy Policy', 'lw-cookie' ) ) ); ?>
 							</a>
 						<?php endif; ?>
 					</p>
@@ -108,7 +108,7 @@ final class Renderer {
 				</button>
 
 				<h2 id="lw-cookie-prefs-title" class="lw-cookie-modal-title">
-					<?php esc_html_e( 'Cookie Preferences', 'lw-cookie' ); ?>
+					<?php echo esc_html( Strings::get_or_default( 'modal_title', __( 'Cookie Preferences', 'lw-cookie' ) ) ); ?>
 				</h2>
 
 				<div class="lw-cookie-categories">
@@ -147,7 +147,7 @@ final class Renderer {
 						<?php disabled( $category['required'] ); ?>>
 					<span class="lw-cookie-category-name"><?php echo esc_html( $category['name'] ); ?></span>
 					<?php if ( $category['required'] ) : ?>
-						<span class="lw-cookie-required"><?php esc_html_e( '(Required)', 'lw-cookie' ); ?></span>
+						<span class="lw-cookie-required"><?php echo esc_html( Strings::get_or_default( 'label_required', __( '(Required)', 'lw-cookie' ) ) ); ?></span>
 					<?php endif; ?>
 				</label>
 			</div>
@@ -165,22 +165,28 @@ final class Renderer {
 						);
 						?>
 					</summary>
+					<?php
+					$col_cookie   = Strings::get_or_default( 'col_cookie', __( 'Cookie', 'lw-cookie' ) );
+					$col_provider = Strings::get_or_default( 'col_provider', __( 'Provider', 'lw-cookie' ) );
+					$col_purpose  = Strings::get_or_default( 'col_purpose', __( 'Purpose', 'lw-cookie' ) );
+					$col_duration = Strings::get_or_default( 'col_duration', __( 'Duration', 'lw-cookie' ) );
+					?>
 					<table class="lw-cookie-category-cookies">
 						<thead>
 							<tr>
-								<th scope="col"><?php esc_html_e( 'Cookie', 'lw-cookie' ); ?></th>
-								<th scope="col"><?php esc_html_e( 'Provider', 'lw-cookie' ); ?></th>
-								<th scope="col"><?php esc_html_e( 'Purpose', 'lw-cookie' ); ?></th>
-								<th scope="col"><?php esc_html_e( 'Duration', 'lw-cookie' ); ?></th>
+								<th scope="col"><?php echo esc_html( $col_cookie ); ?></th>
+								<th scope="col"><?php echo esc_html( $col_provider ); ?></th>
+								<th scope="col"><?php echo esc_html( $col_purpose ); ?></th>
+								<th scope="col"><?php echo esc_html( $col_duration ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ( $cookies as $cookie ) : ?>
 								<tr>
-									<td data-label="<?php esc_attr_e( 'Cookie', 'lw-cookie' ); ?>"><code><?php echo esc_html( $cookie['name'] ); ?></code></td>
-									<td data-label="<?php esc_attr_e( 'Provider', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['provider'] ); ?></td>
-									<td data-label="<?php esc_attr_e( 'Purpose', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['purpose'] ); ?></td>
-									<td data-label="<?php esc_attr_e( 'Duration', 'lw-cookie' ); ?>"><?php echo esc_html( $cookie['duration'] ); ?></td>
+									<td data-label="<?php echo esc_attr( $col_cookie ); ?>"><code><?php echo esc_html( $cookie['name'] ); ?></code></td>
+									<td data-label="<?php echo esc_attr( $col_provider ); ?>"><?php echo esc_html( $cookie['provider'] ); ?></td>
+									<td data-label="<?php echo esc_attr( $col_purpose ); ?>"><?php echo esc_html( $cookie['purpose'] ); ?></td>
+									<td data-label="<?php echo esc_attr( $col_duration ); ?>"><?php echo esc_html( $cookie['duration'] ); ?></td>
 								</tr>
 							<?php endforeach; ?>
 						</tbody>

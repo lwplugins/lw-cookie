@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.7] - 2026-04-25
+
+### Added
+- Privacy Policy link text is now editable from the Texts tab and translatable via Polylang/WPML
+- Cookie preferences modal: title, "(Required)" badge, and the Cookie/Provider/Purpose/Duration column headers are now editable and translatable
+- Cookie declaration page (`[lw_cookie_declaration]`): "Manage Cookie Preferences" button, "Delete All Cookies" button, and the Cookie/Provider/Purpose/Duration/Type column headers are now editable and translatable
+- Texts tab is now grouped into Banner / Buttons / Preferences Modal / Cookie Declaration Page sections, with placeholders showing the built-in default for each field
+
+### Fixed
+- Declared-cookie translations: cookie names containing characters that are not valid Polylang/WPML string identifiers (e.g. `wordpress_sec_*`, `wp-settings-1`) are now sanitized when building the registration key, so translations register and resolve consistently
+
 ## [1.6.6] - 2026-04-23
 
 ### Added

@@ -34,47 +34,57 @@ final class Options {
 	public static function get_defaults(): array {
 		return [
 			// General.
-			'enabled'              => true,
-			'privacy_policy_page'  => 0,
-			'policy_version'       => '1.0',
+			'enabled'                => true,
+			'privacy_policy_page'    => 0,
+			'policy_version'         => '1.0',
 
 			// Appearance.
-			'banner_position'      => 'bottom',
-			'banner_layout'        => 'bar',
-			'banner_box_alignment' => 'right',
-			'primary_color'        => '#2271b1',
-			'text_color'           => '#1d2327',
-			'background_color'     => '#ffffff',
-			'border_radius'        => '4',
+			'banner_position'        => 'bottom',
+			'banner_layout'          => 'bar',
+			'banner_box_alignment'   => 'right',
+			'primary_color'          => '#2271b1',
+			'text_color'             => '#1d2327',
+			'background_color'       => '#ffffff',
+			'border_radius'          => '4',
 
 			// Categories - all OFF by default (GDPR compliance).
-			'cat_necessary_name'   => 'Necessary',
-			'cat_necessary_desc'   => 'Essential cookies required for the website to function.',
-			'cat_functional_name'  => 'Functional',
-			'cat_functional_desc'  => 'These cookies enable enhanced functionality and personalization.',
-			'cat_analytics_name'   => 'Analytics',
-			'cat_analytics_desc'   => 'These cookies help us understand how visitors interact with our website.',
-			'cat_marketing_name'   => 'Marketing',
-			'cat_marketing_desc'   => 'These cookies are used to deliver relevant advertisements.',
+			'cat_necessary_name'     => 'Necessary',
+			'cat_necessary_desc'     => 'Essential cookies required for the website to function.',
+			'cat_functional_name'    => 'Functional',
+			'cat_functional_desc'    => 'These cookies enable enhanced functionality and personalization.',
+			'cat_analytics_name'     => 'Analytics',
+			'cat_analytics_desc'     => 'These cookies help us understand how visitors interact with our website.',
+			'cat_marketing_name'     => 'Marketing',
+			'cat_marketing_desc'     => 'These cookies are used to deliver relevant advertisements.',
 
 			// Texts.
-			'banner_title'         => 'We value your privacy',
-			'banner_message'       => 'We use cookies to enhance your browsing experience and analyze our traffic.',
-			'btn_accept_all'       => 'Accept All',
-			'btn_reject_all'       => 'Reject All',
-			'btn_customize'        => 'Customize',
-			'btn_save'             => 'Save Preferences',
+			'banner_title'           => 'We value your privacy',
+			'banner_message'         => 'We use cookies to enhance your browsing experience and analyze our traffic.',
+			'btn_accept_all'         => 'Accept All',
+			'btn_reject_all'         => 'Reject All',
+			'btn_customize'          => 'Customize',
+			'btn_save'               => 'Save Preferences',
+			'link_privacy_policy'    => '',
+			'modal_title'            => '',
+			'label_required'         => '',
+			'col_cookie'             => '',
+			'col_provider'           => '',
+			'col_purpose'            => '',
+			'col_duration'           => '',
+			'col_type'               => '',
+			'btn_manage_preferences' => '',
+			'btn_delete_all'         => '',
 
 			// Advanced.
-			'consent_duration'     => 365,
-			'script_blocking'      => true,
-			'content_blocking'     => true,
-			'gcm_enabled'          => false,
-			'show_floating_button' => true,
-			'floating_button_pos'  => 'bottom-left',
+			'consent_duration'       => 365,
+			'script_blocking'        => true,
+			'content_blocking'       => true,
+			'gcm_enabled'            => false,
+			'show_floating_button'   => true,
+			'floating_button_pos'    => 'bottom-left',
 
 			// Cookie declaration.
-			'declared_cookies'     => [],
+			'declared_cookies'       => [],
 		];
 	}
 
