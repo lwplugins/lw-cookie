@@ -104,6 +104,7 @@ final class CookieAbilities {
 				'permission_callback' => $permissions->callback( 'can_manage_options' ),
 				'input_schema'        => [
 					'type'       => 'object',
+					'default'    => [],
 					'properties' => [
 						'days' => [
 							'type'        => 'integer',

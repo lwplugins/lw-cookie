@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.8] - 2026-04-30
+
+### Changed
+- Added missing `'default' => []` to top-level `input_schema` of `lw-cookie/get-consent-stats` so it can be invoked without arguments via the Abilities API
+
 ## [1.6.7] - 2026-04-25
 
 ### Added

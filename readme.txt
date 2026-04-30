@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.7
+Stable tag: 1.6.8
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.8 =
+* Change: Added missing `'default' => []` to top-level input_schema of `lw-cookie/get-consent-stats` so it can be invoked without arguments
 
 = 1.6.7 =
 * New: Privacy Policy link text is now editable in the Texts tab and translatable via Polylang/WPML
