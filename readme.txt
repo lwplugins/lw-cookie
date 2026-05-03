@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.8
+Stable tag: 1.6.9
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.6.9 =
+* Fix: Privacy Policy link, preferences modal title, "(Required)" badge, Cookie/Provider/Purpose/Duration/Type column headers, and the Manage / Delete All buttons now appear in Polylang/WPML translation tables even when their value in the Texts tab is left blank
+* Fix: When a multilingual plugin is active and one of the above fields is blank, the literal English source ("Privacy Policy", "Cookie Preferences", etc.) is registered and looked up consistently — translations no longer disappear after the first save
 
 = 1.6.8 =
 * Change: Added missing `'default' => []` to top-level input_schema of `lw-cookie/get-consent-stats` so it can be invoked without arguments

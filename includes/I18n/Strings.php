@@ -52,14 +52,36 @@ final class Strings {
 	 * Used for strings that have a sensible textdomain-translated default
 	 * (e.g. "Privacy Policy") but can be overridden in the Texts tab.
 	 *
+	 * When a multilingual plugin is active and the option is empty, the
+	 * literal English source from Defaults is looked up via the plugin —
+	 * matching what StringRegistry registered — so user translations of
+	 * defaults take effect. Otherwise the textdomain-translated default
+	 * is returned as-is.
+	 *
 	 * @param string $key             Option key.
 	 * @param string $textdomain_text The default text, already passed through __().
 	 * @return string
 	 */
 	public static function get_or_default( string $key, string $textdomain_text ): string {
-		$value = self::get( $key );
+		$value = (string) Options::get( $key, '' );
 
-		return '' !== $value ? $value : $textdomain_text;
+		if ( '' !== $value ) {
+			return self::translate( $key, $value );
+		}
+
+		$source = Defaults::source( $key );
+		if ( null !== $source ) {
+			if ( function_exists( 'pll__' ) ) {
+				return (string) pll__( $source );
+			}
+
+			if ( has_filter( 'wpml_translate_single_string' ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WPML's own API filter.
+				return (string) apply_filters( 'wpml_translate_single_string', $source, self::CONTEXT, $key );
+			}
+		}
+
+		return $textdomain_text;
 	}
 
 	/**

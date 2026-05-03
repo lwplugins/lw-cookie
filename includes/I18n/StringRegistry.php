@@ -139,7 +139,13 @@ final class StringRegistry {
 		}
 
 		if ( '' === $value ) {
-			return;
+			// Fall back to the literal English source so the string still
+			// appears in Polylang / WPML translation tables. Stable across
+			// requests so previously-saved translations are not orphaned.
+			$value = Defaults::source( $key ) ?? '';
+			if ( '' === $value ) {
+				return;
+			}
 		}
 
 		if ( $pll ) {

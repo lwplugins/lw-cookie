@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.9] - 2026-05-03
+
+### Fixed
+- Privacy Policy link, preferences modal title, "(Required)" badge, Cookie/Provider/Purpose/Duration/Type column headers, and the Manage Cookie Preferences / Delete All Cookies buttons now register with Polylang/WPML even when the Texts tab field is blank — previously they only appeared after a value was saved
+- Translations of the above fields are now stable: registration uses the literal English source (e.g. "Privacy Policy") so subsequent edits in Polylang/WPML persist instead of being orphaned by source-string drift between requests
+
 ## [1.6.8] - 2026-04-30
 
 ### Changed
