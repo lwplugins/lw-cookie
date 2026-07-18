@@ -14,6 +14,7 @@ use LightweightPlugins\Cookie\Banner\Renderer as BannerRenderer;
 use LightweightPlugins\Cookie\Banner\Assets as BannerAssets;
 use LightweightPlugins\Cookie\Banner\InlineFallback;
 use LightweightPlugins\Cookie\Banner\FloatingButton;
+use LightweightPlugins\Cookie\Banner\Preview;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\GuardScript;
 use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
@@ -84,7 +85,9 @@ final class Plugin {
 			new SettingsPage();
 		}
 
-		if ( ! Options::get( 'enabled' ) ) {
+		// Load the front-end banner when enabled, or for an authorised preview
+		// (?lw-cookie-preview=1) so it can be previewed before going live.
+		if ( ! Options::get( 'enabled' ) && ! Preview::is_active() ) {
 			return;
 		}
 

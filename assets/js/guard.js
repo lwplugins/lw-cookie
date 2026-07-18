@@ -19,6 +19,7 @@
 	var DOMAINS        = cfg.domains || {};
 	var COOKIES        = cfg.cookies || {};
 	var SW_URL         = cfg.swUrl || '';
+	var PREVIEW        = ! ! cfg.preview;
 
 	// ── 1. Read consent from browser cookie ──────────────────────────
 	function readConsent() {
@@ -80,7 +81,8 @@
 		var btn    = document.getElementById( 'lw-cookie-floating-btn' );
 
 		if ( banner ) {
-			if ( valid ) {
+			// In preview mode the banner is always shown, even with valid consent.
+			if ( valid && ! PREVIEW ) {
 				banner.classList.add( 'lw-cookie-hidden' );
 			} else {
 				banner.classList.remove( 'lw-cookie-hidden' );

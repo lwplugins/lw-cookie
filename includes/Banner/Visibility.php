@@ -24,6 +24,12 @@ final class Visibility {
 	 * @return bool
 	 */
 	public static function should_display(): bool {
+		// An authorised preview always shows the banner, overriding every hide
+		// rule below (already-consented, hidden-for-logged-in, disabled).
+		if ( Preview::is_active() ) {
+			return true;
+		}
+
 		// Never inside a page-builder editor canvas — the banner would clutter
 		// the builder and is not part of the edited content (issue #7).
 		if ( self::is_builder_context() ) {

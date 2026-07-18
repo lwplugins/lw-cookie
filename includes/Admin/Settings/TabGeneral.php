@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Admin\Settings;
 
+use LightweightPlugins\Cookie\Banner\Preview;
+
 /**
  * Handles the General settings tab.
  */
@@ -70,6 +72,19 @@ final class TabGeneral implements TabInterface {
 						]
 					);
 					?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php esc_html_e( 'Preview', 'lw-cookie' ); ?>
+				</th>
+				<td>
+					<a href="<?php echo esc_url( Preview::url() ); ?>" class="button" target="_blank" rel="noopener">
+						<?php esc_html_e( 'Preview banner on the site', 'lw-cookie' ); ?>
+					</a>
+					<p class="description">
+						<?php esc_html_e( 'Opens the front page with the consent banner forced visible (administrators only), so you can review and tune it — even before enabling it or after you have already consented.', 'lw-cookie' ); ?>
+					</p>
 				</td>
 			</tr>
 			<tr>

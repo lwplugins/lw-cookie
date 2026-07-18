@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Blocking;
 
+use LightweightPlugins\Cookie\Banner\Preview;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Consent\Storage;
 
@@ -62,6 +63,7 @@ final class GuardScript {
 			'domains'       => $blocking['domains'],
 			'cookies'       => $blocking['cookies'],
 			'swUrl'         => ServiceWorkerManager::get_sw_url(),
+			'preview'       => Preview::is_active(),
 		];
 	}
 
