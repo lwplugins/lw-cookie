@@ -1,17 +1,15 @@
-# Copyright (C) 2026 LW Plugins
-# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-04-23T17:27:04+00:00\n"
-"PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
-"Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-23T17:27:04+00:00\n"
+"PO-Revision-Date: 2026-02-05 00:00+0000\n"
+"Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Domain: lw-cookie\n"
 "X-Generator: Codex\n"
@@ -28,15 +26,14 @@ msgstr "https://github.com/lwplugins/lw-cookie"
 
 #. Description of the plugin
 #: lw-cookie.php
-msgid ""
-"Lightweight cookie consent — GDPR-compliant banner with minimal footprint."
-msgstr ""
-"Könnyű cookie-hozzájárulás — GDPR-kompatibilis banner minimális "
-"erőforrásigénnyel."
+msgid "Lightweight cookie consent — GDPR-compliant banner with minimal footprint."
+msgstr "Könnyű cookie-hozzájárulás — GDPR-kompatibilis banner minimális erőforrásigénnyel."
 
 #. Author of the plugin
-#: lw-cookie.php includes/Admin/ParentPage.php:106
-#: includes/Admin/ParentPage.php:107 includes/Admin/ParentPage.php:128
+#: lw-cookie.php
+#: includes/Admin/ParentPage.php:106
+#: includes/Admin/ParentPage.php:107
+#: includes/Admin/ParentPage.php:128
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -61,7 +58,7 @@ msgstr "Beállítások"
 msgid "Get Plugin"
 msgstr "Bővítmény beszerzése"
 
-#: includes/Admin/Settings/FieldRendererTrait.php:174
+#: includes/Admin/Settings/FieldRendererTrait.php:178
 msgid "— Select Page —"
 msgstr "— Oldal kiválasztása —"
 
@@ -72,16 +69,8 @@ msgid "%s detected — fields below are locked."
 msgstr "%s észlelve — az alábbi mezők zárolva vannak."
 
 #: includes/Admin/Settings/MultilingualNotice.php:45
-msgid ""
-"These fields hold the source-language strings only. Their values will not "
-"take effect on the frontend — translations are delivered by your "
-"multilingual plugin. Editing the source text here can invalidate existing "
-"translations."
-msgstr ""
-"Ezek a mezők csak a forrásnyelvi szövegeket tartalmazzák. Az itt megadott "
-"értékek nem érvényesülnek a frontend oldalon — a fordításokat a többnyelvű "
-"bővítményed szolgáltatja. A forrásszöveg itt történő szerkesztése "
-"érvénytelenítheti a meglévő fordításokat."
+msgid "These fields hold the source-language strings only. Their values will not take effect on the frontend — translations are delivered by your multilingual plugin. Editing the source text here can invalidate existing translations."
+msgstr "Ezek a mezők csak a forrásnyelvi szövegeket tartalmazzák. Az itt megadott értékek nem érvényesülnek a frontend oldalon — a fordításokat a többnyelvű bővítményed szolgáltatja. A forrásszöveg itt történő szerkesztése érvénytelenítheti a meglévő fordításokat."
 
 #. translators: %s: multilingual plugin name
 #: includes/Admin/Settings/MultilingualNotice.php:52
@@ -102,14 +91,8 @@ msgstr "%s zárolta."
 #. translators: %s: multilingual plugin name
 #: includes/Admin/Settings/MultilingualNotice.php:114
 #, php-format
-msgid ""
-"The values below are the source strings only; translations are served by %s "
-"on the frontend. Saving this form will not change them while the plugin is "
-"active."
-msgstr ""
-"Az alábbi értékek csak forrásszövegek; a fordításokat a frontend oldalon "
-"a(z) %s szolgáltatja. Az űrlap mentése nem módosítja ezeket, amíg a "
-"bővítmény aktív."
+msgid "The values below are the source strings only; translations are served by %s on the frontend. Saving this form will not change them while the plugin is active."
+msgstr "Az alábbi értékek csak forrásszövegek; a fordításokat a frontend oldalon a(z) %s szolgáltatja. Az űrlap mentése nem módosítja ezeket, amíg a bővítmény aktív."
 
 #: includes/Admin/Settings/TabAdvanced.php:34
 msgid "Advanced"
@@ -129,8 +112,7 @@ msgstr "Hozzájárulás időtartama"
 
 #: includes/Admin/Settings/TabAdvanced.php:71
 msgid "Days until consent expires and user is asked again."
-msgstr ""
-"Ennyi nap után lejár a hozzájárulás, és újra megkérdezzük a felhasználót."
+msgstr "Ennyi nap után lejár a hozzájárulás, és újra megkérdezzük a felhasználót."
 
 #: includes/Admin/Settings/TabAdvanced.php:79
 msgid "Script Blocking"
@@ -141,12 +123,8 @@ msgid "Block scripts until consent is given"
 msgstr "Szkriptek blokkolása a hozzájárulásig"
 
 #: includes/Admin/Settings/TabAdvanced.php:91
-msgid ""
-"Automatically blocks known tracking scripts (Google Analytics, Facebook "
-"Pixel, etc.) until user consents."
-msgstr ""
-"Automatikusan blokkolja az ismert követőszkripteket (Google Analytics, "
-"Facebook Pixel stb.) a hozzájárulásig."
+msgid "Automatically blocks known tracking scripts (Google Analytics, Facebook Pixel, etc.) until user consents."
+msgstr "Automatikusan blokkolja az ismert követőszkripteket (Google Analytics, Facebook Pixel stb.) a hozzájárulásig."
 
 #: includes/Admin/Settings/TabAdvanced.php:97
 msgid "Content Blocking"
@@ -157,12 +135,8 @@ msgid "Block embedded content until consent is given"
 msgstr "Beágyazott tartalom blokkolása a hozzájárulásig"
 
 #: includes/Admin/Settings/TabAdvanced.php:109
-msgid ""
-"Blocks YouTube, Vimeo, Google Maps and other embedded content until user "
-"consents."
-msgstr ""
-"Blokkolja a YouTube-, Vimeo-, Google Maps- és más beágyazott tartalmakat a "
-"hozzájárulásig."
+msgid "Blocks YouTube, Vimeo, Google Maps and other embedded content until user consents."
+msgstr "Blokkolja a YouTube-, Vimeo-, Google Maps- és más beágyazott tartalmakat a hozzájárulásig."
 
 #: includes/Admin/Settings/TabAdvanced.php:115
 msgid "Google Consent Mode v2"
@@ -173,12 +147,8 @@ msgid "Enable Google Consent Mode v2"
 msgstr "Google Consent Mode v2 engedélyezése"
 
 #: includes/Admin/Settings/TabAdvanced.php:127
-msgid ""
-"Required for Google Ads and Analytics in the EU. Sends consent signals to "
-"Google services."
-msgstr ""
-"Az EU-ban kötelező a Google Ads és Analytics használatához. Hozzájárulási "
-"jeleket küld a Google szolgáltatásainak."
+msgid "Required for Google Ads and Analytics in the EU. Sends consent signals to Google services."
+msgstr "Az EU-ban kötelező a Google Ads és Analytics használatához. Hozzájárulási jeleket küld a Google szolgáltatásainak."
 
 #: includes/Admin/Settings/TabAppearance.php:34
 msgid "Appearance"
@@ -270,9 +240,7 @@ msgstr "Lebegő gomb megjelenítése"
 
 #: includes/Admin/Settings/TabAppearance.php:171
 msgid "Show a floating button for users to change their consent"
-msgstr ""
-"Lebegő gomb megjelenítése, hogy a felhasználók módosíthassák a "
-"hozzájárulásukat"
+msgstr "Lebegő gomb megjelenítése, hogy a felhasználók módosíthassák a hozzájárulásukat"
 
 #: includes/Admin/Settings/TabAppearance.php:179
 msgid "Button Position"
@@ -287,12 +255,8 @@ msgid "Bottom Right"
 msgstr "Jobb alsó"
 
 #: includes/Admin/Settings/TabAppearance.php:193
-msgid ""
-"Applies only to the Full-width Bar layout. With the Floating Box layout the "
-"button mirrors the banner alignment."
-msgstr ""
-"Csak a teljes szélességű sáv elrendezésre vonatkozik. A lebegő doboz "
-"elrendezésnél a gomb követi a banner igazítását."
+msgid "Applies only to the Full-width Bar layout. With the Floating Box layout the button mirrors the banner alignment."
+msgstr "Csak a teljes szélességű sáv elrendezésre vonatkozik. A lebegő doboz elrendezésnél a gomb követi a banner igazítását."
 
 #: includes/Admin/Settings/TabCategories.php:34
 msgid "Categories"
@@ -303,23 +267,16 @@ msgid "Cookie Categories"
 msgstr "Cookie-kategóriák"
 
 #: includes/Admin/Settings/TabCategories.php:58
-msgid ""
-"Customize the names and descriptions of cookie categories shown to users."
-msgstr ""
-"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és "
-"leírását."
+msgid "Customize the names and descriptions of cookie categories shown to users."
+msgstr "Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és leírását."
 
 #: includes/Admin/Settings/TabCategories.php:77
 msgid "Necessary Cookies"
 msgstr "Szükséges cookie-k"
 
 #: includes/Admin/Settings/TabCategories.php:79
-msgid ""
-"This category is always enabled, but you can customize the displayed name "
-"and description."
-msgstr ""
-"Ez a kategória mindig engedélyezve van, de testreszabhatod a megjelenített "
-"nevet és leírást."
+msgid "This category is always enabled, but you can customize the displayed name and description."
+msgstr "Ez a kategória mindig engedélyezve van, de testreszabhatod a megjelenített nevet és leírást."
 
 #: includes/Admin/Settings/TabCategories.php:84
 #: includes/Admin/Settings/TabCategories.php:109
@@ -353,18 +310,22 @@ msgid "Cookies"
 msgstr "Cookie-k"
 
 #: includes/Admin/Settings/TabCookies.php:59
+#: includes/I18n/Strings.php:91
 msgid "Necessary"
 msgstr "Szükséges"
 
 #: includes/Admin/Settings/TabCookies.php:60
+#: includes/I18n/Strings.php:93
 msgid "Functional"
 msgstr "Funkcionális"
 
 #: includes/Admin/Settings/TabCookies.php:61
+#: includes/I18n/Strings.php:95
 msgid "Analytics"
 msgstr "Analitika"
 
 #: includes/Admin/Settings/TabCookies.php:62
+#: includes/I18n/Strings.php:97
 msgid "Marketing"
 msgstr "Marketing"
 
@@ -389,7 +350,8 @@ msgstr "Vizsgálat eredményei"
 msgid "Scanning your website for cookies..."
 msgstr "A weboldalad cookie-kat keres..."
 
-#: includes/Admin/Settings/TabCookies.php:105 includes/Banner/Renderer.php:106
+#: includes/Admin/Settings/TabCookies.php:105
+#: includes/Banner/Renderer.php:110
 msgid "Close"
 msgstr "Bezárás"
 
@@ -401,24 +363,24 @@ msgstr "Kijelöltek hozzáadása"
 msgid "Cookie Name"
 msgstr "Cookie neve"
 
-#: includes/Admin/Settings/TabCookies.php:123 includes/Banner/Renderer.php:172
-#: includes/Banner/Renderer.php:181
-#: includes/Shortcodes/CookieDeclaration.php:103
-#: includes/Shortcodes/CookieDeclaration.php:115
+#: includes/Admin/Settings/TabCookies.php:123
+#: includes/Admin/Settings/TextFieldDefinitions.php:115
+#: includes/Banner/Renderer.php:174
+#: includes/Shortcodes/CookieDeclaration.php:83
 msgid "Provider"
 msgstr "Szolgáltató"
 
-#: includes/Admin/Settings/TabCookies.php:124 includes/Banner/Renderer.php:173
-#: includes/Banner/Renderer.php:182
-#: includes/Shortcodes/CookieDeclaration.php:104
-#: includes/Shortcodes/CookieDeclaration.php:118
+#: includes/Admin/Settings/TabCookies.php:124
+#: includes/Admin/Settings/TextFieldDefinitions.php:120
+#: includes/Banner/Renderer.php:175
+#: includes/Shortcodes/CookieDeclaration.php:84
 msgid "Purpose"
 msgstr "Cél"
 
-#: includes/Admin/Settings/TabCookies.php:125 includes/Banner/Renderer.php:174
-#: includes/Banner/Renderer.php:183
-#: includes/Shortcodes/CookieDeclaration.php:105
-#: includes/Shortcodes/CookieDeclaration.php:121
+#: includes/Admin/Settings/TabCookies.php:125
+#: includes/Admin/Settings/TextFieldDefinitions.php:125
+#: includes/Banner/Renderer.php:176
+#: includes/Shortcodes/CookieDeclaration.php:85
 msgid "Duration"
 msgstr "Időtartam"
 
@@ -427,8 +389,8 @@ msgid "Category"
 msgstr "Kategória"
 
 #: includes/Admin/Settings/TabCookies.php:127
-#: includes/Shortcodes/CookieDeclaration.php:106
-#: includes/Shortcodes/CookieDeclaration.php:124
+#: includes/Admin/Settings/TextFieldDefinitions.php:140
+#: includes/Shortcodes/CookieDeclaration.php:86
 msgid "Type"
 msgstr "Típus"
 
@@ -445,12 +407,8 @@ msgid "+ Add Common Cookies"
 msgstr "+ Gyakori cookie-k hozzáadása"
 
 #: includes/Admin/Settings/TabCookies.php:159
-msgid ""
-"Use the shortcode [lw_cookie_declaration] to display this cookie list on any"
-" page."
-msgstr ""
-"Használd a [lw_cookie_declaration] rövidkódot, hogy bármelyik oldalon "
-"megjelenítsd ezt a cookie-listát."
+msgid "Use the shortcode [lw_cookie_declaration] to display this cookie list on any page."
+msgstr "Használd a [lw_cookie_declaration] rövidkódot, hogy bármelyik oldalon megjelenítsd ezt a cookie-listát."
 
 #: includes/Admin/Settings/TabCookies.php:443
 msgid "Stores cookie consent preferences"
@@ -467,7 +425,7 @@ msgstr "Hitelesítő cookie bejelentkezett felhasználóknak"
 #: includes/Admin/Settings/TabCookies.php:444
 #: includes/Admin/Settings/TabCookies.php:445
 #: includes/Admin/Settings/TabCookies.php:738
-#: includes/Shortcodes/CookieDeclaration.php:127
+#: includes/Shortcodes/CookieDeclaration.php:135
 msgid "Session"
 msgstr "Munkamenet"
 
@@ -481,9 +439,7 @@ msgstr "Mélyebb vizsgálat további cookie-kért..."
 
 #: includes/Admin/Settings/TabCookies.php:549
 msgid "No cookies detected. Try visiting your site first to set some cookies."
-msgstr ""
-"Nem találtunk cookie-kat. Előbb látogasd meg az oldalt, hogy cookie-k "
-"keletkezzenek."
+msgstr "Nem találtunk cookie-kat. Előbb látogasd meg az oldalt, hogy cookie-k keletkezzenek."
 
 #: includes/Admin/Settings/TabCookies.php:551
 msgid "All detected cookies are already in your list!"
@@ -554,7 +510,7 @@ msgid "e.g. 1 year"
 msgstr "pl. 1 év"
 
 #: includes/Admin/Settings/TabCookies.php:741
-#: includes/Shortcodes/CookieDeclaration.php:128
+#: includes/Shortcodes/CookieDeclaration.php:136
 msgid "Persistent"
 msgstr "Állandó"
 
@@ -562,121 +518,103 @@ msgstr "Állandó"
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: includes/Admin/Settings/TabGeneral.php:34
+#: includes/Admin/Settings/TabGeneral.php:36
 msgid "General"
 msgstr "Általános"
 
-#: includes/Admin/Settings/TabGeneral.php:53
+#: includes/Admin/Settings/TabGeneral.php:55
 msgid "General Settings"
 msgstr "Általános beállítások"
 
-#: includes/Admin/Settings/TabGeneral.php:56
+#: includes/Admin/Settings/TabGeneral.php:58
 msgid "Basic configuration for your cookie consent banner."
 msgstr "Alapbeállítások a cookie-hozzájárulási sávhoz."
 
-#: includes/Admin/Settings/TabGeneral.php:62
+#: includes/Admin/Settings/TabGeneral.php:64
 msgid "Enable Banner"
 msgstr "Sáv engedélyezése"
 
-#: includes/Admin/Settings/TabGeneral.php:69
+#: includes/Admin/Settings/TabGeneral.php:71
 msgid "Show cookie consent banner on the frontend"
 msgstr "Cookie-hozzájárulási sáv megjelenítése a frontenden"
 
-#: includes/Admin/Settings/TabGeneral.php:77
+#: includes/Admin/Settings/TabGeneral.php:92
 msgid "Privacy Policy Page"
 msgstr "Adatvédelmi irányelvek oldala"
 
-#: includes/Admin/Settings/TabGeneral.php:82
+#: includes/Admin/Settings/TabGeneral.php:97
 msgid "Select your privacy policy page to link from the banner."
-msgstr ""
-"Válaszd ki az adatvédelmi irányelvek oldalát, amelyre a sáv hivatkozik."
+msgstr "Válaszd ki az adatvédelmi irányelvek oldalát, amelyre a sáv hivatkozik."
 
-#: includes/Admin/Settings/TabGeneral.php:88
+#: includes/Admin/Settings/TabGeneral.php:103
 msgid "Policy Version"
 msgstr "Irányelv verziója"
 
-#: includes/Admin/Settings/TabGeneral.php:95
-msgid ""
-"Change this when you update your privacy policy to request new consent."
-msgstr ""
-"Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új "
-"hozzájárulást kérj."
+#: includes/Admin/Settings/TabGeneral.php:110
+msgid "Change this when you update your privacy policy to request new consent."
+msgstr "Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új hozzájárulást kérj."
 
-#: includes/Admin/Settings/TabGeneral.php:103
+#: includes/Admin/Settings/TabGeneral.php:118
 msgid "GDPR Compliance Notes"
 msgstr "GDPR-megfelelési megjegyzések"
 
-#: includes/Admin/Settings/TabGeneral.php:106
+#: includes/Admin/Settings/TabGeneral.php:121
 msgid "All optional cookie categories are OFF by default (opt-in required)."
-msgstr ""
-"Minden opcionális cookie-kategória alapból KI van kapcsolva (opt-in "
-"szükséges)."
+msgstr "Minden opcionális cookie-kategória alapból KI van kapcsolva (opt-in szükséges)."
 
-#: includes/Admin/Settings/TabGeneral.php:107
+#: includes/Admin/Settings/TabGeneral.php:122
 msgid "Users can granularly choose which categories to accept."
-msgstr ""
-"A felhasználók részletesen kiválaszthatják, mely kategóriákat fogadják el."
+msgstr "A felhasználók részletesen kiválaszthatják, mely kategóriákat fogadják el."
 
-#: includes/Admin/Settings/TabGeneral.php:108
+#: includes/Admin/Settings/TabGeneral.php:123
 msgid "Consent is logged with timestamp for compliance proof."
 msgstr "A hozzájárulást időbélyeggel naplózzuk a megfelelés igazolásához."
 
-#: includes/Admin/Settings/TabGeneral.php:109
+#: includes/Admin/Settings/TabGeneral.php:124
 msgid "Policy version changes trigger re-consent requests."
 msgstr "Az irányelv verziójának változása új hozzájárulást kér."
 
-#: includes/Admin/Settings/TabTexts.php:34
+#: includes/Admin/Settings/TabTexts.php:30
 msgid "Texts"
 msgstr "Szövegek"
 
-#: includes/Admin/Settings/TabTexts.php:53
-msgid "Banner Texts"
-msgstr "Sáv szövegei"
-
-#: includes/Admin/Settings/TabTexts.php:58
-msgid "Customize the text displayed on the cookie consent banner."
-msgstr "Szabd testre a cookie-hozzájárulási sáv szövegét."
-
-#: includes/Admin/Settings/TabTexts.php:65
+#: includes/Admin/Settings/TextFieldDefinitions.php:48
 msgid "Banner Title"
 msgstr "Sáv címe"
 
-#: includes/Admin/Settings/TabTexts.php:73
+#: includes/Admin/Settings/TextFieldDefinitions.php:52
 msgid "Banner Message"
 msgstr "Sáv üzenete"
 
-#: includes/Admin/Settings/TabTexts.php:80
+#: includes/Admin/Settings/TextFieldDefinitions.php:54
 msgid "Main message explaining cookie usage."
 msgstr "Fő üzenet a cookie-használatról."
 
-#: includes/Admin/Settings/TabTexts.php:88
-msgid "Button Labels"
-msgstr "Gombfeliratok"
-
-#: includes/Admin/Settings/TabTexts.php:92
+#: includes/Admin/Settings/TextFieldDefinitions.php:73
 msgid "Accept All Button"
 msgstr "Összes elfogadása gomb"
 
-#: includes/Admin/Settings/TabTexts.php:100
+#: includes/Admin/Settings/TextFieldDefinitions.php:77
 msgid "Reject All Button"
 msgstr "Összes elutasítása gomb"
 
-#: includes/Admin/Settings/TabTexts.php:108
+#: includes/Admin/Settings/TextFieldDefinitions.php:81
 msgid "Customize Button"
 msgstr "Testreszabás gomb"
 
-#: includes/Admin/Settings/TabTexts.php:116
+#: includes/Admin/Settings/TextFieldDefinitions.php:85
 msgid "Save Preferences Button"
 msgstr "Beállítások mentése gomb"
 
-#: includes/Admin/SettingsPage.php:81 includes/SiteManager/Integration.php:38
+#: includes/Admin/SettingsPage.php:81
+#: includes/SiteManager/Integration.php:38
 msgid "Cookie Consent"
 msgstr "Cookie-hozzájárulás"
 
-#: includes/Admin/SettingsPage.php:82 includes/Banner/Renderer.php:171
-#: includes/Banner/Renderer.php:180
-#: includes/Shortcodes/CookieDeclaration.php:102
-#: includes/Shortcodes/CookieDeclaration.php:112
+#: includes/Admin/Settings/TextFieldDefinitions.php:110
+#: includes/Admin/SettingsPage.php:82
+#: includes/Banner/Renderer.php:173
+#: includes/Shortcodes/CookieDeclaration.php:82
 msgid "Cookie"
 msgstr "Cookie"
 
@@ -688,20 +626,23 @@ msgstr "Könnyű cookie-hozzájárulás"
 msgid "Cookie Settings"
 msgstr "Cookie-beállítások"
 
-#: includes/Banner/Renderer.php:73
+#: includes/Admin/Settings/TextFieldDefinitions.php:59
+#: includes/Banner/Renderer.php:77
 msgid "Privacy Policy"
 msgstr "Adatvédelmi irányelvek"
 
-#: includes/Banner/Renderer.php:111
+#: includes/Admin/Settings/TextFieldDefinitions.php:100
+#: includes/Banner/Renderer.php:115
 msgid "Cookie Preferences"
 msgstr "Cookie-beállítások"
 
-#: includes/Banner/Renderer.php:150
+#: includes/Admin/Settings/TextFieldDefinitions.php:105
+#: includes/Banner/Renderer.php:154
 msgid "(Required)"
 msgstr "(Kötelező)"
 
 #. translators: %d: number of cookies
-#: includes/Banner/Renderer.php:163
+#: includes/Banner/Renderer.php:167
 #, php-format
 msgid "Show %d cookie"
 msgid_plural "Show %d cookies"
@@ -722,15 +663,17 @@ msgstr "Ismeretlen kategória: %s"
 msgid "No cookies have been declared."
 msgstr "Nincs megadva cookie."
 
-#: includes/Shortcodes/CookieDeclaration.php:90
+#: includes/Shortcodes/CookieDeclaration.php:98
 msgid "Always Active"
 msgstr "Mindig aktív"
 
-#: includes/Shortcodes/CookieDeclaration.php:142
+#: includes/Admin/Settings/TextFieldDefinitions.php:145
+#: includes/Shortcodes/CookieDeclaration.php:87
 msgid "Manage Cookie Preferences"
 msgstr "Cookie-beállítások kezelése"
 
-#: includes/Shortcodes/CookieDeclaration.php:145
+#: includes/Admin/Settings/TextFieldDefinitions.php:150
+#: includes/Shortcodes/CookieDeclaration.php:88
 msgid "Delete All Cookies"
 msgstr "Minden cookie törlése"
 
@@ -740,9 +683,7 @@ msgstr "Cookie-beállítások lekérése"
 
 #: includes/SiteManager/CookieAbilities.php:40
 msgid "Get LW Cookie consent settings (banner, categories, texts, advanced)."
-msgstr ""
-"LW Cookie consent beállítások lekérése (banner, kategóriák, szövegek, "
-"haladó)."
+msgstr "LW Cookie consent beállítások lekérése (banner, kategóriák, szövegek, haladó)."
 
 #: includes/SiteManager/CookieAbilities.php:62
 msgid "Set Cookie Options"
@@ -754,34 +695,27 @@ msgstr "LW Cookie consent beállítások frissítése."
 
 #: includes/SiteManager/CookieAbilities.php:73
 msgid "Key-value pairs of settings to update. Only provided keys are changed."
-msgstr ""
-"A frissítendő beállítások kulcs-érték párjai. Csak a megadott kulcsok "
-"változnak."
+msgstr "A frissítendő beállítások kulcs-érték párjai. Csak a megadott kulcsok változnak."
 
 #: includes/SiteManager/CookieAbilities.php:100
 msgid "Get Consent Stats"
 msgstr "Hozzájárulási statisztikák lekérése"
 
 #: includes/SiteManager/CookieAbilities.php:101
-msgid ""
-"Get consent logging statistics grouped by action type and policy version."
-msgstr ""
-"Hozzájárulás-naplózási statisztikák lekérése művelettípus és "
-"szabályzatverzió szerint csoportosítva."
+msgid "Get consent logging statistics grouped by action type and policy version."
+msgstr "Hozzájárulás-naplózási statisztikák lekérése művelettípus és szabályzatverzió szerint csoportosítva."
 
-#: includes/SiteManager/CookieAbilities.php:110
+#: includes/SiteManager/CookieAbilities.php:111
 msgid "Number of past days to include. Default: 30."
 msgstr "A bevonandó elmúlt napok száma. Alapértelmezett: 30."
 
-#: includes/SiteManager/CookieAbilities.php:138
+#: includes/SiteManager/CookieAbilities.php:139
 msgid "Scan Cookies"
 msgstr "Cookie-k keresése"
 
-#: includes/SiteManager/CookieAbilities.php:139
+#: includes/SiteManager/CookieAbilities.php:140
 msgid "Trigger an HTTP header pre-scan to detect cookies across site URLs."
-msgstr ""
-"HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei"
-" között."
+msgstr "HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei között."
 
 #: includes/SiteManager/CookieService.php:79
 msgid "Provide an options object with at least one key."
@@ -802,63 +736,133 @@ msgid "Cookie consent management abilities"
 msgstr "Cookie-hozzájárulás kezelési jogosultságok"
 
 #: lw-cookie.php:43
-msgid ""
-"Autoloader not found. Please run \"composer install\" in the plugin "
-"directory, or re-install the plugin from a release ZIP."
+msgid "Autoloader not found. Please run \"composer install\" in the plugin directory, or re-install the plugin from a release ZIP."
+msgstr "Az autoloader nem található. Futtasd a \"composer install\" parancsot a bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
+
+#: includes/I18n/Strings.php:92
+msgid "Essential cookies required for the website to function."
+msgstr "A weboldal működéséhez szükséges alapvető cookie-k."
+
+#: includes/Admin/Settings/TabAdvanced.php:133
+msgid "Logged-in users"
 msgstr ""
-"Az autoloader nem található. Futtasd a \"composer install\" parancsot a "
-"bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-"
-"ből."
 
-#~ msgid ""
-#~ "GDPR-compliant cookie consent banner for WordPress - minimal footprint, full"
-#~ " compliance."
-#~ msgstr ""
-#~ "GDPR-kompatibilis cookie-hozzájárulási sáv WordPresshez – minimális "
-#~ "terhelés, teljes megfelelés."
+#: includes/Admin/Settings/TabAdvanced.php:140
+msgid "Hide the banner for logged-in users"
+msgstr ""
 
-#~ msgid "Essential cookies required for the website to function."
-#~ msgstr "A weboldal működéséhez szükséges alapvető cookie-k."
+#: includes/Admin/Settings/TabAdvanced.php:145
+msgid "Do not show the consent banner to logged-in users — e.g. so it never pops up for administrators while they work. The banner is always hidden inside page-builder editors (Bricks, Elementor)."
+msgstr ""
 
-#, php-format
-#~ msgid "Content from %s is blocked until you accept cookies."
-#~ msgstr "A(z) %s tartalma blokkolva van, amíg el nem fogadod a cookie-kat."
+#: includes/Admin/Settings/TabGeneral.php:79
+msgid "Preview"
+msgstr ""
 
-#~ msgid "Accept & Load Content"
-#~ msgstr "Elfogadom és betöltöm a tartalmat"
+#: includes/Admin/Settings/TabGeneral.php:83
+msgid "Preview banner on the site"
+msgstr ""
 
-#~ msgid "Essential cookies required for the website to function properly."
-#~ msgstr "A weboldal megfelelő működéséhez szükséges alapvető cookie-k."
+#: includes/Admin/Settings/TabGeneral.php:86
+msgid "Opens the front page with the consent banner forced visible (administrators only), so you can review and tune it — even before enabling it or after you have already consented."
+msgstr ""
 
-#~ msgid "Essential SEO features without the bloat."
-#~ msgstr "Lényeges SEO funkciók felesleges terhelés nélkül."
+#: includes/Admin/Settings/TabTexts.php:45
+msgid "Banner & Modal Texts"
+msgstr ""
 
-#~ msgid "Disable WordPress features like comments."
-#~ msgstr "Kapcsold ki az olyan WordPress funkciókat, mint a hozzászólások."
+#: includes/Admin/Settings/TabTexts.php:50
+msgid "Customize all user-facing text. Leave a field empty to use the built-in default for the current site language."
+msgstr ""
 
-#~ msgid "Site maintenance via AI/REST using Abilities API."
-#~ msgstr "Oldal karbantartása AI/REST-en keresztül az Abilities API-val."
+#: includes/Admin/Settings/TextFieldDefinitions.php:32
+msgid "Banner"
+msgstr ""
 
-#~ msgid "Lightweight membership system with WooCommerce."
-#~ msgstr "Könnyű tagsági rendszer WooCommerce-szel."
+#: includes/Admin/Settings/TextFieldDefinitions.php:33
+msgid "Buttons"
+msgstr ""
 
-#~ msgid "Courses, lessons, and progress tracking."
-#~ msgstr "Kurzusok, leckék és haladáskövetés."
+#: includes/Admin/Settings/TextFieldDefinitions.php:34
+msgid "Preferences Modal"
+msgstr ""
 
-#~ msgid "GDPR-compliant cookie consent banner."
-#~ msgstr "GDPR-kompatibilis cookie-hozzájárulási sáv."
+#: includes/Admin/Settings/TextFieldDefinitions.php:35
+msgid "Cookie Declaration Page"
+msgstr ""
 
-#~ msgid "Distinguishes unique users"
-#~ msgstr "Megkülönbözteti az egyedi felhasználókat"
+#: includes/Admin/Settings/TextFieldDefinitions.php:58
+msgid "Privacy Policy Link"
+msgstr ""
 
-#~ msgid "2 years"
-#~ msgstr "2 év"
+#: includes/Admin/Settings/TextFieldDefinitions.php:99
+msgid "Modal Title"
+msgstr ""
 
-#~ msgid "Maintains session state"
-#~ msgstr "Fenntartja a munkamenet állapotát"
+#: includes/Admin/Settings/TextFieldDefinitions.php:104
+msgid "Required Label"
+msgstr ""
 
-#~ msgid "Tracks visits across websites for advertising"
-#~ msgstr "Hirdetési célból követi a látogatásokat weboldalak között"
+#: includes/Admin/Settings/TextFieldDefinitions.php:109
+msgid "Cookie Column Header"
+msgstr ""
 
-#~ msgid "3 months"
-#~ msgstr "3 hónap"
+#: includes/Admin/Settings/TextFieldDefinitions.php:114
+msgid "Provider Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:119
+msgid "Purpose Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:124
+msgid "Duration Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:139
+msgid "Type Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:144
+msgid "Manage Preferences Button"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:149
+msgid "Delete All Button"
+msgstr ""
+
+#: includes/I18n/Strings.php:85
+msgid "We value your privacy"
+msgstr "Tiszteletben tartjuk a magánszféráját"
+
+#: includes/I18n/Strings.php:86
+msgid "We use cookies to enhance your browsing experience and analyze our traffic."
+msgstr "Sütiket használunk a böngészési élmény javítására és a forgalom elemzésére."
+
+#: includes/I18n/Strings.php:87
+msgid "Accept All"
+msgstr "Összes elfogadása"
+
+#: includes/I18n/Strings.php:88
+msgid "Reject All"
+msgstr "Összes elutasítása"
+
+#: includes/I18n/Strings.php:89
+msgid "Customize"
+msgstr "Testreszabás"
+
+#: includes/I18n/Strings.php:90
+msgid "Save Preferences"
+msgstr "Beállítások mentése"
+
+#: includes/I18n/Strings.php:94
+msgid "These cookies enable enhanced functionality and personalization."
+msgstr "Ezek a sütik bővített funkciókat és személyre szabást tesznek lehetővé."
+
+#: includes/I18n/Strings.php:96
+msgid "These cookies help us understand how visitors interact with our website."
+msgstr "Ezek a sütik segítenek megérteni, hogyan használják a látogatók a weboldalunkat."
+
+#: includes/I18n/Strings.php:98
+msgid "These cookies are used to deliver relevant advertisements."
+msgstr "Ezeket a sütiket releváns hirdetések megjelenítésére használjuk."

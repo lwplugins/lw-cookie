@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-23T17:27:04+00:00\n"
+"POT-Creation-Date: 2026-07-18T05:20:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lw-cookie\n"
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Get Plugin"
 msgstr ""
 
-#: includes/Admin/Settings/FieldRendererTrait.php:174
+#: includes/Admin/Settings/FieldRendererTrait.php:178
 msgid "— Select Page —"
 msgstr ""
 
@@ -148,6 +148,18 @@ msgstr ""
 
 #: includes/Admin/Settings/TabAdvanced.php:127
 msgid "Required for Google Ads and Analytics in the EU. Sends consent signals to Google services."
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:133
+msgid "Logged-in users"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:140
+msgid "Hide the banner for logged-in users"
+msgstr ""
+
+#: includes/Admin/Settings/TabAdvanced.php:145
+msgid "Do not show the consent banner to logged-in users — e.g. so it never pops up for administrators while they work. The banner is always hidden inside page-builder editors (Bricks, Elementor)."
 msgstr ""
 
 #: includes/Admin/Settings/TabAppearance.php:34
@@ -310,18 +322,22 @@ msgid "Cookies"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:59
+#: includes/I18n/Strings.php:91
 msgid "Necessary"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:60
+#: includes/I18n/Strings.php:93
 msgid "Functional"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:61
+#: includes/I18n/Strings.php:95
 msgid "Analytics"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:62
+#: includes/I18n/Strings.php:97
 msgid "Marketing"
 msgstr ""
 
@@ -347,7 +363,7 @@ msgid "Scanning your website for cookies..."
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:105
-#: includes/Banner/Renderer.php:106
+#: includes/Banner/Renderer.php:110
 msgid "Close"
 msgstr ""
 
@@ -360,26 +376,23 @@ msgid "Cookie Name"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:123
-#: includes/Banner/Renderer.php:172
-#: includes/Banner/Renderer.php:181
-#: includes/Shortcodes/CookieDeclaration.php:103
-#: includes/Shortcodes/CookieDeclaration.php:115
+#: includes/Admin/Settings/TextFieldDefinitions.php:115
+#: includes/Banner/Renderer.php:174
+#: includes/Shortcodes/CookieDeclaration.php:83
 msgid "Provider"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:124
-#: includes/Banner/Renderer.php:173
-#: includes/Banner/Renderer.php:182
-#: includes/Shortcodes/CookieDeclaration.php:104
-#: includes/Shortcodes/CookieDeclaration.php:118
+#: includes/Admin/Settings/TextFieldDefinitions.php:120
+#: includes/Banner/Renderer.php:175
+#: includes/Shortcodes/CookieDeclaration.php:84
 msgid "Purpose"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:125
-#: includes/Banner/Renderer.php:174
-#: includes/Banner/Renderer.php:183
-#: includes/Shortcodes/CookieDeclaration.php:105
-#: includes/Shortcodes/CookieDeclaration.php:121
+#: includes/Admin/Settings/TextFieldDefinitions.php:125
+#: includes/Banner/Renderer.php:176
+#: includes/Shortcodes/CookieDeclaration.php:85
 msgid "Duration"
 msgstr ""
 
@@ -388,8 +401,8 @@ msgid "Category"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:127
-#: includes/Shortcodes/CookieDeclaration.php:106
-#: includes/Shortcodes/CookieDeclaration.php:124
+#: includes/Admin/Settings/TextFieldDefinitions.php:140
+#: includes/Shortcodes/CookieDeclaration.php:86
 msgid "Type"
 msgstr ""
 
@@ -424,7 +437,7 @@ msgstr ""
 #: includes/Admin/Settings/TabCookies.php:444
 #: includes/Admin/Settings/TabCookies.php:445
 #: includes/Admin/Settings/TabCookies.php:738
-#: includes/Shortcodes/CookieDeclaration.php:127
+#: includes/Shortcodes/CookieDeclaration.php:135
 msgid "Session"
 msgstr ""
 
@@ -509,7 +522,7 @@ msgid "e.g. 1 year"
 msgstr ""
 
 #: includes/Admin/Settings/TabCookies.php:741
-#: includes/Shortcodes/CookieDeclaration.php:128
+#: includes/Shortcodes/CookieDeclaration.php:136
 msgid "Persistent"
 msgstr ""
 
@@ -517,117 +530,205 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:34
+#: includes/Admin/Settings/TabGeneral.php:36
 msgid "General"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:53
+#: includes/Admin/Settings/TabGeneral.php:55
 msgid "General Settings"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:56
+#: includes/Admin/Settings/TabGeneral.php:58
 msgid "Basic configuration for your cookie consent banner."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:62
+#: includes/Admin/Settings/TabGeneral.php:64
 msgid "Enable Banner"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:69
+#: includes/Admin/Settings/TabGeneral.php:71
 msgid "Show cookie consent banner on the frontend"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:77
+#: includes/Admin/Settings/TabGeneral.php:79
+msgid "Preview"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:83
+msgid "Preview banner on the site"
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:86
+msgid "Opens the front page with the consent banner forced visible (administrators only), so you can review and tune it — even before enabling it or after you have already consented."
+msgstr ""
+
+#: includes/Admin/Settings/TabGeneral.php:92
 msgid "Privacy Policy Page"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:82
+#: includes/Admin/Settings/TabGeneral.php:97
 msgid "Select your privacy policy page to link from the banner."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:88
+#: includes/Admin/Settings/TabGeneral.php:103
 msgid "Policy Version"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:95
+#: includes/Admin/Settings/TabGeneral.php:110
 msgid "Change this when you update your privacy policy to request new consent."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:103
+#: includes/Admin/Settings/TabGeneral.php:118
 msgid "GDPR Compliance Notes"
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:106
+#: includes/Admin/Settings/TabGeneral.php:121
 msgid "All optional cookie categories are OFF by default (opt-in required)."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:107
+#: includes/Admin/Settings/TabGeneral.php:122
 msgid "Users can granularly choose which categories to accept."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:108
+#: includes/Admin/Settings/TabGeneral.php:123
 msgid "Consent is logged with timestamp for compliance proof."
 msgstr ""
 
-#: includes/Admin/Settings/TabGeneral.php:109
+#: includes/Admin/Settings/TabGeneral.php:124
 msgid "Policy version changes trigger re-consent requests."
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:34
+#: includes/Admin/Settings/TabTexts.php:30
 msgid "Texts"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:53
-msgid "Banner Texts"
+#: includes/Admin/Settings/TabTexts.php:45
+msgid "Banner & Modal Texts"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:58
-msgid "Customize the text displayed on the cookie consent banner."
+#: includes/Admin/Settings/TabTexts.php:50
+msgid "Customize all user-facing text. Leave a field empty to use the built-in default for the current site language."
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:65
+#: includes/Admin/Settings/TextFieldDefinitions.php:32
+msgid "Banner"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:33
+msgid "Buttons"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:34
+msgid "Preferences Modal"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:35
+msgid "Cookie Declaration Page"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:48
 msgid "Banner Title"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:73
+#: includes/Admin/Settings/TextFieldDefinitions.php:52
 msgid "Banner Message"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:80
+#: includes/Admin/Settings/TextFieldDefinitions.php:54
 msgid "Main message explaining cookie usage."
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:88
-msgid "Button Labels"
+#: includes/Admin/Settings/TextFieldDefinitions.php:58
+msgid "Privacy Policy Link"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:92
+#: includes/Admin/Settings/TextFieldDefinitions.php:59
+#: includes/Banner/Renderer.php:77
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:73
 msgid "Accept All Button"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:100
+#: includes/Admin/Settings/TextFieldDefinitions.php:77
 msgid "Reject All Button"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:108
+#: includes/Admin/Settings/TextFieldDefinitions.php:81
 msgid "Customize Button"
 msgstr ""
 
-#: includes/Admin/Settings/TabTexts.php:116
+#: includes/Admin/Settings/TextFieldDefinitions.php:85
 msgid "Save Preferences Button"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:99
+msgid "Modal Title"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:100
+#: includes/Banner/Renderer.php:115
+msgid "Cookie Preferences"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:104
+msgid "Required Label"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:105
+#: includes/Banner/Renderer.php:154
+msgid "(Required)"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:109
+msgid "Cookie Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:110
+#: includes/Admin/SettingsPage.php:82
+#: includes/Banner/Renderer.php:173
+#: includes/Shortcodes/CookieDeclaration.php:82
+msgid "Cookie"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:114
+msgid "Provider Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:119
+msgid "Purpose Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:124
+msgid "Duration Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:139
+msgid "Type Column Header"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:144
+msgid "Manage Preferences Button"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:145
+#: includes/Shortcodes/CookieDeclaration.php:87
+msgid "Manage Cookie Preferences"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:149
+msgid "Delete All Button"
+msgstr ""
+
+#: includes/Admin/Settings/TextFieldDefinitions.php:150
+#: includes/Shortcodes/CookieDeclaration.php:88
+msgid "Delete All Cookies"
 msgstr ""
 
 #: includes/Admin/SettingsPage.php:81
 #: includes/SiteManager/Integration.php:38
 msgid "Cookie Consent"
-msgstr ""
-
-#: includes/Admin/SettingsPage.php:82
-#: includes/Banner/Renderer.php:171
-#: includes/Banner/Renderer.php:180
-#: includes/Shortcodes/CookieDeclaration.php:102
-#: includes/Shortcodes/CookieDeclaration.php:112
-msgid "Cookie"
 msgstr ""
 
 #: includes/Admin/SettingsPage.php:228
@@ -638,25 +739,53 @@ msgstr ""
 msgid "Cookie Settings"
 msgstr ""
 
-#: includes/Banner/Renderer.php:73
-msgid "Privacy Policy"
-msgstr ""
-
-#: includes/Banner/Renderer.php:111
-msgid "Cookie Preferences"
-msgstr ""
-
-#: includes/Banner/Renderer.php:150
-msgid "(Required)"
-msgstr ""
-
 #. translators: %d: number of cookies
-#: includes/Banner/Renderer.php:163
+#: includes/Banner/Renderer.php:167
 #, php-format
 msgid "Show %d cookie"
 msgid_plural "Show %d cookies"
 msgstr[0] ""
 msgstr[1] ""
+
+#: includes/I18n/Strings.php:85
+msgid "We value your privacy"
+msgstr ""
+
+#: includes/I18n/Strings.php:86
+msgid "We use cookies to enhance your browsing experience and analyze our traffic."
+msgstr ""
+
+#: includes/I18n/Strings.php:87
+msgid "Accept All"
+msgstr ""
+
+#: includes/I18n/Strings.php:88
+msgid "Reject All"
+msgstr ""
+
+#: includes/I18n/Strings.php:89
+msgid "Customize"
+msgstr ""
+
+#: includes/I18n/Strings.php:90
+msgid "Save Preferences"
+msgstr ""
+
+#: includes/I18n/Strings.php:92
+msgid "Essential cookies required for the website to function."
+msgstr ""
+
+#: includes/I18n/Strings.php:94
+msgid "These cookies enable enhanced functionality and personalization."
+msgstr ""
+
+#: includes/I18n/Strings.php:96
+msgid "These cookies help us understand how visitors interact with our website."
+msgstr ""
+
+#: includes/I18n/Strings.php:98
+msgid "These cookies are used to deliver relevant advertisements."
+msgstr ""
 
 #: includes/Rest/ConsentEndpoint.php:88
 msgid "Categories must be an object."
@@ -672,16 +801,8 @@ msgstr ""
 msgid "No cookies have been declared."
 msgstr ""
 
-#: includes/Shortcodes/CookieDeclaration.php:90
+#: includes/Shortcodes/CookieDeclaration.php:98
 msgid "Always Active"
-msgstr ""
-
-#: includes/Shortcodes/CookieDeclaration.php:142
-msgid "Manage Cookie Preferences"
-msgstr ""
-
-#: includes/Shortcodes/CookieDeclaration.php:145
-msgid "Delete All Cookies"
 msgstr ""
 
 #: includes/SiteManager/CookieAbilities.php:39
@@ -712,15 +833,15 @@ msgstr ""
 msgid "Get consent logging statistics grouped by action type and policy version."
 msgstr ""
 
-#: includes/SiteManager/CookieAbilities.php:110
+#: includes/SiteManager/CookieAbilities.php:111
 msgid "Number of past days to include. Default: 30."
 msgstr ""
 
-#: includes/SiteManager/CookieAbilities.php:138
+#: includes/SiteManager/CookieAbilities.php:139
 msgid "Scan Cookies"
 msgstr ""
 
-#: includes/SiteManager/CookieAbilities.php:139
+#: includes/SiteManager/CookieAbilities.php:140
 msgid "Trigger an HTTP header pre-scan to detect cookies across site URLs."
 msgstr ""
 
