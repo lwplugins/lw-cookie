@@ -34,6 +34,10 @@ final class Renderer {
 	 * @return void
 	 */
 	public function render_banner(): void {
+		if ( ! Visibility::should_display() ) {
+			return;
+		}
+
 		$this->output_preferences_modal();
 		$this->output_banner_html();
 	}

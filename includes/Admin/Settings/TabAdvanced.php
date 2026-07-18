@@ -128,6 +128,24 @@ final class TabAdvanced implements TabInterface {
 					</p>
 				</td>
 			</tr>
+			<tr>
+				<th scope="row">
+					<label for="hide_for_logged_in"><?php esc_html_e( 'Logged-in users', 'lw-cookie' ); ?></label>
+				</th>
+				<td>
+					<?php
+					$this->render_checkbox_field(
+						[
+							'name'  => 'hide_for_logged_in',
+							'label' => __( 'Hide the banner for logged-in users', 'lw-cookie' ),
+						]
+					);
+					?>
+					<p class="description">
+						<?php esc_html_e( 'Do not show the consent banner to logged-in users — e.g. so it never pops up for administrators while they work. The banner is always hidden inside page-builder editors (Bricks, Elementor).', 'lw-cookie' ); ?>
+					</p>
+				</td>
+			</tr>
 		</table>
 		<?php
 	}

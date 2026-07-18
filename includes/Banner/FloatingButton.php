@@ -32,7 +32,7 @@ final class FloatingButton {
 	 * @return void
 	 */
 	public function render(): void {
-		if ( ! Options::get( 'show_floating_button' ) ) {
+		if ( ! Options::get( 'show_floating_button' ) || ! Visibility::should_display() ) {
 			return;
 		}
 

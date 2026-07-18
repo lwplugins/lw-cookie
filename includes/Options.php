@@ -80,6 +80,7 @@ final class Options {
 			'script_blocking'        => true,
 			'content_blocking'       => true,
 			'gcm_enabled'            => false,
+			'hide_for_logged_in'     => false,
 			'show_floating_button'   => true,
 			'floating_button_pos'    => 'bottom-left',
 
