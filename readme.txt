@@ -168,7 +168,9 @@ Yes! LW Cookie has full WP-CLI support:
 == Changelog ==
 
 = 1.7.0 =
+* New: Banner preview mode — an admin-only "Preview banner on the site" button forces the banner visible on the front-end so it can be tuned before going live (issue #7).
 * New: "Hide the banner for logged-in users" option, and the banner/floating button are now hidden inside the Bricks and Elementor editors (issue #7).
+* New: Built-in default banner texts now follow the site language (bundled Hungarian translation) instead of always showing English (issue #7).
 * Fix: Consent Service Worker now registers on Bedrock/subdirectory-core installs — no more 404 that silently disabled network-level blocking (issue #5).
 * Fix: Google Consent Mode signals now reach GTM-only sites, so consent is honored for Google Ads/Analytics (remarketing) instead of hits carrying npa=1 (issue #6).
 * Update: PHPStan level 5 + PHPUnit tests added to CI; minimum PHP raised to 8.2.

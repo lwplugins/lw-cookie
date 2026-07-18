@@ -3,8 +3,10 @@
 ## [1.7.0] - 2026-07-18
 
 ### Added
+- **Banner preview mode** (issue #7): a "Preview banner on the site" button (General tab) opens the front-end with `?lw-cookie-preview=1`, which forces the banner visible for administrators — even before it is enabled or after they have already consented — so it can be reviewed and tuned.
 - **"Hide the banner for logged-in users"** option (Advanced tab, default off) so the consent banner never pops up for administrators while they work (issue #7).
 - The consent banner and floating button are now **hidden inside page-builder editor canvases** (Bricks `?bricks=run`, Elementor preview), so they no longer clutter the builder (issue #7).
+- **The built-in default banner texts now follow the site language** (issue #7). The title, message, buttons and category names/descriptions were stored as literal English and rendered as-is; they are now text-domain-localized (with the bundled Hungarian translation) until the admin overrides them in the Texts tab.
 
 ### Fixed
 - **Consent Service Worker now registers on subdirectory-core installs** (issue #5). `lw-cookie-sw.js` 404'd on Bedrock/Radicle: `serve_sw()` never overrode the query's 404 status, and `install()` wrote the file to (and `register_fallback()` checked) `ABSPATH` — the `wp/` core directory — instead of the public webroot the SW URL points to. It now sends `status_header( 200 )` and resolves the webroot via `get_home_path()`.
