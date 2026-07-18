@@ -42,6 +42,38 @@
 	var valid   = isConsentValid( consent );
 	var cats    = valid ? consent.categories : { necessary : true };
 
+	// ── Google Consent Mode helper ───────────────────────────────────
+	// gtag() is only a thin wrapper that pushes its arguments onto the
+	// dataLayer, which GTM reads directly. On GTM-only setups no global
+	// gtag() exists, so we fall back to pushing the arguments ourselves —
+	// otherwise Consent Mode signals are never delivered.
+	function lwConsentPush() {
+		window.dataLayer = window.dataLayer || [];
+		var g            = ( typeof window.gtag === 'function' )
+			? window.gtag
+			: function () {
+				window.dataLayer.push( arguments );
+			};
+		g.apply( null, arguments );
+	}
+
+	// GCM v2 default — must run before GTM/gtag so tags start denied and wait
+	// for the update below. security_storage stays granted (not tracking).
+	lwConsentPush(
+		'consent',
+		'default',
+		{
+			'analytics_storage':       'denied',
+			'ad_storage':              'denied',
+			'ad_user_data':            'denied',
+			'ad_personalization':      'denied',
+			'functionality_storage':   'denied',
+			'personalization_storage': 'denied',
+			'security_storage':        'granted',
+			'wait_for_update':         500
+		}
+	);
+
 	// ── 2. Banner + floating button visibility ───────────────────────
 	function toggleVisibility() {
 		var banner = document.getElementById( 'lw-cookie-notice' );
@@ -276,11 +308,9 @@
 
 	// ── 8. GCM v2 update (if consent exists) ─────────────────────────
 	function updateGCM( categories ) {
-		if ( typeof gtag !== 'function' ) {
-			return;
-		}
-
-		gtag(
+		// Delivered via the dataLayer (see lwConsentPush) so it also reaches
+		// GTM-only setups where no global gtag() is defined.
+		lwConsentPush(
 			'consent',
 			'update',
 			{
@@ -300,17 +330,10 @@
 	}
 
 	if ( valid ) {
-		// Defer GCM update so gtag is defined first.
-		if ( document.readyState === 'loading' ) {
-			document.addEventListener(
-				'DOMContentLoaded',
-				function () {
-					updateGCM( cats );
-				}
-			);
-		} else {
-			updateGCM( cats );
-		}
+		// Push the update immediately (no need to wait for gtag — it goes onto
+		// the dataLayer right after the default), so the granted signal is in
+		// place before GTM processes its queue and fires any tags.
+		updateGCM( cats );
 	}
 
 	// ── 9. Public API for consent.js ─────────────────────────────────
