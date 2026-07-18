@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0] - 2026-07-18
+
+### Added
+- **"Hide the banner for logged-in users"** option (Advanced tab, default off) so the consent banner never pops up for administrators while they work (issue #7).
+- The consent banner and floating button are now **hidden inside page-builder editor canvases** (Bricks `?bricks=run`, Elementor preview), so they no longer clutter the builder (issue #7).
+
+### Fixed
+- **Consent Service Worker now registers on subdirectory-core installs** (issue #5). `lw-cookie-sw.js` 404'd on Bedrock/Radicle: `serve_sw()` never overrode the query's 404 status, and `install()` wrote the file to (and `register_fallback()` checked) `ABSPATH` — the `wp/` core directory — instead of the public webroot the SW URL points to. It now sends `status_header( 200 )` and resolves the webroot via `get_home_path()`.
+- **Google Consent Mode signals now reach GTM-only setups** (issue #6). `guard.js` only sent the consent update when a global `gtag()` existed, so on GTM-only sites (no gtag.js) it was never delivered and hits kept `npa=1` despite consent. Consent commands now go onto the `dataLayer` directly (with a `gtag` fallback), a GCM v2 default is set before GTM processes its queue, and a returning visitor's granted signal fires immediately instead of waiting for `DOMContentLoaded`.
+
+### Changed
+- Quality gates: **PHPStan level 5 and PHPUnit tests are now enforced in CI** alongside PHPCS; minimum PHP raised to **8.2**. Bumped `actions/checkout` to v7 (PR #4).
+
 ## [1.6.9] - 2026-05-03
 
 ### Fixed

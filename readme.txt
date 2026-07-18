@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.6.9
+Stable tag: 1.7.0
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,12 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.0 =
+* New: "Hide the banner for logged-in users" option, and the banner/floating button are now hidden inside the Bricks and Elementor editors (issue #7).
+* Fix: Consent Service Worker now registers on Bedrock/subdirectory-core installs — no more 404 that silently disabled network-level blocking (issue #5).
+* Fix: Google Consent Mode signals now reach GTM-only sites, so consent is honored for Google Ads/Analytics (remarketing) instead of hits carrying npa=1 (issue #6).
+* Update: PHPStan level 5 + PHPUnit tests added to CI; minimum PHP raised to 8.2.
 
 = 1.6.9 =
 * Fix: Privacy Policy link, preferences modal title, "(Required)" badge, Cookie/Provider/Purpose/Duration/Type column headers, and the Manage / Delete All buttons now appear in Polylang/WPML translation tables even when their value in the Texts tab is left blank

@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-define( 'LW_COOKIE_VERSION', '1.6.9' );
+define( 'LW_COOKIE_VERSION', '1.7.0' );
 define( 'LW_COOKIE_FILE', __DIR__ . '/lw-cookie.php' );
 define( 'LW_COOKIE_PATH', __DIR__ . '/' );
 define( 'LW_COOKIE_URL', 'https://example.test/wp-content/plugins/lw-cookie/' );
