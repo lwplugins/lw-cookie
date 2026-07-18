@@ -34,13 +34,30 @@ final class ServiceWorkerManager {
 	}
 
 	/**
-	 * Copy the SW file to ABSPATH (site root).
+	 * Filesystem path of the public webroot the SW URL resolves to.
+	 *
+	 * On subdirectory-core installs (Bedrock/Radicle) the webroot is the site
+	 * home directory, not ABSPATH (which is the `wp/` core subdirectory), so
+	 * ABSPATH would place the file where `get_sw_url()` cannot reach it.
+	 *
+	 * @return string Webroot path with a trailing slash.
+	 */
+	private static function get_root_path(): string {
+		if ( ! function_exists( 'get_home_path' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		return get_home_path();
+	}
+
+	/**
+	 * Copy the SW file to the public webroot.
 	 *
 	 * @return bool True on success.
 	 */
 	public static function install(): bool {
 		$source = LW_COOKIE_PATH . 'assets/js/' . self::SW_FILENAME;
-		$dest   = ABSPATH . self::SW_FILENAME;
+		$dest   = self::get_root_path() . self::SW_FILENAME;
 
 		if ( ! file_exists( $source ) ) {
 			return false;
@@ -51,12 +68,12 @@ final class ServiceWorkerManager {
 	}
 
 	/**
-	 * Remove the SW file from ABSPATH.
+	 * Remove the SW file from the public webroot.
 	 *
 	 * @return void
 	 */
 	public static function uninstall(): void {
-		$file = ABSPATH . self::SW_FILENAME;
+		$file = self::get_root_path() . self::SW_FILENAME;
 
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
@@ -67,13 +84,13 @@ final class ServiceWorkerManager {
 	/**
 	 * Register the dynamic fallback route.
 	 *
-	 * Called during init — serves the SW dynamically if the
-	 * static file does not exist in ABSPATH.
+	 * Called during init — serves the SW dynamically if the static file does
+	 * not exist in the public webroot.
 	 *
 	 * @return void
 	 */
 	public static function register_fallback(): void {
-		if ( file_exists( ABSPATH . self::SW_FILENAME ) ) {
+		if ( file_exists( self::get_root_path() . self::SW_FILENAME ) ) {
 			return;
 		}
 
@@ -99,6 +116,9 @@ final class ServiceWorkerManager {
 			return;
 		}
 
+		// The main query already 404'd for this virtual URL; override the
+		// status so browsers accept the Service Worker registration.
+		status_header( 200 );
 		header( 'Content-Type: application/javascript; charset=utf-8' );
 		header( 'Service-Worker-Allowed: /' );
 		header( 'Cache-Control: no-cache' );
