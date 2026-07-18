@@ -176,7 +176,7 @@ final class ParentPage {
 		$svg_path  = WP_PLUGIN_DIR . '/' . $slug . '/assets/img/title-icon.svg';
 		$svg_url   = $is_active && file_exists( $svg_path )
 			? plugins_url( $slug . '/assets/img/title-icon.svg' )
-			: ( $plugin['icon_svg'] ?? '' );
+			: '';
 		?>
 		<div class="lw-plugin-card" style="background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; padding: 20px; width: 300px;">
 			<h2 style="margin-top: 0;">

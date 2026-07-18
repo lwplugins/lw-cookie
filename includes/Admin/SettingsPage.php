@@ -195,7 +195,7 @@ final class SettingsPage {
 			}
 
 			$sanitized[] = [
-				'name'     => sanitize_text_field( $cookie['name'] ?? '' ),
+				'name'     => sanitize_text_field( (string) $cookie['name'] ),
 				'provider' => sanitize_text_field( $cookie['provider'] ?? '' ),
 				'purpose'  => sanitize_text_field( $cookie['purpose'] ?? '' ),
 				'duration' => sanitize_text_field( $cookie['duration'] ?? '' ),

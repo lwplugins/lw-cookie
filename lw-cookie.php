@@ -5,7 +5,7 @@
  * Description:       Lightweight cookie consent — GDPR-compliant banner with minimal footprint.
  * Version:           1.6.9
  * Requires at least: 6.0
- * Requires PHP:      8.1
+ * Requires PHP:      8.2
  * Author:            LW Plugins
  * Author URI:        https://lwplugins.com
  * License:           GPL-2.0-or-later
@@ -67,4 +67,9 @@ function lw_cookie(): Plugin {
 }
 
 // Initialize the plugin.
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\lw_cookie' );
+add_action(
+	'plugins_loaded',
+	static function (): void {
+		lw_cookie();
+	}
+);

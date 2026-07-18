@@ -110,9 +110,9 @@ final class ConsentEndpoint {
 	 * Handle the consent POST request.
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 * @return WP_REST_Response|WP_Error
+	 * @return WP_REST_Response
 	 */
-	public function handle_consent( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+	public function handle_consent( WP_REST_Request $request ): WP_REST_Response {
 		// Simple rate limiting by IP.
 		$ip_hash  = $this->get_ip_hash();
 		$rate_key = self::RATE_PREFIX . $ip_hash;

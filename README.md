@@ -2,7 +2,7 @@
 
 GDPR-compliant cookie consent banner for WordPress - minimal footprint, full compliance.
 
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-blue.svg)](https://php.net)
 [![WordPress Version](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org)
 [![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 
@@ -200,7 +200,7 @@ The plugin pushes events to dataLayer for GTM triggers:
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.2 or higher
 - WordPress 6.0 or higher
 
 ## Documentation

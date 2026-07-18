@@ -10,18 +10,27 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "composer/installers": "^2.0"
     },
     "require-dev": {
+        "brain/monkey": "^2.6",
+        "php-stubs/woocommerce-stubs": "^10.9",
+        "php-stubs/wp-cli-stubs": "^2.12",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
         "phpunit/phpunit": "^10.0",
         "squizlabs/php_codesniffer": "^3.0",
-        "wp-coding-standards/wpcs": "^3.0",
-        "phpcompatibility/phpcompatibility-wp": "^2.1"
+        "szepeviktor/phpstan-wordpress": "^2.0",
+        "wp-coding-standards/wpcs": "^3.0"
     },
     "autoload": {
         "psr-4": {
             "LightweightPlugins\\Cookie\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LightweightPlugins\\Cookie\\Tests\\": "tests/"
         }
     },
     "config": {
@@ -34,6 +43,7 @@
     "scripts": {
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
+        "analyse": "phpstan analyse --memory-limit=2G",
         "test": "phpunit"
     }
 }

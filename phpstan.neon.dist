@@ -1,0 +1,34 @@
+includes:
+	- phpstan-baseline.neon
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 5
+
+	paths:
+		- lw-cookie.php
+		- includes/
+
+	excludePaths:
+		- tests/
+		- vendor/
+
+	# Declare the plugin's runtime-defined constants for static analysis.
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+
+	# Third-party APIs the plugin optionally integrates with. WordPress core
+	# stubs come from the szepeviktor/phpstan-wordpress extension above.
+	scanFiles:
+		- vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+		- vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+
+	# The WooCommerce/WordPress stub symbol tables are large; a single worker
+	# keeps peak memory deterministic under the `analyse` script's limit.
+	parallel:
+		maximumNumberOfProcesses: 1
+
+	ignoreErrors:
+		# Polylang string-registration function, called only when Polylang is
+		# active ($pll); absent from the stubs.
+		- '#Function pll_register_string not found#'

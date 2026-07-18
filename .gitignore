@@ -26,3 +26,7 @@ debug.log
 # Composer
 composer.lock
 *.po~
+
+# Testing
+.phpunit.cache/
+.phpunit.result.cache
