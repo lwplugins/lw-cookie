@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Blocking;
 
 use LightweightPlugins\Cookie\Banner\Preview;
+use LightweightPlugins\Cookie\I18n\Strings;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Consent\Storage;
 
@@ -45,9 +46,22 @@ final class GuardScript {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static, self-authored CSS.
+		echo '<style id="lw-cookie-guard-css">' . self::PLACEHOLDER_CSS . '</style>';
+
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted JS from local file, JSON via wp_json_encode.
 		echo '<script id="lw-cookie-guard">window.__lwGuardCfg=' . wp_json_encode( $config ) . ';' . $guard . '</script>';
 	}
+
+	/**
+	 * Placeholder styling for blocked embeds.
+	 *
+	 * Inlined (not enqueued) so it is in place before the parser reaches the
+	 * body and guard.js inserts the first placeholder — no flash of unstyled box.
+	 *
+	 * @var string
+	 */
+	private const PLACEHOLDER_CSS = '.lw-cookie-embed-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:180px;padding:24px;margin:0 auto;box-sizing:border-box;text-align:center;background:#f0f0f1;border:1px solid #dcdcde;border-radius:6px;color:#1d2327;font-size:14px;line-height:1.5}.lw-cookie-embed-block__msg{margin:0}.lw-cookie-embed-block__btn{cursor:pointer;border:0;border-radius:4px;padding:10px 18px;background:#2271b1;color:#fff;font-size:14px;line-height:1.2}.lw-cookie-embed-block__btn:hover{background:#135e96}';
 
 	/**
 	 * Get guard configuration for JavaScript.
@@ -64,6 +78,16 @@ final class GuardScript {
 			'cookies'       => $blocking['cookies'],
 			'swUrl'         => ServiceWorkerManager::get_sw_url(),
 			'preview'       => Preview::is_active(),
+			'text'          => [
+				'blockedMessage' => Strings::get_or_default(
+					'blocked_embed_message',
+					__( 'This content is blocked until you accept the required cookies.', 'lw-cookie' )
+				),
+				'blockedButton'  => Strings::get_or_default(
+					'blocked_embed_button',
+					__( 'Accept & load content', 'lw-cookie' )
+				),
+			],
 		];
 	}
 

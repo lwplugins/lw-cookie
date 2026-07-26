@@ -426,6 +426,25 @@
 		init();
 	}
 
+	/**
+	 * Grant a single category and persist it, without a page reload.
+	 *
+	 * Used by the blocked-embed placeholder (guard.js): the visitor consents
+	 * to just the category the embed needs, and guard.js restores it in place
+	 * via __lwGuard.refresh() (called from saveConsent).
+	 *
+	 * @param {string} category Category key to grant.
+	 */
+	function acceptCategory( category ) {
+		var categories       = getConsentCategories();
+		categories.necessary = true;
+		if ( category ) {
+			categories[category] = true;
+		}
+
+		saveConsent( categories, 'load_embed', true );
+	}
+
 	// Expose API globally.
 	window.LWCookie = {
 		acceptAll: acceptAll,
@@ -433,6 +452,7 @@
 		openPreferences: openPreferences,
 		deleteAllCookies: deleteAllCookies,
 		saveConsent: saveConsent,
+		acceptCategory: acceptCategory,
 		getConsent: function () {
 			return getConsentCategories();
 		},

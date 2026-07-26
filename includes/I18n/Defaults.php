@@ -56,6 +56,8 @@ final class Defaults {
 			'col_type'               => 'Type',
 			'btn_manage_preferences' => 'Manage Cookie Preferences',
 			'btn_delete_all'         => 'Delete All Cookies',
+			'blocked_embed_message'  => 'This content is blocked until you accept the required cookies.',
+			'blocked_embed_button'   => 'Accept & load content',
 		];
 	}
 }

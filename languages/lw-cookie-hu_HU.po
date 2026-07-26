@@ -866,3 +866,27 @@ msgstr "Ezek a sütik segítenek megérteni, hogyan használják a látogatók a
 #: includes/I18n/Strings.php:98
 msgid "These cookies are used to deliver relevant advertisements."
 msgstr "Ezeket a sütiket releváns hirdetések megjelenítésére használjuk."
+
+#: includes/Blocking/GuardScript.php includes/I18n/Defaults.php
+msgid "This content is blocked until you accept the required cookies."
+msgstr "Ez a tartalom blokkolva van, amíg el nem fogadod a szükséges sütiket."
+
+#: includes/Blocking/GuardScript.php includes/I18n/Defaults.php
+msgid "Accept & load content"
+msgstr "Elfogadom és betöltöm"
+
+#: includes/Admin/Settings/TextFieldDefinitions.php
+msgid "Blocked Content"
+msgstr "Blokkolt tartalom"
+
+#: includes/Admin/Settings/TextFieldDefinitions.php
+msgid "Blocked Embed Message"
+msgstr "Blokkolt beágyazás üzenete"
+
+#: includes/Admin/Settings/TextFieldDefinitions.php
+msgid "Shown in place of a blocked embed (video, map, social post) until the visitor consents."
+msgstr "A blokkolt beágyazás (videó, térkép, közösségi bejegyzés) helyén jelenik meg, amíg a látogató hozzá nem járul."
+
+#: includes/Admin/Settings/TextFieldDefinitions.php
+msgid "Blocked Embed Button"
+msgstr "Blokkolt beágyazás gombja"

@@ -20,6 +20,7 @@
 	var COOKIES        = cfg.cookies || {};
 	var SW_URL         = cfg.swUrl || '';
 	var PREVIEW        = ! ! cfg.preview;
+	var TEXT           = cfg.text || {};
 
 	// ── 1. Read consent from browser cookie ──────────────────────────
 	function readConsent() {
@@ -213,9 +214,7 @@
 
 		// Iframes.
 		if ( tag === 'IFRAME' && el.src && isUrlBlocked( el.src ) ) {
-			el.setAttribute( 'data-lw-original-src', el.src );
-			el.removeAttribute( 'src' );
-			el.setAttribute( 'data-lw-blocked', '1' );
+			blockIframe( el );
 			return;
 		}
 
@@ -224,6 +223,109 @@
 			el.setAttribute( 'data-lw-original-src', el.src );
 			el.removeAttribute( 'src' );
 			el.setAttribute( 'data-lw-blocked', '1' );
+		}
+	}
+
+	// ── 5a. Blocked-iframe placeholder ───────────────────────────────
+	// Stripping the src alone leaves a bare, blank frame with no signal to
+	// the visitor. Replace it with a placeholder that explains the block and
+	// offers a button to consent and load the embed in place.
+	function blockIframe( el ) {
+		var category = getCategoryForUrl( el.src );
+
+		el.setAttribute( 'data-lw-original-src', el.src );
+		el.setAttribute( 'data-lw-blocked', '1' );
+		if ( category ) {
+			el.setAttribute( 'data-lw-category', category );
+		}
+		el.removeAttribute( 'src' );
+
+		if ( isPlaceholder( el.previousSibling ) ) {
+			return; // Already has a placeholder.
+		}
+
+		el.style.display = 'none';
+
+		if ( el.parentNode ) {
+			el.parentNode.insertBefore( buildPlaceholder( category, el ), el );
+		}
+	}
+
+	function isPlaceholder( node ) {
+		return ! ! node && node.nodeType === 1 && node.classList &&
+			node.classList.contains( 'lw-cookie-embed-block' );
+	}
+
+	function buildPlaceholder( category, iframe ) {
+		var box       = document.createElement( 'div' );
+		box.className = 'lw-cookie-embed-block';
+
+		// Mirror a declared pixel width so the placeholder keeps the layout.
+		var width = iframe.getAttribute( 'width' );
+		if ( width && /^\d+$/.test( width ) ) {
+			box.style.maxWidth = width + 'px';
+		}
+
+		var msg         = document.createElement( 'p' );
+		msg.className   = 'lw-cookie-embed-block__msg';
+		msg.textContent = TEXT.blockedMessage ||
+			'This content is blocked until you accept the required cookies.';
+
+		var btn         = document.createElement( 'button' );
+		btn.type        = 'button';
+		btn.className   = 'lw-cookie-embed-block__btn';
+		btn.textContent = TEXT.blockedButton || 'Accept & load content';
+		btn.addEventListener(
+			'click',
+			function () {
+				acceptEmbedCategory( category );
+			}
+		);
+
+		box.appendChild( msg );
+		box.appendChild( btn );
+		return box;
+	}
+
+	// Consent to the category this embed needs, then load it in place.
+	function acceptEmbedCategory( category ) {
+		// Persist through the consent manager when present — it writes the
+		// cookie, logs to the server, and calls refresh() (which restores the
+		// embed). Falls back to a page-only grant if consent.js is not loaded.
+		if ( window.LWCookie && typeof window.LWCookie.acceptCategory === 'function' ) {
+			window.LWCookie.acceptCategory( category );
+			return;
+		}
+
+		if ( category ) {
+			cats[ category ] = true;
+		}
+		restoreAllowed();
+		updateSW();
+	}
+
+	// Restore every blocked iframe whose category is now allowed.
+	function restoreAllowed() {
+		var blocked    = document.querySelectorAll( 'iframe[data-lw-blocked="1"]' );
+		var blockedLen = blocked.length;
+		for ( var i = 0; i < blockedLen; i++ ) {
+			var el  = blocked[i];
+			var cat = el.getAttribute( 'data-lw-category' );
+
+			if ( cat && ! cats[ cat ] ) {
+				continue; // Still blocked.
+			}
+
+			var src = el.getAttribute( 'data-lw-original-src' );
+			if ( src ) {
+				el.setAttribute( 'src', src );
+			}
+			el.removeAttribute( 'data-lw-blocked' );
+			el.style.display = '';
+
+			if ( isPlaceholder( el.previousSibling ) ) {
+				el.parentNode.removeChild( el.previousSibling );
+			}
 		}
 	}
 
@@ -353,6 +455,7 @@
 			toggleVisibility();
 			updateSW();
 			updateGCM( newCategories );
+			restoreAllowed();
 		},
 
 		/**

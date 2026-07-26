@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.1 =
+* New: Blocked-embed placeholder — a blocked video/map/social iframe now shows an explanatory message and an "Accept & load content" button instead of a blank/black box. Clicking it consents to that embed's category and loads it in place, with no page reload. Message and button are editable under Texts → Blocked Content (bundled Hungarian). Fixes the black-box lesson video reported in lw-lms#18.
+* Update: Accepting consent (banner or placeholder) now restores blocked iframes in place via the guard, so loading an embed no longer depends on a full page reload.
 
 = 1.7.0 =
 * New: Banner preview mode — an admin-only "Preview banner on the site" button forces the banner visible on the front-end so it can be tuned before going live (issue #7).

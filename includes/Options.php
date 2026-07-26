@@ -74,6 +74,8 @@ final class Options {
 			'col_type'               => '',
 			'btn_manage_preferences' => '',
 			'btn_delete_all'         => '',
+			'blocked_embed_message'  => '',
+			'blocked_embed_button'   => '',
 
 			// Advanced.
 			'consent_duration'       => 365,

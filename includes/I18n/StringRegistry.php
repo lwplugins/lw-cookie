@@ -42,6 +42,7 @@ final class StringRegistry {
 		'col_type',
 		'btn_manage_preferences',
 		'btn_delete_all',
+		'blocked_embed_button',
 	];
 
 	/**
@@ -55,6 +56,7 @@ final class StringRegistry {
 		'cat_functional_desc',
 		'cat_analytics_desc',
 		'cat_marketing_desc',
+		'blocked_embed_message',
 	];
 
 	/**

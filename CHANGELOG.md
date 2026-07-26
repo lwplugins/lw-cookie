@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.1] - 2026-07-24
+
+### Added
+- **Blocked-embed placeholder** (lwplugins/lw-lms#18). When content blocking removed a blocked iframe's `src` (YouTube, Vimeo, Maps, etc.), the visitor was left with a bare, blank frame and no signal that consent was required — most visibly on LW LMS lesson pages, whose Vimeo videos rendered as a black box (the plugin is headless, so it never rendered the iframe itself; the gap was here in LW Cookie all along). `guard.js` now replaces a blocked iframe with a placeholder that explains the block and offers an "Accept & load content" button; clicking it grants exactly the category that embed needs and loads it in place. The message and button label are admin-editable (Texts → Blocked Content) and translatable, with a bundled Hungarian translation.
+
+### Changed
+- Granting consent — from the banner **or** the new placeholder — now restores already-blocked iframes in place via `__lwGuard.refresh()`, so loading an embed no longer depends on a full page reload.
+
 ## [1.7.0] - 2026-07-18
 
 ### Added

@@ -33,6 +33,30 @@ final class TextFieldDefinitions {
 			__( 'Buttons', 'lw-cookie' )                 => self::buttons(),
 			__( 'Preferences Modal', 'lw-cookie' )       => self::modal(),
 			__( 'Cookie Declaration Page', 'lw-cookie' ) => self::declaration(),
+			__( 'Blocked Content', 'lw-cookie' )         => self::blocked_content(),
+		];
+	}
+
+	/**
+	 * Blocked-embed placeholder: message + load button shown in place of a
+	 * blocked iframe (YouTube, Vimeo, Maps, etc.).
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function blocked_content(): array {
+		return [
+			[
+				'name'        => 'blocked_embed_message',
+				'label'       => __( 'Blocked Embed Message', 'lw-cookie' ),
+				'textarea'    => true,
+				'placeholder' => __( 'This content is blocked until you accept the required cookies.', 'lw-cookie' ),
+				'description' => __( 'Shown in place of a blocked embed (video, map, social post) until the visitor consents.', 'lw-cookie' ),
+			],
+			[
+				'name'        => 'blocked_embed_button',
+				'label'       => __( 'Blocked Embed Button', 'lw-cookie' ),
+				'placeholder' => __( 'Accept & load content', 'lw-cookie' ),
+			],
 		];
 	}
 
