@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.3] - 2026-08-24
+
+### Fixed
+- **Service Worker path resolution on subdirectory-core installs** (Bedrock/Radicle). `ServiceWorkerManager` resolved the public webroot with core's `get_home_path()`, which derives the path from `$_SERVER['SCRIPT_FILENAME']` and returns `/` whenever the entry point sits outside the core directory — every front-end request and every WP-CLI run on those installs. The per-request `file_exists()` check in the fallback registration therefore stat'd `/lw-cookie-sw.js`, emitting an `open_basedir` warning on every page view (reported: ~150k warnings/day, a 101 MB `error.log`). The webroot is now derived from the home/site URL path delta applied to `ABSPATH`, and falls back to `ABSPATH` on layouts it cannot resolve. Introduced in 1.7.0; consent blocking itself was unaffected.
+
+### Changed
+- The Service Worker fallback route no longer touches the filesystem when it registers on `init`. The URI check in `serve_sw()` gates the work instead — when the static file really is in the webroot, the web server answers before WordPress boots, so the callback never runs. Removes one `stat()` from every request.
+
 ## [1.7.2] - 2026-08-20
 
 ### Changed

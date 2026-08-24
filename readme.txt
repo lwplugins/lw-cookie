@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.3 =
+* Fix: Service Worker path resolution on subdirectory-core installs (Bedrock/Radicle) — the webroot is no longer resolved with `get_home_path()`, which returned `/` on front-end and WP-CLI requests and flooded `error.log` with `open_basedir` warnings.
+* Change: The Service Worker fallback route no longer stats the filesystem on every request.
 
 = 1.7.2 =
 * Update: Tested up to WordPress 7.1.
