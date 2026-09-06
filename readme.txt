@@ -168,6 +168,7 @@ Yes! LW Cookie has full WP-CLI support:
 == Changelog ==
 
 = 1.7.3 =
+* Fix: the release package and Composer dist no longer ship tests, docs or development configuration
 * Fix: Service Worker path resolution on subdirectory-core installs (Bedrock/Radicle) — the webroot is no longer resolved with `get_home_path()`, which returned `/` on front-end and WP-CLI requests and flooded `error.log` with `open_basedir` warnings.
 * Change: The Service Worker fallback route no longer stats the filesystem on every request.
 

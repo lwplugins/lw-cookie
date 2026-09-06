@@ -55,10 +55,12 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
           mkdir -p dist/lw-cookie
-          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' \
-            --exclude='builds' --exclude='composer.json' --exclude='composer.lock' \
-            --exclude='phpcs.xml.dist' --exclude='node_modules' --exclude='.gitignore' \
-            --exclude='*.log' . dist/lw-cookie/
+          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' --exclude='builds' \
+            --exclude='composer.json' --exclude='composer.lock' --exclude='phpcs.xml.dist' \
+            --exclude='node_modules' --exclude='.gitignore' --exclude='.gitattributes' \
+            --exclude='tests' --exclude='docs' --exclude='.claude' --exclude='.superpowers' \
+            --exclude='phpstan.neon.dist' --exclude='phpstan-baseline.neon' \
+            --exclude='phpstan-bootstrap.php' --exclude='phpunit.xml.dist' --exclude='*.log' . dist/lw-cookie/
           cd dist && zip -r "lw-cookie-${VERSION}.zip" lw-cookie/
 
       - name: Create tag and release
