@@ -44,23 +44,33 @@ final class Strings {
 	}
 
 	/**
-	 * Resolve a value: if it is still the plugin's built-in English default,
-	 * return a text-domain-localised default (so it follows the site language
-	 * even without a multilingual plugin); otherwise translate the custom
-	 * value via Polylang/WPML.
+	 * Resolve a value.
+	 *
+	 * The active multilingual plugin always wins: whatever the admin typed in
+	 * Polylang's Strings table or WPML's String Translation is what the visitor
+	 * must see. Those plugins echo the source back when they hold no translation
+	 * for it, so an unchanged return means "not translated" — and only then do we
+	 * fall back to the text-domain-localised default, which lets the built-in
+	 * strings follow the site language on single-language sites.
 	 *
 	 * @param string $key   Option key.
 	 * @param string $value Stored value.
 	 * @return string
 	 */
 	private static function resolve( string $key, string $value ): string {
+		$translated = self::translate( $key, $value );
+
+		if ( $translated !== $value ) {
+			return $translated;
+		}
+
 		$localized = self::localized_default( $key );
 
 		if ( null !== $localized && self::english_default( $key ) === $value ) {
 			return $localized;
 		}
 
-		return self::translate( $key, $value );
+		return $value;
 	}
 
 	/**
@@ -108,11 +118,10 @@ final class Strings {
 	 * Used for strings that have a sensible textdomain-translated default
 	 * (e.g. "Privacy Policy") but can be overridden in the Texts tab.
 	 *
-	 * When a multilingual plugin is active and the option is empty, the
-	 * literal English source from Defaults is looked up via the plugin —
-	 * matching what StringRegistry registered — so user translations of
-	 * defaults take effect. Otherwise the textdomain-translated default
-	 * is returned as-is.
+	 * When the option is empty, the literal English source from Defaults is
+	 * looked up via the multilingual plugin — matching what StringRegistry
+	 * registered — so user translations of defaults take effect. Only when no
+	 * such translation exists is the textdomain-translated default returned.
 	 *
 	 * @param string $key             Option key.
 	 * @param string $textdomain_text The default text, already passed through __().
@@ -126,14 +135,12 @@ final class Strings {
 		}
 
 		$source = Defaults::source( $key );
-		if ( null !== $source ) {
-			if ( function_exists( 'pll__' ) ) {
-				return (string) pll__( $source );
-			}
 
-			if ( has_filter( 'wpml_translate_single_string' ) ) {
-				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WPML's own API filter.
-				return (string) apply_filters( 'wpml_translate_single_string', $source, self::CONTEXT, $key );
+		if ( null !== $source ) {
+			$translated = self::translate( $key, $source );
+
+			if ( $translated !== $source ) {
+				return $translated;
 			}
 		}
 

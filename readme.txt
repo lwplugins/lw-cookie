@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.4 =
+* Fix: Polylang/WPML translations of the banner title, message, button labels and cookie category names/descriptions had no effect on the frontend. Since 1.7.0 those strings short-circuited to the plugin's own text-domain translation whenever the Texts/Categories tab still held the built-in default — which is always the case on a multilingual site, because those tabs are locked. The multilingual plugin is now asked first and always wins; the localized default is used only when it holds no translation.
+* Fix: With a multilingual plugin active, the Privacy Policy link, modal title, "(Required)" badge, table column headers, declaration buttons and the blocked-embed texts fell back to raw English instead of the bundled translation when no string translation had been entered yet.
 
 = 1.7.3 =
 * Fix: the release package and Composer dist no longer ship tests, docs or development configuration

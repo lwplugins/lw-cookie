@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.4] - 2026-09-17
+
+### Fixed
+- **Polylang/WPML translations of the built-in banner strings had no effect on the frontend.** 1.7.0 made the built-in defaults follow the site language, but `Strings::resolve()` returned the text-domain-localized default *before* consulting the multilingual plugin whenever the stored option still equalled the built-in English default. On a multilingual site that is the permanent state — the Texts and Categories tabs are locked precisely so the source strings stay untouched — so every translation entered in Polylang's Strings table or WPML's String Translation for the banner title, banner message, Accept/Reject/Customize/Save labels and the four category names and descriptions was silently ignored. The multilingual plugin is now asked first and always wins; the localized default is only used when the plugin holds no translation for the string.
+- **Strings with an empty stored default fell back to raw English on multilingual sites.** `Strings::get_or_default()` returned `pll__()`/WPML's answer unconditionally, and both echo the source string back when untranslated — so the Privacy Policy link, modal title, "(Required)" badge, Cookie/Provider/Purpose/Duration/Type column headers, the Manage Preferences and Delete All buttons and the blocked-embed message/button showed English instead of the bundled translation until a string translation was entered. They now fall back to the text-domain default.
+
 ## [1.7.3] - 2026-09-06
 
 ### Fixed
