@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.5] - 2026-09-17
+
+### Fixed
+- **Translations entered in Polylang's Strings table could not be modified** — after saving, the page reloaded with the previous value and the edit was lost. `StringRegistry` registered every string through *both* APIs: `pll_register_string()` and the `wpml_register_single_string` action. Polylang ships a WPML compatibility layer that answers that action even when WPML is not installed, and it stores those strings under `md5( "$context | $name" )` while its native registrations are keyed by `md5( $string )` — so each of our strings appeared as two rows in the Strings table with identical source text. Saving the page submits both rows, both write the same translation entry, and the copy the admin had not edited (still carrying the old value) overwrote the one they had just changed. Registration now uses exactly one API, and the duplicates a previous version left in Polylang's WPML store are unregistered automatically on the next admin request.
+
 ## [1.7.4] - 2026-09-17
 
 ### Fixed

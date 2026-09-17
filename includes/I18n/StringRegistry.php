@@ -69,16 +69,30 @@ final class StringRegistry {
 	}
 
 	/**
-	 * Register every editable string with active multilingual plugins.
+	 * Polylang's store for strings registered through the WPML API.
+	 */
+	private const WPML_COMPAT_OPTION = 'polylang_wpml_strings';
+
+	/**
+	 * Register every editable string with the active multilingual plugin.
+	 *
+	 * Exactly one API is used. Polylang ships a WPML compatibility layer, so
+	 * `wpml_register_single_string` has a listener even when WPML is not
+	 * installed — sending our strings to both APIs registered each of them
+	 * twice. See self::unregister_wpml_duplicates() for what that broke.
 	 *
 	 * @return void
 	 */
 	public static function register_all(): void {
 		$pll  = function_exists( 'pll_register_string' );
-		$wpml = has_action( 'wpml_register_single_string' ) || function_exists( 'icl_register_string' );
+		$wpml = ! $pll && ( has_action( 'wpml_register_single_string' ) || function_exists( 'icl_register_string' ) );
 
 		if ( ! $pll && ! $wpml ) {
 			return;
+		}
+
+		if ( $pll ) {
+			self::unregister_wpml_duplicates();
 		}
 
 		foreach ( self::SINGLE_LINE_KEYS as $key ) {
@@ -90,6 +104,43 @@ final class StringRegistry {
 		}
 
 		self::register_declared_cookies( $pll, $wpml );
+	}
+
+	/**
+	 * Drop the duplicate rows a previous version left in Polylang's table.
+	 *
+	 * Until 1.7.5 every string was sent to Polylang *and* to the WPML action,
+	 * which Polylang's own compatibility layer answers. Polylang keys its
+	 * native registrations by md5( $string ) but the WPML ones by
+	 * md5( "$context | $name" ), so each string showed up twice in the Strings
+	 * table with identical source text. Both rows write the same translation
+	 * entry on save, and the copy the admin had not touched — submitted with
+	 * its stale value — overwrote the one they had just edited. The page came
+	 * back showing the old translation, as if nothing had been saved.
+	 *
+	 * Runs only with Polylang as the provider; under real WPML its own store
+	 * is the one holding our strings and must be left alone.
+	 *
+	 * @return void
+	 */
+	private static function unregister_wpml_duplicates(): void {
+		if ( ! function_exists( 'icl_unregister_string' ) || defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			return;
+		}
+
+		$stored = get_option( self::WPML_COMPAT_OPTION );
+
+		if ( ! is_array( $stored ) ) {
+			return;
+		}
+
+		foreach ( $stored as $string ) {
+			if ( ! is_array( $string ) || Strings::CONTEXT !== ( $string['context'] ?? '' ) ) {
+				continue;
+			}
+
+			icl_unregister_string( Strings::CONTEXT, (string) ( $string['name'] ?? '' ) );
+		}
 	}
 
 	/**

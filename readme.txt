@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.5 =
+* Fix: Translations entered in Polylang's Strings table could not be changed — saving reloaded the page with the previous value. Every string was registered twice (once via Polylang's own API, once via the WPML API that Polylang's compatibility layer also answers), producing two rows with the same source text; the untouched copy overwrote the edited one on save. Only one API is used now, and the leftover duplicate rows are removed automatically.
 
 = 1.7.4 =
 * Fix: Polylang/WPML translations of the banner title, message, button labels and cookie category names/descriptions had no effect on the frontend. Since 1.7.0 those strings short-circuited to the plugin's own text-domain translation whenever the Texts/Categories tab still held the built-in default — which is always the case on a multilingual site, because those tabs are locked. The multilingual plugin is now asked first and always wins; the localized default is used only when it holds no translation.
