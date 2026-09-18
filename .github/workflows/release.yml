@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -26,31 +27,32 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
-      - name: Check if tag exists
-        id: check_tag
+      - name: Check if release exists
+        id: check_release
         env:
           VERSION: ${{ steps.get_version.outputs.version }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+          if gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Tag v$VERSION already exists"
+            echo "Release v$VERSION already exists — skipping"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Tag v$VERSION does not exist"
+            echo "Release v$VERSION does not exist — will create (even if the tag was pushed manually)"
           fi
 
       - name: Setup PHP
-        if: steps.check_tag.outputs.exists == 'false'
+        if: steps.check_release.outputs.exists == 'false'
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
 
       - name: Install production dependencies
-        if: steps.check_tag.outputs.exists == 'false'
+        if: steps.check_release.outputs.exists == 'false'
         run: composer install --no-dev --optimize-autoloader --no-interaction
 
       - name: Create release ZIP
-        if: steps.check_tag.outputs.exists == 'false'
+        if: steps.check_release.outputs.exists == 'false'
         env:
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
@@ -64,7 +66,7 @@ jobs:
           cd dist && zip -r "lw-cookie-${VERSION}.zip" lw-cookie/
 
       - name: Create tag and release
-        if: steps.check_tag.outputs.exists == 'false'
+        if: steps.check_release.outputs.exists == 'false'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
