@@ -4,11 +4,11 @@
  * Intercepts fetch requests and blocks domains that require
  * consent categories the user has not yet granted.
  *
- * The consent cookie is the source of truth. The state pages post here is
- * only a fast path: it can be stale (another tab posted last, or the page
- * that changed consent could not reach this worker), so before blocking a
- * request the worker re-reads the cookie and never blocks a category the
- * visitor has granted there.
+ * The consent cookie is the source of truth. The state pages post here can
+ * be stale (another tab posted last, or the page that changed consent could
+ * not reach this worker), so where the worker can read cookies (Cookie Store
+ * API) the cookie decides every blocked-domain request, in both directions.
+ * Browsers without it fall back to the posted state.
  *
  * @package LightweightPlugins\Cookie
  */
@@ -20,7 +20,8 @@
 // Blocked domain → category mapping.
 var blockedDomains = {};
 
-// Consent category → allowed state (as last posted by a page).
+// Consent category → allowed state as last posted by a page (used only
+// where the worker cannot read the consent cookie).
 var consentState = {};
 
 // Consent cookie name and policy version, for verifying against the cookie.
@@ -85,40 +86,47 @@ self.addEventListener(
 		var hostname = url.hostname.replace( /^www\./, '' );
 		var category = matchDomain( hostname, url.href );
 
-		if ( ! category || consentState[category] ) {
+		if ( ! category ) {
 			return;
 		}
 
-		// Would block: confirm against the live consent cookie first.
-		event.respondWith(
-			readCookieConsent().then(
-				function ( categories ) {
-					if ( categories && categories[category] ) {
-						consentState = categories;
-						return fetch( request );
+		// The cookie decides, so a stale grant or denial posted by any tab
+		// cannot override it. No valid cookie, or a failed read, blocks.
+		if ( self.cookieStore && consentCookie && policyVersion ) {
+			event.respondWith(
+				readCookieConsent().then(
+					function ( categories ) {
+						return categories && categories[category] ? fetch( request ) : blocked();
 					}
+				)
+			);
+			return;
+		}
 
-					return new Response( '', { status: 403, statusText: 'Blocked by LW Cookie' } );
-				}
-			)
-		);
+		if ( ! consentState[category] ) {
+			event.respondWith( blocked() );
+		}
 	}
 );
+
+/**
+ * The response served in place of a blocked request.
+ *
+ * @return {Response}
+ */
+function blocked() {
+	return new Response( '', { status: 403, statusText: 'Blocked by LW Cookie' } );
+}
 
 /**
  * Read the consent categories from the consent cookie.
  *
  * Mirrors guard.js: base64-encoded JSON, valid only for the current policy
- * version. Resolves null when the cookie is missing, invalid or unreadable
- * (no Cookie Store API in this browser), which keeps the request blocked.
+ * version. Resolves null when the cookie is missing, invalid or unreadable.
  *
  * @return {Promise<Object|null>} Consent categories or null.
  */
 function readCookieConsent() {
-	if ( ! consentCookie || ! policyVersion || ! self.cookieStore ) {
-		return Promise.resolve( null );
-	}
-
 	try {
 		return self.cookieStore.get( consentCookie ).then(
 			function ( cookie ) {

@@ -396,11 +396,12 @@
 			return;
 		}
 
+		// Page-only grant: nothing is persisted, so nothing is sent to the
+		// Service Worker, which is shared by every tab.
 		if ( category ) {
 			cats[ category ] = true;
 		}
 		restoreAllowed();
-		updateSW();
 	}
 
 	// Restore every blocked iframe whose category is now allowed.
@@ -440,6 +441,12 @@
 	var SW_SYNC_TIMEOUT = 500;
 
 	function swMessage() {
+		// Re-read the cookie first: consent may have changed in another tab
+		// since this page loaded, and a stale state must never be broadcast.
+		var fresh = readConsent();
+		valid     = isConsentValid( fresh );
+		cats      = valid ? fresh.categories : { necessary : true };
+
 		return {
 			type: 'consent-update',
 			consent: cats,
