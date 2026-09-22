@@ -25,12 +25,6 @@ use LightweightPlugins\Cookie\Consent\Manager;
  *
  * // Check if specific category is allowed
  * $analytics_allowed = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
- *
- * // Prevent blocking specific scripts (e.g., if another plugin handles consent)
- * add_filter( 'lw_cookie_should_block_script', function( $should_block, $handle, $src, $category ) {
- *     if ( $handle === 'my-plugin-pixel' ) return false; // Don't block, I handle it myself
- *     return $should_block;
- * }, 10, 4 );
  */
 final class Hooks {
 

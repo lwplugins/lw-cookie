@@ -55,7 +55,6 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 * dataLayer.push events for GTM triggers (`lw_cookie_consent_update`)
 * WordPress filters for other plugins to query consent state
-* Script blocking override filter for plugin compatibility
 
 **Admin Features**
 

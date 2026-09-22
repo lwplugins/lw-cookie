@@ -573,18 +573,6 @@ When script blocking is enabled, the plugin:
 | `pintrk` | Marketing |
 | `snap.licdn.com` | Marketing |
 
-### Custom Script Blocking
-
-For scripts not automatically detected, use the `type` attribute:
-
-```html
-<!-- Block until analytics consent -->
-<script type="text/plain" data-consent-category="analytics" data-src="https://example.com/analytics.js"></script>
-
-<!-- Block until marketing consent -->
-<script type="text/plain" data-consent-category="marketing" data-src="https://example.com/pixel.js"></script>
-```
-
 ---
 
 ## Database & GDPR Compliance
@@ -695,8 +683,7 @@ if ( apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' ) ) {
 
 1. Ensure Script Blocking is enabled
 2. Check if the script URL matches known patterns
-3. For custom scripts, add the appropriate data attributes
-4. Clear server-side cache after changing settings
+3. Clear server-side cache after changing settings
 
 ### Google Consent Mode Not Working
 

@@ -77,7 +77,6 @@ Detect cookies on your website:
 
 - **dataLayer.push** events for GTM triggers (`lw_cookie_consent_update`)
 - **WordPress filters** for querying consent state
-- **Script blocking override** filter for plugin compatibility
 
 ### WP-CLI Support
 
@@ -175,14 +174,6 @@ $has_consent = apply_filters( 'lw_cookie_has_consent', false );
 
 // Check if specific category is allowed
 $analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
-
-// Prevent blocking specific scripts (e.g., if your plugin handles consent)
-add_filter( 'lw_cookie_should_block_script', function( $should_block, $handle, $src, $category ) {
-    if ( $handle === 'my-plugin-pixel' ) {
-        return false; // Don't block, I handle consent myself
-    }
-    return $should_block;
-}, 10, 4 );
 ```
 
 ## Integrating Custom Embeds
