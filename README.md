@@ -137,6 +137,9 @@ LWCookie.rejectAll();
 // Open preferences modal
 LWCookie.openPreferences();
 
+// Accept a single category (e.g. from an embed placeholder button)
+LWCookie.acceptCategory('marketing');
+
 // Get current consent state
 const consent = LWCookie.getConsent();
 // { necessary: true, functional: false, analytics: false, marketing: false }
@@ -179,6 +182,22 @@ add_filter( 'lw_cookie_should_block_script', function( $should_block, $handle, $
     return $should_block;
 }, 10, 4 );
 ```
+
+## Integrating Custom Embeds
+
+While **Advanced → Content Blocking** is on (the default), the guard blocks third-party iframes (YouTube, Vimeo, Google Maps, …) until the visitor accepts the cookie category of their host, and shows a placeholder in their place. A plugin or theme that renders embeds can send them in that blocked form itself. Nothing is then requested from the host before consent. When the guard blocks an iframe it finds in the page, the iframe has already sent its request.
+
+```html
+<div class="lw-cookie-embed-block my-player__consent"><p class="lw-cookie-embed-block__msg">To watch this video, accept the required cookies.</p><button type="button" class="lw-cookie-embed-block__btn" data-my-category="marketing">Accept &amp; play video</button></div><iframe data-lw-blocked="1" data-lw-category="marketing" data-lw-original-src="https://player.vimeo.com/video/76979871" style="display:none"></iframe>
+```
+
+The contract:
+
+- **The iframe** has no `src`. It carries `data-lw-blocked="1"`, `data-lw-category` (`functional`, `analytics` or `marketing`) and `data-lw-original-src` (the URL to load once allowed).
+- **The placeholder** is an element with the `lw-cookie-embed-block` class that is the iframe's previous sibling *node*: no whitespace in between. LW Cookie styles it and its `__msg` / `__btn` children. In a padding-ratio box, position it over the box yourself (`position:absolute; inset:0; min-height:0`).
+- **When consent for the category is saved** (banner, preferences, or `acceptCategory()` below), the guard sets `src` from `data-lw-original-src`, removes `data-lw-blocked` and the inline `display`, and removes the placeholder. It does not do this on page load, so render the plain embed for visitors who have already consented.
+- **The button** is yours to wire: LW Cookie attaches handlers only to placeholders it builds. Call `window.LWCookie.acceptCategory( category )` to grant and save just that category. Blocked embeds then load in place. If a script of that category was blocked on the page, the page reloads instead, because such a script cannot run in place. Or call `window.LWCookie.openPreferences()` to let the visitor choose.
+- **On the server**, `apply_filters( 'lw_cookie_is_category_allowed', false, $category )` tells whether the current visitor has accepted a category. `\LightweightPlugins\Cookie\Options::get( 'content_blocking' )` tells whether content blocking is on, and `\LightweightPlugins\Cookie\Blocking\Entities::get_domains()` returns the host → category map the guard uses. The filter reads the visitor's consent cookie, so output that depends on it must not be shared through a full-page cache. A cached blocked form is safe, since the visitor only has to accept again. A cached plain embed is not: its request leaves before the guard can block it.
 
 ## GTM Integration
 
