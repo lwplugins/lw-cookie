@@ -550,12 +550,12 @@ gtag('consent', 'update', {
 
 ### How It Works
 
-When script blocking is enabled, the plugin:
+When script blocking is enabled:
 
-1. Scans all `<script>` tags during page load
-2. Identifies known tracking scripts by their URL patterns
-3. Blocks scripts that require consent for categories the user hasn't accepted
-4. Automatically unblocks and loads scripts when consent is granted
+1. An inline guard in the page `<head>` checks every script and tracking pixel the page adds — from the HTML or injected by another script — against the [host list below](#blocked-hosts). A match that needs a category the visitor has not accepted is made inert (scripts) or loses its source (pixels).
+2. The consent Service Worker blocks requests to the same hosts at network level, in browsers that support service workers.
+3. The known tracking cookies (`_ga`, `_fbp`, …) are not written before consent.
+4. When consent is given, blocked embeds load in place. Blocked scripts run after the page reload that follows consent: accepting from the banner or the preferences reloads the page when a category is granted, and `LWCookie.acceptCategory()` (the placeholder's button) reloads it when that category has blocked scripts on the page — otherwise it loads the embed in place.
 
 ### Blocked Hosts
 

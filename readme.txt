@@ -36,7 +36,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 * Automatic blocking of known tracking scripts until consent
 * Supports Google Analytics, Facebook Pixel, Hotjar, and more
-* Scripts unblock dynamically when consent is given
+* Blocked embeds load in place once consent is given; blocked scripts run after the page reload that follows consent
 
 **Google Consent Mode v2**
 
