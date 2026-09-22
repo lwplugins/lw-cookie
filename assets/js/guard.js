@@ -153,6 +153,13 @@
 	}
 
 	// ── 4. Domain category lookup ────────────────────────────────────
+	// ES5 suffix check: this runs inside third-party src assignments (see 5b),
+	// so it must never throw.
+	function hasSuffix( str, suffix ) {
+		var at = str.length - suffix.length;
+		return at >= 0 && str.indexOf( suffix, at ) === at;
+	}
+
 	function getCategoryForUrl( url ) {
 		var a;
 		try {
@@ -172,7 +179,7 @@
 
 		for ( var i = 0; i < domainsLength; i++ ) {
 			var d = domains[i];
-			if ( hostname === d || hostname.endsWith( '.' + d ) ) {
+			if ( hostname === d || hasSuffix( hostname, '.' + d ) ) {
 				return DOMAINS[d];
 			}
 			// Path-based (e.g. "google.com/maps").

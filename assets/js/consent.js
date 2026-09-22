@@ -255,7 +255,7 @@
 			synced = window.__lwGuard.refresh( categories );
 		}
 
-		// Send to server via REST API (fire-and-forget).
+		// Send to server via REST API (fire-and-forget; keepalive lets it outlive a reload).
 		if ( config.restUrl ) {
 			fetch(
 				config.restUrl,
@@ -268,7 +268,9 @@
 							action_type: actionType
 						}
 					),
-				credentials: 'same-origin'
+				credentials: 'same-origin',
+				// Survive the reload that may follow right after accepting.
+				keepalive: true
 				}
 			).catch(
 				function ( error ) {
