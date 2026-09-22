@@ -80,6 +80,8 @@ final class GuardScript {
 			'preview'         => Preview::is_active(),
 			// Advanced → Content Blocking: embedded iframes and their placeholders.
 			'contentBlocking' => (bool) Options::get( 'content_blocking' ),
+			// Advanced → Script Blocking: tracker scripts, pixels and the Service Worker.
+			'scriptBlocking'  => (bool) Options::get( 'script_blocking' ),
 			'text'            => [
 				'blockedMessage' => Strings::get_or_default(
 					'blocked_embed_message',

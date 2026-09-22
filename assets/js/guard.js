@@ -23,9 +23,12 @@
 	var TEXT           = cfg.text || {};
 
 	// Advanced → Content Blocking. Governs embedded iframes (and their
-	// placeholders) only; tracker scripts and pixels are always blocked.
-	// Missing from a config cached before 1.7.6 → on, as before.
+	// placeholders) only. Missing from a config cached before 1.7.6 → on.
 	var CONTENT_BLOCKING = cfg.contentBlocking !== false;
+
+	// Advanced → Script Blocking. Governs tracker scripts, tracking pixels and
+	// the Service Worker. Missing from a config cached before 1.7.7 → on.
+	var SCRIPT_BLOCKING = cfg.scriptBlocking !== false;
 
 	// ── 1. Read consent from browser cookie ──────────────────────────
 	function readConsent() {
@@ -112,6 +115,9 @@
 	}
 
 	// ── 3. document.cookie setter override ───────────────────────────
+	// Independent of Script Blocking: with it off, tracker scripts may load
+	// (e.g. for Consent Mode's cookieless pings), but writing their known
+	// cookies is what needs consent, so that stays blocked until it is given.
 	function isCookieBlocked( name ) {
 		var keys       = Object.keys( COOKIES );
 		var keysLength = keys.length;
@@ -241,8 +247,8 @@
 	function processElement( el ) {
 		var tag = el.tagName;
 
-		// Scripts with src.
-		if ( tag === 'SCRIPT' && el.src ) {
+		// Scripts with src (Script Blocking).
+		if ( tag === 'SCRIPT' && SCRIPT_BLOCKING && el.src ) {
 			blockScript( el, el.src );
 			return;
 		}
@@ -253,8 +259,8 @@
 			return;
 		}
 
-		// Images (tracking pixels).
-		if ( tag === 'IMG' && el.src && isUrlBlocked( el.src ) ) {
+		// Images (tracking pixels — Script Blocking).
+		if ( tag === 'IMG' && SCRIPT_BLOCKING && el.src && isUrlBlocked( el.src ) ) {
 			el.setAttribute( 'data-lw-original-src', el.src );
 			el.removeAttribute( 'src' );
 			el.setAttribute( 'data-lw-blocked', '1' );
@@ -327,7 +333,7 @@
 		};
 	}
 
-	if ( scriptSrc && scriptSrc.set && scriptType && scriptType.set ) {
+	if ( SCRIPT_BLOCKING && scriptSrc && scriptSrc.set && scriptType && scriptType.set ) {
 		document.createElement = function () {
 			var el = nativeCreateElement.apply( this, arguments );
 			if ( el.tagName === 'SCRIPT' ) {
@@ -492,7 +498,9 @@
 		return {
 			type: 'consent-update',
 			consent: cats,
-			domains: DOMAINS,
+			// No domains with Script Blocking off: a worker holding none blocks
+			// nothing (every worker version honours this).
+			domains: SCRIPT_BLOCKING ? DOMAINS : {},
 			cookieName: COOKIE_NAME,
 			policyVersion: POLICY_VERSION
 		};
@@ -534,22 +542,48 @@
 		);
 	}
 
+	// Script Blocking is off, but a worker registered while it was on stays in
+	// the visitor's browser and would keep blocking tracker hosts — it reads
+	// the consent cookie itself. The empty domain list sent by updateSW()
+	// disarms it at once, for every open tab; unregistering it then keeps
+	// later page loads out of it. Only LW Cookie's own worker is touched.
+	function retireSW() {
+		updateSW().then(
+			function () {
+				return navigator.serviceWorker.getRegistration();
+			}
+		).then(
+			function ( reg ) {
+				var worker = reg && ( reg.active || reg.waiting || reg.installing );
+				if ( worker && worker.scriptURL.split( '?' )[0] === SW_URL.split( '?' )[0] ) {
+					return reg.unregister();
+				}
+			}
+		).catch(
+			function () {}
+		);
+	}
+
 	if ( SW_URL && 'serviceWorker' in navigator ) {
 		// Earliest possible hand-off to a worker already controlling this page.
 		if ( navigator.serviceWorker.controller ) {
 			navigator.serviceWorker.controller.postMessage( swMessage() );
 		}
 
-		navigator.serviceWorker.register( SW_URL, { scope: '/' } ).catch(
-			function () {
-				// Registration failed: the guard above still blocks in the page.
-			}
-		);
+		if ( SCRIPT_BLOCKING ) {
+			navigator.serviceWorker.register( SW_URL, { scope: '/' } ).catch(
+				function () {
+					// Registration failed: the guard above still blocks in the page.
+				}
+			);
 
-		// Once a worker is active (on a first visit only after install), sync
-		// it. A registration never fires 'activate' — that event exists only
-		// inside the worker.
-		navigator.serviceWorker.ready.then( updateSW );
+			// Once a worker is active (on a first visit only after install),
+			// sync it. A registration never fires 'activate' — that event exists
+			// only inside the worker.
+			navigator.serviceWorker.ready.then( updateSW );
+		} else {
+			retireSW();
+		}
 	}
 
 	// ── 7. GCM v2 update (if consent exists) ─────────────────────────

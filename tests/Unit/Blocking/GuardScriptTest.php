@@ -2,8 +2,9 @@
 /**
  * Tests for GuardScript.
  *
- * The Advanced tab's "Content Blocking" setting was saved but never read, so
- * embeds were blocked whenever the banner was on. The guard now receives it.
+ * The Advanced tab's "Content Blocking" and "Script Blocking" settings were
+ * saved but never read, so embeds and trackers were blocked whenever the
+ * banner was on. The guard now receives both.
  *
  * @package LightweightPlugins\Cookie
  */
@@ -67,5 +68,19 @@ final class GuardScriptTest extends MonkeyTestCase {
 
 	public function test_content_blocking_off_reaches_the_guard(): void {
 		$this->assertFalse( $this->guard_config( [ 'content_blocking' => false ] )['contentBlocking'] );
+	}
+
+	public function test_script_blocking_is_on_by_default(): void {
+		$this->assertTrue( $this->guard_config( [] )['scriptBlocking'] );
+	}
+
+	public function test_script_blocking_off_reaches_the_guard(): void {
+		$this->assertFalse( $this->guard_config( [ 'script_blocking' => false ] )['scriptBlocking'] );
+	}
+
+	public function test_script_blocking_does_not_depend_on_content_blocking(): void {
+		$config = $this->guard_config( [ 'content_blocking' => false ] );
+
+		$this->assertTrue( $config['scriptBlocking'] );
 	}
 }

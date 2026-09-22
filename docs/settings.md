@@ -210,7 +210,12 @@ How long the consent cookie is stored. After this period, users will be prompted
 **Option:** `script_blocking`
 **Default:** `true`
 
-When enabled, known tracking scripts are automatically blocked until the user provides consent for the relevant category.
+When enabled, known tracking scripts and their tracking pixels are blocked until the user provides consent for the relevant category — in the page, and at network level through the consent Service Worker.
+
+When disabled, tracker scripts and pixels load before consent (for example when you rely on Google Consent Mode's cookieless measurement instead), and the Service Worker is not used: pages disarm and unregister a worker that visitors' browsers still hold from before. Two things stay in place either way:
+
+- The known tracking cookies (`_ga`, `_fbp`, …) are still not written before consent — setting them is what requires consent.
+- Embedded content follows [Content Blocking](#content-blocking), not this setting.
 
 **Blocked Scripts Include:**
 - Google Analytics (analytics category)
@@ -222,6 +227,13 @@ When enabled, known tracking scripts are automatically blocked until the user pr
 - TikTok Pixel (marketing category)
 - Pinterest Tag (marketing category)
 - Snapchat Pixel (marketing category)
+
+### Content Blocking
+
+**Option:** `content_blocking`
+**Default:** `true`
+
+When enabled, embedded content (YouTube, Vimeo, Google Maps and other third-party iframes) is blocked until the user consents to the host's category, and a placeholder with an accept button is shown in its place. When disabled, embeds load normally. Tracker scripts follow [Script Blocking](#script-blocking).
 
 ### Google Consent Mode
 

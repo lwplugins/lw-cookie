@@ -40,6 +40,8 @@ Automatic blocking of known tracking scripts until consent:
 - Pinterest Tag
 - Snapchat Pixel
 
+Can be switched off under **Advanced → Script Blocking**. The known tracking cookies (`_ga`, `_fbp`, …) still wait for consent either way.
+
 ### Content Blocking
 
 Block third-party embeds until consent is given:
