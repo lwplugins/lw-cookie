@@ -78,8 +78,9 @@ final class Plugin {
 		// REST API endpoint for consent logging (replaces AJAX).
 		new ConsentEndpoint();
 
-		// Service Worker fallback route.
+		// Service Worker fallback route, and the webroot copy after updates.
 		ServiceWorkerManager::register_fallback();
+		ServiceWorkerManager::maybe_upgrade();
 
 		if ( is_admin() ) {
 			new SettingsPage();

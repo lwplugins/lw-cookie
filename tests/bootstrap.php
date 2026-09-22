@@ -20,5 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'LW_COOKIE_PATH' ) ) {
 	define( 'LW_COOKIE_PATH', dirname( __DIR__ ) . '/' );
 }
+if ( ! defined( 'LW_COOKIE_VERSION' ) ) {
+	define( 'LW_COOKIE_VERSION', '0.0.0-test' );
+}
 
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';

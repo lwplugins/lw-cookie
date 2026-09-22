@@ -25,6 +25,11 @@ final class ServiceWorkerManager {
 	private const SW_FILENAME = 'lw-cookie-sw.js';
 
 	/**
+	 * Option holding the plugin version whose SW copy sits in the webroot.
+	 */
+	private const VERSION_OPTION = 'lw_cookie_sw_version';
+
+	/**
 	 * Get the public URL for the Service Worker.
 	 *
 	 * @return string
@@ -89,6 +94,26 @@ final class ServiceWorkerManager {
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_copy
 		return copy( $source, $dest );
+	}
+
+	/**
+	 * Refresh the webroot copy once after a plugin update.
+	 *
+	 * Updates do not fire the activation hook, and the web server serves the
+	 * webroot copy directly, so without this an updated worker would never
+	 * reach browsers. Costs one autoloaded option read per request.
+	 *
+	 * @return void
+	 */
+	public static function maybe_upgrade(): void {
+		if ( get_option( self::VERSION_OPTION ) === LW_COOKIE_VERSION ) {
+			return;
+		}
+
+		// Record first, so an unwritable webroot is not retried on every request
+		// (the dynamic fallback then serves the current file).
+		update_option( self::VERSION_OPTION, LW_COOKIE_VERSION );
+		self::install();
 	}
 
 	/**

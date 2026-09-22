@@ -332,40 +332,73 @@
 	observer.observe( document.documentElement, { childList: true, subtree: true } );
 
 	// ── 6. Service Worker registration ───────────────────────────────
+	// Cap on waiting for the worker's acknowledgement: a slow-starting worker
+	// must not hold up the consent reload. The worker re-checks the consent
+	// cookie before blocking anything, so the ack is not the only safeguard.
+	var SW_SYNC_TIMEOUT = 500;
+
+	function swMessage() {
+		return {
+			type: 'consent-update',
+			consent: cats,
+			domains: DOMAINS,
+			cookieName: COOKIE_NAME,
+			policyVersion: POLICY_VERSION
+		};
+	}
+
+	// Hand the current state to the active worker. Resolves once the worker
+	// has acknowledged it, or after SW_SYNC_TIMEOUT. Targets the registration's
+	// active worker, not navigator.serviceWorker.controller: a page the worker
+	// does not control (e.g. after a hard reload) must still reach it.
 	function updateSW() {
-		if ( ! navigator.serviceWorker || ! navigator.serviceWorker.controller ) {
-			return;
+		if ( ! SW_URL || ! navigator.serviceWorker ) {
+			return null;
 		}
-		navigator.serviceWorker.controller.postMessage(
-			{
-				type: 'consent-update',
-				consent: cats,
-				domains: DOMAINS
+
+		var message = swMessage();
+		var synced  = navigator.serviceWorker.getRegistration().then(
+			function ( reg ) {
+				if ( ! reg || ! reg.active ) {
+					return;
+				}
+				var worker = reg.active;
+				return new Promise(
+					function ( resolve ) {
+						var channel             = new MessageChannel();
+						channel.port1.onmessage = resolve;
+						worker.postMessage( message, [ channel.port2 ] );
+					}
+				);
 			}
+		);
+		var timeout = new Promise(
+			function ( resolve ) {
+				setTimeout( resolve, SW_SYNC_TIMEOUT );
+			}
+		);
+
+		return Promise.race( [ synced, timeout ] ).catch(
+			function () {}
 		);
 	}
 
 	if ( SW_URL && 'serviceWorker' in navigator ) {
-		navigator.serviceWorker.register( SW_URL, { scope: '/' } )
-			.then(
-				function ( reg ) {
-					// SW may already be active or will be soon.
-					if ( reg.active ) {
-							updateSW();
-					}
-					reg.addEventListener( 'activate', updateSW );
-				}
-			)
-			.catch(
-				function () {
-					// SW registration failed — CSP fallback will handle it.
-				}
-			);
-
-		// Also update when existing SW becomes active.
+		// Earliest possible hand-off to a worker already controlling this page.
 		if ( navigator.serviceWorker.controller ) {
-			updateSW();
+			navigator.serviceWorker.controller.postMessage( swMessage() );
 		}
+
+		navigator.serviceWorker.register( SW_URL, { scope: '/' } ).catch(
+			function () {
+				// SW registration failed — CSP fallback will handle it.
+			}
+		);
+
+		// Once a worker is active (on a first visit only after install), sync
+		// it. A registration never fires 'activate' — that event exists only
+		// inside the worker.
+		navigator.serviceWorker.ready.then( updateSW );
 	}
 
 	// ── 7. CSP meta fallback (browsers without SW) ───────────────────
@@ -447,15 +480,19 @@
 		 * Updates internal state and notifies SW.
 		 *
 		 * @param {Object} newCategories Updated consent categories.
+		 * @return {Promise|null} Settles once the SW has the new state (or
+		 *                        timed out); null when no SW is in use.
 		 */
 		refresh: function ( newCategories ) {
 			cats  = newCategories;
 			valid = true;
 
 			toggleVisibility();
-			updateSW();
+			var synced = updateSW();
 			updateGCM( newCategories );
 			restoreAllowed();
+
+			return synced;
 		},
 
 		/**

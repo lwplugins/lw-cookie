@@ -250,8 +250,9 @@
 		hideBanner();
 
 		// Notify guard.js to update SW, GCM, observer, etc.
+		var synced = null;
 		if ( window.__lwGuard && window.__lwGuard.refresh ) {
-			window.__lwGuard.refresh( categories );
+			synced = window.__lwGuard.refresh( categories );
 		}
 
 		// Send to server via REST API (fire-and-forget).
@@ -282,13 +283,37 @@
 		// Reload only if scripts were previously blocked and now need loading.
 		// The SW can block but cannot retroactively load scripts.
 		if ( ! skipReload && needsReload( categories ) ) {
-			setTimeout(
-				function () {
-					window.location.reload();
-				},
-				100
-			);
+			reloadWhenSynced( synced );
 		}
+	}
+
+	/**
+	 * Reload once the Service Worker holds the new consent state.
+	 *
+	 * The reloaded page requests its scripts before guard.js can message the
+	 * worker, so the worker must know about the change beforehand. Waits for
+	 * guard.js's sync (which caps the wait itself), and at least 100 ms so the
+	 * consent log request is on its way.
+	 *
+	 * @param {Promise|null} synced Settles when the SW has the new state.
+	 */
+	function reloadWhenSynced( synced ) {
+		var reload = function () {
+			window.location.reload();
+		};
+
+		if ( typeof Promise === 'undefined' ) {
+			setTimeout( reload, 100 );
+			return;
+		}
+
+		var minDelay = new Promise(
+			function ( resolve ) {
+				setTimeout( resolve, 100 );
+			}
+		);
+
+		Promise.all( [ synced, minDelay ] ).then( reload, reload );
 	}
 
 	/**

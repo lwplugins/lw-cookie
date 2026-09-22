@@ -63,8 +63,8 @@ var ex=new Date();ex.setDate(ex.getDate()+365);
 document.cookie=cn+'='+btoa(d)+';expires='+ex.toUTCString()+';path=/;SameSite=Lax';
 if(bn)bn.classList.add('lw-cookie-hidden');
 if(md)md.style.display='none';
-if(window.__lwGuard)window.__lwGuard.refresh(cats);
-setTimeout(function(){location.reload()},100);
+var s=window.__lwGuard?window.__lwGuard.refresh(cats):null,r=function(){location.reload()};
+if(window.Promise){Promise.all([s,new Promise(function(x){setTimeout(x,100)})]).then(r,r)}else{setTimeout(r,100)}
 }
 if(e.target.closest('[data-lw-cookie-accept]')){
 sv({necessary:true,functional:true,analytics:true,marketing:true});

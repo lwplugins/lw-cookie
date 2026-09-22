@@ -14,6 +14,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 // Delete plugin options.
 delete_option( 'lw_cookie_options' );
+delete_option( 'lw_cookie_sw_version' );
 
 // Drop custom tables.
 global $wpdb;

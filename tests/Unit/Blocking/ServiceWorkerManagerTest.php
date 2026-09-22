@@ -136,6 +136,70 @@ final class ServiceWorkerManagerTest extends MonkeyTestCase {
 	}
 
 	/**
+	 * Plugin updates do not fire the activation hook and the web server serves
+	 * the webroot copy directly, so an updated worker only reaches browsers if
+	 * the copy is refreshed once the new version runs (lwplugins/.github#2).
+	 */
+	public function test_maybe_upgrade_refreshes_the_webroot_copy_after_an_update(): void {
+		$this->stub_urls( 'https://example.test', 'https://example.test' );
+		Functions\when( 'get_option' )->justReturn( '1.7.5' );
+		Functions\when( 'file_exists' )->justReturn( true );
+
+		$recorded = null;
+		Functions\when( 'update_option' )->alias(
+			static function ( $name, $value ) use ( &$recorded ) {
+				$recorded = [ $name, $value ];
+				return true;
+			}
+		);
+
+		$dest = null;
+		Functions\when( 'copy' )->alias(
+			static function ( $source, $target ) use ( &$dest ) {
+				$dest = $target;
+				return true;
+			}
+		);
+
+		ServiceWorkerManager::maybe_upgrade();
+
+		$this->assertSame( ABSPATH . 'lw-cookie-sw.js', $dest );
+		$this->assertSame( [ 'lw_cookie_sw_version', LW_COOKIE_VERSION ], $recorded );
+	}
+
+	/**
+	 * maybe_upgrade() runs on every request: once the copy matches the running
+	 * version it must neither write the option nor touch the filesystem.
+	 */
+	public function test_maybe_upgrade_is_a_noop_for_the_current_version(): void {
+		Functions\when( 'get_option' )->justReturn( LW_COOKIE_VERSION );
+
+		$touched = false;
+		Functions\when( 'update_option' )->alias(
+			static function () use ( &$touched ) {
+				$touched = true;
+				return true;
+			}
+		);
+		Functions\when( 'file_exists' )->alias(
+			static function () use ( &$touched ) {
+				$touched = true;
+				return true;
+			}
+		);
+		Functions\when( 'copy' )->alias(
+			static function () use ( &$touched ) {
+				$touched = true;
+				return true;
+			}
+		);
+
+		ServiceWorkerManager::maybe_upgrade();
+
+		$this->assertFalse( $touched );
+	}
+
+	/**
 	 * register_fallback() runs on every front-end request, so it must not touch
 	 * the filesystem: a stat of a mis-resolved root path floods the error log
 	 * with open_basedir warnings.
