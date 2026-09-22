@@ -435,10 +435,12 @@
 	);
 
 	// ── 6. Service Worker registration ───────────────────────────────
-	// Cap on waiting for the worker's acknowledgement: a slow-starting worker
-	// must not hold up the consent reload. The worker re-checks the consent
-	// cookie before blocking anything, so the ack is not the only safeguard.
-	var SW_SYNC_TIMEOUT = 500;
+	// Cap on waiting for the worker's acknowledgement, so a slow-starting
+	// worker cannot hold up the consent reload for long. Where the worker can
+	// read the consent cookie itself (Cookie Store API — shipped together in
+	// windows and workers) the ack is only a fast path; elsewhere it is the
+	// only guarantee the worker has the new state, so wait longer for it.
+	var SW_SYNC_TIMEOUT = window.cookieStore ? 500 : 2000;
 
 	function swMessage() {
 		// Re-read the cookie first: consent may have changed in another tab
