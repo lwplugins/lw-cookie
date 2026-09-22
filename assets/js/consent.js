@@ -452,11 +452,14 @@
 	}
 
 	/**
-	 * Grant a single category and persist it, without a page reload.
+	 * Grant a single category and persist it.
 	 *
 	 * Used by the blocked-embed placeholder (guard.js): the visitor consents
 	 * to just the category the embed needs, and guard.js restores it in place
-	 * via __lwGuard.refresh() (called from saveConsent).
+	 * via __lwGuard.refresh() (called from saveConsent). When a script of that
+	 * category is blocked on the page, the page reloads instead: a blocked
+	 * script cannot be restored in place, since code relying on it (an SDK's
+	 * init call, say) has already run without it.
 	 *
 	 * @param {string} category Category key to grant.
 	 */
@@ -467,7 +470,10 @@
 			categories[category] = true;
 		}
 
-		saveConsent( categories, 'load_embed', true );
+		var guard  = window.__lwGuard;
+		var reload = ! ! ( guard && guard.hasBlockedScripts && guard.hasBlockedScripts( category ) );
+
+		saveConsent( categories, 'load_embed', ! reload );
 	}
 
 	// Expose API globally.

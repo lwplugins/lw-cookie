@@ -607,6 +607,25 @@
 		},
 
 		/**
+		 * Whether a script of this category is blocked on the page. Such a
+		 * script cannot be restored in place (code relying on it has already
+		 * run without it), so consent.js reloads instead.
+		 *
+		 * @param {string} category Category key.
+		 * @return {boolean}
+		 */
+		hasBlockedScripts: function ( category ) {
+			var blocked    = document.querySelectorAll( 'script[data-lw-blocked="1"]' );
+			var blockedLen = blocked.length;
+			for ( var i = 0; i < blockedLen; i++ ) {
+				if ( blocked[i].getAttribute( 'data-lw-category' ) === category ) {
+					return true;
+				}
+			}
+			return false;
+		},
+
+		/**
 		 * Read current consent state (for consent.js init).
 		 */
 		getConsent: function () {
