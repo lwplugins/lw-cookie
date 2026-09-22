@@ -542,7 +542,7 @@
 
 		navigator.serviceWorker.register( SW_URL, { scope: '/' } ).catch(
 			function () {
-				// SW registration failed — CSP fallback will handle it.
+				// Registration failed: the guard above still blocks in the page.
 			}
 		);
 
@@ -552,49 +552,7 @@
 		navigator.serviceWorker.ready.then( updateSW );
 	}
 
-	// ── 7. CSP meta fallback (browsers without SW) ───────────────────
-	function injectCSP() {
-		if ( 'serviceWorker' in navigator ) {
-			return; // SW handles it.
-		}
-
-		var blocked       = [];
-		var domains       = Object.keys( DOMAINS );
-		var domainsLength = domains.length;
-
-		for ( var i = 0; i < domainsLength; i++ ) {
-			var d   = domains[i];
-			var cat = DOMAINS[d];
-			if ( ! cats[cat] ) {
-				// Strip path for CSP (CSP doesn't support paths in source).
-				var host = d.split( '/' )[0];
-				if ( blocked.indexOf( host ) === -1 ) {
-					blocked.push( host );
-				}
-			}
-		}
-
-		if ( blocked.length === 0 ) {
-			return;
-		}
-
-		var blockedStr = blocked.map(
-			function ( h ) {
-				return '*.' + h; }
-		).join( ' ' );
-		var policy     = "script-src 'self' 'unsafe-inline' 'unsafe-eval' *; " +
-						"frame-src 'self' *; " +
-						"connect-src 'self' *; " +
-						"img-src 'self' data: *";
-
-		// Note: meta CSP can only restrict, not expand. This is a best-effort fallback.
-		// Real blocking is handled by MutationObserver + cookie override.
-		void policy;
-	}
-
-	injectCSP();
-
-	// ── 8. GCM v2 update (if consent exists) ─────────────────────────
+	// ── 7. GCM v2 update (if consent exists) ─────────────────────────
 	function updateGCM( categories ) {
 		// Delivered via the dataLayer (see lwConsentPush) so it also reaches
 		// GTM-only setups where no global gtag() is defined.
@@ -624,7 +582,7 @@
 		updateGCM( cats );
 	}
 
-	// ── 9. Public API for consent.js ─────────────────────────────────
+	// ── 8. Public API for consent.js ─────────────────────────────────
 	window.__lwGuard = {
 		/**
 		 * Called by consent.js after the user saves preferences.
