@@ -43,6 +43,10 @@ final class KnownScriptsTest extends TestCase {
 			'facebook pixel'       => array( 'https://connect.facebook.net/en_US/fbevents.js', 'marketing' ),
 			'hotjar'               => array( 'https://static.hotjar.com/c/hotjar-123.js', 'analytics' ),
 			'linkedin'             => array( 'https://snap.licdn.com/li.lms-analytics/insight.min.js', 'marketing' ),
+			'snapchat pixel'       => array( 'https://sc-static.net/scevent.min.js', 'marketing' ),
+			'snapchat event'       => array( 'https://tr.snapchat.com/p', 'marketing' ),
+			'snapchat event ipv6'  => array( 'https://tr6.snapchat.com/cm/i', 'marketing' ),
+			'snapchat event test'  => array( 'https://tr-shadow.snapchat.com/p', 'marketing' ),
 		);
 	}
 

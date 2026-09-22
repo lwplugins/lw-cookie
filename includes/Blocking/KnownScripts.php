@@ -72,6 +72,17 @@ final class KnownScripts {
 					's.pinimg.com/ct',
 				],
 			],
+			// Snap Pixel: script host from Snap's base code; the tr*.snapchat.com
+			// event hosts are the ones its scevent.min.js sends to.
+			'snapchat_pixel'    => [
+				'category' => 'marketing',
+				'patterns' => [
+					'sc-static.net',
+					'tr.snapchat.com',
+					'tr6.snapchat.com',
+					'tr-shadow.snapchat.com',
+				],
+			],
 			'microsoft_clarity' => [
 				'category' => 'analytics',
 				'patterns' => [

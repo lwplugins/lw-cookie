@@ -76,6 +76,8 @@ final class Entities {
 			'personalization_id'     => 'marketing',
 			'tt_pixel_session_index' => 'marketing',
 			'_ttp'                   => 'marketing',
+			'_scid'                  => 'marketing',
+			'_sctr'                  => 'marketing',
 		];
 	}
 
