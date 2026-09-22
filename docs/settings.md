@@ -233,7 +233,7 @@ When disabled, tracker scripts and pixels load before consent (for example when 
 **Option:** `content_blocking`
 **Default:** `true`
 
-When enabled, embedded content (YouTube, Vimeo, Google Maps and other third-party iframes) is blocked until the user consents to the host's category, and a placeholder with an accept button is shown in its place. When disabled, embeds load normally. Tracker scripts follow [Script Blocking](#script-blocking).
+When enabled, embedded content (iframes from YouTube, Vimeo, Google Maps and the other embed hosts listed under [Blocked Hosts](#blocked-hosts)) is blocked until the user consents to the host's category, and a placeholder with an accept button is shown in its place. When disabled, embeds load normally. Tracker scripts follow [Script Blocking](#script-blocking).
 
 ### Google Consent Mode
 
@@ -694,7 +694,7 @@ if ( apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' ) ) {
 ### Google Consent Mode Not Working
 
 1. Enable GCM in Advanced settings
-2. Ensure `gtag` is loaded before LW Cookie
+2. Make sure no Google tag (gtag.js or the GTM snippet) is hard-coded above `wp_head()` in your theme: LW Cookie prints the Consent Mode defaults at the top of `wp_head()`, and they must come before any tag
 3. Verify consent signals in browser console:
    ```javascript
    console.log(window.dataLayer);

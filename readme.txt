@@ -81,7 +81,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 This plugin helps you comply with GDPR and other privacy regulations by:
 
-1. **Prior Consent** - No cookies (except necessary) set before consent
+1. **Prior Consent** - Known tracking scripts, pixels, embeds and tracking cookies are held back until consent (see the Script Blocking and Content Blocking settings)
 2. **Granular Control** - Users choose which categories to accept
 3. **Easy Withdrawal** - Floating button allows changing consent anytime
 4. **Consent Proof** - All consents logged with timestamp and policy version

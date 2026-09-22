@@ -49,7 +49,7 @@ Block third-party embeds until consent is given:
 - YouTube videos
 - Vimeo videos
 - Google Maps
-- Other iframes
+- Other known embed hosts (Dailymotion, Twitch, SoundCloud, Spotify, …)
 
 ### Cookie Scanner
 
@@ -178,7 +178,7 @@ $analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytic
 
 ## Integrating Custom Embeds
 
-While **Advanced → Content Blocking** is on (the default), the guard blocks third-party iframes (YouTube, Vimeo, Google Maps, …) until the visitor accepts the cookie category of their host, and shows a placeholder in their place. A plugin or theme that renders embeds can send them in that blocked form itself. Nothing is then requested from the host before consent. When the guard blocks an iframe it finds in the page, the iframe has already sent its request.
+While **Advanced → Content Blocking** is on (the default), the guard blocks iframes from known embed hosts (YouTube, Vimeo, Google Maps, …) until the visitor accepts the cookie category of their host, and shows a placeholder in their place. A plugin or theme that renders embeds can send them in that blocked form itself. Nothing is then requested from the host before consent. When the guard blocks an iframe it finds in the page, the iframe has already sent its request.
 
 ```html
 <div class="lw-cookie-embed-block my-player__consent"><p class="lw-cookie-embed-block__msg">To watch this video, accept the required cookies.</p><button type="button" class="lw-cookie-embed-block__btn" data-my-category="marketing">Accept &amp; play video</button></div><iframe data-lw-blocked="1" data-lw-category="marketing" data-lw-original-src="https://player.vimeo.com/video/76979871" style="display:none"></iframe>
