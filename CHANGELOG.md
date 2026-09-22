@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.7.7] - 2026-09-22
+
+### Fixed
+- **The Script Blocking setting (Advanced tab) had no effect.** It has been read nowhere since the 1.6.0 client-side rewrite, so tracker scripts were blocked whenever the banner was on. Turning it off now lets tracker scripts and tracking pixels load before consent, for example when you rely on Google Consent Mode's cookieless measurement. The consent Service Worker is not used then: since 1.7.6 the worker reads the consent cookie itself, so pages disarm a worker that visitors' browsers still hold from before (an empty domain list, honoured at once for every open tab) and unregister it. The known tracking cookies (`_ga`, `_fbp`, …) are still not written before consent either way, and embedded content follows Content Blocking only. With the setting on (the default) nothing changes.
+- **The Snap Pixel was listed as blocked, but it was not.** There was no Snapchat entry among the known scripts; `snap.licdn.com`, the host the docs listed, is LinkedIn's. The Snap Pixel's script host (`sc-static.net`) and the event hosts its script sends to (`tr.snapchat.com`, `tr6.snapchat.com`, `tr-shadow.snapchat.com`) are now blocked until marketing consent, and so are its `_scid` and `_sctr` cookies.
+
+### Changed
+- Documentation now matches the code:
+  - The blocked-host table in `docs/settings.md` is generated from the actual host list. It had listed hosts that were never blocked and missed others.
+  - The docs no longer say blocked scripts "unblock automatically" on consent. Embeds load in place; blocked scripts run after the page reload that follows consent (`LWCookie.acceptCategory()` reloads only when its category has blocked scripts on the page).
+  - Content blocking is described as covering the known embed hosts, not every third-party iframe.
+  - The readme no longer promises that no cookies at all are set before consent.
+  - The Google Consent Mode troubleshooting step is corrected: LW Cookie's consent defaults must come before any Google tag, not after.
+
+### Removed
+- The guard's CSP "fallback" (`injectCSP()`): dead code that assembled a permissive policy and discarded it without applying anything.
+- The `lw_cookie_should_block_script` filter from the documentation (README, the `Hooks.php` docblock and the readme feature list). It was added in 1.4.0 but has not been applied since the 1.6.0 client-side rewrite, although it stayed documented.
+- The "Custom Script Blocking" markup (`data-consent-category` / `data-src`) from `docs/settings.md`: it was documented from 1.0.0 on but never implemented.
+
 ## [1.7.6] - 2026-09-22
 
 ### Fixed

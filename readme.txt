@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.6
+Stable tag: 1.7.7
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,14 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.7 =
+* Fix: The Script Blocking setting (Advanced tab) had no effect since 1.6.0 — tracker scripts were always blocked. Turning it off now lets tracker scripts and pixels load before consent and stops using the consent Service Worker (pages disarm and unregister a worker registered earlier). The known tracking cookies (_ga, _fbp, …) still wait for consent, and embeds follow Content Blocking only.
+* Fix: The Snap Pixel was listed as blocked but was not. Its script host (sc-static.net), its event hosts (tr.snapchat.com, tr6.snapchat.com, tr-shadow.snapchat.com) and its _scid / _sctr cookies now wait for marketing consent.
+* Change: Documentation matches the code. The blocked-host table is generated from the real host list, and blocked scripts are described as running after the reload that follows consent: embeds load in place, and they never "unblock automatically". Content blocking is described as covering the known embed hosts, the readme no longer promises that no cookies at all are set before consent, and the Google Consent Mode troubleshooting step is corrected.
+* Removed: Dead CSP "fallback" code from the in-page guard; it never applied a policy.
+* Removed: The `lw_cookie_should_block_script` filter from the documentation. It has not been applied since 1.6.0.
+* Removed: Documentation of `data-consent-category` script markup that was never implemented.
 
 = 1.7.6 =
 * Fix: Google Analytics (and other trackers) could stay blocked on the page that reloads after the visitor accepts cookies. The Service Worker answered the tracker script with "403 Blocked by LW Cookie" from stale consent state, even though the consent cookie and Google Consent Mode said granted. Where the browser lets a service worker read cookies (Chrome/Edge 87+, Firefox 140+, Safari 18.4+), the consent cookie now decides every tracker request. The new consent reaches the worker, and is acknowledged, before the reload, also from pages the worker does not control. The wait is at most 500 ms, or 2 s in older browsers, where this hand-off is the only safeguard.
