@@ -185,30 +185,53 @@
 	}
 
 	// ── 5. MutationObserver — intercept new elements ─────────────────
+	// Elements that load third-party content, for scanning inserted subtrees.
+	var BLOCKABLE = 'script[src],iframe[src],img[src]';
+	var setAttr   = Element.prototype.setAttribute;
+
 	var observer = new MutationObserver(
 		function ( mutations ) {
 			var mutLen = mutations.length;
 			for ( var m = 0; m < mutLen; m++ ) {
+				// A src set after insertion (lazy loaders, `iframe.src = url`).
+				if ( mutations[m].type === 'attributes' ) {
+					processElement( mutations[m].target );
+					continue;
+				}
+
 				var nodes    = mutations[m].addedNodes;
 				var nodesLen = nodes.length;
 				for ( var n = 0; n < nodesLen; n++ ) {
-					var node = nodes[n];
-					if ( node.nodeType !== 1 ) {
-							continue;
+					if ( nodes[n].nodeType === 1 ) {
+						processTree( nodes[n] );
 					}
-					processElement( node );
 				}
 			}
 		}
 	);
 
+	// A subtree inserted in one go (innerHTML, a wrapper built off-DOM) is
+	// reported only through its root, so its descendants are checked too.
+	function processTree( el ) {
+		processElement( el );
+
+		if ( ! el.firstElementChild ) {
+			return;
+		}
+
+		var inner    = el.querySelectorAll( BLOCKABLE );
+		var innerLen = inner.length;
+		for ( var i = 0; i < innerLen; i++ ) {
+			processElement( inner[i] );
+		}
+	}
+
 	function processElement( el ) {
 		var tag = el.tagName;
 
 		// Scripts with src.
-		if ( tag === 'SCRIPT' && el.src && isUrlBlocked( el.src ) ) {
-			el.type = 'text/plain';
-			el.setAttribute( 'data-lw-blocked', '1' );
+		if ( tag === 'SCRIPT' && el.src ) {
+			blockScript( el, el.src );
 			return;
 		}
 
@@ -224,6 +247,82 @@
 			el.removeAttribute( 'src' );
 			el.setAttribute( 'data-lw-blocked', '1' );
 		}
+	}
+
+	// Make a script whose URL needs an ungranted category inert (text/plain).
+	function blockScript( el, url ) {
+		var category = getCategoryForUrl( url );
+		if ( ! category || cats[ category ] ) {
+			return;
+		}
+
+		setAttr.call( el, 'type', 'text/plain' );
+		setAttr.call( el, 'data-lw-blocked', '1' );
+		setAttr.call( el, 'data-lw-category', category );
+	}
+
+	// ── 5b. Script-created <script> elements ─────────────────────────
+	// A script inserted by another script is prepared as soon as it is
+	// connected (or gets its src), before the observer runs, so rewriting its
+	// type there is too late. Scripts made with createElement are therefore
+	// checked the moment their src is assigned, and stay inert once blocked.
+	var nativeCreateElement = document.createElement;
+	var scriptSrc           = Object.getOwnPropertyDescriptor( HTMLScriptElement.prototype, 'src' );
+	var scriptType          = Object.getOwnPropertyDescriptor( HTMLScriptElement.prototype, 'type' );
+
+	function isBlocked( el ) {
+		return el.getAttribute( 'data-lw-blocked' ) === '1';
+	}
+
+	function guardScript( el ) {
+		Object.defineProperty(
+			el,
+			'src',
+			{
+				configurable: true,
+				get: function () {
+					return scriptSrc.get.call( el );
+				},
+				set: function ( value ) {
+					blockScript( el, String( value ) );
+					scriptSrc.set.call( el, value );
+				}
+			}
+		);
+		Object.defineProperty(
+			el,
+			'type',
+			{
+				configurable: true,
+				get: function () {
+					return scriptType.get.call( el );
+				},
+				set: function ( value ) {
+					if ( ! isBlocked( el ) ) {
+						scriptType.set.call( el, value );
+					}
+				}
+			}
+		);
+		el.setAttribute = function ( name, value ) {
+			var attr = String( name ).toLowerCase();
+			if ( attr === 'src' ) {
+				blockScript( el, String( value ) );
+			} else if ( attr === 'type' && isBlocked( el ) ) {
+				return;
+			}
+			setAttr.call( el, name, value );
+		};
+	}
+
+	if ( scriptSrc && scriptSrc.set && scriptType && scriptType.set ) {
+		document.createElement = function () {
+			var el = nativeCreateElement.apply( this, arguments );
+			if ( el.tagName === 'SCRIPT' ) {
+				guardScript( el );
+			}
+			return el;
+		};
 	}
 
 	// ── 5a. Blocked-iframe placeholder ───────────────────────────────
@@ -329,7 +428,10 @@
 		}
 	}
 
-	observer.observe( document.documentElement, { childList: true, subtree: true } );
+	observer.observe(
+		document.documentElement,
+		{ childList: true, subtree: true, attributes: true, attributeFilter: [ 'src' ] }
+	);
 
 	// ── 6. Service Worker registration ───────────────────────────────
 	// Cap on waiting for the worker's acknowledgement: a slow-starting worker
