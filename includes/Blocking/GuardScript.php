@@ -72,13 +72,15 @@ final class GuardScript {
 		$blocking = Entities::get_js_config();
 
 		return [
-			'cookieName'    => Storage::COOKIE_NAME,
-			'policyVersion' => (string) Options::get( 'policy_version' ),
-			'domains'       => $blocking['domains'],
-			'cookies'       => $blocking['cookies'],
-			'swUrl'         => ServiceWorkerManager::get_sw_url(),
-			'preview'       => Preview::is_active(),
-			'text'          => [
+			'cookieName'      => Storage::COOKIE_NAME,
+			'policyVersion'   => (string) Options::get( 'policy_version' ),
+			'domains'         => $blocking['domains'],
+			'cookies'         => $blocking['cookies'],
+			'swUrl'           => ServiceWorkerManager::get_sw_url(),
+			'preview'         => Preview::is_active(),
+			// Advanced → Content Blocking: embedded iframes and their placeholders.
+			'contentBlocking' => (bool) Options::get( 'content_blocking' ),
+			'text'            => [
 				'blockedMessage' => Strings::get_or_default(
 					'blocked_embed_message',
 					__( 'This content is blocked until you accept the required cookies.', 'lw-cookie' )

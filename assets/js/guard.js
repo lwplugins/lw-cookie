@@ -22,6 +22,11 @@
 	var PREVIEW        = ! ! cfg.preview;
 	var TEXT           = cfg.text || {};
 
+	// Advanced → Content Blocking. Governs embedded iframes (and their
+	// placeholders) only; tracker scripts and pixels are always blocked.
+	// Missing from a config cached before 1.7.6 → on, as before.
+	var CONTENT_BLOCKING = cfg.contentBlocking !== false;
+
 	// ── 1. Read consent from browser cookie ──────────────────────────
 	function readConsent() {
 		var match = document.cookie.match( '(?:^|; )' + COOKIE_NAME + '=([^;]*)' );
@@ -235,8 +240,8 @@
 			return;
 		}
 
-		// Iframes.
-		if ( tag === 'IFRAME' && el.src && isUrlBlocked( el.src ) ) {
+		// Iframes (embedded content).
+		if ( tag === 'IFRAME' && CONTENT_BLOCKING && el.src && isUrlBlocked( el.src ) ) {
 			blockIframe( el );
 			return;
 		}
