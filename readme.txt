@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.5
+Stable tag: 1.7.6
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -166,6 +166,19 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.7.6 =
+* Fix: Google Analytics (and other trackers) could stay blocked on the page that reloads after the visitor accepts cookies. The Service Worker answered the tracker script with "403 Blocked by LW Cookie" from stale consent state, even though the consent cookie and Google Consent Mode said granted. Where the browser lets a service worker read cookies (Chrome/Edge 87+, Firefox 140+, Safari 18.4+), the consent cookie now decides every tracker request. The new consent reaches the worker, and is acknowledged, before the reload, also from pages the worker does not control. The wait is at most 500 ms, or 2 s in older browsers, where this hand-off is the only safeguard.
+* Fix: A revoked cookie category could be granted again for every tab by a stale consent state posted to the Service Worker. The cookie now decides in both directions, and every tab re-reads it before posting.
+* Fix: Embeds and trackers inserted as a subtree (innerHTML, a wrapper appended in one go), or given their src after insertion, loaded without consent. Scripts inserted by other scripts ran before consent whenever the Service Worker was not yet active. Both are now blocked. Scripts created with document.createElement are made inert as soon as a blocked URL is assigned, and are not even requested. An iframe's own request still leaves before any script can react; its content is blocked.
+* Fix: Players built with an SDK (e.g. the Vimeo Player API) stayed black after "Accept & load content". Accepting a category from a placeholder now reloads the page when a script of that category was blocked on it. Embeds alone still load in place.
+* Fix: The embed placeholder was clipped (invisible) in padding-ratio video boxes; it now covers the box.
+* Fix: The Content Blocking setting had no effect. Turning it off now leaves embedded iframes alone; tracker scripts stay blocked. The default is unchanged.
+* Fix: The Service Worker is now synced on a visitor's first page view as well.
+* Fix: Plugin updates now refresh the Service Worker file in the site root, so browsers pick up the updated worker.
+* Fix: The consent log request now survives the reload right after accepting, so no consent record is dropped from the log.
+* New: README documents the blocked-embed contract for integrating custom embeds.
+* Update: Development dependency php-stubs/woocommerce-stubs 11.1.
 
 = 1.7.5 =
 * Fix: Translations entered in Polylang's Strings table could not be changed — saving reloaded the page with the previous value. Every string was registered twice (once via Polylang's own API, once via the WPML API that Polylang's compatibility layer also answers), producing two rows with the same source text; the untouched copy overwrote the edited one on save. Only one API is used now, and the leftover duplicate rows are removed automatically.

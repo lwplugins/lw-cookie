@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.7.6] - 2026-09-22
+
+### Fixed
+- **Google Analytics (and other trackers) could stay blocked after the visitor accepted cookies** (lwplugins/.github#2). On the page that reloads after "Accept all", the Service Worker could still answer `gtag.js` with its "403 Blocked by LW Cookie" response. The consent cookie, `guard.js` and Google Consent Mode all said the category was granted, yet there was no `g/collect` hit and no `_ga` cookie until the next navigation. The worker decided only from the consent state pages post to it, and nothing guaranteed the new state arrived before the reload:
+  - a page the worker does not control (e.g. after a hard reload) skipped the post entirely, while the worker still held an earlier page's "denied" state;
+  - a late post from another tab could overwrite fresh state;
+  - the reloaded page's scripts are requested before `guard.js` can update the worker.
+
+  Where the browser lets a service worker read cookies (Cookie Store API: Chrome/Edge 87+, Firefox 140+, Safari 18.4+), the worker now lets the consent cookie decide every request to a tracker host. `guard.js` sends the new state to the active worker even from pages it does not control, and the reload waits for the worker's acknowledgement. That wait is at most 500 ms, or 2 s where the worker cannot read the cookie: in those older browsers the acknowledged hand-off is the only safeguard.
+- **A revoked category could be granted again for every tab.** After "Reject", a tab that still held its old consent could post it to the Service Worker, which trusted it and let the trackers through. The cookie now decides in both directions, every tab re-reads it before posting, and the guard's page-only fallback grant is no longer broadcast.
+- **Embeds and trackers inserted as a subtree loaded without consent.** The guard inspected only the node a page inserted, not its descendants. An iframe, script or pixel inside `container.innerHTML = …` or inside a wrapper appended in one go slipped through, and so did a `src` set after insertion. Scripts inserted by other scripts were never stopped at all: they are prepared before the guard's observer runs, so a dynamically injected tracker ran before consent unless the Service Worker was active and in sync. Subtrees and later `src` changes are now checked, and scripts created with `document.createElement` are made inert the moment a blocked URL is assigned, so they are not even requested. An iframe's own request still leaves before any script can react, as it always has; its content is blocked and replaced by the placeholder.
+- **Players built with an SDK stayed black after "Accept & load content".** Accepting a category from a placeholder (`LWCookie.acceptCategory()`) restored blocked iframes only; a blocked SDK script (e.g. the Vimeo Player API) never ran. When a script of the accepted category is blocked on the page, the page now reloads so everything runs in order. Embeds alone still load in place.
+- **The embed placeholder was invisible in padding-ratio boxes** (`height:0; padding-top:56.25%; overflow:hidden` with an absolutely positioned iframe): it sat below the box and was clipped. It now covers the box.
+- **The Content Blocking setting (Advanced tab) had no effect**: embeds were blocked whenever the banner was on. Turning it off now leaves embedded iframes and their placeholders alone; tracker scripts stay blocked. The default (on) is unchanged.
+- The Service Worker is now synced on a visitor's first page view as well. The previous `activate` listener sat on the registration object, which never fires that event.
+- **Plugin updates now refresh the Service Worker file in the site root.** It was only written on activation, and the web server serves it directly, so an updated worker never reached browsers after an update.
+- The consent log request is sent with `keepalive`, so the reload right after accepting can no longer cut it off and drop the record from the consent log.
+
+### Added
+- README: "Integrating Custom Embeds" documents the blocked-embed contract other plugins build on: the iframe attributes, the placeholder, `LWCookie.acceptCategory()` / `openPreferences()` and the `lw_cookie_is_category_allowed` filter.
+
+### Changed
+- Development dependency `php-stubs/woocommerce-stubs` updated to 11.1 (PR #9).
+
 ## [1.7.5] - 2026-09-17
 
 ### Fixed
