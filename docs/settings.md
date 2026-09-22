@@ -557,21 +557,27 @@ When script blocking is enabled, the plugin:
 3. Blocks scripts that require consent for categories the user hasn't accepted
 4. Automatically unblocks and loads scripts when consent is granted
 
-### Blocked Script Patterns
+### Blocked Hosts
 
-| Pattern | Category |
-|---------|----------|
-| `google-analytics.com` | Analytics |
-| `googletagmanager.com` | Analytics |
-| `facebook.net` | Marketing |
-| `connect.facebook.net` | Marketing |
-| `hotjar.com` | Analytics |
-| `clarity.ms` | Analytics |
-| `linkedin.com/insight` | Marketing |
-| `ads.twitter.com` | Marketing |
-| `tiktok.com` | Marketing |
-| `pintrk` | Marketing |
-| `snap.licdn.com` | Marketing |
+Scripts and pixels are matched by host: a listed host and all of its subdomains. The full data lives in `includes/Blocking/KnownScripts.php` (trackers) and `includes/Blocking/Entities.php` (embed hosts and tracking cookies).
+
+| Service | Hosts | Category |
+|---------|-------|----------|
+| Google Analytics / Google Tag Manager | `google-analytics.com`, `googletagmanager.com` | Analytics |
+| Hotjar | `static.hotjar.com`, `script.hotjar.com` | Analytics |
+| Microsoft Clarity | `clarity.ms` | Analytics |
+| Meta (Facebook) Pixel | `connect.facebook.net`, `facebook.com` | Marketing |
+| LinkedIn Insight Tag | `snap.licdn.com`, `platform.linkedin.com` | Marketing |
+| X (Twitter) Pixel | `static.ads-twitter.com`, `analytics.twitter.com` | Marketing |
+| TikTok Pixel | `analytics.tiktok.com` | Marketing |
+| Pinterest Tag | `s.pinimg.com` | Marketing |
+| Snap Pixel | `sc-static.net`, `tr.snapchat.com`, `tr6.snapchat.com`, `tr-shadow.snapchat.com` | Marketing |
+| HubSpot | `js.hs-scripts.com`, `js.hsforms.net` | Marketing |
+| Vimeo player | `player.vimeo.com` | Marketing |
+| Intercom | `widget.intercom.io` | Functional |
+| Crisp | `client.crisp.chat` | Functional |
+
+The embed hosts that [Content Blocking](#content-blocking) covers (YouTube, Vimeo, Dailymotion, Twitch, TikTok, Facebook, Instagram, X/Twitter, LinkedIn, Pinterest, Google Maps, OpenStreetMap, SoundCloud, Spotify, CodePen, JSFiddle) are matched the same way, so a script loaded from one of them is blocked too.
 
 ---
 
