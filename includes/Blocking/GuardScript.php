@@ -61,7 +61,7 @@ final class GuardScript {
 	 *
 	 * @var string
 	 */
-	private const PLACEHOLDER_CSS = '.lw-cookie-embed-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:180px;padding:24px;margin:0 auto;box-sizing:border-box;text-align:center;background:#f0f0f1;border:1px solid #dcdcde;border-radius:6px;color:#1d2327;font-size:14px;line-height:1.5}.lw-cookie-embed-block__msg{margin:0}.lw-cookie-embed-block__btn{cursor:pointer;border:0;border-radius:4px;padding:10px 18px;background:#2271b1;color:#fff;font-size:14px;line-height:1.2}.lw-cookie-embed-block__btn:hover{background:#135e96}';
+	private const PLACEHOLDER_CSS = '.lw-cookie-embed-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:180px;padding:24px;margin:0 auto;box-sizing:border-box;text-align:center;background:#f0f0f1;border:1px solid #dcdcde;border-radius:6px;color:#1d2327;font-size:14px;line-height:1.5}.lw-cookie-embed-block__msg{margin:0}.lw-cookie-embed-block__btn{cursor:pointer;border:0;border-radius:4px;padding:10px 18px;background:#2271b1;color:#fff;font-size:14px;line-height:1.2}.lw-cookie-embed-block__btn:hover{background:#135e96}.lw-cookie-embed-block--cover{position:absolute;top:0;left:0;width:100%;height:100%;min-height:0;margin:0;overflow:auto}';
 
 	/**
 	 * Get guard configuration for JavaScript.

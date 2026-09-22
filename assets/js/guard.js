@@ -346,9 +346,37 @@
 		el.style.display = 'none';
 
 		if ( el.parentNode ) {
-			el.parentNode.insertBefore( buildPlaceholder( category, el ), el );
+			var box = buildPlaceholder( category, el );
+			el.parentNode.insertBefore( box, el );
+			fitPlaceholder( box, el );
 		}
 	}
+
+	// An absolutely positioned iframe (a padding-ratio box: height 0,
+	// padding-top, overflow hidden) fills its box instead of taking space in
+	// the flow. A placeholder in the flow would sit below that box and be
+	// clipped, so it covers the box instead.
+	function fitPlaceholder( box, iframe ) {
+		if ( window.getComputedStyle( iframe ).position === 'absolute' ) {
+			box.classList.add( 'lw-cookie-embed-block--cover' );
+			box.style.maxWidth = '';
+		}
+	}
+
+	// Stylesheets may still be loading when an early iframe is blocked, so
+	// fit the placeholders again once the page has loaded.
+	window.addEventListener(
+		'load',
+		function () {
+			var blocked    = document.querySelectorAll( 'iframe[data-lw-blocked="1"]' );
+			var blockedLen = blocked.length;
+			for ( var i = 0; i < blockedLen; i++ ) {
+				if ( isPlaceholder( blocked[i].previousSibling ) ) {
+					fitPlaceholder( blocked[i].previousSibling, blocked[i] );
+				}
+			}
+		}
+	);
 
 	function isPlaceholder( node ) {
 		return ! ! node && node.nodeType === 1 && node.classList &&
