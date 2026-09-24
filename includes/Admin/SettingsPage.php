@@ -9,18 +9,11 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Admin;
 
-use LightweightPlugins\Cookie\Admin\Settings\TabInterface;
-use LightweightPlugins\Cookie\I18n\MultilingualDetector;
-use LightweightPlugins\Cookie\Admin\Settings\TabGeneral;
-use LightweightPlugins\Cookie\Admin\Settings\TabAppearance;
-use LightweightPlugins\Cookie\Admin\Settings\TabCategories;
-use LightweightPlugins\Cookie\Admin\Settings\TabTexts;
-use LightweightPlugins\Cookie\Admin\Settings\TabCookies;
-use LightweightPlugins\Cookie\Admin\Settings\TabAdvanced;
-use LightweightPlugins\Cookie\Options;
+use LightweightPlugins\Cookie\Rest\Admin\Routes;
 
 /**
- * Handles the plugin settings page.
+ * The cookie consent settings screen: a mount point for the React admin
+ * (build/index), which reads and writes through the lw-cookie/v1 REST routes.
  */
 final class SettingsPage {
 
@@ -30,42 +23,29 @@ final class SettingsPage {
 	public const SLUG = 'lw-cookie';
 
 	/**
-	 * Settings group.
+	 * Script and style handle.
 	 */
-	private const SETTINGS_GROUP = 'lw_cookie_settings';
+	private const HANDLE = 'lw-cookie-admin-app';
 
 	/**
-	 * Registered tabs.
-	 *
-	 * @var array<TabInterface>
+	 * Documentation URL.
 	 */
-	private array $tabs = [];
+	private const DOCS_URL = 'https://lwplugins.com/docs/lw-cookie/';
+
+	/**
+	 * Hook suffix returned by add_submenu_page().
+	 *
+	 * @var string
+	 */
+	private string $hook_suffix = '';
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->register_tabs();
-
 		add_action( 'admin_menu', [ $this, 'add_menu_page' ] );
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-	}
-
-	/**
-	 * Register settings tabs.
-	 *
-	 * @return void
-	 */
-	private function register_tabs(): void {
-		$this->tabs = [
-			new TabGeneral(),
-			new TabAppearance(),
-			new TabCategories(),
-			new TabTexts(),
-			new TabCookies(),
-			new TabAdvanced(),
-		];
+		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
 	}
 
 	/**
@@ -76,7 +56,7 @@ final class SettingsPage {
 	public function add_menu_page(): void {
 		ParentPage::maybe_register();
 
-		add_submenu_page(
+		$hook = add_submenu_page(
 			ParentPage::SLUG,
 			__( 'Cookie Consent', 'lw-cookie' ),
 			__( 'Cookie', 'lw-cookie' ),
@@ -84,135 +64,56 @@ final class SettingsPage {
 			self::SLUG,
 			[ $this, 'render' ]
 		);
+
+		$this->hook_suffix = is_string( $hook ) ? $hook : '';
 	}
 
 	/**
-	 * Enqueue admin assets.
+	 * Enqueue the React app on the settings screen.
 	 *
 	 * @param string $hook Current admin page.
 	 * @return void
 	 */
 	public function enqueue_assets( string $hook ): void {
-		$valid_hooks = [
-			'toplevel_page_' . ParentPage::SLUG,
-			ParentPage::SLUG . '_page_' . self::SLUG,
-		];
-
-		if ( ! in_array( $hook, $valid_hooks, true ) ) {
+		if ( '' === $this->hook_suffix || $hook !== $this->hook_suffix ) {
 			return;
 		}
 
-		wp_enqueue_style(
-			'lw-cookie-admin',
-			LW_COOKIE_URL . 'assets/css/admin.css',
-			[],
-			LW_COOKIE_VERSION
-		);
-
-		wp_enqueue_script(
-			'lw-cookie-admin',
-			LW_COOKIE_URL . 'assets/js/admin.js',
-			[ 'jquery', 'wp-color-picker' ],
-			LW_COOKIE_VERSION,
-			true
-		);
-
-		wp_enqueue_style( 'wp-color-picker' );
-	}
-
-	/**
-	 * Register settings.
-	 *
-	 * @return void
-	 */
-	public function register_settings(): void {
-		register_setting(
-			self::SETTINGS_GROUP,
-			Options::OPTION_NAME,
-			[
-				'type'              => 'array',
-				'sanitize_callback' => [ $this, 'sanitize_settings' ],
-				'default'           => Options::get_defaults(),
-			]
-		);
-	}
-
-	/**
-	 * Sanitize settings.
-	 *
-	 * @param array<string, mixed> $input Input values.
-	 * @return array<string, mixed>
-	 */
-	public function sanitize_settings( array $input ): array {
-		$defaults  = Options::get_defaults();
-		$current   = Options::get_all();
-		$sanitized = [];
-
-		// A locked multilingual fieldset is submitted as disabled, so its keys are
-		// absent from $input. Preserve the stored value in that case instead of
-		// resetting to the hard-coded default.
-		$locked = MultilingualDetector::is_active();
-
-		foreach ( $defaults as $key => $default ) {
-			$fallback = $current[ $key ] ?? $default;
-
-			if ( is_bool( $default ) ) {
-				// If the tab containing this checkbox is locked, the key won't be
-				// posted and we'd flip it to false. Preserve current value instead.
-				$sanitized[ $key ] = $locked && ! isset( $input[ $key ] )
-					? (bool) $fallback
-					: ! empty( $input[ $key ] );
-			} elseif ( is_int( $default ) ) {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? absint( $input[ $key ] ) : $fallback;
-			} elseif ( str_contains( $key, 'color' ) ) {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_hex_color( $input[ $key ] ) : $fallback;
-			} elseif ( 'declared_cookies' === $key ) {
-				$sanitized[ $key ] = isset( $input[ $key ] ) && is_array( $input[ $key ] )
-					? $this->sanitize_cookies( $input[ $key ] )
-					: (array) $fallback;
-			} else {
-				$sanitized[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $fallback;
-			}
+		if ( ! BuildAssets::enqueue( 'index', self::HANDLE ) ) {
+			return;
 		}
 
-		return $sanitized;
+		wp_add_inline_script(
+			self::HANDLE,
+			'window.lwCookie = ' . wp_json_encode(
+				[
+					'version'   => LW_COOKIE_VERSION,
+					'namespace' => Routes::NAMESPACE,
+					'docsUrl'   => self::DOCS_URL,
+				]
+			) . ';',
+			'before'
+		);
 	}
 
 	/**
-	 * Sanitize declared cookies array.
+	 * Mark the settings screen body for the app's styles.
 	 *
-	 * @param array $cookies Raw cookies data.
-	 * @return array
+	 * @param string $classes Space-separated body classes.
+	 * @return string
 	 */
-	private function sanitize_cookies( array $cookies ): array {
-		$sanitized        = [];
-		$valid_categories = [ 'necessary', 'functional', 'analytics', 'marketing' ];
-		$valid_types      = [ 'session', 'persistent' ];
+	public function body_class( string $classes ): string {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 
-		foreach ( $cookies as $cookie ) {
-			if ( ! is_array( $cookie ) || empty( $cookie['name'] ) ) {
-				continue;
-			}
-
-			$sanitized[] = [
-				'name'     => sanitize_text_field( (string) $cookie['name'] ),
-				'provider' => sanitize_text_field( $cookie['provider'] ?? '' ),
-				'purpose'  => sanitize_text_field( $cookie['purpose'] ?? '' ),
-				'duration' => sanitize_text_field( $cookie['duration'] ?? '' ),
-				'category' => in_array( $cookie['category'] ?? '', $valid_categories, true )
-					? $cookie['category']
-					: 'necessary',
-				'type'     => in_array( $cookie['type'] ?? '', $valid_types, true )
-					? $cookie['type']
-					: 'persistent',
-			];
+		if ( '' === $this->hook_suffix || ! $screen || $screen->id !== $this->hook_suffix ) {
+			return $classes;
 		}
 
-		return $sanitized;
+		return $classes . ' lw-cookie-screen';
 	}
 
 	/**
-	 * Render settings page.
+	 * Render the mount point (or a notice when the build is missing).
 	 *
 	 * @return void
 	 */
@@ -221,65 +122,15 @@ final class SettingsPage {
 			return;
 		}
 
-		?>
-		<div class="wrap">
-			<h1>
-				<img src="<?php echo esc_url( LW_COOKIE_URL . 'assets/img/title-icon.svg' ); ?>" alt="" class="lw-title-icon" />
-				<?php esc_html_e( 'Lightweight Cookie Consent', 'lw-cookie' ); ?>
-				<span style="font-size: 13px; font-weight: 400; color: #888;">(<?php echo esc_html( LW_COOKIE_VERSION ); ?>)</span>
-			</h1>
-
-			<form method="post" action="options.php">
-				<?php settings_fields( self::SETTINGS_GROUP ); ?>
-
-				<div class="lw-cookie-settings">
-					<?php $this->render_tabs_nav(); ?>
-
-					<div class="lw-cookie-tab-content">
-						<?php $this->render_tabs_content(); ?>
-						<?php submit_button(); ?>
-					</div>
-				</div>
-			</form>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render tabs navigation.
-	 *
-	 * @return void
-	 */
-	private function render_tabs_nav(): void {
-		?>
-		<ul class="lw-cookie-tabs">
-			<?php foreach ( $this->tabs as $index => $tab ) : ?>
-				<li>
-					<a href="#<?php echo esc_attr( $tab->get_slug() ); ?>" <?php echo 0 === $index ? 'class="active"' : ''; ?>>
-						<span class="dashicons <?php echo esc_attr( $tab->get_icon() ); ?>"></span>
-						<?php echo esc_html( $tab->get_label() ); ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-		<?php
-	}
-
-	/**
-	 * Render tabs content.
-	 *
-	 * @return void
-	 */
-	private function render_tabs_content(): void {
-		foreach ( $this->tabs as $index => $tab ) {
-			$active_class = 0 === $index ? ' active' : '';
+		if ( ! BuildAssets::exists( 'index' ) ) {
 			printf(
-				'<div id="tab-%s" class="lw-cookie-tab-panel%s">',
-				esc_attr( $tab->get_slug() ),
-				esc_attr( $active_class )
+				'<div class="wrap"><h1>%s</h1><div class="notice notice-error"><p>%s</p></div></div>',
+				esc_html__( 'LW Cookie', 'lw-cookie' ),
+				esc_html__( 'The settings screen files are missing. Re-install the plugin from a release ZIP, or run "npm install && npm run build" in the plugin directory.', 'lw-cookie' )
 			);
-			$tab->render();
-			echo '</div>';
+			return;
 		}
+
+		echo '<div id="lw-cookie-root" class="lw-cookie-root"></div>';
 	}
 }

@@ -1,0 +1,31 @@
+{
+	"name": "lw-cookie-admin",
+	"version": "0.0.0",
+	"private": true,
+	"description": "LW Cookie admin UI (React, WordPress components).",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build src/index.js",
+		"start": "wp-scripts start src/index.js",
+		"lint:js": "wp-scripts lint-js src",
+		"i18n": "wp i18n make-pot . languages/lw-cookie.pot --slug=lw-cookie --domain=lw-cookie --exclude=node_modules,vendor,src,tests,docs && msgmerge --quiet --update --backup=none --no-fuzzy-matching languages/lw-cookie-hu_HU.po languages/lw-cookie.pot && msgfmt languages/lw-cookie-hu_HU.po -o languages/lw-cookie-hu_HU.mo && wp i18n make-json languages --no-purge"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^36.0.0"
+	},
+	"dependencies": {
+		"@lwplugins/data-table": "^0.3.0",
+		"@wordpress/api-fetch": "^7.56.0",
+		"@wordpress/components": "^41.0.0",
+		"@wordpress/compose": "^8.9.0",
+		"@wordpress/data": "^10.56.0",
+		"@wordpress/element": "^8.8.0",
+		"@wordpress/i18n": "^6.29.0",
+		"@wordpress/icons": "^17.0.0",
+		"@wordpress/keycodes": "^4.56.0",
+		"@wordpress/notices": "^5.56.0",
+		"@wordpress/primitives": "^4.56.0",
+		"@wordpress/ui": "^0.23.0",
+		"@wordpress/url": "^4.56.0"
+	}
+}

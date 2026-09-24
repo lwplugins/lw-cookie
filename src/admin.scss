@@ -1,0 +1,1183 @@
+// LW Cookie admin styles. Colors, spacing and radii come from the core WPDS
+// tokens (wp-theme stylesheet, a dependency of wp-components); the fallbacks
+// only matter on WordPress versions without it.
+
+$surface: var(--wpds-color-background-surface-neutral-strong, #fff);
+$page: var(--wpds-color-background-surface-neutral, #fcfcfc);
+$stroke: var(--wpds-color-stroke-surface-neutral, #ddd);
+$stroke-weak: var(--wpds-color-stroke-surface-neutral-weak, #f0f0f0);
+$text: var(--wpds-color-foreground-content-neutral, #1e1e1e);
+$muted: var(--wpds-color-foreground-content-neutral-weak, #707070);
+$brand: var(--wp-admin-theme-color, #3858e9);
+$success: var(--wpds-color-foreground-content-success, #007f30);
+$success-bg: var(--wpds-color-background-surface-success-weak, #eff9f1);
+$warning: var(--wpds-color-foreground-content-warning, #926300);
+$warning-bg: var(--wpds-color-background-surface-warning-weak, #fef8ee);
+$error: var(--wpds-color-foreground-content-error, #cc1818);
+$error-bg: var(--wpds-color-background-surface-error-weak, #fcf0f1);
+$track: var(--wpds-color-background-track-neutral-weak, #f0f0f0);
+$radius: var(--wpds-border-radius-md, 4px);
+$radius-lg: var(--wpds-border-radius-lg, 8px);
+$gap-sm: var(--wpds-dimension-gap-sm, 8px);
+$gap-md: var(--wpds-dimension-gap-md, 12px);
+$gap-lg: var(--wpds-dimension-gap-lg, 16px);
+$gap-xl: var(--wpds-dimension-gap-xl, 24px);
+$mono: var(--wpds-typography-font-family-mono, monospace);
+
+// Brand color ----------------------------------------------------------------
+// Burnt orange: the admin theme color and the logo share one hue. Every
+// @wordpress/components control reads --wp-admin-theme-color, so toggles,
+// focus rings, selected states and links all follow. Set on body (not only
+// the root) so portaled modals and popovers inherit it too.
+//
+// WCAG 2.x contrast (relative luminance, computed):
+//   white on #c05621 = 4.57:1 (AA normal text needs 4.5:1)
+//   white on darker-10 #a94b1d = 5.66:1, on darker-20 #924119 = 7.02:1
+$lw-logo: #c05621;
+$lw-brand: #c05621;
+
+body.lw-cookie-screen,
+.lw-cookie-root {
+	--wp-admin-theme-color: #{$lw-brand};
+	--wp-admin-theme-color--rgb: 192, 86, 33;
+	--wp-admin-theme-color-darker-10: #a94b1d;
+	--wp-admin-theme-color-darker-10--rgb: 169, 75, 29;
+	--wp-admin-theme-color-darker-20: #924119;
+	--wp-admin-theme-color-darker-20--rgb: 146, 65, 25;
+	--wpds-color-stroke-focus: #{$lw-brand};
+}
+
+// Focus rings: only for keyboard users. Core components draw the ring on
+// :focus, so it also stayed after every mouse click. :focus-visible is the
+// browser's own "keyboard or text field" signal — clicking hides the ring,
+// Tab still shows it (WCAG 2.4.7). Scoped to this screen, incl. modals.
+body.lw-cookie-screen {
+	:is(button, a, [role="button"], [role="radio"], [role="tab"], [tabindex]):focus:not(:focus-visible) {
+		outline: none;
+		box-shadow: none;
+	}
+
+	// Secondary buttons draw their border with box-shadow: keep it.
+	.components-button.is-secondary:focus:not(:focus-visible) {
+		box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
+	}
+
+	.components-form-toggle__input:focus:not(:focus-visible) + .components-form-toggle__track {
+		box-shadow: none;
+	}
+}
+
+// Full-bleed app screen inside the classic admin frame.
+.lw-cookie-screen {
+	#wpcontent {
+		padding-left: 0;
+	}
+
+	#wpbody-content {
+		padding-bottom: 0;
+	}
+
+	#wpfooter {
+		display: none;
+	}
+}
+
+.lw-cookie-root {
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+	background: $page;
+	color: $text;
+
+	svg {
+		fill: currentColor;
+	}
+}
+
+// App shell ----------------------------------------------------------------
+// Full-height sidebar | main column (top bar + scrolling content).
+
+$bar-height: 64px;
+$foot-height: 56px;
+$canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
+
+.lw-admin-shell {
+	display: grid;
+	grid-template-columns: 264px minmax(0, 1fr);
+	height: 100%;
+}
+
+.lw-admin-sidebar {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	background: $surface;
+	border-right: 1px solid $stroke-weak;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-shrink: 0;
+		height: $bar-height;
+		padding: 0 $gap-xl;
+		border-bottom: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		svg {
+			width: 26px;
+			height: 26px;
+		}
+
+		strong {
+			font-size: 15px;
+		}
+	}
+
+	&__home {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border-radius: $radius;
+		color: $text;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: $text;
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+
+	&__foot {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: $foot-height;
+		padding: 0 $gap-md;
+		border-top: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		.lw-admin-sidenav__item {
+			color: $muted;
+
+			&:hover {
+				color: $text;
+			}
+		}
+	}
+}
+
+.lw-admin-sidenav {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-lg $gap-md;
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		margin: 0;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 38px;
+		padding: 0 $gap-md;
+		border-radius: $radius-lg;
+		color: $text;
+		font-weight: 500;
+		text-decoration: none;
+		transition: background-color 0.1s;
+
+		svg {
+			flex-shrink: 0;
+			color: $muted;
+		}
+
+		&:hover {
+			background: $canvas;
+			color: $text;
+		}
+
+		&:focus {
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: -2px;
+		}
+
+		&[aria-current="page"] {
+			background: $canvas;
+			font-weight: 600;
+
+			svg {
+				color: $text;
+			}
+		}
+	}
+
+	&__label {
+		flex: 1;
+	}
+
+	&__meta {
+		color: $muted;
+		font-size: 12px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__dot {
+		display: block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+
+		&.is-ok {
+			background: $success;
+		}
+
+		&.is-error {
+			background: $error;
+		}
+	}
+}
+
+.lw-admin-main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	background: $canvas;
+}
+
+.lw-admin-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $gap-lg;
+	flex-shrink: 0;
+	height: $bar-height;
+	padding: 0 $gap-xl 0 32px;
+	background: $surface;
+	border-bottom: 1px solid $stroke-weak;
+	box-sizing: border-box;
+
+	&__title {
+		margin: 0;
+		padding: 0;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: $gap-sm;
+	}
+
+	&__dirty {
+		color: $muted;
+		font-size: 12px;
+	}
+}
+
+.lw-admin-save {
+	gap: $gap-sm;
+
+	kbd {
+		padding: 1px 5px;
+		border-radius: 3px;
+		background: rgba(255, 255, 255, 0.2);
+		color: inherit;
+		font-family: inherit;
+		font-size: 11px;
+	}
+}
+
+.lw-admin-scroll {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-xl 32px;
+}
+
+.lw-admin-content {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+	// Fluid: fills the main column, capped only on ultra-wide screens so
+	// label/control rows stay scannable.
+	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
+	padding-bottom: 48px;
+}
+
+.lw-admin-footer {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: flex-end;
+	height: $foot-height;
+	padding: 0 32px;
+	border-top: 1px solid $stroke-weak;
+	background: $surface;
+	box-sizing: border-box;
+
+	a {
+		display: inline-flex;
+		border-radius: 2px;
+		text-decoration: none;
+		transition: opacity 0.15s;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+}
+
+// LW Plugins wordmark (lwplugins.com light theme colors, no rounded corners).
+.lw-wordmark {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+
+	&__mark {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		background: #0b62bf;
+
+		svg {
+			fill: #fff;
+		}
+	}
+
+	&__text {
+		color: #16181c;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		font-size: 13px;
+		font-weight: 800;
+		letter-spacing: 0.02em;
+
+		span {
+			color: #767d86;
+		}
+	}
+}
+
+// Settings rows ------------------------------------------------------------
+
+.lw-admin-row {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+	gap: $gap-xl;
+	align-items: start;
+
+	& + & {
+		padding-top: $gap-lg;
+		border-top: 1px solid $stroke-weak;
+	}
+
+	&.is-stacked {
+		grid-template-columns: 1fr;
+		gap: $gap-md;
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	&__title {
+		color: $text;
+		font-weight: 600;
+	}
+
+	&__help {
+		margin: 0;
+		color: $muted;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	&__control {
+		display: flex;
+		flex-direction: column;
+		gap: $gap-md;
+		min-width: 0;
+	}
+}
+
+.lw-admin-switch {
+	display: flex;
+	align-items: center;
+	gap: $gap-sm;
+	min-height: 32px;
+
+	&__state {
+		color: $muted;
+	}
+}
+
+.lw-admin-callout {
+	display: flex;
+	gap: $gap-sm;
+	padding: 10px $gap-md;
+	border-radius: $radius-lg;
+	background: $canvas;
+	font-size: 13px;
+	line-height: 1.5;
+
+	> svg {
+		flex-shrink: 0;
+		margin-top: 1px;
+		color: $muted;
+	}
+
+	&.is-warning {
+		background: $warning-bg;
+
+		> svg {
+			color: $warning;
+		}
+	}
+}
+
+// Sidebar toggle only exists on mobile.
+.lw-admin-sidebar__toggle {
+	display: none;
+}
+
+// Mobile (WP admin breakpoint): no inner scroll containers — the page scrolls
+// naturally, the sidebar becomes a header with a section dropdown, and the
+// top bar sticks under the admin bar.
+@media (max-width: 782px) {
+	.lw-cookie-root {
+		height: auto;
+		min-height: calc(100vh - var(--wp-admin--admin-bar--height, 46px));
+		// clip (not hidden) keeps position: sticky working.
+		overflow-x: clip;
+	}
+
+
+	.lw-admin-shell {
+		display: block;
+		height: auto;
+	}
+
+	.lw-admin-sidebar {
+		position: relative;
+		border-right: 0;
+		border-bottom: 1px solid $stroke-weak;
+
+		&__head {
+			height: 52px;
+			padding: 0 $gap-lg;
+			border-bottom: 0;
+		}
+
+		&__toggle {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			width: calc(100% - 32px);
+			min-height: 44px;
+			margin: 0 $gap-lg $gap-md;
+			padding: 0 $gap-md;
+			border: 1px solid $stroke;
+			border-radius: $radius-lg;
+			background: $surface;
+			color: $text;
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+
+			span {
+				flex: 1;
+				text-align: left;
+			}
+
+			svg:last-child {
+				transition: transform 0.15s;
+			}
+
+			&:focus-visible {
+				outline: 2px solid $brand;
+				outline-offset: 2px;
+			}
+		}
+
+		&.is-open &__toggle svg:last-child {
+			transform: rotate(180deg);
+		}
+
+		&__foot {
+			display: none;
+		}
+	}
+
+	.lw-admin-sidenav {
+		display: none;
+		position: absolute;
+		top: 100%;
+		right: $gap-lg;
+		left: $gap-lg;
+		z-index: 20;
+		margin-top: -$gap-sm;
+		padding: 6px;
+		border: 1px solid $stroke-weak;
+		border-radius: $radius-lg;
+		background: $surface;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+		.is-open & {
+			display: block;
+		}
+
+		&__item {
+			min-height: 44px;
+		}
+	}
+
+	.lw-admin-main {
+		display: block;
+	}
+
+	.lw-admin-topbar {
+		position: sticky;
+		top: var(--wp-admin--admin-bar--height, 46px);
+		z-index: 10;
+		height: 56px;
+		padding: 0 $gap-lg;
+
+		&__title {
+			overflow: hidden;
+			font-size: 16px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		&__dirty {
+			display: none;
+		}
+	}
+
+	.lw-admin-save kbd {
+		display: none;
+	}
+
+	.lw-admin-scroll {
+		overflow: visible;
+		padding: $gap-lg;
+	}
+
+	.lw-admin-footer {
+		padding: 10px $gap-lg;
+	}
+
+	.lw-admin-row {
+		grid-template-columns: 1fr;
+		gap: $gap-sm;
+	}
+
+
+}
+
+// Below 600px the admin bar scrolls away, so the top bar sticks to the top.
+@media (max-width: 600px) {
+	.lw-admin-topbar {
+		top: 0;
+	}
+}
+
+// Misc ---------------------------------------------------------------------
+
+.lw-admin-snackbars {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 100000;
+	width: auto;
+	max-width: min(480px, calc(100vw - 48px));
+}
+
+// Skeletons ----------------------------------------------------------------
+// Shapes come from the WPDS <Skeleton>; these rules only size and lay them out.
+
+.lw-skel {
+	border-radius: $radius;
+
+	&.is-round {
+		border-radius: 999px;
+	}
+
+	&--text {
+		max-width: 100%;
+		height: 12px;
+
+		&.is-sm {
+			height: 10px;
+		}
+
+		&.is-lg {
+			height: 16px;
+		}
+
+		&.is-xl {
+			height: 28px;
+		}
+	}
+}
+
+.lw-skel-lines,
+.lw-skel-stack {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-sm;
+	width: 100%;
+}
+
+.lw-skel-stack.is-loose {
+	gap: $gap-lg;
+}
+
+.lw-skel-tab {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+}
+
+.lw-skel-rows {
+	display: flex;
+	flex-direction: column;
+}
+
+.lw-skel-row {
+	display: grid;
+	grid-template-columns: minmax(140px, 30%) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: $gap-md;
+	padding: 14px 0;
+	border-bottom: 1px solid $stroke-weak;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+.lw-skel-toolbar {
+	display: flex;
+	gap: $gap-sm;
+	margin-bottom: $gap-md;
+}
+
+.lw-skel-spacer {
+	flex: 1;
+}
+
+.lw-skel-nav {
+	padding: $gap-lg $gap-xl;
+	gap: 22px;
+}
+
+// Plugin mark (FA duotone cookie): logo gold, both layers follow `color`.
+.lw-cookie-root .lw-admin-mark {
+	color: $lw-logo;
+	fill: currentColor;
+}
+
+// Data table: styles ship with @lwplugins/data-table (imported in CookiesTab);
+// its accent follows --wp-admin-theme-color, i.e. the brand gold here.
+
+// Segmented control (variant B, "soft segmented") -----------------------------
+// Restyles core ToggleGroupControl: grey track, raised white thumb. The thumb
+// is the group's ::before, positioned by core through --selected-* (unitless
+// px); core offsets it for a 1px border, which this track does not have.
+
+body.lw-cookie-screen {
+	.components-toggle-group-control {
+		min-height: 40px;
+		padding: 3px;
+		border: 0;
+		border-radius: 9px;
+		background: $track;
+		box-sizing: border-box;
+
+		// No focus-within ring on the group, at all (explicit decision).
+		&:focus-within {
+			outline: none;
+		}
+
+		&::before {
+			top: calc(var(--selected-top) * 1px);
+			left: 0;
+			width: calc(var(--selected-width) * 1px);
+			height: calc(var(--selected-height) * 1px);
+			border: 0;
+			border-radius: 7px;
+			background: $surface;
+			box-shadow: 0 1px 2px rgba(16, 24, 32, 0.12), 0 1px 1px rgba(16, 24, 32, 0.06);
+		}
+	}
+
+	.components-toggle-group-control-option-base {
+		border-radius: 7px;
+		color: $muted;
+		font-weight: 500;
+
+		&:hover {
+			color: $text;
+		}
+
+		&[aria-checked="true"] {
+			color: $text;
+			font-weight: 600;
+		}
+	}
+}
+
+// Shared helpers -------------------------------------------------------------
+
+.lw-admin-inline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $gap-sm;
+}
+
+.lw-admin-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.lw-admin-muted {
+	margin: 0;
+	color: $muted;
+}
+
+.lw-admin-mono,
+.lw-admin-mono textarea,
+.lw-admin-mono input {
+	font-family: $mono;
+}
+
+.lw-admin-code {
+	padding: 0;
+	background: none;
+	font-family: $mono;
+	font-size: 12px;
+	word-break: break-all;
+}
+
+.lw-admin-label {
+	color: $muted;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+// Read-only line + copy button (cron lines, status URL).
+.lw-admin-copy {
+	display: flex;
+	align-items: center;
+	gap: $gap-sm;
+
+	code {
+		flex: 1;
+		min-width: 0;
+		padding: 8px 10px;
+		overflow-x: auto;
+		border-radius: $radius;
+		background: $canvas;
+		font-family: $mono;
+		font-size: 12px;
+		white-space: nowrap;
+	}
+}
+
+
+.lw-admin-hint {
+	color: $muted;
+	font-size: 12px;
+}
+
+.lw-admin-testresult {
+	margin: 0;
+	font-weight: 500;
+
+	&.is-error {
+		color: $error;
+	}
+}
+
+// LW Cookie specifics ---------------------------------------------------------
+
+.lw-admin-list {
+	margin: 0 0 0 18px;
+	list-style: disc;
+
+	li {
+		margin: 0 0 6px;
+		line-height: 1.5;
+	}
+}
+
+// Modal forms.
+.lw-admin-form {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+	min-width: min(480px, 80vw);
+
+	&__actions {
+		justify-content: flex-end;
+	}
+
+	&__pair {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: $gap-lg;
+	}
+}
+
+.lw-admin-number .components-base-control {
+	width: 120px;
+}
+
+// Colour field: swatch + hex toggle.
+.lw-admin-color__toggle {
+	gap: $gap-sm;
+
+	code {
+		padding: 0;
+		background: none;
+		font-family: $mono;
+		font-size: 12px;
+	}
+
+	.component-color-indicator {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+	}
+}
+
+// Live banner preview: a mini page with the banner placed on it.
+.lw-preview {
+	position: relative;
+	height: 240px;
+	overflow: hidden;
+	border: 1px solid $stroke-weak;
+	border-radius: $radius-lg;
+	background: $canvas;
+	font-size: 12px;
+
+	&__page {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 24px;
+
+		span {
+			display: block;
+			height: 10px;
+			border-radius: 5px;
+			background: $stroke-weak;
+
+			&:nth-child(1) {
+				width: 40%;
+				height: 16px;
+			}
+
+			&:nth-child(2) {
+				width: 85%;
+			}
+
+			&:nth-child(3) {
+				width: 70%;
+			}
+		}
+	}
+
+	&__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.35);
+	}
+
+	&__banner {
+		position: absolute;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px 16px;
+		padding: 12px 16px;
+		background: var(--lw-preview-bg);
+		color: var(--lw-preview-text);
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+		box-sizing: border-box;
+
+		&.is-bar {
+			right: 0;
+			left: 0;
+
+			&.is-bottom {
+				bottom: 0;
+			}
+
+			&.is-top {
+				top: 0;
+			}
+		}
+
+		&.is-box,
+		&.is-modal {
+			flex-direction: column;
+			align-items: stretch;
+			width: 280px;
+			border-radius: var(--lw-preview-radius);
+		}
+
+		&.is-box {
+			&.is-bottom {
+				bottom: 12px;
+			}
+
+			&.is-top {
+				top: 12px;
+			}
+
+			&.is-right {
+				right: 12px;
+			}
+
+			&.is-left {
+				left: 12px;
+			}
+		}
+
+		&.is-modal {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	&__content {
+		flex: 1;
+		min-width: 180px;
+
+		strong {
+			display: block;
+			margin-bottom: 2px;
+			font-size: 13px;
+		}
+
+		p {
+			margin: 0;
+			font-size: 12px;
+			line-height: 1.4;
+			opacity: 0.85;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	&__btn {
+		padding: 4px 10px;
+		border: 1px solid;
+		border-radius: var(--lw-preview-radius);
+		font-size: 11px;
+		font-weight: 600;
+		white-space: nowrap;
+
+		&.is-primary {
+			border-color: var(--lw-preview-primary);
+			background: var(--lw-preview-primary);
+			color: #fff;
+		}
+
+		&.is-outline {
+			border-color: var(--lw-preview-primary);
+			color: var(--lw-preview-primary);
+		}
+
+		&.is-secondary {
+			border-color: var(--lw-preview-text);
+			color: var(--lw-preview-text);
+		}
+	}
+}
+
+// Scanner modal.
+// The actions stay in view at the bottom of the scrolling modal content, so
+// "Add Selected" is reachable without scrolling through every result. The
+// negative margin/bottom match the modal content's 24px padding.
+.lw-scan__actions {
+	position: sticky;
+	bottom: -24px;
+	z-index: 1;
+	margin: 0 -24px -24px;
+	padding: $gap-md 24px 24px;
+	border-top: 1px solid #e0e0e0;
+	background: #fff;
+}
+
+.lw-scan__frame {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	border: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.lw-scan__progress {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-md;
+	padding: $gap-xl 0;
+
+	p {
+		margin: 0;
+		color: $muted;
+	}
+
+	.components-progress-bar {
+		width: 100%;
+		max-width: none;
+	}
+}
+
+.lw-scan {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-sm;
+
+	&__heading {
+		margin: $gap-md 0 0;
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 6px $gap-md;
+		margin: 0;
+		padding: 10px $gap-md;
+		border: 1px solid $stroke-weak;
+		border-radius: $radius-lg;
+		background: $surface;
+
+		&.is-declared {
+			background: $canvas;
+			opacity: 0.7;
+		}
+
+		&.is-info {
+			align-items: center;
+		}
+	}
+
+	&__body {
+		flex: 1;
+		min-width: 200px;
+	}
+
+	&__name {
+		padding: 1px 6px;
+		border-radius: 3px;
+		background: $track;
+		font-family: $mono;
+		font-size: 12px;
+		font-weight: 600;
+		word-break: break-all;
+	}
+
+	&__cat {
+		padding: 1px 6px;
+		border-radius: 3px;
+		background: $track;
+		color: $muted;
+		font-size: 10px;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+
+		&.is-necessary {
+			background: #d5e5f2;
+			color: #135e96;
+		}
+
+		&.is-functional {
+			background: #f0e6f4;
+			color: #6b3276;
+		}
+
+		&.is-analytics {
+			background: #fcf0c8;
+			color: #6b5000;
+		}
+
+		&.is-marketing {
+			background: #facfd2;
+			color: #8a1c1c;
+		}
+	}
+
+	&__actions {
+		position: sticky;
+		bottom: -$gap-xl;
+		margin: $gap-lg (-$gap-xl) (-$gap-xl);
+		padding: $gap-md $gap-xl;
+		border-top: 1px solid $stroke-weak;
+		background: $surface;
+	}
+}
+
+@media (max-width: 782px) {
+	.lw-admin-form__pair {
+		grid-template-columns: 1fr;
+	}
+}

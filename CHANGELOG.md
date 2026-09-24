@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.8.0] - 2026-09-24
+
+### Added
+- New settings screen built with WordPress components: side navigation, a top bar with Save/Discard and a Cmd/Ctrl+S shortcut, loading skeletons and a mobile layout. Only the settings you changed are saved, so saving one tab never resets another.
+- Live banner preview on the Appearance tab (bar, floating box or modal, with your colours, radius and texts, before saving). Colours use the WordPress colour picker.
+- Declared cookies as a searchable table with a category filter, add/edit form (duplicate names are rejected) and a copy button for the `[lw_cookie_declaration]` shortcode.
+- The cookie scanner shows its progress (page N of M, deep scan) and can be cancelled; results mark cookies that are already declared, and "Add Selected" merges them into the list.
+- Admin REST API under `lw-cookie/v1/admin/settings` for users with `manage_options`.
+- Hungarian translation of the new interface (JavaScript translation file shipped in `languages/`).
+
+### Changed
+- The admin uses a burnt orange accent, and the plugin logo follows it.
+- While a multilingual plugin (Polylang, WPML, TranslatePress) is active, the category and text fields stay locked unless "Unlock to edit source text" is used, and a save leaves locked fields untouched.
+- An invalid or empty colour now keeps the stored colour instead of being saved empty.
+- Settings are no longer registered through the Settings API (options.php form).
+
+### Removed
+- The classic settings page, its stylesheet and script, and the wp-color-picker dependency.
+
 ## [1.7.7] - 2026-09-22
 
 ### Fixed

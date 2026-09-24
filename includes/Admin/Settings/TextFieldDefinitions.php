@@ -1,6 +1,6 @@
 <?php
 /**
- * Field definitions for the Texts settings tab.
+ * Field definitions for the user-facing text settings.
  *
  * @package LightweightPlugins\Cookie
  */
@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Admin\Settings;
 
 /**
- * Centralizes the form-field definitions for the Texts tab so that
- * TabTexts stays a thin renderer.
+ * Centralizes the text-field definitions shown in the settings screen's
+ * Texts section (served through TranslatableFields::sections()).
  *
  * Each section returns an array of fields, each shaped:
  *   [ 'name' => string, 'label' => string, 'textarea'? => bool,

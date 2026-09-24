@@ -30,3 +30,6 @@ composer.lock
 # Testing
 .phpunit.cache/
 .phpunit.result.cache
+
+# Local-only Superpowers planning docs (build/ is committed, never ignore it)
+/.superpowers/

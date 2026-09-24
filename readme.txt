@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.7.7
+Stable tag: 1.8.0
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,18 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.8.0 =
+* New: settings screen built with WordPress components: side navigation, a top bar with Save/Discard and a Cmd/Ctrl+S shortcut, loading skeletons and a mobile layout; only changed settings are saved, so saving one tab never resets another.
+* New: live banner preview on the Appearance tab (bar, floating box or modal, with your colours, radius and texts, before saving); colours use the WordPress colour picker.
+* New: declared cookies as a searchable table with a category filter, add/edit form (duplicate names are rejected) and a copy button for the [lw_cookie_declaration] shortcode.
+* New: the cookie scanner shows its progress and can be cancelled; results mark already declared cookies, and "Add Selected" merges them into the list.
+* New: admin REST API under lw-cookie/v1/admin/settings for users with manage_options.
+* New: Hungarian translation of the new interface.
+* Change: the admin uses a burnt orange accent, and the plugin logo follows it.
+* Change: while a multilingual plugin is active, the category and text fields stay locked unless "Unlock to edit source text" is used, and a save leaves locked fields untouched.
+* Change: an invalid or empty colour now keeps the stored colour instead of being saved empty.
+* Change: the classic settings page (options.php form), its stylesheet and script, and the wp-color-picker dependency were removed.
 
 = 1.7.7 =
 * Fix: The Script Blocking setting (Advanced tab) had no effect since 1.6.0 — tracker scripts were always blocked. Turning it off now lets tracker scripts and pixels load before consent and stops using the consent Service Worker (pages disarm and unregister a worker registered earlier). The known tracking cookies (_ga, _fbp, …) still wait for consent, and embeds follow Content Blocking only.
@@ -377,6 +389,9 @@ Yes! LW Cookie has full WP-CLI support:
 * Full WP-CLI support for settings, stats, and export
 
 == Upgrade Notice ==
+
+= 1.8.0 =
+New settings screen with a live banner preview, a searchable cookie table and scanner progress. Your settings and declared cookies are kept.
 
 = 1.1.0 =
 Cookie Declaration feature for GDPR transparency - declare and display all cookies used on your site.

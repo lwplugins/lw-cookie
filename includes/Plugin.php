@@ -21,6 +21,7 @@ use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\Integrations\CacheCompat;
 use LightweightPlugins\Cookie\Rest\ConsentEndpoint;
+use LightweightPlugins\Cookie\Rest\Admin\Routes as AdminRoutes;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
@@ -77,6 +78,9 @@ final class Plugin {
 
 		// REST API endpoint for consent logging (replaces AJAX).
 		new ConsentEndpoint();
+
+		// Admin settings REST routes for the React settings screen.
+		( new AdminRoutes() )->register();
 
 		// Service Worker fallback route, and the webroot copy after updates.
 		ServiceWorkerManager::register_fallback();

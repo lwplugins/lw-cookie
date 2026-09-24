@@ -51,6 +51,19 @@ jobs:
         if: steps.check_release.outputs.exists == 'false'
         run: composer install --no-dev --optimize-autoloader --no-interaction
 
+      # The admin is a React app: build/ is committed (so Composer and git
+      # installs work) and rebuilt here from src/ so the ZIP always matches it.
+      - name: Setup Node
+        if: steps.check_release.outputs.exists == 'false'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Build the admin
+        if: steps.check_release.outputs.exists == 'false'
+        run: npm ci && npm run build
+
       - name: Create release ZIP
         if: steps.check_release.outputs.exists == 'false'
         env:
@@ -59,7 +72,7 @@ jobs:
           mkdir -p dist/lw-cookie
           rsync -av --exclude='.git' --exclude='.github' --exclude='dist' --exclude='builds' \
             --exclude='composer.json' --exclude='composer.lock' --exclude='phpcs.xml.dist' \
-            --exclude='node_modules' --exclude='.gitignore' --exclude='.gitattributes' \
+            --exclude='node_modules' --exclude='/src' --exclude='/package.json' --exclude='/package-lock.json' --exclude='.gitignore' --exclude='.gitattributes' \
             --exclude='tests' --exclude='docs' --exclude='.claude' --exclude='.superpowers' \
             --exclude='phpstan.neon.dist' --exclude='phpstan-baseline.neon' \
             --exclude='phpstan-bootstrap.php' --exclude='phpunit.xml.dist' --exclude='*.log' . dist/lw-cookie/
