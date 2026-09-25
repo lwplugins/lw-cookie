@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  # release.yml calls this workflow and releases only when every job passes.
+  workflow_call:
   push:
     branches: [main]
   pull_request:
