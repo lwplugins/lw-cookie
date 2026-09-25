@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1] - 2026-09-25
+
+### Fixed
+- Notices from themes and other plugins (for example a theme's purchase-code or recommended-plugins notice) could show on the LW Cookie screen. They are now kept off every LW Plugins screen, whatever their markup.
+- Activating or reactivating the plugin no longer prints "Multiple primary key defined": the consents table is now declared in the form WordPress's dbDelta() expects.
+- The "settings screen files are missing" notice is no longer hidden by the notice isolation.
+
 ## [1.8.0] - 2026-09-24
 
 ### Added

@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.8.1 =
+* Fix: Notices from themes and other plugins (for example a theme's purchase-code or recommended-plugins notice) could show on the LW Cookie screen. They are now kept off every LW Plugins screen, whatever their markup.
+* Fix: Activating or reactivating the plugin no longer prints "Multiple primary key defined": the consents table is now declared in the form WordPress's dbDelta() expects.
+* Fix: The "settings screen files are missing" notice is no longer hidden by the notice isolation.
 
 = 1.8.0 =
 * New: settings screen built with WordPress components: side navigation, a top bar with Save/Discard and a Cmd/Ctrl+S shortcut, loading skeletons and a mobile layout; only changed settings are saved, so saving one tab never resets another.
