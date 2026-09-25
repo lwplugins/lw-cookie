@@ -115,6 +115,8 @@ final class SettingsPage {
 	/**
 	 * Render the mount point (or a notice when the build is missing).
 	 *
+	 * The notice carries `lw-notice` so NoticeManager does not hide it.
+	 *
 	 * @return void
 	 */
 	public function render(): void {
@@ -124,7 +126,7 @@ final class SettingsPage {
 
 		if ( ! BuildAssets::exists( 'index' ) ) {
 			printf(
-				'<div class="wrap"><h1>%s</h1><div class="notice notice-error"><p>%s</p></div></div>',
+				'<div class="wrap"><h1>%s</h1><div class="notice notice-error lw-notice"><p>%s</p></div></div>',
 				esc_html__( 'LW Cookie', 'lw-cookie' ),
 				esc_html__( 'The settings screen files are missing. Re-install the plugin from a release ZIP, or run "npm install && npm run build" in the plugin directory.', 'lw-cookie' )
 			);
