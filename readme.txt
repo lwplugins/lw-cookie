@@ -1,9 +1,9 @@
 === LW Cookie ===
 Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
-Requires at least: 6.0
+Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.8.2 =
+* Fix: "Requires at least" raised to WordPress 6.6 - the React settings screen needs the react-jsx-runtime script core registers from 6.6; on older versions the page stayed blank.
 
 = 1.8.1 =
 * Fix: Notices from themes and other plugins (for example a theme's purchase-code or recommended-plugins notice) could show on the LW Cookie screen. They are now kept off every LW Plugins screen, whatever their markup.

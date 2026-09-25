@@ -213,7 +213,7 @@ The plugin pushes events to dataLayer for GTM triggers:
 ## Requirements
 
 - PHP 8.2 or higher
-- WordPress 6.0 or higher
+- WordPress 6.6 or higher
 
 ## Documentation
 

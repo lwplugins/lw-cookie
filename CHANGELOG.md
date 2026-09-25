@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.8.2] - 2026-09-25
+
+### Fixed
+- `Requires at least` raised to WordPress 6.6: the React settings screen needs the `react-jsx-runtime` script that core registers from 6.6, so on older versions the page stayed blank without an error (verified on 6.5 and 6.6)
+
 ## [1.8.1] - 2026-09-25
 
 ### Fixed
