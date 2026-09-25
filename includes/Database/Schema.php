@@ -27,11 +27,25 @@ final class Schema {
 	public static function create_tables(): void {
 		global $wpdb;
 
-		$charset_collate = $wpdb->get_charset_collate();
-		$table_name      = $wpdb->prefix . self::TABLE_CONSENTS;
+		$sql = self::consents_table_sql( $wpdb->prefix . self::TABLE_CONSENTS, $wpdb->get_charset_collate() );
 
-		$sql = "CREATE TABLE {$table_name} (
-			id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
+	}
+
+	/**
+	 * CREATE TABLE statement of the consents table, in the form dbDelta()
+	 * parses: NOT NULL AUTO_INCREMENT on the column, `PRIMARY KEY  (id)` with
+	 * two spaces, and `KEY` rather than `INDEX`. Anything else makes dbDelta()
+	 * try to redefine the primary key on every activation.
+	 *
+	 * @param string $table_name      Prefixed table name.
+	 * @param string $charset_collate Charset and collation clause.
+	 * @return string
+	 */
+	public static function consents_table_sql( string $table_name, string $charset_collate ): string {
+		return "CREATE TABLE {$table_name} (
+			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 			consent_id VARCHAR(36) NOT NULL,
 			ip_hash VARCHAR(64) NOT NULL,
 			categories JSON NOT NULL,
@@ -39,12 +53,10 @@ final class Schema {
 			action_type ENUM('accept_all','reject_all','customize') NOT NULL,
 			user_agent VARCHAR(255) DEFAULT '',
 			created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			INDEX idx_consent_id (consent_id),
-			INDEX idx_created_at (created_at)
+			PRIMARY KEY  (id),
+			KEY idx_consent_id (consent_id),
+			KEY idx_created_at (created_at)
 		) {$charset_collate};";
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
 	}
 
 	/**
