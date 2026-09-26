@@ -59,8 +59,9 @@ final class CookieAbilities {
 				'output_schema'       => [
 					'type'       => 'object',
 					'properties' => [
-						'success' => [ 'type' => 'boolean' ],
-						'options' => [ 'type' => 'object' ],
+						'success'       => [ 'type' => 'boolean' ],
+						'options'       => [ 'type' => 'object' ],
+						'writable_keys' => [ 'type' => 'array' ],
 					],
 				],
 				'meta'                => self::readonly_meta(),
@@ -71,7 +72,7 @@ final class CookieAbilities {
 			'lw-cookie/set-options',
 			[
 				'label'               => __( 'Set Cookie Options', 'lw-cookie' ),
-				'description'         => __( 'Update LW Cookie consent settings.', 'lw-cookie' ),
+				'description'         => __( 'Update LW Cookie consent settings. Values are validated and sanitized like in the settings screen; invalid, unknown or locked keys are not saved and are listed in "rejected" with the reason.', 'lw-cookie' ),
 				'category'            => 'cookie',
 				'execute_callback'    => [ CookieService::class, 'set_options' ],
 				'permission_callback' => $permissions->callback( 'can_manage_options' ),
@@ -81,16 +82,18 @@ final class CookieAbilities {
 					'properties' => [
 						'options' => [
 							'type'        => 'object',
-							'description' => __( 'Key-value pairs of settings to update. Only provided keys are changed.', 'lw-cookie' ),
+							'description' => __( 'Key-value pairs of settings to update. Only provided keys are changed; get-options lists the writable keys.', 'lw-cookie' ),
 						],
 					],
 				],
 				'output_schema'       => [
 					'type'       => 'object',
 					'properties' => [
-						'success' => [ 'type' => 'boolean' ],
-						'message' => [ 'type' => 'string' ],
-						'updated' => [ 'type' => 'array' ],
+						'success'  => [ 'type' => 'boolean' ],
+						'message'  => [ 'type' => 'string' ],
+						'updated'  => [ 'type' => 'array' ],
+						'rejected' => [ 'type' => 'object' ],
+						'options'  => [ 'type' => 'object' ],
 					],
 				],
 				'meta'                => self::write_meta(),

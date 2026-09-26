@@ -25,3 +25,7 @@ if ( ! defined( 'LW_COOKIE_VERSION' ) ) {
 }
 
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
+
+if ( ! class_exists( 'WP_Error', false ) ) {
+	require_once __DIR__ . '/Stubs/WP_Error.php';
+}

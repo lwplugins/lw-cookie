@@ -169,6 +169,7 @@ Yes! LW Cookie has full WP-CLI support:
 = 1.8.3 =
 * Change: the LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.
 * Fix: LW Site Manager's MCP server now lists this plugin's abilities (they were only reachable through REST).
+* Fix: lw-cookie/set-options now saves through the settings screen's sanitized partial update and can change every setting, including the ones added in 1.8 (box alignment, necessary category texts, hide for logged-in users, modal/table/embed texts, declared cookies); invalid, unknown or locked values are no longer stored but returned in `rejected` with the reason. get-options returns the same typed settings plus the writable keys.
 
 = 1.8.2 =
 * Fix: "Requires at least" raised to WordPress 6.6 - the React settings screen needs the react-jsx-runtime script core registers from 6.6; on older versions the page stayed blank.

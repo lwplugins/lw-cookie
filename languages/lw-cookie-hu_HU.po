@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-09-26T13:48:58+00:00\n"
+"POT-Creation-Date: 2026-09-26T20:24:04+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -437,68 +437,113 @@ msgstr "Mindig aktív"
 msgid "Persistent"
 msgstr "Állandó"
 
-#: includes/SiteManager/CookieAbilities.php:39
+#: includes/SiteManager/CookieAbilities.php:50
 msgid "Get Cookie Options"
 msgstr "Cookie-beállítások lekérése"
 
-#: includes/SiteManager/CookieAbilities.php:40
+#: includes/SiteManager/CookieAbilities.php:51
 msgid "Get LW Cookie consent settings (banner, categories, texts, advanced)."
 msgstr ""
 "LW Cookie consent beállítások lekérése (banner, kategóriák, szövegek, "
 "haladó)."
 
-#: includes/SiteManager/CookieAbilities.php:62
+#: includes/SiteManager/CookieAbilities.php:74
 msgid "Set Cookie Options"
 msgstr "Cookie-beállítások beállítása"
 
-#: includes/SiteManager/CookieAbilities.php:63
-msgid "Update LW Cookie consent settings."
-msgstr "LW Cookie consent beállítások frissítése."
+#: includes/SiteManager/CookieAbilities.php:75
+msgid ""
+"Update LW Cookie consent settings. Values are validated and sanitized like "
+"in the settings screen; invalid, unknown or locked keys are not saved and "
+"are listed in \"rejected\" with the reason."
+msgstr ""
+"Az LW Cookie hozzájárulási beállításainak frissítése. Az értékeket ugyanúgy "
+"ellenőrzi és tisztítja, mint a beállítások oldal; az érvénytelen, ismeretlen "
+"vagy zárolt kulcsokat nem menti, hanem indoklással a \"rejected\" listában "
+"adja vissza."
 
-#: includes/SiteManager/CookieAbilities.php:73
-msgid "Key-value pairs of settings to update. Only provided keys are changed."
+#: includes/SiteManager/CookieAbilities.php:85
+msgid ""
+"Key-value pairs of settings to update. Only provided keys are changed; get-"
+"options lists the writable keys."
 msgstr ""
 "A frissítendő beállítások kulcs-érték párjai. Csak a megadott kulcsok "
-"változnak."
+"változnak; az írható kulcsokat a get-options listázza."
 
-#: includes/SiteManager/CookieAbilities.php:100
+#: includes/SiteManager/CookieAbilities.php:114
 msgid "Get Consent Stats"
 msgstr "Hozzájárulási statisztikák lekérése"
 
-#: includes/SiteManager/CookieAbilities.php:101
+#: includes/SiteManager/CookieAbilities.php:115
 msgid ""
 "Get consent logging statistics grouped by action type and policy version."
 msgstr ""
 "Hozzájárulás-naplózási statisztikák lekérése művelettípus és "
 "szabályzatverzió szerint csoportosítva."
 
-#: includes/SiteManager/CookieAbilities.php:111
+#: includes/SiteManager/CookieAbilities.php:125
 msgid "Number of past days to include. Default: 30."
 msgstr "A bevonandó elmúlt napok száma. Alapértelmezett: 30."
 
-#: includes/SiteManager/CookieAbilities.php:139
+#: includes/SiteManager/CookieAbilities.php:153
 msgid "Scan Cookies"
 msgstr "Cookie-k keresése"
 
-#: includes/SiteManager/CookieAbilities.php:140
+#: includes/SiteManager/CookieAbilities.php:154
 msgid "Trigger an HTTP header pre-scan to detect cookies across site URLs."
 msgstr ""
 "HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei "
 "között."
 
-#: includes/SiteManager/CookieService.php:79
+#: includes/SiteManager/CookieService.php:51
 msgid "Provide an options object with at least one key."
 msgstr "Adj meg egy beállítások objektumot legalább egy kulccsal."
 
-#: includes/SiteManager/CookieService.php:98
-msgid "No valid option keys provided."
-msgstr "Nincs megadva érvényes beállításkulcs."
-
-#. translators: %d: number of options updated
-#: includes/SiteManager/CookieService.php:109
+#. translators: %s: list of "key: reason" pairs
+#: includes/SiteManager/CookieService.php:68
 #, php-format
-msgid "%d option(s) updated."
-msgstr "%d beállítás frissítve."
+msgid "No option was updated. %s"
+msgstr "Egy beállítás sem frissült. %s"
+
+#. translators: 1: number of options updated, 2: number of options rejected
+#: includes/SiteManager/CookieService.php:82
+#, php-format
+msgid "%1$d option(s) updated, %2$d rejected."
+msgstr "%1$d beállítás frissült, %2$d elutasítva."
+
+#: includes/SiteManager/CookieService.php:102
+msgid "Unknown setting, or not writable through automation."
+msgstr "Ismeretlen beállítás, vagy automatizálással nem írható."
+
+#: includes/SiteManager/CookieService.php:104
+msgid "Managed by the active multilingual plugin; translate it there."
+msgstr "Az aktív többnyelvű bővítmény kezeli; ott fordítsd."
+
+#: includes/SiteManager/CookieService.php:106
+msgid "Must be true or false."
+msgstr "Csak true vagy false lehet."
+
+#: includes/SiteManager/CookieService.php:108
+msgid "Must be a whole number."
+msgstr "Egész számnak kell lennie."
+
+#: includes/SiteManager/CookieService.php:110
+msgid "Must be a list of cookie rows."
+msgstr "Sütisorok listájának kell lennie."
+
+#. translators: %s: comma-separated list of allowed values
+#: includes/SiteManager/CookieService.php:113
+#, php-format
+msgid "Must be one of: %s."
+msgstr "Ezek egyike lehet: %s."
+
+#: includes/SiteManager/CookieService.php:115
+msgid "Must be a hex colour such as #2271b1."
+msgstr "Hexa színkódnak kell lennie, például #2271b1."
+
+#: includes/SiteManager/CookieService.php:117
+msgid "Must be a text value."
+msgstr "Szöveges értéknek kell lennie."
 
 #: includes/SiteManager/Integration.php:39
 msgid "Cookie consent management abilities"

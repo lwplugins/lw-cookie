@@ -9,8 +9,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\SiteManager;
 
+use LightweightPlugins\Cookie\Admin\SettingsSanitizer;
+use LightweightPlugins\Cookie\Admin\SettingsStore;
 use LightweightPlugins\Cookie\Database\Schema;
-use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 
 /**
@@ -19,53 +20,24 @@ use LightweightPlugins\Cookie\Scanner\Scanner;
 final class CookieService {
 
 	/**
-	 * Allowed option keys that can be written via set-options.
-	 */
-	private const WRITABLE_KEYS = [
-		'enabled',
-		'privacy_policy_page',
-		'policy_version',
-		'banner_position',
-		'banner_layout',
-		'primary_color',
-		'text_color',
-		'background_color',
-		'border_radius',
-		'cat_functional_name',
-		'cat_functional_desc',
-		'cat_analytics_name',
-		'cat_analytics_desc',
-		'cat_marketing_name',
-		'cat_marketing_desc',
-		'banner_title',
-		'banner_message',
-		'btn_accept_all',
-		'btn_reject_all',
-		'btn_customize',
-		'btn_save',
-		'consent_duration',
-		'script_blocking',
-		'content_blocking',
-		'gcm_enabled',
-		'show_floating_button',
-		'floating_button_pos',
-	];
-
-	/**
-	 * Get all LW Cookie options.
+	 * Get all LW Cookie options, typed like the admin API returns them, plus
+	 * the keys set-options may currently write.
 	 *
 	 * @param array<string, mixed> $input Input parameters (unused).
 	 * @return array<string, mixed>
 	 */
 	public static function get_options( array $input ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Required by ability callback interface.
 		return [
-			'success' => true,
-			'options' => Options::get_all(),
+			'success'       => true,
+			'options'       => SettingsStore::current(),
+			'writable_keys' => AutomationPolicy::writable_keys(),
 		];
 	}
 
 	/**
-	 * Update LW Cookie options.
+	 * Update LW Cookie options through the admin API's sanitized partial
+	 * update. Valid keys are saved; invalid, unknown or locked keys are not
+	 * stored and come back in `rejected` with the reason.
 	 *
 	 * @param array<string, mixed> $input Input parameters.
 	 * @return array<string, mixed>|\WP_Error
@@ -81,36 +53,85 @@ final class CookieService {
 			);
 		}
 
-		$current = Options::get_all();
-		$updated = [];
+		$result   = OptionsWriter::apply( $new_options );
+		$rejected = [];
 
-		foreach ( $new_options as $key => $value ) {
-			if ( ! in_array( $key, self::WRITABLE_KEYS, true ) ) {
-				continue;
-			}
-			$current[ $key ] = $value;
-			$updated[]       = $key;
+		foreach ( $result['rejected'] as $key => $code ) {
+			$rejected[ $key ] = self::problem_message( $key, $code );
 		}
 
-		if ( empty( $updated ) ) {
+		if ( empty( $result['updated'] ) ) {
 			return new \WP_Error(
-				'no_valid_keys',
-				__( 'No valid option keys provided.', 'lw-cookie' ),
-				[ 'status' => 400 ]
+				'no_valid_options',
+				sprintf(
+					/* translators: %s: list of "key: reason" pairs */
+					__( 'No option was updated. %s', 'lw-cookie' ),
+					self::describe( $rejected )
+				),
+				[
+					'status'   => 400,
+					'rejected' => $rejected,
+				]
 			);
 		}
 
-		Options::save( $current );
-
 		return [
-			'success' => true,
-			'message' => sprintf(
-				/* translators: %d: number of options updated */
-				__( '%d option(s) updated.', 'lw-cookie' ),
-				count( $updated )
+			'success'  => true,
+			'message'  => sprintf(
+				/* translators: 1: number of options updated, 2: number of options rejected */
+				__( '%1$d option(s) updated, %2$d rejected.', 'lw-cookie' ),
+				count( $result['updated'] ),
+				count( $rejected )
 			),
-			'updated' => $updated,
+			'updated'  => $result['updated'],
+			'rejected' => (object) $rejected,
+			'options'  => $result['options'],
 		];
+	}
+
+	/**
+	 * Human-readable reason for a rejected key.
+	 *
+	 * @param string $key  Option key.
+	 * @param string $code Problem code from OptionsWriter.
+	 * @return string
+	 */
+	private static function problem_message( string $key, string $code ): string {
+		switch ( $code ) {
+			case OptionsWriter::UNKNOWN_KEY:
+				return __( 'Unknown setting, or not writable through automation.', 'lw-cookie' );
+			case OptionsWriter::LOCKED_KEY:
+				return __( 'Managed by the active multilingual plugin; translate it there.', 'lw-cookie' );
+			case SettingsSanitizer::PROBLEM_BOOLEAN:
+				return __( 'Must be true or false.', 'lw-cookie' );
+			case SettingsSanitizer::PROBLEM_NUMBER:
+				return __( 'Must be a whole number.', 'lw-cookie' );
+			case SettingsSanitizer::PROBLEM_LIST:
+				return __( 'Must be a list of cookie rows.', 'lw-cookie' );
+			case SettingsSanitizer::PROBLEM_CHOICE:
+				/* translators: %s: comma-separated list of allowed values */
+				return sprintf( __( 'Must be one of: %s.', 'lw-cookie' ), implode( ', ', SettingsSanitizer::choices( $key ) ) );
+			case SettingsSanitizer::PROBLEM_COLOR:
+				return __( 'Must be a hex colour such as #2271b1.', 'lw-cookie' );
+			default:
+				return __( 'Must be a text value.', 'lw-cookie' );
+		}
+	}
+
+	/**
+	 * Join rejected keys into one line for an error message.
+	 *
+	 * @param array<string, string> $rejected Reason by key.
+	 * @return string
+	 */
+	private static function describe( array $rejected ): string {
+		$parts = [];
+
+		foreach ( $rejected as $key => $reason ) {
+			$parts[] = $key . ': ' . $reason;
+		}
+
+		return implode( ' ', $parts );
 	}
 
 	/**

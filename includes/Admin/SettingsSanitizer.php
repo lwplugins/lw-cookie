@@ -14,7 +14,7 @@ namespace LightweightPlugins\Cookie\Admin;
  *
  * The type of each default decides how its value is cleaned. A value that
  * cannot be cleaned into something valid (bad colour, unknown choice, wrong
- * shape) keeps the current value instead of being reset.
+ * shape — see problem()) keeps the current value instead of being reset.
  */
 final class SettingsSanitizer {
 
@@ -27,6 +27,13 @@ final class SettingsSanitizer {
 		'banner_box_alignment' => [ 'right', 'left' ],
 		'floating_button_pos'  => [ 'bottom-left', 'bottom-right' ],
 	];
+
+	public const PROBLEM_BOOLEAN = 'not_boolean';
+	public const PROBLEM_NUMBER  = 'not_number';
+	public const PROBLEM_LIST    = 'not_list';
+	public const PROBLEM_TEXT    = 'not_text';
+	public const PROBLEM_CHOICE  = 'not_choice';
+	public const PROBLEM_COLOR   = 'not_color';
 
 	/**
 	 * Sanitize the submitted keys.
@@ -54,6 +61,56 @@ final class SettingsSanitizer {
 	}
 
 	/**
+	 * Why a submitted value cannot be stored, or null when it is valid. The
+	 * admin API keeps the current value for an invalid one; automation (the
+	 * Site Manager set-options ability) reports it back instead.
+	 *
+	 * @param string $key     Option key.
+	 * @param mixed  $value   Submitted value.
+	 * @param mixed  $default Default value.
+	 * @return string|null One of the PROBLEM_* codes, or null.
+	 */
+	public static function problem( string $key, mixed $value, mixed $default ): ?string {
+		if ( is_bool( $default ) ) {
+			$valid = ! is_array( $value ) && null !== filter_var( $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+			return $valid ? null : self::PROBLEM_BOOLEAN;
+		}
+
+		if ( is_int( $default ) ) {
+			return is_numeric( $value ) ? null : self::PROBLEM_NUMBER;
+		}
+
+		if ( is_array( $default ) ) {
+			return is_array( $value ) ? null : self::PROBLEM_LIST;
+		}
+
+		if ( ! is_scalar( $value ) ) {
+			return self::PROBLEM_TEXT;
+		}
+
+		if ( isset( self::CHOICES[ $key ] ) ) {
+			return in_array( (string) $value, self::CHOICES[ $key ], true ) ? null : self::PROBLEM_CHOICE;
+		}
+
+		if ( str_contains( $key, 'color' ) ) {
+			$color = sanitize_hex_color( (string) $value );
+			return is_string( $color ) && '' !== $color ? null : self::PROBLEM_COLOR;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Allowed values of a fixed-choice key (empty for free-form keys).
+	 *
+	 * @param string $key Option key.
+	 * @return array<int, string>
+	 */
+	public static function choices( string $key ): array {
+		return self::CHOICES[ $key ] ?? [];
+	}
+
+	/**
 	 * Sanitize one value according to its key and default's type.
 	 *
 	 * @param string $key      Option key.
@@ -64,31 +121,30 @@ final class SettingsSanitizer {
 	 * @return mixed
 	 */
 	private static function value( string $key, mixed $value, mixed $fallback, mixed $default, bool $textarea ): mixed {
+		if ( null !== self::problem( $key, $value, $default ) ) {
+			return is_bool( $default ) ? (bool) $fallback : $fallback;
+		}
+
 		if ( is_bool( $default ) ) {
-			return is_array( $value ) ? (bool) $fallback : filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
 		}
 
 		if ( is_int( $default ) ) {
-			return is_scalar( $value ) ? absint( $value ) : $fallback;
+			return absint( $value );
 		}
 
 		if ( is_array( $default ) ) {
-			return is_array( $value ) ? DeclaredCookiesSanitizer::sanitize( $value ) : $fallback;
-		}
-
-		if ( ! is_scalar( $value ) ) {
-			return $fallback;
+			return DeclaredCookiesSanitizer::sanitize( $value );
 		}
 
 		$value = (string) $value;
 
 		if ( isset( self::CHOICES[ $key ] ) ) {
-			return in_array( $value, self::CHOICES[ $key ], true ) ? $value : $fallback;
+			return $value;
 		}
 
 		if ( str_contains( $key, 'color' ) ) {
-			$color = sanitize_hex_color( $value );
-			return is_string( $color ) && '' !== $color ? $color : $fallback;
+			return (string) sanitize_hex_color( $value );
 		}
 
 		return $textarea ? sanitize_textarea_field( $value ) : sanitize_text_field( $value );

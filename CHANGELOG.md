@@ -7,6 +7,7 @@
 
 ### Fixed
 - LW Site Manager's MCP server now lists this plugin's abilities (they were only reachable through REST).
+- lw-cookie/set-options now saves through the settings screen's sanitized partial update and can change every setting, including the ones added in 1.8 (box alignment, necessary category texts, hide for logged-in users, modal/table/embed texts, declared cookies); invalid, unknown or locked values are no longer stored but returned in `rejected` with the reason. get-options returns the same typed settings plus the writable keys.
 
 ## [1.8.2] - 2026-09-25
 

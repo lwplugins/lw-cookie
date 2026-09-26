@@ -10,7 +10,7 @@ All abilities are registered under the `cookie` category.
 
 ### `lw-cookie/get-options` (readonly)
 
-Get all LW Cookie consent settings.
+Get all LW Cookie consent settings, typed like the settings screen's API returns them (every key of the settings model), plus the keys `set-options` may currently write.
 
 **Input:** none
 
@@ -27,9 +27,12 @@ Get all LW Cookie consent settings.
     "script_blocking": true,
     "gcm_enabled": false,
     ...
-  }
+  },
+  "writable_keys": ["enabled", "privacy_policy_page", "..."]
 }
 ```
+
+`writable_keys` leaves out the text settings while a multilingual plugin (Polylang, WPML, TranslatePress) owns them.
 
 **Permission:** `can_manage_options`
 
@@ -37,7 +40,7 @@ Get all LW Cookie consent settings.
 
 ### `lw-cookie/set-options` (write)
 
-Update one or more LW Cookie settings. Only the provided keys are changed.
+Update one or more LW Cookie settings. Only the provided keys are changed. The values go through the same sanitized partial update as the settings screen (`SettingsStore::save()`): choices are checked, colours must be hex, booleans and integers are normalized, text is sanitized, declared-cookie rows are cleaned.
 
 **Input:**
 ```json
@@ -45,22 +48,26 @@ Update one or more LW Cookie settings. Only the provided keys are changed.
   "options": {
     "enabled": true,
     "banner_position": "top",
-    "primary_color": "#2271b1",
+    "primary_color": "not-a-colour",
     "consent_duration": 180
   }
 }
 ```
 
-**Writable keys:** `enabled`, `privacy_policy_page`, `policy_version`, `banner_position`, `banner_layout`, `primary_color`, `text_color`, `background_color`, `border_radius`, `cat_functional_name`, `cat_functional_desc`, `cat_analytics_name`, `cat_analytics_desc`, `cat_marketing_name`, `cat_marketing_desc`, `banner_title`, `banner_message`, `btn_accept_all`, `btn_reject_all`, `btn_customize`, `btn_save`, `consent_duration`, `script_blocking`, `content_blocking`, `gcm_enabled`, `show_floating_button`, `floating_button_pos`
+**Writable keys:** every key of the settings model, listed explicitly in `includes/SiteManager/AutomationPolicy.php` (a unit test keeps it equal to `Options::get_defaults()`). While a multilingual plugin is active, the text keys it translates are locked, as on the settings screen.
 
-**Output:**
+**Output:** valid keys are saved; a key that is unknown, locked or has an invalid value is not stored (the current value stays, like on the settings screen) and is listed in `rejected` with the reason.
 ```json
 {
   "success": true,
-  "message": "3 option(s) updated.",
-  "updated": ["banner_position", "primary_color", "consent_duration"]
+  "message": "3 option(s) updated, 1 rejected.",
+  "updated": ["enabled", "banner_position", "consent_duration"],
+  "rejected": { "primary_color": "Must be a hex colour such as #2271b1." },
+  "options": { "...": "all settings after the update" }
 }
 ```
+
+If no key could be saved, the ability returns a `no_valid_options` error (HTTP 400); its message and its `rejected` data list every key with its reason.
 
 **Permission:** `can_manage_options`
 
@@ -128,5 +135,7 @@ Trigger an HTTP header pre-scan across site URLs. Sends HEAD requests to home, p
 | `includes/SiteManager/Integration.php` | Registers hooks and category |
 | `includes/SiteManager/CookieAbilities.php` | Ability definitions and schemas |
 | `includes/SiteManager/CookieService.php` | Execution callbacks |
+| `includes/SiteManager/AutomationPolicy.php` | Keys `set-options` may write |
+| `includes/SiteManager/OptionsWriter.php` | Validates and saves `set-options` input via `SettingsStore::save()` |
 
 The integration is initialized in `Plugin::init_components()` via `SiteManagerIntegration::init()`. It registers WordPress action hooks that only fire if LW Site Manager is active, so there is no dependency.
