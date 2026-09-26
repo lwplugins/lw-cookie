@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-09-26T20:24:04+00:00\n"
+"POT-Creation-Date: 2026-09-26T20:27:48+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -1452,6 +1452,32 @@ msgstr ""
 #: build/index.js:14
 msgid "Block embedded content until consent is given"
 msgstr "Beágyazott tartalom blokkolása a hozzájárulásig"
+
+#: build/index.js:14
+msgid "Load youtube-nocookie.com embeds without consent"
+msgstr "youtube-nocookie.com beágyazások betöltése hozzájárulás nélkül"
+
+#: build/index.js:14
+msgid ""
+"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce "
+"tracking, but it is not consent-free: loading the player still sends the "
+"visitor's IP address and browser data to Google. Turn this on only if your "
+"privacy policy covers it. Videos embedded from youtube.com stay blocked "
+"until consent."
+msgstr ""
+"A YouTube bővített adatvédelmi módja (youtube-nocookie.com) kevesebb "
+"követésre készült, de nem hozzájárulásmentes: a lejátszó betöltésekor a "
+"látogató IP-címe és böngészőadatai így is eljutnak a Google-höz. Csak akkor "
+"kapcsold be, ha az adatkezelési tájékoztatód ezt lefedi. A youtube.com-ról "
+"beágyazott videók továbbra is blokkolva maradnak a hozzájárulásig."
+
+#: build/index.js:14
+msgid "Loaded without consent"
+msgstr "Hozzájárulás nélkül betöltődik"
+
+#: build/index.js:14
+msgid "Blocked until consent"
+msgstr "Hozzájárulásig blokkolva"
 
 #: build/index.js:14
 msgid "Google Consent Mode v2"

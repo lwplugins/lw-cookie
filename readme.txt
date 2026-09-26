@@ -170,6 +170,7 @@ Yes! LW Cookie has full WP-CLI support:
 * Change: the LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.
 * Fix: LW Site Manager's MCP server now lists this plugin's abilities (they were only reachable through REST).
 * Fix: lw-cookie/set-options now saves through the settings screen's sanitized partial update and can change every setting, including the ones added in 1.8 (box alignment, necessary category texts, hide for logged-in users, modal/table/embed texts, declared cookies); invalid, unknown or locked values are no longer stored but returned in `rejected` with the reason. get-options returns the same typed settings plus the writable keys.
+* New: Advanced → "Load youtube-nocookie.com embeds without consent" (off by default): when on, YouTube Privacy Enhanced Mode embeds are no longer blocked - neither by the browser guard nor by server-side placeholders such as LW LMS lesson videos - while youtube.com embeds stay blocked until consent. Privacy Enhanced Mode still sends the visitor's IP address to Google, as the setting's help text explains.
 
 = 1.8.2 =
 * Fix: "Requires at least" raised to WordPress 6.6 - the React settings screen needs the react-jsx-runtime script core registers from 6.6; on older versions the page stayed blank.

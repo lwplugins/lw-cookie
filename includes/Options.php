@@ -81,6 +81,7 @@ final class Options {
 			'consent_duration'       => 365,
 			'script_blocking'        => true,
 			'content_blocking'       => true,
+			'allow_youtube_nocookie' => false,
 			'gcm_enabled'            => false,
 			'hide_for_logged_in'     => false,
 			'show_floating_button'   => true,

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Blocking;
 
+use LightweightPlugins\Cookie\Options;
+
 /**
  * Provides domain-to-category and cookie-to-category mappings
  * as a single JSON-ready structure for the client-side guard script.
@@ -16,14 +18,40 @@ namespace LightweightPlugins\Cookie\Blocking;
 final class Entities {
 
 	/**
+	 * YouTube's Privacy Enhanced Mode host. Blocked like youtube.com unless
+	 * Advanced → "Load youtube-nocookie.com embeds without consent" is on.
+	 */
+	public const NOCOOKIE_HOST = 'youtube-nocookie.com';
+
+	/**
 	 * Get blocked domains with their consent categories.
 	 *
 	 * Merges KnownScripts URL patterns (extracted domains) with
-	 * the iframe/embed host list.
+	 * the iframe/embed host list, minus the hosts the admin exempted. This is
+	 * the one map every blocker reads — guard.js, the Service Worker and
+	 * server-side placeholders (e.g. LW LMS) — so an exemption applies to all.
 	 *
 	 * @return array<string, string> domain => category
 	 */
 	public static function get_domains(): array {
+		return array_diff_key( self::get_known_domains(), array_flip( self::get_exempt_hosts() ) );
+	}
+
+	/**
+	 * Hosts the admin chose to load without consent.
+	 *
+	 * @return array<int, string>
+	 */
+	public static function get_exempt_hosts(): array {
+		return Options::get( 'allow_youtube_nocookie' ) ? [ self::NOCOOKIE_HOST ] : [];
+	}
+
+	/**
+	 * Every known blockable domain, before exemptions.
+	 *
+	 * @return array<string, string> domain => category
+	 */
+	private static function get_known_domains(): array {
 		$domains = self::get_iframe_domains();
 
 		foreach ( KnownScripts::get_scripts() as $script ) {

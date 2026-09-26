@@ -75,6 +75,20 @@ export default function AdvancedTab( { store } ) {
 					) }
 					offText={ __( 'Off', 'lw-cookie' ) }
 				/>
+				<SwitchRow
+					title={ __(
+						'Load youtube-nocookie.com embeds without consent',
+						'lw-cookie'
+					) }
+					help={ __(
+						"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce tracking, but it is not consent-free: loading the player still sends the visitor's IP address and browser data to Google. Turn this on only if your privacy policy covers it. Videos embedded from youtube.com stay blocked until consent.",
+						'lw-cookie'
+					) }
+					store={ store }
+					name="allow_youtube_nocookie"
+					onText={ __( 'Loaded without consent', 'lw-cookie' ) }
+					offText={ __( 'Blocked until consent', 'lw-cookie' ) }
+				/>
 			</Section>
 			<Section title={ __( 'Google Consent Mode v2', 'lw-cookie' ) }>
 				<SwitchRow

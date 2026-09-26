@@ -71,6 +71,7 @@ final class AutomationPolicy {
 		'consent_duration',
 		'script_blocking',
 		'content_blocking',
+		'allow_youtube_nocookie',
 		'gcm_enabled',
 		'hide_for_logged_in',
 		'show_floating_button',

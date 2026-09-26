@@ -83,4 +83,15 @@ final class GuardScriptTest extends MonkeyTestCase {
 
 		$this->assertTrue( $config['scriptBlocking'] );
 	}
+
+	public function test_the_guard_blocks_youtube_nocookie_by_default(): void {
+		$this->assertArrayHasKey( 'youtube-nocookie.com', $this->guard_config( [] )['domains'] );
+	}
+
+	public function test_the_guard_lets_youtube_nocookie_through_when_allowed(): void {
+		$domains = $this->guard_config( [ 'allow_youtube_nocookie' => true ] )['domains'];
+
+		$this->assertArrayNotHasKey( 'youtube-nocookie.com', $domains );
+		$this->assertArrayHasKey( 'youtube.com', $domains );
+	}
 }

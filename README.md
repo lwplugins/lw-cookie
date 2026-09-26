@@ -51,6 +51,8 @@ Block third-party embeds until consent is given:
 - Google Maps
 - Other known embed hosts (Dailymotion, Twitch, SoundCloud, Spotify, …)
 
+Optionally, **Advanced → Load youtube-nocookie.com embeds without consent** (off by default) lets YouTube's Privacy Enhanced Mode embeds load right away while `youtube.com` embeds stay blocked. Privacy Enhanced Mode still sends the visitor's IP address to Google, so enable it only if your privacy policy covers it.
+
 ### Cookie Scanner
 
 Detect cookies on your website:

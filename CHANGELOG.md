@@ -9,6 +9,9 @@
 - LW Site Manager's MCP server now lists this plugin's abilities (they were only reachable through REST).
 - lw-cookie/set-options now saves through the settings screen's sanitized partial update and can change every setting, including the ones added in 1.8 (box alignment, necessary category texts, hide for logged-in users, modal/table/embed texts, declared cookies); invalid, unknown or locked values are no longer stored but returned in `rejected` with the reason. get-options returns the same typed settings plus the writable keys.
 
+### Added
+- Advanced → "Load youtube-nocookie.com embeds without consent" (off by default): when on, YouTube Privacy Enhanced Mode embeds are no longer blocked - neither by the browser guard nor by server-side placeholders such as LW LMS lesson videos - while youtube.com embeds stay blocked until consent. Privacy Enhanced Mode still sends the visitor's IP address to Google, as the setting's help text explains.
+
 ## [1.8.2] - 2026-09-25
 
 ### Fixed

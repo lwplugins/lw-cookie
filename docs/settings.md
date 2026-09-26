@@ -235,6 +235,15 @@ When disabled, tracker scripts and pixels load before consent (for example when 
 
 When enabled, embedded content (iframes from YouTube, Vimeo, Google Maps and the other embed hosts listed under [Blocked Hosts](#blocked-hosts)) is blocked until the user consents to the host's category, and a placeholder with an accept button is shown in its place. When disabled, embeds load normally. Tracker scripts follow [Script Blocking](#script-blocking).
 
+### Load youtube-nocookie.com Embeds Without Consent
+
+**Option:** `allow_youtube_nocookie`
+**Default:** `false`
+
+When enabled, YouTube embeds served from `youtube-nocookie.com` (YouTube's Privacy Enhanced Mode) are no longer blocked: the host is left out of the blocked-domain map that guard.js, the Service Worker and server-side placeholders (for example LW LMS lesson videos) all read. Embeds from `youtube.com` / `youtu.be` stay blocked until marketing consent.
+
+Privacy Enhanced Mode is designed to reduce tracking, but it is not consent-free: loading the player still sends the visitor's IP address and browser data to Google. Turn it on only if your privacy policy covers it.
+
 ### Google Consent Mode
 
 **Option:** `gcm_enabled`
