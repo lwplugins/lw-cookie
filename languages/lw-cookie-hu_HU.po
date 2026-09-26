@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-09-24T19:53:11+00:00\n"
+"POT-Creation-Date: 2026-09-26T13:48:58+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Codex\n"
 
 #. Plugin Name of the plugin
-#: lw-cookie.php includes/Admin/SettingsPage.php:128
+#: lw-cookie.php includes/Admin/SettingsPage.php:130
 msgid "LW Cookie"
 msgstr "LW Cookie"
 
@@ -33,8 +33,8 @@ msgstr ""
 "erőforrásigénnyel."
 
 #. Author of the plugin
-#: lw-cookie.php includes/Admin/ParentPage.php:106
-#: includes/Admin/ParentPage.php:107 includes/Admin/ParentPage.php:128
+#: lw-cookie.php includes/Admin/Hub/Page.php:59 includes/Admin/Hub/Page.php:60
+#: includes/Admin/Hub/Page.php:134 assets/hub/index.js:5
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -65,21 +65,85 @@ msgstr "Munkamenet"
 msgid "Indicates when user is logged in"
 msgstr "Jelzi, hogy a felhasználó be van jelentkezve"
 
-#: includes/Admin/ParentPage.php:129
-msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
-msgstr "Könnyű WordPress bővítmények – minimális terhelés, maximális hatás."
+#: includes/Admin/Hub/Activator.php:48
+msgid "This is not an LW plugin."
+msgstr "Ez nem LW bővítmény."
 
-#: includes/Admin/ParentPage.php:190
-msgid "Active"
-msgstr "Aktív"
+#: includes/Admin/Hub/Activator.php:54
+msgid "This plugin is not installed."
+msgstr "Ez a bővítmény nincs telepítve."
 
-#: includes/Admin/ParentPage.php:197
-msgid "Settings"
-msgstr "Beállítások"
+#: includes/Admin/Hub/Activator.php:62
+msgid "You are not allowed to activate this plugin."
+msgstr "Nincs jogod bekapcsolni ezt a bővítményt."
 
-#: includes/Admin/ParentPage.php:201
-msgid "Get Plugin"
-msgstr "Bővítmény beszerzése"
+#: includes/Admin/Hub/Page.php:135
+msgid ""
+"The LW Plugins page files are missing. Re-install the plugin from a release "
+"ZIP."
+msgstr ""
+"Hiányoznak az LW Plugins oldal fájljai. Telepítsd újra a bővítményt egy "
+"kiadási ZIP-ből."
+
+#: includes/Admin/Hub/RegistryFallback.php:32
+msgid "GDPR-compliant cookie consent banner."
+msgstr "GDPR-kompatibilis sütihozzájárulási sáv."
+
+#: includes/Admin/Hub/RegistryFallback.php:41
+msgid "Disable WordPress features like comments."
+msgstr "WordPress-funkciók kikapcsolása, például a hozzászólásoké."
+
+#: includes/Admin/Hub/RegistryFallback.php:50
+msgid "Enable WordPress features: SVG uploads and more."
+msgstr "WordPress-funkciók bekapcsolása: SVG-feltöltés és egyebek."
+
+#: includes/Admin/Hub/RegistryFallback.php:59
+msgid "Rate limiting, bot blocking, IP bans and security headers."
+msgstr "Kéréskorlátozás, botszűrés, IP-tiltás és biztonsági fejlécek."
+
+#: includes/Admin/Hub/RegistryFallback.php:68
+msgid ""
+"Lightweight image optimization — auto-convert uploads to WebP via HelloImg."
+msgstr ""
+"Könnyű képoptimalizálás: a feltöltések automatikus WebP-konverziója a "
+"HelloImg-gel."
+
+#: includes/Admin/Hub/RegistryFallback.php:77
+msgid ""
+"Headless LMS backend: courses, lessons, access, progress and quizzes over a "
+"REST API."
+msgstr ""
+"Headless LMS-háttér: kurzusok, leckék, hozzáférés, haladás és kvízek REST "
+"API-n."
+
+#: includes/Admin/Hub/RegistryFallback.php:86
+msgid ""
+"Tracking pixels: Meta, GA4, Ads, GTM, TikTok, Pinterest, Bing, Reddit, "
+"Snapchat, X."
+msgstr ""
+"Követőpixelek: Meta, GA4, Ads, GTM, TikTok, Pinterest, Bing, Reddit, "
+"Snapchat, X."
+
+#: includes/Admin/Hub/RegistryFallback.php:95
+msgid "Malware scanner for files, the database and vulnerable software."
+msgstr ""
+"Kártevőkereső a fájlokhoz, az adatbázishoz és a sérülékeny szoftverekhez."
+
+#: includes/Admin/Hub/RegistryFallback.php:104
+msgid "Essential SEO features without the bloat."
+msgstr "A lényeges SEO-funkciók, felesleg nélkül."
+
+#: includes/Admin/Hub/RegistryFallback.php:113
+msgid "Site maintenance via AI/REST using Abilities API."
+msgstr "Oldalkarbantartás AI-on és REST-en át, az Abilities API-val."
+
+#: includes/Admin/Hub/RegistryFallback.php:122
+msgid "Manage WordPress translations from community repositories."
+msgstr "WordPress-fordítások kezelése közösségi tárolókból."
+
+#: includes/Admin/Hub/RegistryFallback.php:131
+msgid "Clean up your admin — notices sidebar & widget manager."
+msgstr "Rendezett admin: értesítési oldalsáv és widgetkezelő."
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:32
 msgid "Banner"
@@ -257,7 +321,7 @@ msgstr "Minden cookie törlése"
 msgid "Cookie Consent"
 msgstr "Cookie-hozzájárulás"
 
-#: includes/Admin/SettingsPage.php:129
+#: includes/Admin/SettingsPage.php:131
 msgid ""
 "The settings screen files are missing. Re-install the plugin from a release "
 "ZIP, or run \"npm install && npm run build\" in the plugin directory."
@@ -448,21 +512,159 @@ msgstr ""
 "Az autoloader nem található. Futtasd a \"composer install\" parancsot a "
 "bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
 
-#: build/index.js:1 build/index.js:12
+#: assets/hub/index.js:1
+msgid "All LW plugins on GitHub"
+msgstr "Az összes LW bővítmény a GitHubon"
+
+#: assets/hub/index.js:1 build/index.js:1
+msgid "(opens in a new tab)"
+msgstr "(új lapon nyílik meg)"
+
+#: assets/hub/index.js:1 build/index.js:1
+msgid "LW Plugins (opens in a new tab)"
+msgstr "LW Plugins (új lapon nyílik meg)"
+
+#: assets/hub/index.js:1 build/index.js:1
+msgid "Try again"
+msgstr "Újrapróbálás"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:2
+msgid "%s settings"
+msgstr "%s beállításai"
+
+#: assets/hub/index.js:2
+msgid "Settings"
+msgstr "Beállítások"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:3
+msgid "Activate %s"
+msgstr "%s bekapcsolása"
+
+#: assets/hub/index.js:3
+msgid "Activating…"
+msgstr "Bekapcsolás…"
+
+#: assets/hub/index.js:3
+msgid "Activate"
+msgstr "Bekapcsolás"
+
+#: assets/hub/index.js:3
+msgid "GitHub"
+msgstr "GitHub"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:4
+msgid "%s on GitHub (opens in a new tab)"
+msgstr "%s a GitHubon (új lapon nyílik meg)"
+
+#: assets/hub/index.js:4 build/index.js:12
+msgid "All"
+msgstr "Mind"
+
+#: assets/hub/index.js:4
+msgid "Active"
+msgstr "Aktív"
+
+#: assets/hub/index.js:4
+msgid "Inactive"
+msgstr "Kikapcsolva"
+
+#: assets/hub/index.js:4
+msgid "Not installed"
+msgstr "Nincs telepítve"
+
+#: assets/hub/index.js:4
+msgid "Plugin"
+msgstr "Bővítmény"
+
+#: assets/hub/index.js:4
+msgid "Status"
+msgstr "Állapot"
+
+#: assets/hub/index.js:4
+msgid "Version"
+msgstr "Verzió"
+
+#: assets/hub/index.js:4
+msgid "Action"
+msgstr "Művelet"
+
+#: assets/hub/index.js:4
+msgid "Beta"
+msgstr "Béta"
+
+#: assets/hub/index.js:4
+msgid "No version"
+msgstr "Nincs verzió"
+
+#. translators: %s: search text.
+#: assets/hub/index.js:5
+msgid "No plugins match “%s”."
+msgstr "Nincs találat erre: „%s”."
+
+#: assets/hub/index.js:5
+msgid "No plugins in this group."
+msgstr "Ebben a csoportban nincs bővítmény."
+
+#: assets/hub/index.js:5
+msgid "Show all plugins"
+msgstr "Az összes bővítmény mutatása"
+
+#: assets/hub/index.js:5 build/index.js:1 build/index.js:12
 msgid "Loading…"
 msgstr "Betöltés…"
 
-#: build/index.js:1
-msgid "Try again"
-msgstr "Újrapróbálás"
+#: assets/hub/index.js:5
+msgid "Search plugins"
+msgstr "Keresés a bővítmények között"
+
+#: assets/hub/index.js:5
+msgid "Filter by status"
+msgstr "Szűrés állapot szerint"
+
+#: assets/hub/index.js:5
+msgid "active"
+msgid_plural "active"
+msgstr[0] "aktív"
+msgstr[1] "aktív"
+
+#: assets/hub/index.js:5
+msgid "inactive"
+msgid_plural "inactive"
+msgstr[0] "kikapcsolva"
+msgstr[1] "kikapcsolva"
+
+#: assets/hub/index.js:5
+msgid "not installed"
+msgid_plural "not installed"
+msgstr[0] "nincs telepítve"
+msgstr[1] "nincs telepítve"
+
+#. translators: %d: number of LW plugins listed.
+#: assets/hub/index.js:6
+msgid "%d LW plugin listed."
+msgid_plural "%d LW plugins listed."
+msgstr[0] "%d LW bővítmény látható."
+msgstr[1] "%d LW bővítmény látható."
+
+#: assets/hub/index.js:6
+msgid "That did not work. Please reload the page and try again."
+msgstr "Ez nem sikerült. Töltsd újra az oldalt, és próbáld újra."
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:7
+msgid "%s is active."
+msgstr "%s bekapcsolva."
+
+#: assets/hub/index.js:7
+msgid "Reload page"
+msgstr "Oldal újratöltése"
 
 #: build/index.js:1
 msgid "Settings saved."
 msgstr "Beállítások elmentve."
-
-#: build/index.js:1
-msgid "LW Plugins (opens in a new tab)"
-msgstr "LW Plugins (új lapon nyílik meg)"
 
 #: build/index.js:1
 msgid "LW Cookie home"
@@ -475,10 +677,6 @@ msgstr "LW Cookie szekciók"
 #: build/index.js:1
 msgid "Documentation"
 msgstr "Dokumentáció"
-
-#: build/index.js:1
-msgid "(opens in a new tab)"
-msgstr "(új lapon nyílik meg)"
 
 #: build/index.js:1
 msgid "Unsaved changes"
@@ -1039,10 +1237,6 @@ msgstr "Törlés"
 #: build/index.js:12
 msgid "Clear all filters"
 msgstr "Minden szűrő törlése"
-
-#: build/index.js:12
-msgid "All"
-msgstr "Mind"
 
 #: build/index.js:12
 msgid "No cookies match these filters."

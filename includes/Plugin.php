@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie;
 
+use LightweightPlugins\Cookie\Admin\Hub\Hub;
 use LightweightPlugins\Cookie\Admin\SettingsPage;
 use LightweightPlugins\Cookie\Banner\Renderer as BannerRenderer;
 use LightweightPlugins\Cookie\Banner\Assets as BannerAssets;
@@ -48,6 +49,7 @@ final class Plugin {
 		$this->consent_manager = new ConsentManager();
 
 		$this->init_hooks();
+		Hub::init( LW_COOKIE_FILE );
 		$this->init_components();
 	}
 
