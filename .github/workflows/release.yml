@@ -5,13 +5,38 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'lw-cookie.php'
 
 jobs:
+  # Runs on every push to main (and on manual runs). CI and the release
+  # below only run when the plugin header carries a version that has no
+  # GitHub release yet, so a follow-up fix can still complete a release.
+  precheck:
+    runs-on: ubuntu-latest
+    outputs:
+      release_needed: ${{ steps.check.outputs.release_needed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Is this version already released?
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(grep -m1 "Version:" lw-cookie.php | sed 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')
+          if gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "release_needed=false" >> "$GITHUB_OUTPUT"
+            echo "v$VERSION is already released - nothing to do"
+          else
+            echo "release_needed=true" >> "$GITHUB_OUTPUT"
+            echo "v$VERSION has no release yet - running CI and the release"
+          fi
+
   # The same checks as CI. A release, and the tag it creates, only happen
   # when all of them pass.
   ci:
+    needs: precheck
+    if: needs.precheck.outputs.release_needed == 'true'
     uses: ./.github/workflows/ci.yml
 
   release:
