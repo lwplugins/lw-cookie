@@ -5,6 +5,9 @@
 ### Changed
 - The LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.
 
+### Fixed
+- LW Site Manager's MCP server now lists this plugin's abilities (they were only reachable through REST).
+
 ## [1.8.2] - 2026-09-25
 
 ### Fixed
