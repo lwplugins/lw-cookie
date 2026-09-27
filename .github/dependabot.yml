@@ -16,3 +16,15 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+
+  # npm: security updates only. Version bumps of the build tooling
+  # (@wordpress/scripts) would change the committed build/ and fail the
+  # CI build-drift check, so routine version PRs are switched off.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+    labels:
+      - "dependencies"
+      - "javascript"
