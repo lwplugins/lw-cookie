@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.8.3
+Stable tag: 1.9.0
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,18 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 * Modern tabbed settings interface
 * Easy customization of all texts and labels
 * Privacy policy page linking
+
+**Custom Blocking Rules**
+
+* Block any domain or URL pattern the built-in list does not know until its category is accepted
+* Override the built-in list, e.g. let Google Tag Manager load before consent
+* Managed in the Advanced tab or via WP-CLI
+
+**Migrate from Complianz**
+
+* Import the Complianz banner texts, categories, position, colours, consent duration, Google Consent Mode, privacy page and declared cookies
+* Preview what will change first, then import with one click (Advanced tab) or via WP-CLI
+* Works while Complianz is deactivated; cookies you already declared are kept
 
 **WP-CLI Support**
 
@@ -146,6 +158,10 @@ Yes, all consent actions are logged to the database with:
 
 Change the "Policy Version" setting in the General tab. Users will be asked for consent again on their next visit.
 
+= Can I migrate from Complianz? =
+
+Yes. Go to **LW Plugins → Cookie → Advanced → Import from Complianz** (shown when Complianz data is found), check what will be imported, then click **Import now**. Or run `wp lw-cookie migrate complianz`. Complianz can already be deactivated, but do not delete it before importing - with its "Clear data on uninstall" option on, deleting Complianz removes its data. Afterwards, deactivate Complianz so only one banner is shown.
+
 = Can I manage settings via WP-CLI? =
 
 Yes! LW Cookie has full WP-CLI support:
@@ -155,6 +171,8 @@ Yes! LW Cookie has full WP-CLI support:
 `wp lw-cookie stats` - View consent statistics
 `wp lw-cookie export --format=csv` - Export consent logs
 `wp lw-cookie clear-logs --older-than=365` - Clean up old logs
+`wp lw-cookie migrate complianz --dry-run` - Preview a Complianz import
+`wp lw-cookie blocking-rules add code.tidio.co functional` - Add a custom blocking rule
 
 == Screenshots ==
 
@@ -165,6 +183,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.0 =
+* New: custom blocking rules - Advanced → "Custom Blocking Rules" and `wp lw-cookie blocking-rules list|add|remove`. A rule is a domain (matching its subdomains) or a URL pattern with a path, and the category it needs; rules come before the built-in list and override it, and the "necessary" category means never blocked (e.g. to let Google Tag Manager load before consent). Applies to scripts, images, iframes and the Service Worker, like the built-in list. Also writable through LW Site Manager's lw-cookie/set-options.
+* New: import from Complianz - Advanced → "Import from Complianz" (shown when Complianz data is found) previews what will change and imports it; also `wp lw-cookie migrate complianz [--dry-run]` and the lw-cookie/v1/admin/migration/complianz REST route (GET preview, POST import). Imports the banner texts, button labels, category names and descriptions, position and layout, colours, corner radius, consent duration, Google Consent Mode, an existing privacy policy page and the declared cookies (with provider, description, duration and category). Complianz's always-on "Functional" category becomes Necessary and "Preferences" becomes Functional. Works while Complianz is inactive; cookies already declared are kept, cookies without a category in Complianz are skipped and counted, texts owned by a multilingual plugin are skipped and listed, and every value goes through the settings screen's sanitizer.
+* Fix: The "modal" banner position showed a transparent dialog (text floating over the dimmed page): the dialog now has the banner background, text colour and shadow, and the bar/box layout no longer overrides its width, button row or the full-screen overlay.
 
 = 1.8.3 =
 * Change: the LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.

@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.0] - 2026-10-02
+
+### Added
+- Custom blocking rules: Advanced → "Custom Blocking Rules" and `wp lw-cookie blocking-rules list|add|remove`. A rule is a domain (matching its subdomains) or a URL pattern with a path, and the category it needs; rules come before the built-in list and override it, and the "necessary" category means never blocked (e.g. to let Google Tag Manager load before consent). Applies to scripts, images, iframes and the Service Worker, like the built-in list. Also writable through LW Site Manager's lw-cookie/set-options.
+- Import from Complianz: Advanced → "Import from Complianz" (shown when Complianz data is found) previews what will change and imports it; also `wp lw-cookie migrate complianz [--dry-run]` and the `lw-cookie/v1/admin/migration/complianz` REST route (GET preview, POST import). Imports the banner texts, button labels, category names and descriptions, position and layout, colours, corner radius, consent duration, Google Consent Mode, an existing privacy policy page and the declared cookies (with provider, description, duration and category). Complianz's always-on "Functional" category becomes Necessary and "Preferences" becomes Functional. Works while Complianz is inactive; cookies already declared are kept, cookies without a category in Complianz are skipped and counted, texts owned by a multilingual plugin are skipped and listed, and every value goes through the settings screen's sanitizer.
+
+### Fixed
+- The "modal" banner position showed a transparent dialog (text floating over the dimmed page): the dialog now has the banner background, text colour and shadow, and the bar/box layout no longer overrides its width, button row or the full-screen overlay.
+
 ## [1.8.3] - 2026-09-26
 
 ### Changed
