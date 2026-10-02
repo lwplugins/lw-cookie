@@ -45,12 +45,6 @@
 	background: rgba(0, 0, 0, 0.5);
 }
 
-.lw-cookie-pos-modal .lw-cookie-notice-inner {
-	max-width: 600px;
-	margin: 20px;
-	border-radius: var(--lw-cookie-radius);
-}
-
 /* Layout Variants */
 .lw-cookie-layout-box {
 	max-width: 400px;
@@ -89,6 +83,33 @@
 		max-width: 1200px;
 		margin: 0 auto;
 	}
+}
+
+/*
+ * Modal: the notice is the full-screen overlay, the inner element is the
+ * dialog. The layout (bar/box) does not apply — these rules out-specify the
+ * layout rules above, whichever layout is stored.
+ */
+.lw-cookie-notice.lw-cookie-pos-modal.lw-cookie-layout-box {
+	left: 0;
+	right: 0;
+	max-width: none;
+	margin: 0;
+	border-radius: 0;
+}
+
+.lw-cookie-notice.lw-cookie-pos-modal .lw-cookie-notice-inner {
+	display: block;
+	max-width: 600px;
+	margin: 20px;
+	background: var(--lw-cookie-bg);
+	color: var(--lw-cookie-text);
+	box-shadow: var(--lw-cookie-shadow);
+	border-radius: var(--lw-cookie-radius);
+}
+
+.lw-cookie-notice.lw-cookie-pos-modal .lw-cookie-actions {
+	margin-top: 16px;
 }
 
 /* Content */
