@@ -26,15 +26,19 @@ final class Entities {
 	/**
 	 * Get blocked domains with their consent categories.
 	 *
-	 * Merges KnownScripts URL patterns (extracted domains) with
-	 * the iframe/embed host list, minus the hosts the admin exempted. This is
+	 * Merges the admin's custom rules (first, so they override) with the
+	 * KnownScripts URL patterns (extracted domains) and the iframe/embed host
+	 * list, minus the hosts the admin exempted. This is
 	 * the one map every blocker reads — guard.js, the Service Worker and
 	 * server-side placeholders (e.g. LW LMS) — so an exemption applies to all.
 	 *
 	 * @return array<string, string> domain => category
 	 */
 	public static function get_domains(): array {
-		return array_diff_key( self::get_known_domains(), array_flip( self::get_exempt_hosts() ) );
+		// Custom rules first: the guard takes the first match, so they win.
+		$domains = CustomRules::to_domains( Options::get( 'custom_blocking_rules' ) ) + self::get_known_domains();
+
+		return array_diff_key( $domains, array_flip( self::get_exempt_hosts() ) );
 	}
 
 	/**

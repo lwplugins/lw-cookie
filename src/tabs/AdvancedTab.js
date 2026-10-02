@@ -8,6 +8,8 @@ import { __ } from '@wordpress/i18n';
  */
 import { NumberRow, SwitchRow } from '../components/Fields';
 import Section from '../components/Section';
+import MigrationSection from './MigrationSection';
+import BlockingRulesSection from './BlockingRulesSection';
 
 export default function AdvancedTab( { store } ) {
 	return (
@@ -90,6 +92,7 @@ export default function AdvancedTab( { store } ) {
 					offText={ __( 'Blocked until consent', 'lw-cookie' ) }
 				/>
 			</Section>
+			<BlockingRulesSection store={ store } />
 			<Section title={ __( 'Google Consent Mode v2', 'lw-cookie' ) }>
 				<SwitchRow
 					title={ __( 'Enable Google Consent Mode v2', 'lw-cookie' ) }
@@ -101,6 +104,7 @@ export default function AdvancedTab( { store } ) {
 					name="gcm_enabled"
 				/>
 			</Section>
+			<MigrationSection store={ store } />
 		</>
 	);
 }

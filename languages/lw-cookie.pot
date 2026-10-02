@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: LW Cookie 1.8.3\n"
+"Project-Id-Version: LW Cookie 1.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-26T20:27:48+00:00\n"
+"POT-Creation-Date: 2026-10-02T09:34:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lw-cookie\n"
@@ -59,8 +59,8 @@ msgstr ""
 #: includes/Admin/CommonCookies.php:39
 #: includes/Admin/CommonCookies.php:47
 #: includes/Shortcodes/CookieDeclaration.php:135
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Session"
 msgstr ""
 
@@ -247,8 +247,8 @@ msgstr ""
 #: includes/Admin/Settings/TextFieldDefinitions.php:139
 #: includes/Banner/Renderer.php:174
 #: includes/Shortcodes/CookieDeclaration.php:83
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Provider"
 msgstr ""
 
@@ -259,8 +259,8 @@ msgstr ""
 #: includes/Admin/Settings/TextFieldDefinitions.php:144
 #: includes/Banner/Renderer.php:175
 #: includes/Shortcodes/CookieDeclaration.php:84
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Purpose"
 msgstr ""
 
@@ -271,8 +271,8 @@ msgstr ""
 #: includes/Admin/Settings/TextFieldDefinitions.php:149
 #: includes/Banner/Renderer.php:176
 #: includes/Shortcodes/CookieDeclaration.php:85
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Duration"
 msgstr ""
 
@@ -282,8 +282,8 @@ msgstr ""
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:164
 #: includes/Shortcodes/CookieDeclaration.php:86
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Type"
 msgstr ""
 
@@ -319,7 +319,7 @@ msgid "Cookie Settings"
 msgstr ""
 
 #: includes/Banner/Renderer.php:110
-#: build/index.js:9
+#: build/index.js:12
 msgid "Close"
 msgstr ""
 
@@ -340,17 +340,17 @@ msgid "We use cookies to enhance your browsing experience and analyze our traffi
 msgstr ""
 
 #: includes/I18n/Strings.php:97
-#: build/index.js:2
+#: build/index.js:5
 msgid "Accept All"
 msgstr ""
 
 #: includes/I18n/Strings.php:98
-#: build/index.js:2
+#: build/index.js:5
 msgid "Reject All"
 msgstr ""
 
 #: includes/I18n/Strings.php:99
-#: build/index.js:2
+#: build/index.js:5
 msgid "Customize"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgid "Save Preferences"
 msgstr ""
 
 #: includes/I18n/Strings.php:101
-#: includes/Rest/Admin/SettingsMeta.php:84
+#: includes/Rest/Admin/SettingsMeta.php:86
 msgid "Necessary"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgid "Essential cookies required for the website to function."
 msgstr ""
 
 #: includes/I18n/Strings.php:103
-#: includes/Rest/Admin/SettingsMeta.php:85
+#: includes/Rest/Admin/SettingsMeta.php:87
 msgid "Functional"
 msgstr ""
 
@@ -377,7 +377,7 @@ msgid "These cookies enable enhanced functionality and personalization."
 msgstr ""
 
 #: includes/I18n/Strings.php:105
-#: includes/Rest/Admin/SettingsMeta.php:86
+#: includes/Rest/Admin/SettingsMeta.php:88
 msgid "Analytics"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgid "These cookies help us understand how visitors interact with our website."
 msgstr ""
 
 #: includes/I18n/Strings.php:107
-#: includes/Rest/Admin/SettingsMeta.php:87
+#: includes/Rest/Admin/SettingsMeta.php:89
 msgid "Marketing"
 msgstr ""
 
@@ -394,8 +394,12 @@ msgstr ""
 msgid "These cookies are used to deliver relevant advertisements."
 msgstr ""
 
+#: includes/Rest/Admin/MigrationController.php:81
+msgid "No Complianz settings were found on this site."
+msgstr ""
+
 #. translators: %d: page ID
-#: includes/Rest/Admin/SettingsMeta.php:64
+#: includes/Rest/Admin/SettingsMeta.php:66
 #, php-format
 msgid "(no title) #%d"
 msgstr ""
@@ -419,8 +423,8 @@ msgid "Always Active"
 msgstr ""
 
 #: includes/Shortcodes/CookieDeclaration.php:136
-#: build/index.js:4
-#: build/index.js:10
+#: build/index.js:7
+#: build/index.js:13
 msgid "Persistent"
 msgstr ""
 
@@ -576,7 +580,7 @@ msgid "%s on GitHub (opens in a new tab)"
 msgstr ""
 
 #: assets/hub/index.js:4
-#: build/index.js:12
+#: build/index.js:15
 msgid "All"
 msgstr ""
 
@@ -632,7 +636,7 @@ msgstr ""
 
 #: assets/hub/index.js:5
 #: build/index.js:1
-#: build/index.js:12
+#: build/index.js:15
 msgid "Loading…"
 msgstr ""
 
@@ -717,7 +721,7 @@ msgid "General"
 msgstr ""
 
 #: build/index.js:1
-#: build/index.js:9
+#: build/index.js:12
 msgid "General Settings"
 msgstr ""
 
@@ -726,7 +730,7 @@ msgid "Appearance"
 msgstr ""
 
 #: build/index.js:1
-#: build/index.js:9
+#: build/index.js:12
 msgid "Appearance Settings"
 msgstr ""
 
@@ -747,7 +751,7 @@ msgid "Banner & Modal Texts"
 msgstr ""
 
 #: build/index.js:1
-#: build/index.js:8
+#: build/index.js:11
 msgid "Cookies"
 msgstr ""
 
@@ -763,111 +767,198 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
-#. translators: 1: setting name, 2: hex colour.
+#: build/index.js:1
+msgid "Import from Complianz"
+msgstr ""
+
+#: build/index.js:1
+msgid "Complianz settings were found in the database. Import the banner texts, colours, position, consent duration, Google Consent Mode and declared cookies. Cookies you already declared are kept."
+msgstr ""
+
+#. translators: %d: number of changes
 #: build/index.js:2
 #, js-format
-msgid "%1$s: %2$s"
+msgid "%d change will be imported."
+msgid_plural "%d changes will be imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/index.js:2
+msgid "Settings:"
 msgstr ""
 
 #: build/index.js:2
-msgid "not set"
+msgid "New cookies:"
 msgstr ""
 
-#. translators: %s: multilingual plugin name
+#: build/index.js:2
+msgid "Already declared (kept):"
+msgstr ""
+
+#. translators: %d: number of cookies
 #: build/index.js:3
 #, js-format
-msgid "%s detected — these fields are managed there."
+msgid "%d cookie without a category in Complianz is skipped."
+msgid_plural "%d cookies without a category in Complianz are skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/index.js:3
+msgid "Texts managed by your multilingual plugin are not imported:"
 msgstr ""
 
 #: build/index.js:3
-msgid "These fields hold the source-language strings only. Their values will not take effect on the frontend — translations are delivered by your multilingual plugin. Editing the source text here can invalidate existing translations."
+msgid "Save or discard your unsaved changes before importing."
 msgstr ""
 
-#. translators: %s: multilingual plugin name
+#: build/index.js:3
+msgid "Complianz settings imported. Deactivate Complianz so only one banner is shown."
+msgstr ""
+
+#: build/index.js:3
+msgid "Import now"
+msgstr ""
+
+#: build/index.js:3
+msgid "Check what will be imported"
+msgstr ""
+
+#. translators: %s: name of the necessary category
 #: build/index.js:4
 #, js-format
-msgid "Manage translations in %s"
+msgid "%s (never blocked)"
 msgstr ""
 
 #: build/index.js:4
-msgid "Unlock to edit source text"
+msgid "Custom Blocking Rules"
 msgstr ""
 
 #: build/index.js:4
-msgid "Copy"
+msgid "Block a script, pixel or embed the built-in list does not know until its category is accepted. A domain also matches its subdomains (code.tidio.co); a pattern with a path matches any URL containing it (example.com/pixel.js). Rules override the built-in list: \"never blocked\" lets e.g. googletagmanager.com load before consent. Inline code is not blocked, only what it loads from a URL."
 msgstr ""
 
 #: build/index.js:4
-msgid "Copied"
+msgid "Domain or URL pattern"
 msgstr ""
 
 #: build/index.js:4
-msgid "Edit cookie"
-msgstr ""
-
-#: build/index.js:4
-msgid "Add cookie"
-msgstr ""
-
-#: build/index.js:4
-#: build/index.js:10
-msgid "Cookie Name"
-msgstr ""
-
-#: build/index.js:4
-msgid "e.g. _ga"
-msgstr ""
-
-#: build/index.js:4
-msgid "A cookie with this name is already in the list."
-msgstr ""
-
-#: build/index.js:4
-msgid "e.g. Google"
-msgstr ""
-
-#: build/index.js:4
-msgid "Purpose description"
-msgstr ""
-
-#: build/index.js:4
-msgid "e.g. 1 year"
-msgstr ""
-
-#: build/index.js:4
-#: build/index.js:10
-#: build/index.js:12
+#: build/index.js:7
+#: build/index.js:13
+#: build/index.js:15
 msgid "Category"
 msgstr ""
 
 #: build/index.js:4
-#: build/index.js:9
+msgid "Remove rule"
+msgstr ""
+
+#: build/index.js:4
+msgid "Not a domain or URL pattern: this rule is dropped on save."
+msgstr ""
+
+#: build/index.js:4
+msgid "Add rule"
+msgstr ""
+
+#. translators: 1: setting name, 2: hex colour.
+#: build/index.js:5
+#, js-format
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: build/index.js:5
+msgid "not set"
+msgstr ""
+
+#. translators: %s: multilingual plugin name
+#: build/index.js:6
+#, js-format
+msgid "%s detected — these fields are managed there."
+msgstr ""
+
+#: build/index.js:6
+msgid "These fields hold the source-language strings only. Their values will not take effect on the frontend — translations are delivered by your multilingual plugin. Editing the source text here can invalidate existing translations."
+msgstr ""
+
+#. translators: %s: multilingual plugin name
+#: build/index.js:7
+#, js-format
+msgid "Manage translations in %s"
+msgstr ""
+
+#: build/index.js:7
+msgid "Unlock to edit source text"
+msgstr ""
+
+#: build/index.js:7
+msgid "Copy"
+msgstr ""
+
+#: build/index.js:7
+msgid "Copied"
+msgstr ""
+
+#: build/index.js:7
+msgid "Edit cookie"
+msgstr ""
+
+#: build/index.js:7
+msgid "Add cookie"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:13
+msgid "Cookie Name"
+msgstr ""
+
+#: build/index.js:7
+msgid "e.g. _ga"
+msgstr ""
+
+#: build/index.js:7
+msgid "A cookie with this name is already in the list."
+msgstr ""
+
+#: build/index.js:7
+msgid "e.g. Google"
+msgstr ""
+
+#: build/index.js:7
+msgid "Purpose description"
+msgstr ""
+
+#: build/index.js:7
+msgid "e.g. 1 year"
+msgstr ""
+
+#: build/index.js:7
+#: build/index.js:12
 msgid "Cancel"
 msgstr ""
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Update Cookie"
 msgstr ""
 
-#: build/index.js:4
-#: build/index.js:12
+#: build/index.js:7
+#: build/index.js:15
 msgid "Add Cookie"
 msgstr ""
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "N/A"
 msgstr ""
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "No cookies detected. Try visiting your site first to set some cookies."
 msgstr ""
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "All detected cookies are already in your list!"
 msgstr ""
 
 #. translators: %d: number of new cookies.
-#: build/index.js:5
+#: build/index.js:8
 #, js-format
 msgid "%d new cookie"
 msgid_plural "%d new cookies"
@@ -875,7 +966,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of external domains.
-#: build/index.js:6
+#: build/index.js:9
 #, js-format
 msgid "%d external domain"
 msgid_plural "%d external domains"
@@ -883,7 +974,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of external fonts.
-#: build/index.js:7
+#: build/index.js:10
 #, js-format
 msgid "%d external font"
 msgid_plural "%d external fonts"
@@ -891,387 +982,387 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: comma-separated counts, e.g. "3 new cookies, 1 external domain".
-#: build/index.js:8
+#: build/index.js:11
 #, js-format
 msgid "%s found."
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Unknown"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Already added"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Unknown provider"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Purpose not specified"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External Domains"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External Fonts"
 msgstr ""
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Font"
 msgstr ""
 
 #. translators: 1: current page number, 2: total pages.
-#: build/index.js:9
+#: build/index.js:12
 #, js-format
 msgid "Scanning your website for cookies… page %1$d of %2$d"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Deep scanning for additional cookies…"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Scanning your website for cookies…"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Scan Results"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Cookie scanner"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Add Selected"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Basic configuration for your cookie consent banner."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Enable Banner"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show cookie consent banner on the frontend"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Preview"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Opens the front page with the consent banner forced visible (administrators only), so you can review and tune it — even before enabling it or after you have already consented."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Preview banner on the site"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Privacy Policy Page"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Select your privacy policy page to link from the banner."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "— None —"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Policy Version"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Change this when you update your privacy policy to request new consent."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "GDPR Compliance Notes"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "All optional cookie categories are OFF by default (opt-in required)."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Users can granularly choose which categories to accept."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Consent is logged with timestamp for compliance proof."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Policy version changes trigger re-consent requests."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "A simplified live preview of the banner with your current, unsaved settings."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Customize the look and feel of your cookie banner."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Banner Position"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Top"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Modal (Center)"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Banner Layout"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Full-width Bar"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Box"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Box Alignment"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Only applies when the layout is set to Floating Box."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Left"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Right"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Primary Color"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Button and accent color."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Text Color"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Background Color"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Border Radius"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Border radius in pixels."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Button"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show Floating Button"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show a floating button for users to change their consent"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Button Position"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Applies only to the Full-width Bar layout. With the Floating Box layout the button mirrors the banner alignment."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom Left"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom Right"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Customize the names and descriptions of cookie categories shown to users."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Necessary Cookies"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "This category is always enabled, but you can customize the displayed name and description."
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Functional Cookies"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Analytics Cookies"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Marketing Cookies"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Always on"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Name"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Description"
 msgstr ""
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Customize all user-facing text. Leave a field empty to use the built-in default for the current site language."
 msgstr ""
 
 #. translators: %d: number of cookies added to the list.
-#: build/index.js:10
+#: build/index.js:13
 #, js-format
 msgid "%d cookie added. Save changes to keep it."
 msgid_plural "%d cookies added. Save changes to keep them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: build/index.js:10
+#: build/index.js:13
 msgid "These cookies are already in the list."
 msgstr ""
 
-#: build/index.js:10
+#: build/index.js:13
 msgid "Actions"
 msgstr ""
 
 #. translators: %s: cookie name.
-#: build/index.js:11
+#: build/index.js:14
 #, js-format
 msgid "Edit %s"
 msgstr ""
 
-#: build/index.js:11
+#: build/index.js:14
 msgid "Edit"
 msgstr ""
 
 #. translators: %s: cookie name.
-#: build/index.js:12
+#: build/index.js:15
 #, js-format
 msgid "Remove %s"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Remove"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Cookie Scanner"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Scan your website to detect cookies in use."
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Scan Website"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Declared Cookies"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Add Common Cookies"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Declared cookies"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Search"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Filter"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear all filters"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "No cookies match these filters."
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "No cookies declared yet. Scan your site or add them manually."
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Previous page"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Next page"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Rows per page"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Select all cookies on this page"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear selection"
 msgstr ""
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Bulk actions"
 msgstr ""
 
 #. translators: %d: number of rows.
-#: build/index.js:12
+#: build/index.js:15
 #, js-format
 msgid "%d entry"
 msgid_plural "%d entries"
@@ -1279,7 +1370,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of results.
-#: build/index.js:12
+#: build/index.js:15
 #, js-format
 msgid "%d result"
 msgid_plural "%d results"
@@ -1287,19 +1378,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: current page, 2: total pages.
-#: build/index.js:12
+#: build/index.js:15
 #, js-format
 msgid "Page %1$d of %2$d"
 msgstr ""
 
 #. translators: %s: cookie name.
-#: build/index.js:12
+#: build/index.js:15
 #, js-format
 msgid "Select: %s"
 msgstr ""
 
 #. translators: %d: number of selected cookies.
-#: build/index.js:13
+#: build/index.js:16
 #, js-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -1307,121 +1398,121 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: selected cookies, 2: of those, on this page.
-#: build/index.js:14
+#: build/index.js:17
 #, js-format
 msgid "%1$d selected, %2$d on this page"
 msgstr ""
 
 #. translators: 1: cookies the action applies to, 2: selected cookies on this page.
-#: build/index.js:14
+#: build/index.js:17
 #, js-format
 msgid "applies to %1$d of %2$d"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Search name, provider or purpose"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Shortcode"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Use this shortcode to display the cookie list on any page."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Consent"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Advanced configuration options."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Consent Duration"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Days until consent expires and user is asked again."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "days"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Logged-in users"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Do not show the consent banner to logged-in users — e.g. so it never pops up for administrators while they work. The banner is always hidden inside page-builder editors (Bricks, Elementor)."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Hide the banner for logged-in users"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Shown to everyone"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Blocking"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Script Blocking"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Automatically blocks known tracking scripts (Google Analytics, Facebook Pixel, etc.) until user consents."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Block scripts until consent is given"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Off"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Content Blocking"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Blocks YouTube, Vimeo, Google Maps and other embedded content until user consents."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Block embedded content until consent is given"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Load youtube-nocookie.com embeds without consent"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce tracking, but it is not consent-free: loading the player still sends the visitor's IP address and browser data to Google. Turn this on only if your privacy policy covers it. Videos embedded from youtube.com stay blocked until consent."
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Loaded without consent"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Blocked until consent"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Google Consent Mode v2"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Enable Google Consent Mode v2"
 msgstr ""
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Required for Google Ads and Analytics in the EU. Sends consent signals to Google services."
 msgstr ""

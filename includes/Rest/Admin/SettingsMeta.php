@@ -14,6 +14,7 @@ use LightweightPlugins\Cookie\Banner\Preview;
 use LightweightPlugins\Cookie\Admin\SettingsStore;
 use LightweightPlugins\Cookie\Admin\TranslatableFields;
 use LightweightPlugins\Cookie\I18n\MultilingualDetector;
+use LightweightPlugins\Cookie\Migration\Complianz\Source as ComplianzSource;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 
@@ -40,6 +41,7 @@ final class SettingsMeta {
 			'scan_urls'       => array_values( array_map( 'strval', array_filter( Scanner::get_scan_urls() ) ) ),
 			'shortcode'       => '[lw_cookie_declaration]',
 			'preview_url'     => Preview::url(),
+			'complianz_data'  => ComplianzSource::is_available(),
 		];
 	}
 

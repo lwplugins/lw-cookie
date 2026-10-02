@@ -82,6 +82,7 @@ final class Options {
 			'script_blocking'        => true,
 			'content_blocking'       => true,
 			'allow_youtube_nocookie' => false,
+			'custom_blocking_rules'  => [],
 			'gcm_enabled'            => false,
 			'hide_for_logged_in'     => false,
 			'show_floating_button'   => true,

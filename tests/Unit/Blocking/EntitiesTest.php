@@ -42,6 +42,29 @@ final class EntitiesTest extends MonkeyTestCase {
 		Options::clear_cache();
 	}
 
+	public function test_custom_rules_come_first_and_override_the_built_in_list(): void {
+		Functions\when( 'get_option' )->justReturn(
+			[
+				'custom_blocking_rules' => [
+					[
+						'pattern'  => 'code.tidio.co',
+						'category' => 'functional',
+					],
+					[
+						'pattern'  => 'googletagmanager.com',
+						'category' => 'necessary',
+					],
+				],
+			]
+		);
+		Options::clear_cache();
+
+		$domains = Entities::get_domains();
+
+		$this->assertSame( [ 'code.tidio.co', 'googletagmanager.com' ], array_slice( array_keys( $domains ), 0, 2 ) );
+		$this->assertSame( 'necessary', $domains['googletagmanager.com'] );
+	}
+
 	public function test_youtube_nocookie_is_blocked_by_default(): void {
 		$domains = Entities::get_domains();
 

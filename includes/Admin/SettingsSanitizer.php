@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Admin;
 
+use LightweightPlugins\Cookie\Blocking\CustomRules;
+
 /**
  * Sanitizes submitted settings against the option defaults.
  *
@@ -134,7 +136,7 @@ final class SettingsSanitizer {
 		}
 
 		if ( is_array( $default ) ) {
-			return DeclaredCookiesSanitizer::sanitize( $value );
+			return 'custom_blocking_rules' === $key ? CustomRules::sanitize( $value ) : DeclaredCookiesSanitizer::sanitize( $value );
 		}
 
 		$value = (string) $value;

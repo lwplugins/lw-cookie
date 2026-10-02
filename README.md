@@ -42,6 +42,12 @@ Automatic blocking of known tracking scripts until consent:
 
 Can be switched off under **Advanced → Script Blocking**. The known tracking cookies (`_ga`, `_fbp`, …) still wait for consent either way.
 
+### Custom Blocking Rules
+
+- Block any domain or URL pattern the built-in list does not know (live chats, payment pixels…) until its category is accepted
+- Override the built-in list, e.g. let Google Tag Manager load before consent (`necessary` = never blocked)
+- Managed under **Advanced** or with `wp lw-cookie blocking-rules`
+
 ### Content Blocking
 
 Block third-party embeds until consent is given:
@@ -80,6 +86,13 @@ Detect cookies on your website:
 - **dataLayer.push** events for GTM triggers (`lw_cookie_consent_update`)
 - **WordPress filters** for querying consent state
 
+### Migrate from Complianz
+
+- One-click import under **Advanced → Import from Complianz**, with a preview first
+- Banner texts, categories, position, colours, consent duration, Google Consent Mode, privacy page and declared cookies
+- Works while Complianz is deactivated; cookies you already declared are kept
+- See [docs/settings.md](docs/settings.md#migrating-from-complianz) for the full mapping
+
 ### WP-CLI Support
 
 Full command-line management:
@@ -90,6 +103,8 @@ wp lw-cookie settings set enabled true  # Change settings
 wp lw-cookie stats                      # View consent statistics
 wp lw-cookie export --format=csv        # Export consent logs
 wp lw-cookie clear-logs --older-than=365 # Clean up old logs
+wp lw-cookie migrate complianz --dry-run # Preview a Complianz import
+wp lw-cookie blocking-rules add code.tidio.co functional # Custom blocking rule
 ```
 
 ## Installation

@@ -24,6 +24,8 @@ use LightweightPlugins\Cookie\Integrations\CacheCompat;
 use LightweightPlugins\Cookie\Rest\ConsentEndpoint;
 use LightweightPlugins\Cookie\Rest\Admin\Routes as AdminRoutes;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
+use LightweightPlugins\Cookie\CLI\MigrateCommand;
+use LightweightPlugins\Cookie\CLI\BlockingRulesCommand;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 use LightweightPlugins\Cookie\SiteManager\Integration as SiteManagerIntegration;
@@ -69,6 +71,8 @@ final class Plugin {
 	 */
 	private function init_components(): void {
 		CLICommands::register();
+		MigrateCommand::register();
+		BlockingRulesCommand::register();
 		Scanner::init();
 		SiteManagerIntegration::init();
 		Strings::init();

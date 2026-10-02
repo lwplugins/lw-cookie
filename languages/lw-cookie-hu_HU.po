@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-09-26T20:27:48+00:00\n"
+"POT-Creation-Date: 2026-10-02T09:34:23+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -56,8 +57,8 @@ msgid "Authentication cookie for logged-in users"
 msgstr "Hitelesítő cookie bejelentkezett felhasználóknak"
 
 #: includes/Admin/CommonCookies.php:39 includes/Admin/CommonCookies.php:47
-#: includes/Shortcodes/CookieDeclaration.php:135 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:135 build/index.js:7
+#: build/index.js:13
 msgid "Session"
 msgstr "Munkamenet"
 
@@ -262,8 +263,8 @@ msgstr "Szolgáltató oszlop fejléce"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:139
 #: includes/Banner/Renderer.php:174
-#: includes/Shortcodes/CookieDeclaration.php:83 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:83 build/index.js:7
+#: build/index.js:13
 msgid "Provider"
 msgstr "Szolgáltató"
 
@@ -273,8 +274,8 @@ msgstr "Cél oszlop fejléce"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:144
 #: includes/Banner/Renderer.php:175
-#: includes/Shortcodes/CookieDeclaration.php:84 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:84 build/index.js:7
+#: build/index.js:13
 msgid "Purpose"
 msgstr "Cél"
 
@@ -284,8 +285,8 @@ msgstr "Időtartam oszlop fejléce"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:149
 #: includes/Banner/Renderer.php:176
-#: includes/Shortcodes/CookieDeclaration.php:85 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:85 build/index.js:7
+#: build/index.js:13
 msgid "Duration"
 msgstr "Időtartam"
 
@@ -294,8 +295,8 @@ msgid "Type Column Header"
 msgstr "Típus oszlop fejléce"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:164
-#: includes/Shortcodes/CookieDeclaration.php:86 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:86 build/index.js:7
+#: build/index.js:13
 msgid "Type"
 msgstr "Típus"
 
@@ -334,7 +335,7 @@ msgstr ""
 msgid "Cookie Settings"
 msgstr "Cookie-beállítások"
 
-#: includes/Banner/Renderer.php:110 build/index.js:9
+#: includes/Banner/Renderer.php:110 build/index.js:12
 msgid "Close"
 msgstr "Bezárás"
 
@@ -356,15 +357,15 @@ msgid ""
 msgstr ""
 "Sütiket használunk a böngészési élmény javítására és a forgalom elemzésére."
 
-#: includes/I18n/Strings.php:97 build/index.js:2
+#: includes/I18n/Strings.php:97 build/index.js:5
 msgid "Accept All"
 msgstr "Összes elfogadása"
 
-#: includes/I18n/Strings.php:98 build/index.js:2
+#: includes/I18n/Strings.php:98 build/index.js:5
 msgid "Reject All"
 msgstr "Összes elutasítása"
 
-#: includes/I18n/Strings.php:99 build/index.js:2
+#: includes/I18n/Strings.php:99 build/index.js:5
 msgid "Customize"
 msgstr "Testreszabás"
 
@@ -372,7 +373,7 @@ msgstr "Testreszabás"
 msgid "Save Preferences"
 msgstr "Beállítások mentése"
 
-#: includes/I18n/Strings.php:101 includes/Rest/Admin/SettingsMeta.php:84
+#: includes/I18n/Strings.php:101 includes/Rest/Admin/SettingsMeta.php:86
 msgid "Necessary"
 msgstr "Szükséges"
 
@@ -380,7 +381,7 @@ msgstr "Szükséges"
 msgid "Essential cookies required for the website to function."
 msgstr "A weboldal működéséhez szükséges alapvető cookie-k."
 
-#: includes/I18n/Strings.php:103 includes/Rest/Admin/SettingsMeta.php:85
+#: includes/I18n/Strings.php:103 includes/Rest/Admin/SettingsMeta.php:87
 msgid "Functional"
 msgstr "Funkcionális"
 
@@ -389,7 +390,7 @@ msgid "These cookies enable enhanced functionality and personalization."
 msgstr ""
 "Ezek a sütik bővített funkciókat és személyre szabást tesznek lehetővé."
 
-#: includes/I18n/Strings.php:105 includes/Rest/Admin/SettingsMeta.php:86
+#: includes/I18n/Strings.php:105 includes/Rest/Admin/SettingsMeta.php:88
 msgid "Analytics"
 msgstr "Analitika"
 
@@ -400,7 +401,7 @@ msgstr ""
 "Ezek a sütik segítenek megérteni, hogyan használják a látogatók a "
 "weboldalunkat."
 
-#: includes/I18n/Strings.php:107 includes/Rest/Admin/SettingsMeta.php:87
+#: includes/I18n/Strings.php:107 includes/Rest/Admin/SettingsMeta.php:89
 msgid "Marketing"
 msgstr "Marketing"
 
@@ -408,8 +409,12 @@ msgstr "Marketing"
 msgid "These cookies are used to deliver relevant advertisements."
 msgstr "Ezeket a sütiket releváns hirdetések megjelenítésére használjuk."
 
+#: includes/Rest/Admin/MigrationController.php:81
+msgid "No Complianz settings were found on this site."
+msgstr "Ezen az oldalon nem található Complianz-beállítás."
+
 #. translators: %d: page ID
-#: includes/Rest/Admin/SettingsMeta.php:64
+#: includes/Rest/Admin/SettingsMeta.php:66
 #, php-format
 msgid "(no title) #%d"
 msgstr "(cím nélkül) #%d"
@@ -432,8 +437,8 @@ msgstr "Nincs megadva cookie."
 msgid "Always Active"
 msgstr "Mindig aktív"
 
-#: includes/Shortcodes/CookieDeclaration.php:136 build/index.js:4
-#: build/index.js:10
+#: includes/Shortcodes/CookieDeclaration.php:136 build/index.js:7
+#: build/index.js:13
 msgid "Persistent"
 msgstr "Állandó"
 
@@ -458,8 +463,8 @@ msgid ""
 "are listed in \"rejected\" with the reason."
 msgstr ""
 "Az LW Cookie hozzájárulási beállításainak frissítése. Az értékeket ugyanúgy "
-"ellenőrzi és tisztítja, mint a beállítások oldal; az érvénytelen, ismeretlen "
-"vagy zárolt kulcsokat nem menti, hanem indoklással a \"rejected\" listában "
+"ellenőrzi és tisztítja, mint a beállítások oldal; az érvénytelen, ismeretlen"
+" vagy zárolt kulcsokat nem menti, hanem indoklással a \"rejected\" listában "
 "adja vissza."
 
 #: includes/SiteManager/CookieAbilities.php:85
@@ -492,8 +497,8 @@ msgstr "Cookie-k keresése"
 #: includes/SiteManager/CookieAbilities.php:154
 msgid "Trigger an HTTP header pre-scan to detect cookies across site URLs."
 msgstr ""
-"HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei "
-"között."
+"HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei"
+" között."
 
 #: includes/SiteManager/CookieService.php:51
 msgid "Provide an options object with at least one key."
@@ -555,7 +560,8 @@ msgid ""
 "directory, or re-install the plugin from a release ZIP."
 msgstr ""
 "Az autoloader nem található. Futtasd a \"composer install\" parancsot a "
-"bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
+"bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-"
+"ből."
 
 #: assets/hub/index.js:1
 msgid "All LW plugins on GitHub"
@@ -604,7 +610,7 @@ msgstr "GitHub"
 msgid "%s on GitHub (opens in a new tab)"
 msgstr "%s a GitHubon (új lapon nyílik meg)"
 
-#: assets/hub/index.js:4 build/index.js:12
+#: assets/hub/index.js:4 build/index.js:15
 msgid "All"
 msgstr "Mind"
 
@@ -657,7 +663,7 @@ msgstr "Ebben a csoportban nincs bővítmény."
 msgid "Show all plugins"
 msgstr "Az összes bővítmény mutatása"
 
-#: assets/hub/index.js:5 build/index.js:1 build/index.js:12
+#: assets/hub/index.js:5 build/index.js:1 build/index.js:15
 msgid "Loading…"
 msgstr "Betöltés…"
 
@@ -739,7 +745,7 @@ msgstr "Változások mentése"
 msgid "General"
 msgstr "Általános"
 
-#: build/index.js:1 build/index.js:9
+#: build/index.js:1 build/index.js:12
 msgid "General Settings"
 msgstr "Általános beállítások"
 
@@ -747,7 +753,7 @@ msgstr "Általános beállítások"
 msgid "Appearance"
 msgstr "Megjelenés"
 
-#: build/index.js:1 build/index.js:9
+#: build/index.js:1 build/index.js:12
 msgid "Appearance Settings"
 msgstr "Megjelenés beállításai"
 
@@ -767,7 +773,7 @@ msgstr "Szövegek"
 msgid "Banner & Modal Texts"
 msgstr "Sáv és ablak szövegei"
 
-#: build/index.js:1 build/index.js:8
+#: build/index.js:1 build/index.js:11
 msgid "Cookies"
 msgstr "Cookie-k"
 
@@ -783,21 +789,133 @@ msgstr "Haladó"
 msgid "Advanced Settings"
 msgstr "Haladó beállítások"
 
-#. translators: 1: setting name, 2: hex colour.
+#: build/index.js:1
+msgid "Import from Complianz"
+msgstr "Importálás a Complianzből"
+
+#: build/index.js:1
+msgid ""
+"Complianz settings were found in the database. Import the banner texts, "
+"colours, position, consent duration, Google Consent Mode and declared "
+"cookies. Cookies you already declared are kept."
+msgstr ""
+"Az adatbázisban Complianz-beállításokat találtunk. Importáld a sáv "
+"szövegeit, színeit, pozícióját, a hozzájárulás időtartamát, a Google Consent"
+" Mode beállítást és a nyilatkozatban szereplő cookie-kat. A már felvett "
+"cookie-k megmaradnak."
+
+#. translators: %d: number of changes
 #: build/index.js:2
+msgid "%d change will be imported."
+msgid_plural "%d changes will be imported."
+msgstr[0] "%d módosítás kerül importálásra."
+msgstr[1] "%d módosítás kerül importálásra."
+
+#: build/index.js:2
+msgid "Settings:"
+msgstr "Beállítások:"
+
+#: build/index.js:2
+msgid "New cookies:"
+msgstr "Új cookie-k:"
+
+#: build/index.js:2
+msgid "Already declared (kept):"
+msgstr "Már felvett (megmarad):"
+
+#. translators: %d: number of cookies
+#: build/index.js:3
+msgid "%d cookie without a category in Complianz is skipped."
+msgid_plural "%d cookies without a category in Complianz are skipped."
+msgstr[0] "%d cookie kimarad, mert a Complianzban nincs kategóriája."
+msgstr[1] "%d cookie kimarad, mert a Complianzban nincs kategóriája."
+
+#: build/index.js:3
+msgid "Texts managed by your multilingual plugin are not imported:"
+msgstr ""
+"A többnyelvű bővítményed által kezelt szövegek nem kerülnek importálásra:"
+
+#: build/index.js:3
+msgid "Save or discard your unsaved changes before importing."
+msgstr "Importálás előtt mentsd vagy vesd el a nem mentett módosításokat."
+
+#: build/index.js:3
+msgid ""
+"Complianz settings imported. Deactivate Complianz so only one banner is "
+"shown."
+msgstr ""
+"A Complianz-beállítások importálva. Kapcsold ki a Complianzt, hogy csak egy "
+"sáv jelenjen meg."
+
+#: build/index.js:3
+msgid "Import now"
+msgstr "Importálás most"
+
+#: build/index.js:3
+msgid "Check what will be imported"
+msgstr "Mi kerül importálásra?"
+
+#. translators: %s: name of the necessary category
+#: build/index.js:4
+msgid "%s (never blocked)"
+msgstr "%s (soha nincs blokkolva)"
+
+#: build/index.js:4
+msgid "Custom Blocking Rules"
+msgstr "Egyedi blokkolási szabályok"
+
+#: build/index.js:4
+msgid ""
+"Block a script, pixel or embed the built-in list does not know until its "
+"category is accepted. A domain also matches its subdomains (code.tidio.co); "
+"a pattern with a path matches any URL containing it (example.com/pixel.js). "
+"Rules override the built-in list: \"never blocked\" lets e.g. "
+"googletagmanager.com load before consent. Inline code is not blocked, only "
+"what it loads from a URL."
+msgstr ""
+"Blokkolj egy olyan scriptet, pixelt vagy beágyazást, amit a beépített lista "
+"nem ismer, amíg a kategóriáját el nem fogadják. Egy domain az aldomainjeire "
+"is illeszkedik (code.tidio.co); az útvonalat tartalmazó minta minden olyan "
+"URL-re illeszkedik, amely tartalmazza (example.com/pixel.js). A szabályok "
+"felülírják a beépített listát: a „soha nincs blokkolva” például a "
+"googletagmanager.com-ot hozzájárulás előtt is betölti. Az inline kódot nem "
+"blokkolja, csak azt, amit URL-ről tölt be."
+
+#: build/index.js:4
+msgid "Domain or URL pattern"
+msgstr "Domain vagy URL-minta"
+
+#: build/index.js:4 build/index.js:7 build/index.js:13 build/index.js:15
+msgid "Category"
+msgstr "Kategória"
+
+#: build/index.js:4
+msgid "Remove rule"
+msgstr "Szabály törlése"
+
+#: build/index.js:4
+msgid "Not a domain or URL pattern: this rule is dropped on save."
+msgstr "Ez nem domain vagy URL-minta: mentéskor a szabály törlődik."
+
+#: build/index.js:4
+msgid "Add rule"
+msgstr "Szabály hozzáadása"
+
+#. translators: 1: setting name, 2: hex colour.
+#: build/index.js:5
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: build/index.js:2
+#: build/index.js:5
 msgid "not set"
 msgstr "nincs beállítva"
 
 #. translators: %s: multilingual plugin name
-#: build/index.js:3
+#: build/index.js:6
 msgid "%s detected — these fields are managed there."
 msgstr "%s észlelve — ezeket a mezőket ott kezeled."
 
-#: build/index.js:3
+#: build/index.js:6
 msgid ""
 "These fields hold the source-language strings only. Their values will not "
 "take effect on the frontend — translations are delivered by your "
@@ -810,184 +928,181 @@ msgstr ""
 "érvénytelenítheti a meglévő fordításokat."
 
 #. translators: %s: multilingual plugin name
-#: build/index.js:4
+#: build/index.js:7
 msgid "Manage translations in %s"
 msgstr "Fordítások kezelése itt: %s"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Unlock to edit source text"
 msgstr "Feloldás a forrásszöveg szerkesztéséhez"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Copy"
 msgstr "Másolás"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Copied"
 msgstr "Másolva"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Edit cookie"
 msgstr "Cookie szerkesztése"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Add cookie"
 msgstr "Cookie hozzáadása"
 
-#: build/index.js:4 build/index.js:10
+#: build/index.js:7 build/index.js:13
 msgid "Cookie Name"
 msgstr "Cookie neve"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "e.g. _ga"
 msgstr "pl. _ga"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "A cookie with this name is already in the list."
 msgstr "Ilyen nevű cookie már szerepel a listában."
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "e.g. Google"
 msgstr "pl. Google"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Purpose description"
 msgstr "Cél leírása"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "e.g. 1 year"
 msgstr "pl. 1 év"
 
-#: build/index.js:4 build/index.js:10 build/index.js:12
-msgid "Category"
-msgstr "Kategória"
-
-#: build/index.js:4 build/index.js:9
+#: build/index.js:7 build/index.js:12
 msgid "Cancel"
 msgstr "Mégse"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "Update Cookie"
 msgstr "Cookie frissítése"
 
-#: build/index.js:4 build/index.js:12
+#: build/index.js:7 build/index.js:15
 msgid "Add Cookie"
 msgstr "Cookie hozzáadása"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "N/A"
 msgstr "–"
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "No cookies detected. Try visiting your site first to set some cookies."
 msgstr ""
 "Nem találtunk cookie-kat. Előbb látogasd meg az oldalt, hogy cookie-k "
 "keletkezzenek."
 
-#: build/index.js:4
+#: build/index.js:7
 msgid "All detected cookies are already in your list!"
 msgstr "Minden észlelt cookie már szerepel a listádban!"
 
 #. translators: %d: number of new cookies.
-#: build/index.js:5
+#: build/index.js:8
 msgid "%d new cookie"
 msgid_plural "%d new cookies"
 msgstr[0] "%d új cookie"
 msgstr[1] "%d új cookie"
 
 #. translators: %d: number of external domains.
-#: build/index.js:6
+#: build/index.js:9
 msgid "%d external domain"
 msgid_plural "%d external domains"
 msgstr[0] "%d külső domain"
 msgstr[1] "%d külső domain"
 
 #. translators: %d: number of external fonts.
-#: build/index.js:7
+#: build/index.js:10
 msgid "%d external font"
 msgid_plural "%d external fonts"
 msgstr[0] "%d külső betűtípus"
 msgstr[1] "%d külső betűtípus"
 
-#. translators: %s: comma-separated counts, e.g. "3 new cookies, 1 external domain".
-#: build/index.js:8
+#. translators: %s: comma-separated counts, e.g. "3 new cookies, 1 external
+#. domain".
+#: build/index.js:11
 msgid "%s found."
 msgstr "Találat: %s."
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Already added"
 msgstr "Már hozzáadva"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Unknown provider"
 msgstr "Ismeretlen szolgáltató"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Purpose not specified"
 msgstr "A cél nincs megadva"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External Domains"
 msgstr "Külső domainek"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External"
 msgstr "Külső"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "External Fonts"
 msgstr "Külső betűtípusok"
 
-#: build/index.js:8
+#: build/index.js:11
 msgid "Font"
 msgstr "Betűtípus"
 
 #. translators: 1: current page number, 2: total pages.
-#: build/index.js:9
+#: build/index.js:12
 msgid "Scanning your website for cookies… page %1$d of %2$d"
 msgstr "Cookie-k keresése a weboldalon… %1$d. oldal / %2$d"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Deep scanning for additional cookies…"
 msgstr "Mélyebb vizsgálat további cookie-k után…"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Scanning your website for cookies…"
 msgstr "Cookie-k keresése a weboldalon…"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Scan Results"
 msgstr "Vizsgálat eredményei"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Cookie scanner"
 msgstr "Cookie-szkenner"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Add Selected"
 msgstr "Kijelöltek hozzáadása"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Basic configuration for your cookie consent banner."
 msgstr "Alapbeállítások a cookie-hozzájárulási sávhoz."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Enable Banner"
 msgstr "Sáv engedélyezése"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show cookie consent banner on the frontend"
 msgstr "Cookie-hozzájárulási sáv megjelenítése a frontenden"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Preview"
 msgstr "Előnézet"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "Opens the front page with the consent banner forced visible (administrators "
 "only), so you can review and tune it — even before enabling it or after you "
@@ -997,154 +1112,155 @@ msgstr ""
 "(csak adminisztrátoroknak), így átnézheted és finomhangolhatod — még "
 "bekapcsolás előtt, vagy ha már elfogadtad."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Preview banner on the site"
 msgstr "Sáv előnézete az oldalon"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Privacy Policy Page"
 msgstr "Adatvédelmi irányelvek oldala"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Select your privacy policy page to link from the banner."
 msgstr ""
 "Válaszd ki az adatvédelmi irányelvek oldalát, amelyre a sáv hivatkozik."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "— None —"
 msgstr "— Nincs —"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Policy Version"
 msgstr "Irányelv verziója"
 
-#: build/index.js:9
-msgid "Change this when you update your privacy policy to request new consent."
+#: build/index.js:12
+msgid ""
+"Change this when you update your privacy policy to request new consent."
 msgstr ""
 "Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új "
 "hozzájárulást kérj."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "GDPR Compliance Notes"
 msgstr "GDPR-megfelelési megjegyzések"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "All optional cookie categories are OFF by default (opt-in required)."
 msgstr ""
 "Minden opcionális cookie-kategória alapból KI van kapcsolva (opt-in "
 "szükséges)."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Users can granularly choose which categories to accept."
 msgstr ""
 "A felhasználók részletesen kiválaszthatják, mely kategóriákat fogadják el."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Consent is logged with timestamp for compliance proof."
 msgstr "A hozzájárulást időbélyeggel naplózzuk a megfelelés igazolásához."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Policy version changes trigger re-consent requests."
 msgstr "Az irányelv verziójának változása új hozzájárulást kér."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "A simplified live preview of the banner with your current, unsaved settings."
 msgstr ""
 "A sáv egyszerűsített, élő előnézete a jelenlegi, még nem mentett "
 "beállításokkal."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Customize the look and feel of your cookie banner."
 msgstr "Szabd testre a cookie sáv megjelenését."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Banner Position"
 msgstr "Sáv pozíciója"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom"
 msgstr "Alul"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Top"
 msgstr "Felül"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Modal (Center)"
 msgstr "Modális (középen)"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Banner Layout"
 msgstr "Sáv elrendezése"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Full-width Bar"
 msgstr "Teljes szélességű sáv"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Box"
 msgstr "Lebegő doboz"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Box Alignment"
 msgstr "Lebegő doboz igazítása"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Only applies when the layout is set to Floating Box."
 msgstr "Csak akkor érvényes, ha az elrendezés Lebegő dobozra van állítva."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Left"
 msgstr "Balra"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Right"
 msgstr "Jobbra"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Primary Color"
 msgstr "Elsődleges szín"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Button and accent color."
 msgstr "Gomb- és kiemelőszín."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Text Color"
 msgstr "Szövegszín"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Background Color"
 msgstr "Háttérszín"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Border Radius"
 msgstr "Szegély lekerekítés"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Border radius in pixels."
 msgstr "Szegély lekerekítése pixelben."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Floating Button"
 msgstr "Lebegő gomb"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show Floating Button"
 msgstr "Lebegő gomb megjelenítése"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Show a floating button for users to change their consent"
 msgstr ""
 "Lebegő gomb megjelenítése, hogy a felhasználók módosíthassák a "
 "hozzájárulásukat"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Button Position"
 msgstr "Gomb pozíciója"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "Applies only to the Full-width Bar layout. With the Floating Box layout the "
 "button mirrors the banner alignment."
@@ -1152,25 +1268,26 @@ msgstr ""
 "Csak a teljes szélességű sáv elrendezésre vonatkozik. A lebegő doboz "
 "elrendezésnél a gomb követi a banner igazítását."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom Left"
 msgstr "Bal alsó"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Bottom Right"
 msgstr "Jobb alsó"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "Customize the names and descriptions of cookie categories shown to users."
 msgstr ""
-"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és leírását."
+"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és "
+"leírását."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Necessary Cookies"
 msgstr "Szükséges cookie-k"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "This category is always enabled, but you can customize the displayed name "
 "and description."
@@ -1178,250 +1295,252 @@ msgstr ""
 "Ez a kategória mindig engedélyezve van, de testreszabhatod a megjelenített "
 "nevet és leírást."
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Functional Cookies"
 msgstr "Funkcionális cookie-k"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Analytics Cookies"
 msgstr "Analitikai cookie-k"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Marketing Cookies"
 msgstr "Marketing cookie-k"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Always on"
 msgstr "Mindig bekapcsolva"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Name"
 msgstr "Név"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid "Description"
 msgstr "Leírás"
 
-#: build/index.js:9
+#: build/index.js:12
 msgid ""
 "Customize all user-facing text. Leave a field empty to use the built-in "
 "default for the current site language."
 msgstr ""
-"Az összes látogatói szöveg testreszabása. Hagyd üresen a mezőt, ha a webhely "
-"nyelvének beépített alapszövegét szeretnéd."
+"Az összes látogatói szöveg testreszabása. Hagyd üresen a mezőt, ha a webhely"
+" nyelvének beépített alapszövegét szeretnéd."
 
 #. translators: %d: number of cookies added to the list.
-#: build/index.js:10
+#: build/index.js:13
 msgid "%d cookie added. Save changes to keep it."
 msgid_plural "%d cookies added. Save changes to keep them."
 msgstr[0] "%d cookie hozzáadva. Mentsd a változásokat a megtartáshoz."
 msgstr[1] "%d cookie hozzáadva. Mentsd a változásokat a megtartásukhoz."
 
-#: build/index.js:10
+#: build/index.js:13
 msgid "These cookies are already in the list."
 msgstr "Ezek a cookie-k már szerepelnek a listában."
 
-#: build/index.js:10
+#: build/index.js:13
 msgid "Actions"
 msgstr "Műveletek"
 
 #. translators: %s: cookie name.
-#: build/index.js:11
+#: build/index.js:14
 msgid "Edit %s"
 msgstr "%s szerkesztése"
 
-#: build/index.js:11
+#: build/index.js:14
 msgid "Edit"
 msgstr "Szerkesztés"
 
 #. translators: %s: cookie name.
-#: build/index.js:12
+#: build/index.js:15
 msgid "Remove %s"
 msgstr "%s eltávolítása"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Cookie Scanner"
 msgstr "Cookie-szkenner"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Scan your website to detect cookies in use."
 msgstr "Vizsgáld át a weboldalad, hogy felderítse a használt cookie-kat."
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Scan Website"
 msgstr "Weboldal vizsgálata"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Declared Cookies"
 msgstr "Nyilatkozatban szereplő cookie-k"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Add Common Cookies"
 msgstr "Gyakori cookie-k hozzáadása"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Declared cookies"
 msgstr "Nyilatkozatban szereplő cookie-k"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Search"
 msgstr "Keresés"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Filter"
 msgstr "Szűrés"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear"
 msgstr "Törlés"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear all filters"
 msgstr "Minden szűrő törlése"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "No cookies match these filters."
 msgstr "Egy cookie sem felel meg ezeknek a szűrőknek."
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "No cookies declared yet. Scan your site or add them manually."
 msgstr ""
 "Még nincs cookie a nyilatkozatban. Vizsgáld át az oldalt, vagy add hozzá "
 "őket kézzel."
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Previous page"
 msgstr "Előző oldal"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Next page"
 msgstr "Következő oldal"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Rows per page"
 msgstr "Sor oldalanként"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Select all cookies on this page"
 msgstr "Az oldal összes cookie-jának kijelölése"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Clear selection"
 msgstr "Kijelölés törlése"
 
-#: build/index.js:12
+#: build/index.js:15
 msgid "Bulk actions"
 msgstr "Csoportos műveletek"
 
 #. translators: %d: number of rows.
-#: build/index.js:12
+#: build/index.js:15
 msgid "%d entry"
 msgid_plural "%d entries"
 msgstr[0] "%d tétel"
 msgstr[1] "%d tétel"
 
 #. translators: %d: number of results.
-#: build/index.js:12
+#: build/index.js:15
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d találat"
 msgstr[1] "%d találat"
 
 #. translators: 1: current page, 2: total pages.
-#: build/index.js:12
+#: build/index.js:15
 msgid "Page %1$d of %2$d"
 msgstr "%1$d/%2$d oldal"
 
 #. translators: %s: cookie name.
-#: build/index.js:12
+#: build/index.js:15
 msgid "Select: %s"
 msgstr "Kijelölés: %s"
 
 #. translators: %d: number of selected cookies.
-#: build/index.js:13
+#: build/index.js:16
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d kijelölve"
 msgstr[1] "%d kijelölve"
 
 #. translators: 1: selected cookies, 2: of those, on this page.
-#: build/index.js:14
+#: build/index.js:17
 msgid "%1$d selected, %2$d on this page"
 msgstr "%1$d kijelölve, ebből %2$d ezen az oldalon"
 
-#. translators: 1: cookies the action applies to, 2: selected cookies on this page.
-#: build/index.js:14
+#. translators: 1: cookies the action applies to, 2: selected cookies on this
+#. page.
+#: build/index.js:17
 msgid "applies to %1$d of %2$d"
 msgstr "%2$d közül %1$d elemre vonatkozik"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Search name, provider or purpose"
 msgstr "Keresés névben, szolgáltatóban vagy célban"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Use this shortcode to display the cookie list on any page."
-msgstr "Ezzel a shortcode-dal bármely oldalon megjelenítheted a cookie-listát."
+msgstr ""
+"Ezzel a shortcode-dal bármely oldalon megjelenítheted a cookie-listát."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Consent"
 msgstr "Hozzájárulás"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Advanced configuration options."
 msgstr "Haladó beállítási lehetőségek."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Consent Duration"
 msgstr "Hozzájárulás időtartama"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Days until consent expires and user is asked again."
 msgstr ""
 "Ennyi nap után lejár a hozzájárulás, és újra megkérdezzük a felhasználót."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "days"
 msgstr "nap"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Logged-in users"
 msgstr "Bejelentkezett felhasználók"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid ""
-"Do not show the consent banner to logged-in users — e.g. so it never pops up "
-"for administrators while they work. The banner is always hidden inside page-"
-"builder editors (Bricks, Elementor)."
+"Do not show the consent banner to logged-in users — e.g. so it never pops up"
+" for administrators while they work. The banner is always hidden inside "
+"page-builder editors (Bricks, Elementor)."
 msgstr ""
-"A bejelentkezett felhasználók ne lássák a hozzájárulási sávot — például hogy "
-"munka közben ne ugorjon fel az adminisztrátoroknak. Oldalépítő "
+"A bejelentkezett felhasználók ne lássák a hozzájárulási sávot — például hogy"
+" munka közben ne ugorjon fel az adminisztrátoroknak. Oldalépítő "
 "szerkesztőkben (Bricks, Elementor) a sáv mindig rejtve van."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Hide the banner for logged-in users"
 msgstr "A sáv elrejtése a bejelentkezett felhasználók elől"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Shown to everyone"
 msgstr "Mindenkinek látszik"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Blocking"
 msgstr "Blokkolás"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Script Blocking"
 msgstr "Szkriptek blokkolása"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid ""
 "Automatically blocks known tracking scripts (Google Analytics, Facebook "
 "Pixel, etc.) until user consents."
@@ -1429,19 +1548,19 @@ msgstr ""
 "Automatikusan blokkolja az ismert követőszkripteket (Google Analytics, "
 "Facebook Pixel stb.) a hozzájárulásig."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Block scripts until consent is given"
 msgstr "Szkriptek blokkolása a hozzájárulásig"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Off"
 msgstr "Ki"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Content Blocking"
 msgstr "Tartalom blokkolása"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid ""
 "Blocks YouTube, Vimeo, Google Maps and other embedded content until user "
 "consents."
@@ -1449,18 +1568,18 @@ msgstr ""
 "Blokkolja a YouTube-, Vimeo-, Google Maps- és más beágyazott tartalmakat a "
 "hozzájárulásig."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Block embedded content until consent is given"
 msgstr "Beágyazott tartalom blokkolása a hozzájárulásig"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Load youtube-nocookie.com embeds without consent"
 msgstr "youtube-nocookie.com beágyazások betöltése hozzájárulás nélkül"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid ""
-"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce "
-"tracking, but it is not consent-free: loading the player still sends the "
+"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce"
+" tracking, but it is not consent-free: loading the player still sends the "
 "visitor's IP address and browser data to Google. Turn this on only if your "
 "privacy policy covers it. Videos embedded from youtube.com stay blocked "
 "until consent."
@@ -1471,23 +1590,23 @@ msgstr ""
 "kapcsold be, ha az adatkezelési tájékoztatód ezt lefedi. A youtube.com-ról "
 "beágyazott videók továbbra is blokkolva maradnak a hozzájárulásig."
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Loaded without consent"
 msgstr "Hozzájárulás nélkül betöltődik"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Blocked until consent"
 msgstr "Hozzájárulásig blokkolva"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Google Consent Mode v2"
 msgstr "Google Consent Mode v2"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid "Enable Google Consent Mode v2"
 msgstr "Google Consent Mode v2 engedélyezése"
 
-#: build/index.js:14
+#: build/index.js:17
 msgid ""
 "Required for Google Ads and Analytics in the EU. Sends consent signals to "
 "Google services."

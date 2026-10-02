@@ -37,6 +37,7 @@ final class Routes {
 	 */
 	public function register_routes(): void {
 		( new SettingsController() )->register_routes();
+		( new MigrationController() )->register_routes();
 	}
 
 	/**

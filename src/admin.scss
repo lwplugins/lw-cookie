@@ -1181,3 +1181,17 @@ body.lw-cookie-screen {
 		grid-template-columns: 1fr;
 	}
 }
+
+// Custom blocking rules: the pattern takes the free width; the remove button lines up with the fields; the
+// first row carries the visible labels, so its button sits lower.
+.lw-admin-rule-pattern {
+	flex: 1;
+}
+
+.lw-admin-rule-remove {
+	margin-top: 2px;
+
+	&.is-first {
+		margin-top: 26px;
+	}
+}

@@ -13,6 +13,7 @@
 9. [Google Consent Mode](#google-consent-mode)
 10. [Script Blocking](#script-blocking)
 11. [Database & GDPR Compliance](#database--gdpr-compliance)
+12. [Migrating from Complianz](#migrating-from-complianz)
 
 ---
 
@@ -244,6 +245,28 @@ When enabled, YouTube embeds served from `youtube-nocookie.com` (YouTube's Priva
 
 Privacy Enhanced Mode is designed to reduce tracking, but it is not consent-free: loading the player still sends the visitor's IP address and browser data to Google. Turn it on only if your privacy policy covers it.
 
+### Custom Blocking Rules
+
+**Option:** `custom_blocking_rules`
+**Default:** `[]` (list of `{ "pattern": "...", "category": "..." }`)
+
+Blocks a script, pixel, image or embed the built-in list does not know, until its category is accepted (e.g. a live chat or a payment provider's pixel).
+
+- **Pattern:** a domain matches itself and its subdomains (`code.tidio.co`); a pattern with a path matches any URL containing it (`example.com/pixel.js`). A scheme, `www.`, query string and trailing slash are removed; wildcards are not supported (a domain already covers its subdomains).
+- **Category:** `functional`, `analytics`, `marketing` — or `necessary`, which means *never blocked*.
+- Rules come before the built-in list, so they override it. Example: `googletagmanager.com` → `necessary` lets Google Tag Manager load before consent, with Google Consent Mode keeping its tags in the denied state until the visitor decides.
+- Only what is loaded from a URL is blocked (`<script src>`, iframes, images, and requests through the Service Worker). The code of an inline `<script>` itself runs; if it loads a file from a matching URL, that file is blocked.
+- Script rules apply while **Script Blocking** is on, iframe rules while **Content Blocking** is on.
+
+WP-CLI:
+
+```bash
+wp lw-cookie blocking-rules list
+wp lw-cookie blocking-rules add code.tidio.co functional
+wp lw-cookie blocking-rules add googletagmanager.com necessary
+wp lw-cookie blocking-rules remove code.tidio.co
+```
+
 ### Google Consent Mode
 
 **Option:** `gcm_enabled`
@@ -286,6 +309,8 @@ LW Cookie provides comprehensive WP-CLI support for managing settings and consen
 | `wp lw-cookie stats` | Display consent statistics |
 | `wp lw-cookie export` | Export consent logs |
 | `wp lw-cookie clear-logs` | Clear consent logs |
+| `wp lw-cookie blocking-rules list\|add\|remove` | Manage custom blocking rules ([details](#custom-blocking-rules)) |
+| `wp lw-cookie migrate complianz [--dry-run]` | Import Complianz settings ([details](#migrating-from-complianz)) |
 
 ### Settings Management
 
@@ -782,6 +807,60 @@ wp lw-cookie consent --consent-id=abc123-def456 --delete
 # With confirmation skip
 wp lw-cookie consent --ip=192.168.1.100 --delete --yes
 ```
+
+## Migrating from Complianz
+
+LW Cookie can take over the settings of Complianz (free or premium). Only the data Complianz left in the database is read, so Complianz can already be deactivated — but do not delete it before importing: with its "Clear data on uninstall" option on, deleting Complianz removes its data.
+
+### In the admin
+
+**LW Plugins → LW Cookie → Advanced → Import from Complianz.** The section only appears when Complianz data is found.
+
+1. Click **Check what will be imported** — lists the settings that would change, the new cookies, and the cookies you already declared.
+2. Click **Import now**. Save or discard unsaved changes on the settings screen first.
+3. Deactivate Complianz, so only one banner is shown.
+
+### WP-CLI
+
+```bash
+# Show what would change, without saving
+wp lw-cookie migrate complianz --dry-run
+
+# Import
+wp lw-cookie migrate complianz
+```
+
+### REST API
+
+`GET /wp-json/lw-cookie/v1/admin/migration/complianz` returns the preview, `POST` runs the import (requires `manage_options`). Both return `404` (`lw_cookie_no_complianz`) when no Complianz data exists.
+
+### What is imported
+
+| Complianz | LW Cookie |
+|-----------|-----------|
+| Banner title, message, Accept / Deny / View preferences / Save preferences / Manage consent labels | `banner_title`, `banner_message`, `btn_accept_all`, `btn_reject_all`, `btn_customize`, `btn_save`, `btn_manage_preferences` |
+| Functional category (always on) | Necessary (`cat_necessary_*`) |
+| Preferences category | Functional (`cat_functional_*`) |
+| Statistics category | Analytics (`cat_analytics_*`) |
+| Marketing category | Marketing (`cat_marketing_*`) |
+| Position: center / bottom / bottom-left / bottom-right | Modal / bottom bar / bottom box left / bottom box right |
+| Background, text and Accept button colours | `background_color`, `text_color`, `primary_color` |
+| Banner corner radius (px) | `border_radius` |
+| Consent banner expiration | `consent_duration` (max. 730 days) |
+| Consent Mode | `gcm_enabled` |
+| Privacy Statement set to an existing page | `privacy_policy_page` |
+| Cookies on the cookie policy (name, service, function, retention, purpose) | Declared cookies (name, provider, purpose, duration, category, session/persistent) |
+
+Notes:
+
+- HTML is stripped from the texts.
+- Cookies use the site-language translation when Complianz has one; the category always comes from the English purpose label (Marketing/Tracking → Marketing, Statistics → Analytics, Preferences → Functional, everything else → Necessary).
+- Cookies you already declared (same name) are kept unchanged; the import only adds new ones. Running it again changes nothing.
+- Cookies Complianz has no category for (no purpose and no service category, typical for unmatched scan results) are skipped and only counted in the report: declaring them under a guessed category would misinform visitors. Declare the ones you need under Cookies.
+- A Complianz-**generated** privacy statement is not linked: it is a shortcode page that stops working without Complianz. Select your own page under General.
+- While a multilingual plugin (WPML, Polylang…) manages the texts, the translatable texts are skipped and listed in the report.
+- Every value goes through the same validation as the settings screen.
+- Not imported: Complianz documents, consent records, script center / custom scripts, geo-targeting regions, TCF and A/B testing settings.
 
 ---
 

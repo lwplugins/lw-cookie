@@ -16,6 +16,11 @@ export const api = {
 	saveSettings: ( patch ) =>
 		apiFetch( { path: admin( '/settings' ), method: 'POST', data: patch } ),
 
+	complianzPreview: () =>
+		apiFetch( { path: admin( '/migration/complianz' ) } ),
+	complianzImport: () =>
+		apiFetch( { path: admin( '/migration/complianz' ), method: 'POST' } ),
+
 	// Scanner routes (Scanner::register_rest_routes), unchanged from the
 	// classic screen.
 	clearScan: () => apiFetch( { path: scan( 'clear-scan' ), method: 'POST' } ),
