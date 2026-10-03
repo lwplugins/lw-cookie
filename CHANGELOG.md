@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.1] - 2026-10-03
+
+### Fixed
+- The admin Docs link now opens the plugin's page on docs.lwplugins.com, in Hungarian for Hungarian admin users.
+
 ## [1.9.0] - 2026-10-02
 
 ### Added

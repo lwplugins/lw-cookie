@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -183,6 +183,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.1 =
+* Fix: The admin Docs link now opens the plugin's page on docs.lwplugins.com, in Hungarian for Hungarian admin users.
 
 = 1.9.0 =
 * New: custom blocking rules - Advanced → "Custom Blocking Rules" and `wp lw-cookie blocking-rules list|add|remove`. A rule is a domain (matching its subdomains) or a URL pattern with a path, and the category it needs; rules come before the built-in list and override it, and the "necessary" category means never blocked (e.g. to let Google Tag Manager load before consent). Applies to scripts, images, iframes and the Service Worker, like the built-in list. Also writable through LW Site Manager's lw-cookie/set-options.
