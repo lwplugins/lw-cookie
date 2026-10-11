@@ -52,24 +52,59 @@
 	var valid   = isConsentValid( consent );
 	var cats    = valid ? consent.categories : { necessary : true };
 
+	// Renamed Google data layers that also receive the Consent Mode commands
+	// (set by the server when another plugin moves the Google tag onto one).
+	var EXTRA_LAYERS = Array.isArray( cfg.extraLayers ) ? cfg.extraLayers : [];
+
+	// The standard layer's name is assembled at runtime. This script is inlined
+	// into the page, where output rewriters search the HTML for the literal name
+	// (and for calls to the global Google tag function) to rename it; keeping
+	// both out of the source (calls go through apply) keeps it unchanged.
+	// phpcs:ignore Generic.Strings.UnnecessaryStringConcat.Found -- Deliberate: the split is the point.
+	var STD_LAYER = 'data' + 'Layer';
+
 	// ── Google Consent Mode helper ───────────────────────────────────
-	// gtag() is only a thin wrapper that pushes its arguments onto the
-	// dataLayer, which GTM reads directly. On GTM-only setups no global
-	// gtag() exists, so we fall back to pushing the arguments ourselves —
-	// otherwise Consent Mode signals are never delivered.
+	// The global Google tag function is only a thin wrapper that pushes its
+	// arguments onto a data layer, which GTM reads directly. On GTM-only setups
+	// it does not exist, so we also push the arguments ourselves, onto the
+	// standard layer and onto any renamed one — otherwise Consent Mode signals
+	// are never delivered.
 	function lwConsentPush() {
-		window.dataLayer = window.dataLayer || [];
-		var g            = ( typeof window.gtag === 'function' )
-			? window.gtag
-			: function () {
-				window.dataLayer.push( arguments );
-			};
-		g.apply( null, arguments );
+		var layers = [ STD_LAYER ].concat( EXTRA_LAYERS );
+		var args   = arguments;
+
+		if ( typeof window.gtag === 'function' ) {
+			window.gtag.apply( null, args );
+		}
+
+		var count = layers.length;
+
+		for ( var i = 0; i < count; i++ ) {
+			window[ layers[i] ] = window[ layers[i] ] || [];
+			// Skip a layer the global function above has just written to (it pushes
+			// the same arguments), so the usual single-layer setup is unchanged.
+			var layer = window[ layers[i] ];
+			var last  = layer[ layer.length - 1 ];
+			if ( last && last.length === args.length && last[0] === args[0] && last[1] === args[1] && last[2] === args[2] ) {
+				continue;
+			}
+			layer.push( args );
+		}
 	}
 
-	// GCM v2 default — must run before GTM/gtag so tags start denied and wait
-	// for the update below. security_storage stays granted (not tracking).
-	lwConsentPush(
+	// Consent Mode must never take the guard down with it: if a push throws,
+	// the banner and the blocking below still have to start.
+	function lwConsentSafe() {
+		try {
+			lwConsentPush.apply( null, arguments );
+		} catch ( e ) {
+			// Fail open.
+		}
+	}
+
+	// GCM v2 default — must run before GTM/the Google tag so tags start denied
+	// and wait for the update below. security_storage stays granted (not tracking).
+	lwConsentSafe(
 		'consent',
 		'default',
 		{
@@ -588,9 +623,9 @@
 
 	// ── 7. GCM v2 update (if consent exists) ─────────────────────────
 	function updateGCM( categories ) {
-		// Delivered via the dataLayer (see lwConsentPush) so it also reaches
-		// GTM-only setups where no global gtag() is defined.
-		lwConsentPush(
+		// Delivered via the data layer (see lwConsentPush) so it also reaches
+		// GTM-only setups where no global Google tag function is defined.
+		lwConsentSafe(
 			'consent',
 			'update',
 			{
@@ -610,8 +645,8 @@
 	}
 
 	if ( valid ) {
-		// Push the update immediately (no need to wait for gtag — it goes onto
-		// the dataLayer right after the default), so the granted signal is in
+		// Push the update immediately (no need to wait for the Google tag — it
+		// goes onto the data layer right after the default), so the granted signal is in
 		// place before GTM processes its queue and fires any tags.
 		updateGCM( cats );
 	}

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.2] - 2026-10-11
+
+### Fixed
+- The consent banner and script blocking no longer break when another plugin rewrites the page and renames the Google data layer; Consent Mode signals also reach the renamed data layer.
+
 ## [1.9.1] - 2026-10-03
 
 ### Fixed
