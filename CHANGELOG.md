@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.3] - 2026-10-14
+
+### Fixed
+- Search engines no longer quote the cookie banner or the preferences panel in search result snippets (both now carry data-nosnippet).
+
 ## [1.9.2] - 2026-10-11
 
 ### Fixed

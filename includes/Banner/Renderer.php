@@ -64,7 +64,7 @@ final class Renderer {
 		$privacy_page_id = (int) Options::get( 'privacy_policy_page' );
 		$privacy_link    = $privacy_page_id ? get_permalink( $privacy_page_id ) : '';
 		?>
-		<div id="lw-cookie-notice" class="<?php echo esc_attr( $classes ); ?>" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-title">
+		<div id="lw-cookie-notice" class="<?php echo esc_attr( $classes ); ?>" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-title" data-nosnippet>
 			<div class="lw-cookie-notice-inner">
 				<div class="lw-cookie-content">
 					<h2 id="lw-cookie-title" class="lw-cookie-title">
@@ -104,7 +104,7 @@ final class Renderer {
 		$categories     = Strings::get_categories();
 		$cookies_by_cat = Strings::get_cookies_by_category();
 		?>
-		<div id="lw-cookie-preferences" class="lw-cookie-modal" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-prefs-title" style="display:none;">
+		<div id="lw-cookie-preferences" class="lw-cookie-modal" role="dialog" aria-modal="true" aria-labelledby="lw-cookie-prefs-title" style="display:none;" data-nosnippet>
 			<div class="lw-cookie-modal-overlay" data-lw-cookie-close-modal></div>
 			<div class="lw-cookie-modal-content">
 				<button type="button" class="lw-cookie-modal-close" data-lw-cookie-close-modal aria-label="<?php esc_attr_e( 'Close', 'lw-cookie' ); ?>">
