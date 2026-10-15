@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.4] - 2026-10-15
+
+### Fixed
+- Theme button styles no longer override the banner, preferences panel and floating button: the Accept button keeps the configured primary color, and all buttons keep the configured text color and border radius.
+
 ## [1.9.3] - 2026-10-14
 
 ### Fixed

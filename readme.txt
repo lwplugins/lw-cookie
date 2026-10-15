@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.3
+Stable tag: 1.9.4
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -183,6 +183,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.4 =
+* Fix: Theme button styles no longer override the banner, preferences panel and floating button: the Accept button keeps the configured primary color, and all buttons keep the configured text color and border radius.
 
 = 1.9.3 =
 * Fix: Search engines no longer quote the cookie banner or the preferences panel in search result snippets (both now carry data-nosnippet).
