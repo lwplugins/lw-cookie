@@ -21,6 +21,7 @@ use LightweightPlugins\Cookie\Blocking\GuardScript;
 use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\Integrations\CacheCompat;
+use LightweightPlugins\Cookie\Integrations\WooOrderAttribution;
 use LightweightPlugins\Cookie\Rest\ConsentEndpoint;
 use LightweightPlugins\Cookie\Rest\Admin\Routes as AdminRoutes;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
@@ -109,6 +110,7 @@ final class Plugin {
 		new FloatingButton();
 		new InlineFallback();
 		new GuardScript();
+		new WooOrderAttribution();
 
 		// Google Consent Mode v2.
 		if ( Options::get( 'gcm_enabled' ) ) {

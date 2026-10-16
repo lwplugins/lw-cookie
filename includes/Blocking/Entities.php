@@ -110,6 +110,8 @@ final class Entities {
 			'_ttp'                   => 'marketing',
 			'_scid'                  => 'marketing',
 			'_sctr'                  => 'marketing',
+			// WooCommerce Order Attribution (sourcebuster.js): sbjs_session, sbjs_current, etc.
+			'sbjs_'                  => 'marketing',
 		];
 	}
 

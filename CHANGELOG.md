@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.5] - 2026-10-16
+
+### Fixed
+- WooCommerce Order Attribution no longer sets its sbjs_* tracking cookies before consent: it now waits for the Marketing category, starts as soon as it is given, and its cookies are removed when it is withdrawn (#15).
+- Cookies of a category the visitor has not allowed can now be deleted by the scripts that set them; previously the cookie guard blocked the deletion too, so they stayed after consent was withdrawn.
+- The cookie scanner classifies sbjs_* cookies as WooCommerce marketing cookies; sbjs_session was guessed as necessary.
+
 ## [1.9.4] - 2026-10-15
 
 ### Fixed

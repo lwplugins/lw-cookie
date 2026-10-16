@@ -168,6 +168,18 @@
 		return false;
 	}
 
+	// Removing a cookie stores nothing, so it is always let through: a script
+	// clearing its cookies after consent is revoked must be able to.
+	function isCookieRemoval( val ) {
+		// Max-Age wins over Expires when both are set.
+		var maxAge = /;\s*max-age\s*=\s*(-?\d+)/i.exec( val );
+		if ( maxAge ) {
+			return parseInt( maxAge[1], 10 ) <= 0;
+		}
+		var expires = /;\s*expires\s*=\s*([^;]+)/i.exec( val );
+		return ! ! expires && new Date( expires[1] ).getTime() <= Date.now();
+	}
+
 	var cookieDesc = Object.getOwnPropertyDescriptor( Document.prototype, 'cookie' ) ||
 					Object.getOwnPropertyDescriptor( HTMLDocument.prototype, 'cookie' );
 
@@ -183,7 +195,7 @@
 				},
 				set: function ( val ) {
 					var cookieName = val.split( '=' )[0].trim();
-					if ( isCookieBlocked( cookieName ) ) {
+					if ( isCookieBlocked( cookieName ) && ! isCookieRemoval( val ) ) {
 						return;
 					}
 					originalSet.call( this, val );

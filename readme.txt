@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.4
+Stable tag: 1.9.5
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -183,6 +183,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.5 =
+* Fix: WooCommerce Order Attribution no longer sets its sbjs_* tracking cookies before consent: it now waits for the Marketing category, starts as soon as it is given, and its cookies are removed when it is withdrawn (#15).
+* Fix: Cookies of a category the visitor has not allowed can now be deleted by the scripts that set them; previously the cookie guard blocked the deletion too, so they stayed after consent was withdrawn.
+* Fix: The cookie scanner classifies sbjs_* cookies as WooCommerce marketing cookies; sbjs_session was guessed as necessary.
 
 = 1.9.4 =
 * Fix: Theme button styles no longer override the banner, preferences panel and floating button: the Accept button keeps the configured primary color, and all buttons keep the configured text color and border radius.

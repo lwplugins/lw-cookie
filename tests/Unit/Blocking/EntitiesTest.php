@@ -133,6 +133,15 @@ final class EntitiesTest extends MonkeyTestCase {
 	}
 
 	/**
+	 * WooCommerce Order Attribution (sourcebuster.js) cookies wait for
+	 * marketing consent (#15). The guard matches by prefix, so one key
+	 * covers sbjs_session, sbjs_current, sbjs_first, sbjs_udata and the rest.
+	 */
+	public function test_woocommerce_order_attribution_cookies_are_marketing(): void {
+		$this->assertSame( 'marketing', Entities::get_cookies()['sbjs_'] ?? null );
+	}
+
+	/**
 	 * snap.licdn.com is LinkedIn's Insight Tag host, not Snapchat's.
 	 */
 	public function test_snap_licdn_is_linkedin_marketing(): void {
