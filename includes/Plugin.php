@@ -18,6 +18,7 @@ use LightweightPlugins\Cookie\Banner\FloatingButton;
 use LightweightPlugins\Cookie\Banner\Preview;
 use LightweightPlugins\Cookie\Consent\Manager as ConsentManager;
 use LightweightPlugins\Cookie\Blocking\GuardScript;
+use LightweightPlugins\Cookie\Blocking\ScriptTagBlocker;
 use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
 use LightweightPlugins\Cookie\Integrations\GoogleConsentMode;
 use LightweightPlugins\Cookie\Integrations\CacheCompat;
@@ -110,6 +111,7 @@ final class Plugin {
 		new FloatingButton();
 		new InlineFallback();
 		new GuardScript();
+		new ScriptTagBlocker();
 		new WooOrderAttribution();
 
 		// Google Consent Mode v2.

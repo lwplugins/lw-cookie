@@ -23,6 +23,25 @@ use LightweightPlugins\Cookie\Consent\Storage;
 final class GuardScript {
 
 	/**
+	 * Whether the guard has been echoed in this request.
+	 *
+	 * @var bool
+	 */
+	private static bool $printed = false;
+
+	/**
+	 * Has the guard been printed in this request?
+	 *
+	 * Server-side rewrites that depend on the guard to restore the original
+	 * markup must only run when this is true.
+	 *
+	 * @return bool
+	 */
+	public static function was_printed(): bool {
+		return self::$printed;
+	}
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -51,6 +70,8 @@ final class GuardScript {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted JS from local file, JSON via wp_json_encode.
 		echo '<script id="lw-cookie-guard">window.__lwGuardCfg=' . wp_json_encode( $config ) . ';' . $guard . '</script>';
+
+		self::$printed = true;
 	}
 
 	/**
