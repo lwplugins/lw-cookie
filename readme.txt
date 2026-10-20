@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.5
+Stable tag: 1.9.6
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -183,6 +183,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.6 =
+* Fix: Tracker scripts that a plugin or theme enqueues are no longer downloaded before consent. They are printed without their address and load once the visitor allows their category, so the visitor's IP no longer reaches the vendor on the first visit (#16).
+* Fix: Preconnect and DNS prefetch hints for blocked tracker hosts are no longer printed.
+* Fix: Scripts that depend on a blocked tracker load in their original order with it, and keep loading when the tracker is blocked.
 
 = 1.9.5 =
 * Fix: WooCommerce Order Attribution no longer sets its sbjs_* tracking cookies before consent: it now waits for the Marketing category, starts as soon as it is given, and its cookies are removed when it is withdrawn (#15).

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.6] - 2026-10-20
+
+### Fixed
+- Tracker scripts that a plugin or theme enqueues are no longer downloaded before consent. They are printed without their address and load once the visitor allows their category, so the visitor's IP no longer reaches the vendor on the first visit (#16).
+- Preconnect and DNS prefetch hints for blocked tracker hosts are no longer printed.
+- Scripts that depend on a blocked tracker load in their original order with it, and keep loading when the tracker is blocked.
+
 ## [1.9.5] - 2026-10-16
 
 ### Fixed
