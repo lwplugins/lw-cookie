@@ -232,6 +232,53 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 		$this->assertStringContainsString( '<script data-lw-hold="1" id="top-js-after">', $top );
 	}
 
+	/**
+	 * @return array<string, array{0: string}>
+	 */
+	public static function inline_bodies(): array {
+		return [
+			'escaped quotes' => [ 'var s = "<script src=\\"https://www.googletagmanager.com/x.js\\">";' ],
+			'single quotes'  => [ "var s = '<script src=\"https://www.googletagmanager.com/x.js\">';" ],
+		];
+	}
+
+	/**
+	 * @dataProvider inline_bodies
+	 *
+	 * @param string $body Inline script body containing script markup as text.
+	 */
+	public function test_script_markup_inside_an_inline_body_is_left_alone( string $body ): void {
+		$tag = '<script src="' . self::SRC . '" id="gt-js"></script>' . "\n"
+			. '<script id="gt-js-after">' . $body . '</script>' . "\n";
+
+		$out = $this->run_filter( $tag );
+
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="gt-js-after">' . $body . '</script>', $out );
+		$this->assertSame( 1, substr_count( $out, 'data-lw-original-src' ) );
+	}
+
+	public function test_only_classic_inline_scripts_are_held(): void {
+		$tag = '<script src="' . self::SRC . '" id="gt-js"></script>' . "\n"
+			. '<script type="application/json" id="gt-js-data">{"a":1}</script>' . "\n"
+			. '<script type="module" id="gt-js-mod">import x from "./x.js";</script>' . "\n"
+			. '<script type="text/javascript" id="gt-js-after">init();</script>' . "\n";
+
+		$out = $this->run_filter( $tag );
+
+		$this->assertStringContainsString( '<script type="application/json" id="gt-js-data">', $out );
+		$this->assertStringContainsString( '<script type="module" id="gt-js-mod">', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" type="text/javascript" id="gt-js-after">', $out );
+	}
+
+	public function test_bare_host_dns_prefetch_hints_are_categorized(): void {
+		$urls = [ 'www.googletagmanager.com', 'fonts.gstatic.com' ];
+
+		$this->assertSame(
+			[ 'fonts.gstatic.com' ],
+			( new ScriptTagBlocker() )->filter_hints( $urls, 'dns-prefetch' )
+		);
+	}
+
 	public function test_resource_hints_drop_blocked_hosts(): void {
 		$urls = [
 			'https://www.googletagmanager.com',

@@ -74,20 +74,20 @@ final class ScriptTagBlocker {
 		$has_blocked_dep = null !== PlaceholderRegistry::blocked_dependency( $handle );
 		$blocked         = null;
 
-		$tag = (string) preg_replace_callback(
-			'/<script\b[^>]*>/i',
-			function ( array $m ) use ( $handle, $has_blocked_dep, &$blocked ): string {
-				$attrs = self::parse_attributes( $m[0] );
+		$tag = ScriptMarkup::map_start_tags(
+			$tag,
+			function ( string $start ) use ( $handle, $has_blocked_dep, &$blocked ): string {
+				$attrs = ScriptMarkup::attributes( $start );
 
 				if ( ! isset( $attrs['src'] ) ) {
-					return $m[0];
+					return $start;
 				}
 
 				$category = $this->category_for( html_entity_decode( $attrs['src'], ENT_QUOTES ) );
 
 				if ( null === $category || 'necessary' === $category ) {
 					if ( ! $has_blocked_dep ) {
-						return $m[0];
+						return $start;
 					}
 					// Needs a blocked script: placeholdered only to keep the
 					// order; as "necessary" it loads even without consent.
@@ -99,8 +99,7 @@ final class ScriptTagBlocker {
 				}
 
 				return self::build_placeholder( $attrs, $category );
-			},
-			$tag
+			}
 		);
 
 		if ( null === $blocked ) {
@@ -115,24 +114,24 @@ final class ScriptTagBlocker {
 	/**
 	 * Mark the inline scripts (before, after, translations) of a placeholdered
 	 * handle. They stay executable; guard.js holds them while a placeholder
-	 * printed before them is still loading.
+	 * printed before them is still loading. Only classic JavaScript is held:
+	 * modules and data blocks keep their native timing.
 	 *
 	 * @param string $tag Markup of the handle.
 	 * @return string
 	 */
 	private static function hold_inline_scripts( string $tag ): string {
-		return (string) preg_replace_callback(
-			'/<script\b[^>]*>/i',
-			static function ( array $m ): string {
-				$attrs = self::parse_attributes( $m[0] );
+		return ScriptMarkup::map_start_tags(
+			$tag,
+			static function ( string $start ): string {
+				$attrs = ScriptMarkup::attributes( $start );
 
-				if ( isset( $attrs['src'] ) || isset( $attrs['data-lw-original-src'] ) ) {
-					return $m[0];
+				if ( isset( $attrs['src'] ) || isset( $attrs['data-lw-original-src'] ) || ! ScriptMarkup::is_classic_js( $attrs['type'] ?? '' ) ) {
+					return $start;
 				}
 
-				return '<script data-lw-hold="1"' . substr( $m[0], 7 );
-			},
-			$tag
+				return '<script data-lw-hold="1"' . substr( $start, 7 );
+			}
 		);
 	}
 
@@ -153,8 +152,12 @@ final class ScriptTagBlocker {
 		$kept = array_filter(
 			$urls,
 			function ( $entry ): bool {
-				$href     = is_array( $entry ) ? ( $entry['href'] ?? '' ) : $entry;
-				$category = is_string( $href ) ? $this->category_for( $href ) : null;
+				$href = is_array( $entry ) ? ( $entry['href'] ?? '' ) : $entry;
+				if ( ! is_string( $href ) ) {
+					return true;
+				}
+				// Core passes bare hosts for dns-prefetch ("www.example.com").
+				$category = $this->category_for( str_contains( $href, '//' ) ? $href : '//' . $href );
 
 				return null === $category || 'necessary' === $category;
 			}
@@ -184,38 +187,6 @@ final class ScriptTagBlocker {
 		}
 
 		return UrlCategory::for_url( $url, self::$domains, (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
-	}
-
-	/**
-	 * Read the attributes of a start tag (values are raw, still HTML-escaped).
-	 *
-	 * Boolean attributes map to an empty string.
-	 *
-	 * @param string $start_tag A `<script …>` start tag.
-	 * @return array<string, string>
-	 */
-	private static function parse_attributes( string $start_tag ): array {
-		$inner = substr( $start_tag, 7, -1 );
-		$attrs = [];
-
-		preg_match_all(
-			'/([^\s"\'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s"\'>]+)))?/',
-			$inner,
-			$found,
-			PREG_SET_ORDER
-		);
-
-		foreach ( $found as $m ) {
-			$name = strtolower( $m[1] );
-			if ( isset( $attrs[ $name ] ) ) {
-				continue;
-			}
-			$value = '' !== ( $m[2] ?? '' ) ? $m[2] : ( '' !== ( $m[3] ?? '' ) ? str_replace( '"', '&quot;', $m[3] ) : ( $m[4] ?? '' ) );
-
-			$attrs[ $name ] = $value;
-		}
-
-		return $attrs;
 	}
 
 	/**

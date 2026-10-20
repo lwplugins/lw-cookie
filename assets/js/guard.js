@@ -412,10 +412,33 @@
 	// category is allowed, the placeholders are loaded one after another, in
 	// the printed order. Inline scripts of those handles (data-lw-hold) that
 	// come while the chain is still loading wait their turn in it; with an
-	// idle chain they run where they are, as without the rewrite.
+	// idle chain they run where they are, as without the rewrite. A defer
+	// placeholder (and the held after-script of its handle) waits until the
+	// document has been parsed, as a native defer script does.
 	var CATEGORY_KEYS = { necessary: true, functional: true, analytics: true, marketing: true };
+	var CLASSIC_JS    = /^(text|application)\/(x-)?(java|ecma)script$/;
 	var chain         = [];
 	var chainBusy     = false;
+	var deferred      = [];
+	var deferIds      = {};
+	var parsed        = document.readyState !== 'loading';
+	var domReady      = parsed;
+
+	// Data blocks and modules keep their native timing; only classic
+	// JavaScript is held.
+	function isClassicInline( el ) {
+		var type = ( el.getAttribute( 'type' ) || '' ).toLowerCase();
+		return type === '' || CLASSIC_JS.test( type );
+	}
+
+	function isDeferred( el ) {
+		return ! parsed && el.hasAttribute( 'defer' ) && ! el.hasAttribute( 'async' );
+	}
+
+	function hold( el, queue ) {
+		setAttr.call( el, 'type', 'text/plain' );
+		queue.push( { kind: 'inline', el: el } );
+	}
 
 	function nonceOf( el ) {
 		return el.nonce || el.getAttribute( 'nonce' ) || '';
@@ -461,23 +484,102 @@
 
 	function handlePlaceholder( el ) {
 		if ( el.hasAttribute( 'data-lw-original-src' ) ) {
-			if ( isAllowedPlaceholder( el ) ) {
-				chain.push( { kind: 'src', el: el } );
-				pumpChain();
+			if ( ! isAllowedPlaceholder( el ) ) {
+				return true;
 			}
+			if ( isDeferred( el ) ) {
+				deferred.push( { kind: 'src', el: el } );
+				if ( el.id ) {
+					deferIds[ el.id ] = true;
+				}
+				return true;
+			}
+			chain.push( { kind: 'src', el: el } );
+			pumpChain();
 			return true;
 		}
 
 		if ( el.hasAttribute( 'data-lw-hold' ) && ! el.hasAttribute( 'src' ) ) {
-			if ( ( chainBusy || chain.length ) && isOwnElement( el ) ) {
-				setAttr.call( el, 'type', 'text/plain' );
-				chain.push( { kind: 'inline', el: el } );
+			if ( ! isClassicInline( el ) || ! isOwnElement( el ) ) {
+				return true;
+			}
+			// The after-script of a deferred handle follows that handle.
+			var handle = /-after$/.test( el.id ) ? el.id.slice( 0, -6 ) : '';
+			if ( handle && deferIds[ handle ] && ! parsed ) {
+				hold( el, deferred );
+			} else if ( chainBusy || chain.length ) {
+				hold( el, chain );
 			}
 			return true;
 		}
 
 		return false;
 	}
+
+	// Parsing is done: deferred items join the chain, in their order.
+	function flushDeferred() {
+		if ( parsed || document.readyState === 'loading' ) {
+			return;
+		}
+		parsed   = true;
+		chain    = chain.concat( deferred );
+		deferred = [];
+		pumpChain();
+	}
+
+	document.addEventListener( 'readystatechange', flushDeferred );
+	document.addEventListener(
+		'DOMContentLoaded',
+		function () {
+			domReady = true;
+			flushDeferred();
+		}
+	);
+
+	// A script the chain runs after DOMContentLoaded would wait forever for a
+	// listener it adds for that event, so such a listener is called (async)
+	// instead. Everything else goes to the native method unchanged.
+	function replayDomReady( target ) {
+		var native = target.addEventListener;
+		if ( typeof native !== 'function' ) {
+			return;
+		}
+
+		target.addEventListener = function ( type, listener ) {
+			var self = this;
+			var replay;
+			try {
+				var current = document.currentScript;
+				replay      = type === 'DOMContentLoaded' && domReady && listener && current && current.__lwChain;
+			} catch ( e ) {
+				replay = false;
+			}
+			if ( ! replay ) {
+				return native.apply( this, arguments );
+			}
+			setTimeout(
+				function () {
+					var event;
+					try {
+						event = document.createEvent( 'Event' );
+						event.initEvent( 'DOMContentLoaded', true, true );
+					} catch ( e ) {
+						return;
+					}
+					// Outside the try: a listener's own error is reported as usual.
+					if ( typeof listener === 'function' ) {
+						listener.call( self, event );
+					} else if ( typeof listener.handleEvent === 'function' ) {
+						listener.handleEvent( event );
+					}
+				},
+				0
+			);
+		};
+	}
+
+	replayDomReady( document );
+	replayDomReady( window );
 
 	function pumpChain() {
 		var item = chainBusy ? null : chain.shift();
@@ -518,9 +620,11 @@
 			if ( type ) {
 				setAttr.call( script, 'type', type );
 			}
-			script.async = el.hasAttribute( 'async' );
+			script.async     = el.hasAttribute( 'async' );
+			script.__lwChain = true;
 
-			var wait   = willRun( script );
+			// An async script keeps native timing: nothing waits for it.
+			var wait   = willRun( script ) && ! el.hasAttribute( 'async' );
 			var finish = function () {
 				if ( done ) {
 					return;
@@ -553,7 +657,8 @@
 		try {
 			var script = nativeCreateElement.call( document, 'script' );
 			copyAttributes( el, script );
-			script.text = el.textContent;
+			script.text      = el.textContent;
+			script.__lwChain = true;
 			parent.insertBefore( script, el );
 			parent.removeChild( el );
 		} catch ( e ) {
