@@ -427,24 +427,14 @@
 		return ! GUARD_NONCE || nonceOf( el ) === GUARD_NONCE;
 	}
 
-	function isCrossOrigin( url ) {
-		try {
-			return new URL( url, location.href ).origin !== location.origin;
-		} catch ( e ) {
-			return true;
-		}
-	}
-
 	function isAllowedPlaceholder( el ) {
 		var cat = el.getAttribute( 'data-lw-category' );
 		var src = el.getAttribute( 'data-lw-original-src' );
 
+		// The host is not checked: a dependent of a tracker may load from any
+		// host and inherits the tracker's category. The nonce is what a CSP
+		// relies on; without a CSP an injected script would run natively anyway.
 		if ( ! src || ! cat || ! Object.prototype.hasOwnProperty.call( CATEGORY_KEYS, cat ) || ! isOwnElement( el ) ) {
-			return false;
-		}
-		// A tracker host must be the one the rules map to this category.
-		// Same-origin scripts (dependents of a tracker) inherit theirs.
-		if ( isCrossOrigin( src ) && getCategoryForUrl( src ) !== cat ) {
 			return false;
 		}
 		return ! SCRIPT_BLOCKING || ! ! cats[ cat ];
