@@ -168,7 +168,7 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 		return ( new ScriptTagBlocker() )->filter_tag( $this->local_tag( $handle ), $handle, 'https://example.test/wp-content/' . $handle . '.js?ver=1' );
 	}
 
-	public function test_dependent_of_blocked_script_becomes_placeholder_with_held_inline_scripts(): void {
+	public function test_dependent_of_blocked_script_becomes_necessary_placeholder_with_held_inline_scripts(): void {
 		$this->register(
 			[
 				'gt'  => [],
@@ -180,12 +180,27 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 		$out = $this->filter_local( 'dep' );
 
 		$this->assertDoesNotMatchRegularExpression( '/\ssrc=/', $out );
-		$this->assertStringContainsString( 'data-lw-category="analytics"', $out );
+		$this->assertStringContainsString( 'data-lw-category="necessary"', $out );
 		$this->assertStringContainsString( 'data-lw-original-src="https://example.test/wp-content/dep.js?ver=1"', $out );
 		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-translations">', $out );
 		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-before">', $out );
 		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-after">', $out );
 		$this->assertSame( 3, substr_count( $out, 'data-lw-hold' ) );
+	}
+
+	public function test_dependent_with_its_own_tracker_category_keeps_it(): void {
+		$this->register(
+			[
+				'gt'  => [],
+				'fbp' => [ 'gt' ],
+			]
+		);
+		$this->run_filter( $this->tag() );
+
+		$src = 'https://connect.facebook.net/en_US/fbevents.js';
+		$out = ( new ScriptTagBlocker() )->filter_tag( '<script src="' . $src . '" id="fbp-js"></script>', 'fbp', $src );
+
+		$this->assertStringContainsString( 'data-lw-category="marketing"', $out );
 	}
 
 	public function test_handle_without_blocked_deps_is_untouched(): void {
@@ -200,30 +215,21 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 		$this->assertSame( $this->local_tag( 'other' ), $this->filter_local( 'other' ) );
 	}
 
-	public function test_transitive_dependent_becomes_placeholder(): void {
+	public function test_dependent_placeholder_is_a_blocked_dependency_of_its_own_dependents(): void {
 		$this->register(
 			[
-				'gt'    => [],
-				'alias' => [ 'gt' ],
-				'mid'   => [ 'alias' ],
-				'top'   => [ 'mid' ],
+				'gt'  => [],
+				'mid' => [ 'gt' ],
+				'top' => [ 'mid' ],
 			]
 		);
 		$this->run_filter( $this->tag() );
+		$this->filter_local( 'mid' );
 
-		// "alias" has no src (never filtered), so "mid" is found through the registry.
-		$mid = $this->filter_local( 'mid' );
 		$top = $this->filter_local( 'top' );
 
-		$this->assertStringContainsString( 'data-lw-original-src="https://example.test/wp-content/mid.js?ver=1"', $mid );
-		$this->assertStringContainsString( 'data-lw-category="analytics"', $top );
+		$this->assertStringContainsString( 'data-lw-category="necessary"', $top );
 		$this->assertStringContainsString( '<script data-lw-hold="1" id="top-js-after">', $top );
-	}
-
-	public function test_missing_registry_leaves_dependent_untouched(): void {
-		$this->run_filter( $this->tag() );
-
-		$this->assertSame( $this->local_tag( 'dep' ), $this->filter_local( 'dep' ) );
 	}
 
 	public function test_resource_hints_drop_blocked_hosts(): void {

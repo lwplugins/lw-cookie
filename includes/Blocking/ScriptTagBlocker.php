@@ -25,9 +25,10 @@ use LightweightPlugins\Cookie\Options;
  * (preconnect, dns-prefetch, …) for blocked hosts are dropped for the same
  * reason.
  *
- * A script that depends on a blocked one becomes a placeholder too, and the
- * inline scripts of every placeholdered handle are marked data-lw-hold, so
- * guard.js can run them in their printed order once the library has loaded.
+ * A script that depends on a blocked one becomes a placeholder too (category
+ * "necessary" unless its own URL has another), and the inline scripts of every
+ * placeholdered handle are marked data-lw-hold, so guard.js runs them in their
+ * printed order once the scripts before them have loaded.
  */
 final class ScriptTagBlocker {
 
@@ -37,13 +38,6 @@ final class ScriptTagBlocker {
 	 * @var array<int|string, string>|null
 	 */
 	private static ?array $domains = null;
-
-	/**
-	 * Handles printed as placeholders in this request, with their category.
-	 *
-	 * @var array<string, string>
-	 */
-	private static array $placeholders = [];
 
 	/**
 	 * Constructor.
@@ -59,8 +53,8 @@ final class ScriptTagBlocker {
 	 * @return void
 	 */
 	public static function clear_cache(): void {
-		self::$domains      = null;
-		self::$placeholders = [];
+		self::$domains = null;
+		PlaceholderRegistry::clear();
 	}
 
 	/**
@@ -77,12 +71,12 @@ final class ScriptTagBlocker {
 			return $tag;
 		}
 
-		$inherited = $this->blocked_dependency( $handle );
-		$blocked   = null;
+		$has_blocked_dep = null !== PlaceholderRegistry::blocked_dependency( $handle );
+		$blocked         = null;
 
 		$tag = (string) preg_replace_callback(
 			'/<script\b[^>]*>/i',
-			function ( array $m ) use ( $handle, $inherited, &$blocked ): string {
+			function ( array $m ) use ( $handle, $has_blocked_dep, &$blocked ): string {
 				$attrs = self::parse_attributes( $m[0] );
 
 				if ( ! isset( $attrs['src'] ) ) {
@@ -91,13 +85,13 @@ final class ScriptTagBlocker {
 
 				$category = $this->category_for( html_entity_decode( $attrs['src'], ENT_QUOTES ) );
 
-				// A script that needs a blocked one waits with it.
 				if ( null === $category || 'necessary' === $category ) {
-					$category = $inherited;
-				}
-
-				if ( null === $category ) {
-					return $m[0];
+					if ( ! $has_blocked_dep ) {
+						return $m[0];
+					}
+					// Needs a blocked script: placeholdered only to keep the
+					// order; as "necessary" it loads even without consent.
+					$category = 'necessary';
 				}
 
 				if ( ( $attrs['id'] ?? '' ) === $handle . '-js' ) {
@@ -113,7 +107,7 @@ final class ScriptTagBlocker {
 			return $tag;
 		}
 
-		self::$placeholders[ $handle ] = $blocked;
+		PlaceholderRegistry::remember( $handle, $blocked );
 
 		return self::hold_inline_scripts( $tag );
 	}
@@ -140,61 +134,6 @@ final class ScriptTagBlocker {
 			},
 			$tag
 		);
-	}
-
-	/**
-	 * Category of the first placeholdered handle among the transitive deps.
-	 *
-	 * WordPress prints dependencies first, so they are already recorded.
-	 *
-	 * @param string $handle Script handle.
-	 * @return string|null
-	 */
-	private function blocked_dependency( string $handle ): ?string {
-		if ( [] === self::$placeholders ) {
-			return null;
-		}
-
-		$queue = self::deps_of( $handle );
-		$seen  = [];
-
-		while ( [] !== $queue ) {
-			$dep = array_shift( $queue );
-			if ( isset( $seen[ $dep ] ) ) {
-				continue;
-			}
-			$seen[ $dep ] = true;
-
-			if ( isset( self::$placeholders[ $dep ] ) ) {
-				return self::$placeholders[ $dep ];
-			}
-
-			$queue = array_merge( $queue, self::deps_of( $dep ) );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Registered dependencies of a script handle (empty when unknown).
-	 *
-	 * @param string $handle Script handle.
-	 * @return array<int, string>
-	 */
-	private static function deps_of( string $handle ): array {
-		$scripts = $GLOBALS['wp_scripts'] ?? null;
-
-		if ( ! is_object( $scripts ) || ! isset( $scripts->registered ) || ! is_array( $scripts->registered ) ) {
-			return [];
-		}
-
-		$item = $scripts->registered[ $handle ] ?? null;
-
-		if ( ! is_object( $item ) || ! isset( $item->deps ) || ! is_array( $item->deps ) ) {
-			return [];
-		}
-
-		return array_values( array_filter( $item->deps, 'is_string' ) );
 	}
 
 	/**
