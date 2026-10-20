@@ -25,6 +25,32 @@ final class ScriptMarkupTest extends TestCase {
 		$this->assertSame( '<SCRIPT ID="A">var s = "<script id=\"inner\">";</script><SCRIPT ID="B" SRC="X.JS"></script>', $out );
 	}
 
+	public function test_huge_inline_body_is_kept_and_start_tags_still_rewritten(): void {
+		$body = str_repeat( 'var a = "x < y"; ', 66000 ); // About 1.1 MB.
+		$html = '<script id="a">' . $body . '</script><script id="b" src="x.js"></script>';
+
+		$out = ScriptMarkup::map_start_tags( $html, static fn( string $start ): string => '<script data-x="1"' . substr( $start, 7 ) );
+
+		$this->assertSame( '<script data-x="1" id="a">' . $body . '</script><script data-x="1" id="b" src="x.js"></script>', $out );
+	}
+
+	public function test_failed_match_returns_the_markup_unchanged(): void {
+		$html  = '<script id="a">' . str_repeat( 'x', 1000 ) . '</script>';
+		$limit = ini_get( 'pcre.backtrack_limit' );
+		$jit   = ini_get( 'pcre.jit' );
+		ini_set( 'pcre.backtrack_limit', '1' );
+		ini_set( 'pcre.jit', '0' );
+
+		try {
+			$out = ScriptMarkup::map_start_tags( $html, static fn( string $start ): string => 'CHANGED' );
+		} finally {
+			ini_set( 'pcre.backtrack_limit', (string) $limit );
+			ini_set( 'pcre.jit', (string) $jit );
+		}
+
+		$this->assertSame( $html, $out );
+	}
+
 	public function test_attributes_reads_quoted_unquoted_and_boolean_values(): void {
 		$this->assertSame(
 			[

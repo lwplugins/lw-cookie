@@ -427,7 +427,7 @@
 	// Data blocks and modules keep their native timing; only classic
 	// JavaScript is held.
 	function isClassicInline( el ) {
-		var type = ( el.getAttribute( 'type' ) || '' ).toLowerCase();
+		var type = ( el.getAttribute( 'type' ) || '' ).replace( /^\s+|\s+$/g, '' ).toLowerCase();
 		return type === '' || CLASSIC_JS.test( type );
 	}
 

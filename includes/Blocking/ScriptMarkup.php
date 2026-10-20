@@ -18,18 +18,22 @@ final class ScriptMarkup {
 	 * Rewrite the start tag of every top-level <script> element.
 	 *
 	 * Whole elements are matched, so text inside an inline script body (even a
-	 * literal "<script src=…>" string) is never touched.
+	 * literal "<script src=…>" string) is never touched. The body pattern is
+	 * possessive, so a huge inline script cannot exhaust the backtrack limit;
+	 * if matching fails anyway, the markup comes back unchanged.
 	 *
 	 * @param string                   $html     Markup of a handle.
 	 * @param callable(string): string $callback Receives a start tag, returns its replacement.
 	 * @return string
 	 */
 	public static function map_start_tags( string $html, callable $callback ): string {
-		return (string) preg_replace_callback(
-			'/(<script\b[^>]*>)(.*?<\/script\s*>)/is',
+		$out = preg_replace_callback(
+			'/(<script\b[^>]*>)((?:[^<]++|<(?!\/script))*+<\/script\s*>)/i',
 			static fn( array $m ): string => $callback( $m[1] ) . $m[2],
 			$html
 		);
+
+		return null === $out ? $html : $out;
 	}
 
 	/**
