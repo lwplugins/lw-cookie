@@ -294,6 +294,11 @@
 	function processElement( el ) {
 		var tag = el.tagName;
 
+		// Server-rendered placeholders and their after-scripts (see 5c).
+		if ( tag === 'SCRIPT' && handlePlaceholder( el ) ) {
+			return;
+		}
+
 		// Scripts with src (Script Blocking).
 		if ( tag === 'SCRIPT' && SCRIPT_BLOCKING && el.src ) {
 			blockScript( el, el.src );
@@ -388,6 +393,124 @@
 			}
 			return el;
 		};
+	}
+
+	// ── 5c. Server-rendered placeholders ─────────────────────────────
+	// The server prints an enqueued tracker script as an inert placeholder
+	// (type text/plain, URL in data-lw-original-src), so the preload scanner
+	// never fetches it. Once its category is allowed, the placeholder is
+	// swapped for a real script. The handle's inline after-script runs only
+	// after that script has loaded, as it would without the rewrite.
+	var activated = {};
+
+	function isPlaceholderAttr( name ) {
+		return name === 'type' || name.indexOf( 'data-lw-' ) === 0;
+	}
+
+	// Copy the original attributes (all but type and data-lw-*).
+	function copyAttributes( from, to ) {
+		var attrs = from.attributes;
+		var count = attrs.length;
+		for ( var i = 0; i < count; i++ ) {
+			var name = attrs[i].name.toLowerCase();
+			if ( isPlaceholderAttr( name ) ) {
+				continue;
+			}
+			// The browser hides a nonce from getAttribute once it is parsed.
+			var value = name === 'nonce' && from.nonce ? from.nonce : attrs[i].value;
+			setAttr.call( to, attrs[i].name, value );
+		}
+	}
+
+	function handlePlaceholder( el ) {
+		if ( el.hasAttribute( 'data-lw-original-src' ) ) {
+			var cat = el.getAttribute( 'data-lw-category' );
+			if ( ! SCRIPT_BLOCKING || ( cat && cats[ cat ] ) ) {
+				activatePlaceholder( el );
+			}
+			return true;
+		}
+
+		if ( el.hasAttribute( 'data-lw-after' ) ) {
+			var entry = activated[ el.getAttribute( 'data-lw-after' ) ];
+			if ( entry && ! entry.done ) {
+				setAttr.call( el, 'type', 'text/plain' );
+				entry.queue.push( el );
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	function activatePlaceholder( el ) {
+		var parent = el.parentNode;
+		if ( ! parent ) {
+			return;
+		}
+
+		try {
+			var script = nativeCreateElement.call( document, 'script' );
+			var type   = el.getAttribute( 'data-lw-original-type' );
+			var id     = el.getAttribute( 'id' );
+
+			copyAttributes( el, script );
+			if ( type ) {
+				setAttr.call( script, 'type', type );
+			}
+			// A non-async script keeps its place in the order it was printed.
+			script.async = el.hasAttribute( 'async' );
+
+			var entry  = { done: false, queue: [] };
+			var finish = function () {
+				finishActivation( entry );
+			};
+			script.addEventListener( 'load', finish );
+			script.addEventListener( 'error', finish );
+
+			setAttr.call( script, 'src', el.getAttribute( 'data-lw-original-src' ) );
+			parent.insertBefore( script, el );
+			parent.removeChild( el );
+
+			// Registered only once the script is in place, so an after-script
+			// is never held for a script that will not load.
+			if ( id ) {
+				activated[ id ] = entry;
+			}
+		} catch ( e ) {
+			// Leave the placeholder inert; hasBlockedScripts() still counts it.
+		}
+	}
+
+	// Run the after-scripts held back until their script had loaded.
+	function finishActivation( entry ) {
+		if ( entry.done ) {
+			return;
+		}
+		entry.done = true;
+
+		var count = entry.queue.length;
+		for ( var i = 0; i < count; i++ ) {
+			runHeld( entry.queue[i] );
+		}
+		entry.queue = [];
+	}
+
+	function runHeld( el ) {
+		var parent = el.parentNode;
+		if ( ! parent ) {
+			return;
+		}
+
+		try {
+			var script = nativeCreateElement.call( document, 'script' );
+			copyAttributes( el, script );
+			script.text = el.textContent;
+			parent.insertBefore( script, el );
+			parent.removeChild( el );
+		} catch ( e ) {
+			// Never let a held script take the guard down.
+		}
 	}
 
 	// ── 5a. Blocked-iframe placeholder ───────────────────────────────
