@@ -14,6 +14,16 @@
 
 	var cfg = window.__lwGuardCfg || {};
 
+	// The guard's own nonce (read now: currentScript is set only while this
+	// runs). Server-rendered placeholders must carry it (see 5c).
+	var GUARD_NONCE = '';
+	try {
+		var current = document.currentScript;
+		GUARD_NONCE = current ? ( current.nonce || current.getAttribute( 'nonce' ) || '' ) : '';
+	} catch ( e ) {
+		GUARD_NONCE = '';
+	}
+
 	var COOKIE_NAME    = cfg.cookieName || 'lw_cookie_consent';
 	var POLICY_VERSION = cfg.policyVersion || '1.0';
 	var DOMAINS        = cfg.domains || {};
@@ -294,7 +304,7 @@
 	function processElement( el ) {
 		var tag = el.tagName;
 
-		// Server-rendered placeholders and their after-scripts (see 5c).
+		// Server-rendered placeholders and held inline scripts (see 5c).
 		if ( tag === 'SCRIPT' && handlePlaceholder( el ) ) {
 			return;
 		}
@@ -396,12 +406,49 @@
 	}
 
 	// ── 5c. Server-rendered placeholders ─────────────────────────────
-	// The server prints an enqueued tracker script as an inert placeholder
-	// (type text/plain, URL in data-lw-original-src), so the preload scanner
-	// never fetches it. Once its category is allowed, the placeholder is
-	// swapped for a real script. The handle's inline after-script runs only
-	// after that script has loaded, as it would without the rewrite.
-	var activated = {};
+	// The server prints an enqueued tracker script (and every script that
+	// depends on it) as an inert placeholder: type text/plain, URL in
+	// data-lw-original-src, so the preload scanner never fetches it. Once its
+	// category is allowed, the placeholders are loaded one after another, in
+	// the printed order. Inline scripts of those handles (data-lw-hold) that
+	// come while the chain is still loading wait their turn in it; with an
+	// idle chain they run where they are, as without the rewrite.
+	var CATEGORY_KEYS = { necessary: true, functional: true, analytics: true, marketing: true };
+	var chain         = [];
+	var chainBusy     = false;
+
+	function nonceOf( el ) {
+		return el.nonce || el.getAttribute( 'nonce' ) || '';
+	}
+
+	// Only the server's own markup is run: with a nonce on the guard, the
+	// element must carry the same one (an injected tag cannot know it).
+	function isOwnElement( el ) {
+		return ! GUARD_NONCE || nonceOf( el ) === GUARD_NONCE;
+	}
+
+	function isCrossOrigin( url ) {
+		try {
+			return new URL( url, location.href ).origin !== location.origin;
+		} catch ( e ) {
+			return true;
+		}
+	}
+
+	function isAllowedPlaceholder( el ) {
+		var cat = el.getAttribute( 'data-lw-category' );
+		var src = el.getAttribute( 'data-lw-original-src' );
+
+		if ( ! src || ! cat || ! Object.prototype.hasOwnProperty.call( CATEGORY_KEYS, cat ) || ! isOwnElement( el ) ) {
+			return false;
+		}
+		// A tracker host must be the one the rules map to this category.
+		// Same-origin scripts (dependents of a tracker) inherit theirs.
+		if ( isCrossOrigin( src ) && getCategoryForUrl( src ) !== cat ) {
+			return false;
+		}
+		return ! SCRIPT_BLOCKING || ! ! cats[ cat ];
+	}
 
 	function isPlaceholderAttr( name ) {
 		return name === 'type' || name.indexOf( 'data-lw-' ) === 0;
@@ -417,25 +464,24 @@
 				continue;
 			}
 			// The browser hides a nonce from getAttribute once it is parsed.
-			var value = name === 'nonce' && from.nonce ? from.nonce : attrs[i].value;
+			var value = name === 'nonce' ? nonceOf( from ) : attrs[i].value;
 			setAttr.call( to, attrs[i].name, value );
 		}
 	}
 
 	function handlePlaceholder( el ) {
 		if ( el.hasAttribute( 'data-lw-original-src' ) ) {
-			var cat = el.getAttribute( 'data-lw-category' );
-			if ( ! SCRIPT_BLOCKING || ( cat && cats[ cat ] ) ) {
-				activatePlaceholder( el );
+			if ( isAllowedPlaceholder( el ) ) {
+				chain.push( { kind: 'src', el: el } );
+				pumpChain();
 			}
 			return true;
 		}
 
-		if ( el.hasAttribute( 'data-lw-after' ) ) {
-			var entry = activated[ el.getAttribute( 'data-lw-after' ) ];
-			if ( entry && ! entry.done ) {
+		if ( el.hasAttribute( 'data-lw-hold' ) && ! el.hasAttribute( 'src' ) ) {
+			if ( ( chainBusy || chain.length ) && isOwnElement( el ) ) {
 				setAttr.call( el, 'type', 'text/plain' );
-				entry.queue.push( el );
+				chain.push( { kind: 'inline', el: el } );
 			}
 			return true;
 		}
@@ -443,57 +489,69 @@
 		return false;
 	}
 
-	function activatePlaceholder( el ) {
+	function pumpChain() {
+		var item = chainBusy ? null : chain.shift();
+		while ( item ) {
+			if ( item.kind === 'src' ) {
+				chainBusy = startScript( item.el );
+			} else {
+				runHeld( item.el );
+			}
+			item = chainBusy ? null : chain.shift();
+		}
+	}
+
+	// A script the browser will not run fires neither load nor error, so the
+	// chain must not wait for it.
+	function willRun( script ) {
+		var type = ( script.getAttribute( 'type' ) || '' ).toLowerCase();
+		if ( script.hasAttribute( 'nomodule' ) && 'noModule' in script ) {
+			return false;
+		}
+		return type === '' || type === 'module' || /(java|ecma)script$/.test( type );
+	}
+
+	// Swap a placeholder for the real script. Returns whether the chain has
+	// to wait for it to load.
+	function startScript( el ) {
 		var parent = el.parentNode;
 		if ( ! parent ) {
-			return;
+			return false;
 		}
 
 		try {
 			var script = nativeCreateElement.call( document, 'script' );
 			var type   = el.getAttribute( 'data-lw-original-type' );
-			var id     = el.getAttribute( 'id' );
+			var done   = false;
 
 			copyAttributes( el, script );
 			if ( type ) {
 				setAttr.call( script, 'type', type );
 			}
-			// A non-async script keeps its place in the order it was printed.
 			script.async = el.hasAttribute( 'async' );
 
-			var entry  = { done: false, queue: [] };
+			var wait   = willRun( script );
 			var finish = function () {
-				finishActivation( entry );
+				if ( done ) {
+					return;
+				}
+				done      = true;
+				chainBusy = false;
+				pumpChain();
 			};
-			script.addEventListener( 'load', finish );
-			script.addEventListener( 'error', finish );
+			if ( wait ) {
+				script.addEventListener( 'load', finish );
+				script.addEventListener( 'error', finish );
+			}
 
 			setAttr.call( script, 'src', el.getAttribute( 'data-lw-original-src' ) );
 			parent.insertBefore( script, el );
 			parent.removeChild( el );
-
-			// Registered only once the script is in place, so an after-script
-			// is never held for a script that will not load.
-			if ( id ) {
-				activated[ id ] = entry;
-			}
+			return wait;
 		} catch ( e ) {
 			// Leave the placeholder inert; hasBlockedScripts() still counts it.
+			return false;
 		}
-	}
-
-	// Run the after-scripts held back until their script had loaded.
-	function finishActivation( entry ) {
-		if ( entry.done ) {
-			return;
-		}
-		entry.done = true;
-
-		var count = entry.queue.length;
-		for ( var i = 0; i < count; i++ ) {
-			runHeld( entry.queue[i] );
-		}
-		entry.queue = [];
 	}
 
 	function runHeld( el ) {

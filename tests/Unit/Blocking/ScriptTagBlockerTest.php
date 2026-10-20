@@ -40,6 +40,7 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 
 	protected function tearDown(): void {
 		$this->set_printed( false );
+		unset( $GLOBALS['wp_scripts'] );
 		ScriptTagBlocker::clear_cache();
 		Options::clear_cache();
 		parent::tearDown();
@@ -77,8 +78,8 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 		$this->assertStringContainsString( 'data-lw-category="analytics"', $out );
 		$this->assertStringContainsString( 'id="gt-js"', $out );
 		$this->assertStringContainsString( 'async', $out );
-		$this->assertStringContainsString( '<script id="gt-js-before">window.dataLayer=window.dataLayer||[];</script>', $out );
-		$this->assertStringContainsString( 'data-lw-after="gt-js"', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="gt-js-before">window.dataLayer=window.dataLayer||[];</script>', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="gt-js-after">gtag("config","G-1");</script>', $out );
 	}
 
 	public function test_encoded_src_round_trips(): void {
@@ -143,6 +144,86 @@ final class ScriptTagBlockerTest extends MonkeyTestCase {
 
 		$tag = $this->tag( 'async', $src );
 		$this->assertSame( $tag, $this->run_filter( $tag, $src ) );
+	}
+
+	/**
+	 * @param array<string, array<int, string>> $deps Handle → registered deps.
+	 */
+	private function register( array $deps ): void {
+		$registered = [];
+		foreach ( $deps as $handle => $list ) {
+			$registered[ $handle ] = (object) [ 'deps' => $list ];
+		}
+		$GLOBALS['wp_scripts'] = (object) [ 'registered' => $registered ];
+	}
+
+	private function local_tag( string $handle ): string {
+		return '<script id="' . $handle . '-js-translations">wp.i18n.setLocaleData({});</script>' . "\n"
+			. '<script id="' . $handle . '-js-before">var cfg = 1;</script>' . "\n"
+			. '<script src="https://example.test/wp-content/' . $handle . '.js?ver=1" id="' . $handle . '-js"></script>' . "\n"
+			. '<script id="' . $handle . '-js-after">init();</script>' . "\n";
+	}
+
+	private function filter_local( string $handle ): string {
+		return ( new ScriptTagBlocker() )->filter_tag( $this->local_tag( $handle ), $handle, 'https://example.test/wp-content/' . $handle . '.js?ver=1' );
+	}
+
+	public function test_dependent_of_blocked_script_becomes_placeholder_with_held_inline_scripts(): void {
+		$this->register(
+			[
+				'gt'  => [],
+				'dep' => [ 'jquery', 'gt' ],
+			]
+		);
+		$this->run_filter( $this->tag() );
+
+		$out = $this->filter_local( 'dep' );
+
+		$this->assertDoesNotMatchRegularExpression( '/\ssrc=/', $out );
+		$this->assertStringContainsString( 'data-lw-category="analytics"', $out );
+		$this->assertStringContainsString( 'data-lw-original-src="https://example.test/wp-content/dep.js?ver=1"', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-translations">', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-before">', $out );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="dep-js-after">', $out );
+		$this->assertSame( 3, substr_count( $out, 'data-lw-hold' ) );
+	}
+
+	public function test_handle_without_blocked_deps_is_untouched(): void {
+		$this->register(
+			[
+				'gt'    => [],
+				'other' => [ 'jquery' ],
+			]
+		);
+		$this->run_filter( $this->tag() );
+
+		$this->assertSame( $this->local_tag( 'other' ), $this->filter_local( 'other' ) );
+	}
+
+	public function test_transitive_dependent_becomes_placeholder(): void {
+		$this->register(
+			[
+				'gt'    => [],
+				'alias' => [ 'gt' ],
+				'mid'   => [ 'alias' ],
+				'top'   => [ 'mid' ],
+			]
+		);
+		$this->run_filter( $this->tag() );
+
+		// "alias" has no src (never filtered), so "mid" is found through the registry.
+		$mid = $this->filter_local( 'mid' );
+		$top = $this->filter_local( 'top' );
+
+		$this->assertStringContainsString( 'data-lw-original-src="https://example.test/wp-content/mid.js?ver=1"', $mid );
+		$this->assertStringContainsString( 'data-lw-category="analytics"', $top );
+		$this->assertStringContainsString( '<script data-lw-hold="1" id="top-js-after">', $top );
+	}
+
+	public function test_missing_registry_leaves_dependent_untouched(): void {
+		$this->run_filter( $this->tag() );
+
+		$this->assertSame( $this->local_tag( 'dep' ), $this->filter_local( 'dep' ) );
 	}
 
 	public function test_resource_hints_drop_blocked_hosts(): void {
