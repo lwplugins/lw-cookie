@@ -63,6 +63,10 @@ final class ScannerTest extends MonkeyTestCase {
 		);
 	}
 
+	public function test_gads_is_guessed_as_marketing_like_the_guard_does(): void {
+		$this->assertSame( 'marketing', Scanner::enrich_cookies( [ '_gads' ] )[0]['category'] );
+	}
+
 	public function test_other_session_cookies_stay_necessary(): void {
 		$this->assertSame( 'necessary', Scanner::enrich_cookies( [ 'wp_woocommerce_session_1a2b' ] )[0]['category'] );
 	}

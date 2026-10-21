@@ -429,11 +429,11 @@ class Scanner {
 	private static function guess_category( string $name ): string {
 		$name_lower = strtolower( $name );
 
-		if ( str_starts_with( $name_lower, '_ga' ) || str_starts_with( $name_lower, '_gid' ) || str_starts_with( $name_lower, '_hj' ) ) {
+		if ( ( '_gads' !== $name_lower && str_starts_with( $name_lower, '_ga' ) ) || str_starts_with( $name_lower, '_gid' ) || str_starts_with( $name_lower, '_hj' ) ) {
 			return 'analytics';
 		}
 		// sbjs_: WooCommerce Order Attribution — before the "session" check, as sbjs_session is a tracker too.
-		if ( str_starts_with( $name_lower, '_fb' ) || str_starts_with( $name_lower, '_gcl' ) || 'fr' === $name_lower || str_starts_with( $name_lower, 'sbjs_' ) ) {
+		if ( str_starts_with( $name_lower, '_fb' ) || str_starts_with( $name_lower, '_gcl' ) || 'fr' === $name_lower || '_gads' === $name_lower || str_starts_with( $name_lower, 'sbjs_' ) ) {
 			return 'marketing';
 		}
 		if ( str_starts_with( $name_lower, 'wordpress_' ) || str_starts_with( $name_lower, 'wp-' ) || str_contains( $name_lower, 'session' ) ) {

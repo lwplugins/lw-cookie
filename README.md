@@ -198,7 +198,10 @@ $analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytic
 A plugin that sets cookies can register them with `lw_cookie_known_cookies`:
 
 ```php
-add_filter( 'lw_cookie_known_cookies', static function ( array $cookies ): array {
+add_filter( 'lw_cookie_known_cookies', static function ( $cookies ): array {
+	if ( ! is_array( $cookies ) ) {
+		$cookies = [];
+	}
 	$cookies[] = [
 		'name'     => 'myplugin_v',
 		'provider' => 'My Plugin',
@@ -216,7 +219,7 @@ add_filter( 'lw_cookie_known_cookies', static function ( array $cookies ): array
 - **`provider`**, **`purpose`** and **`duration`** are optional text (empty when missing). **`type`** is `session` or `persistent` (default `persistent`).
 - Registered cookies appear in the cookie declaration and the scanner (marked "Registered by a plugin"), and the cookie guard handles them by their category.
 - A cookie registered as `necessary` is never blocked, even if a manual entry in Declared cookies puts it in another category. Otherwise manual entries keep priority.
-- Invalid entries (unknown category, `*` in the middle of the name, a prefix shorter than 2 characters, missing name) are dropped with a `_doing_it_wrong` notice.
+- Invalid entries (unknown category, `*` in the middle of the name, a prefix stem shorter than 2 characters (before the trailing `_` or `*`), missing name) are dropped with a `_doing_it_wrong` notice.
 - Registered cookies are also listed under `registered_cookies` in the Site Manager get-options ability.
 
 ## Integrating Custom Embeds

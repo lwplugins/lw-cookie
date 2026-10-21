@@ -124,7 +124,24 @@ final class RegisteredCookies {
 	 * @return array<string, string>
 	 */
 	public static function guard_map( array $builtin ): array {
-		foreach ( self::all() as $entry ) {
+		$entries = self::all();
+		$stems   = [];
+
+		foreach ( $entries as $entry ) {
+			$stems[ (string) CookiePattern::stem( $entry['name'] ) ] = true;
+		}
+
+		// A registered prefix replaces a built-in key with the same stem, so
+		// the registered category wins the tie in the guard ("_ga_*" vs "_ga_").
+		foreach ( array_keys( $builtin ) as $key ) {
+			$stem = CookiePattern::stem( (string) $key );
+
+			if ( null !== $stem && isset( $stems[ $stem ] ) ) {
+				unset( $builtin[ $key ] );
+			}
+		}
+
+		foreach ( $entries as $entry ) {
 			$builtin[ $entry['name'] ] = $entry['category'];
 		}
 

@@ -59,9 +59,10 @@ final class CookieAbilities {
 				'output_schema'       => [
 					'type'       => 'object',
 					'properties' => [
-						'success'       => [ 'type' => 'boolean' ],
-						'options'       => [ 'type' => 'object' ],
-						'writable_keys' => [ 'type' => 'array' ],
+						'success'            => [ 'type' => 'boolean' ],
+						'options'            => [ 'type' => 'object' ],
+						'writable_keys'      => [ 'type' => 'array' ],
+						'registered_cookies' => [ 'type' => 'array' ],
 					],
 				],
 				'meta'                => self::readonly_meta(),

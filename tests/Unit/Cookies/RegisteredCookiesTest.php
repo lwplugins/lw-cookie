@@ -206,6 +206,18 @@ final class RegisteredCookiesTest extends MonkeyTestCase {
 		);
 	}
 
+	public function test_guard_map_registered_prefix_replaces_builtin_key_with_the_same_stem(): void {
+		$this->register( [ $this->entry( '_ga_*' ) ] );
+
+		$this->assertSame(
+			[
+				'fr'    => 'marketing',
+				'_ga_*' => 'necessary',
+			],
+			RegisteredCookies::guard_map( [ '_ga_' => 'analytics', 'fr' => 'marketing' ] )
+		);
+	}
+
 	public function test_merge_into_tolerates_incomplete_manual_rows(): void {
 		$this->register( [ $this->entry( 'lwfw_v' ) ] );
 
