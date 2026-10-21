@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\I18n;
 
+use LightweightPlugins\Cookie\Cookies\RegisteredCookies;
 use LightweightPlugins\Cookie\Options;
 
 /**
@@ -175,6 +176,8 @@ final class Strings {
 		if ( ! is_array( $cookies ) ) {
 			return $grouped;
 		}
+
+		$cookies = RegisteredCookies::merge_into( $cookies );
 
 		foreach ( $cookies as $cookie ) {
 			if ( empty( $cookie['name'] ) ) {

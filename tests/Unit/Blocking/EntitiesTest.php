@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Tests\Unit\Blocking;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use LightweightPlugins\Cookie\Blocking\Entities;
 use LightweightPlugins\Cookie\Cookies\CookiePattern;
@@ -192,5 +193,33 @@ final class EntitiesTest extends MonkeyTestCase {
 		foreach ( array_keys( $cookies ) as $key ) {
 			$this->assertTrue( CookiePattern::is_valid( (string) $key ), (string) $key );
 		}
+	}
+
+	/**
+	 * Register one cookie through the filter.
+	 *
+	 * @param string $name     Cookie name.
+	 * @param string $category Category.
+	 */
+	private function register_cookie( string $name, string $category ): void {
+		Functions\when( 'sanitize_text_field' )->returnArg();
+		Filters\expectApplied( 'lw_cookie_known_cookies' )->zeroOrMoreTimes()->andReturn(
+			[
+				[
+					'name'     => $name,
+					'provider' => 'LW Firewall',
+					'purpose'  => 'Plugin',
+					'duration' => '1 year',
+					'category' => $category,
+					'type'     => 'persistent',
+				],
+			]
+		);
+	}
+
+	public function test_registered_necessary_cookie_is_in_the_guard_config(): void {
+		$this->register_cookie( 'lwfw_v', 'necessary' );
+
+		$this->assertSame( 'necessary', Entities::get_js_config()['cookies']['lwfw_v'] );
 	}
 }

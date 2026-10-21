@@ -25,6 +25,21 @@ use LightweightPlugins\Cookie\Consent\Manager;
  *
  * // Check if specific category is allowed
  * $analytics_allowed = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
+ *
+ * // Register your plugin's cookies: they join the declaration, the scanner and
+ * // the cookie guard (a 'necessary' entry is never blocked). A trailing '_' or
+ * // '*' makes the name a prefix.
+ * add_filter( 'lw_cookie_known_cookies', static function ( array $cookies ): array {
+ *     $cookies[] = [
+ *         'name'     => 'myplugin_v',
+ *         'provider' => 'My Plugin',
+ *         'purpose'  => 'Remembers the visitor.',
+ *         'duration' => '1 year',
+ *         'category' => 'necessary', // necessary|functional|analytics|marketing
+ *         'type'     => 'persistent', // session|persistent
+ *     ];
+ *     return $cookies;
+ * } );
  */
 final class Hooks {
 

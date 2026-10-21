@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-10-02T09:34:23+00:00\n"
+"POT-Creation-Date: 2026-10-21T12:05:52+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Generator: Codex\n"
 
 #. Plugin Name of the plugin
-#: lw-cookie.php includes/Admin/SettingsPage.php:130
+#: lw-cookie.php includes/Admin/SettingsPage.php:136
 msgid "LW Cookie"
 msgstr "LW Cookie"
 
@@ -171,7 +171,7 @@ msgid "Blocked Embed Message"
 msgstr "Blokkolt beágyazás üzenete"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:52
-#: includes/Blocking/GuardScript.php:88
+#: includes/Blocking/GuardScript.php:111
 msgid "This content is blocked until you accept the required cookies."
 msgstr "Ez a tartalom blokkolva van, amíg el nem fogadod a szükséges sütiket."
 
@@ -188,7 +188,7 @@ msgid "Blocked Embed Button"
 msgstr "Blokkolt beágyazás gombja"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:58
-#: includes/Blocking/GuardScript.php:92
+#: includes/Blocking/GuardScript.php:115
 msgid "Accept & load content"
 msgstr "Elfogadom és betöltöm"
 
@@ -252,7 +252,7 @@ msgid "Cookie Column Header"
 msgstr "Cookie oszlop fejléce"
 
 #: includes/Admin/Settings/TextFieldDefinitions.php:134
-#: includes/Admin/SettingsPage.php:62 includes/Banner/Renderer.php:173
+#: includes/Admin/SettingsPage.php:68 includes/Banner/Renderer.php:173
 #: includes/Shortcodes/CookieDeclaration.php:82
 msgid "Cookie"
 msgstr "Cookie"
@@ -318,11 +318,11 @@ msgstr "Összes törlése gomb"
 msgid "Delete All Cookies"
 msgstr "Minden cookie törlése"
 
-#: includes/Admin/SettingsPage.php:61 includes/SiteManager/Integration.php:38
+#: includes/Admin/SettingsPage.php:67 includes/SiteManager/Integration.php:38
 msgid "Cookie Consent"
 msgstr "Cookie-hozzájárulás"
 
-#: includes/Admin/SettingsPage.php:131
+#: includes/Admin/SettingsPage.php:137
 msgid ""
 "The settings screen files are missing. Re-install the plugin from a release "
 "ZIP, or run \"npm install && npm run build\" in the plugin directory."
@@ -347,65 +347,65 @@ msgid_plural "Show %d cookies"
 msgstr[0] "%d cookie megjelenítése"
 msgstr[1] "%d cookie megjelenítése"
 
-#: includes/I18n/Strings.php:95
+#: includes/I18n/Strings.php:96
 msgid "We value your privacy"
 msgstr "Tiszteletben tartjuk a magánszféráját"
 
-#: includes/I18n/Strings.php:96
+#: includes/I18n/Strings.php:97
 msgid ""
 "We use cookies to enhance your browsing experience and analyze our traffic."
 msgstr ""
 "Sütiket használunk a böngészési élmény javítására és a forgalom elemzésére."
 
-#: includes/I18n/Strings.php:97 build/index.js:5
+#: includes/I18n/Strings.php:98 build/index.js:5
 msgid "Accept All"
 msgstr "Összes elfogadása"
 
-#: includes/I18n/Strings.php:98 build/index.js:5
+#: includes/I18n/Strings.php:99 build/index.js:5
 msgid "Reject All"
 msgstr "Összes elutasítása"
 
-#: includes/I18n/Strings.php:99 build/index.js:5
+#: includes/I18n/Strings.php:100 build/index.js:5
 msgid "Customize"
 msgstr "Testreszabás"
 
-#: includes/I18n/Strings.php:100
+#: includes/I18n/Strings.php:101
 msgid "Save Preferences"
 msgstr "Beállítások mentése"
 
-#: includes/I18n/Strings.php:101 includes/Rest/Admin/SettingsMeta.php:86
+#: includes/I18n/Strings.php:102 includes/Rest/Admin/SettingsMeta.php:86
 msgid "Necessary"
 msgstr "Szükséges"
 
-#: includes/I18n/Strings.php:102
+#: includes/I18n/Strings.php:103
 msgid "Essential cookies required for the website to function."
 msgstr "A weboldal működéséhez szükséges alapvető cookie-k."
 
-#: includes/I18n/Strings.php:103 includes/Rest/Admin/SettingsMeta.php:87
+#: includes/I18n/Strings.php:104 includes/Rest/Admin/SettingsMeta.php:87
 msgid "Functional"
 msgstr "Funkcionális"
 
-#: includes/I18n/Strings.php:104
+#: includes/I18n/Strings.php:105
 msgid "These cookies enable enhanced functionality and personalization."
 msgstr ""
 "Ezek a sütik bővített funkciókat és személyre szabást tesznek lehetővé."
 
-#: includes/I18n/Strings.php:105 includes/Rest/Admin/SettingsMeta.php:88
+#: includes/I18n/Strings.php:106 includes/Rest/Admin/SettingsMeta.php:88
 msgid "Analytics"
 msgstr "Analitika"
 
-#: includes/I18n/Strings.php:106
+#: includes/I18n/Strings.php:107
 msgid ""
 "These cookies help us understand how visitors interact with our website."
 msgstr ""
 "Ezek a sütik segítenek megérteni, hogyan használják a látogatók a "
 "weboldalunkat."
 
-#: includes/I18n/Strings.php:107 includes/Rest/Admin/SettingsMeta.php:89
+#: includes/I18n/Strings.php:108 includes/Rest/Admin/SettingsMeta.php:89
 msgid "Marketing"
 msgstr "Marketing"
 
-#: includes/I18n/Strings.php:108
+#: includes/I18n/Strings.php:109
 msgid "These cookies are used to deliver relevant advertisements."
 msgstr "Ezeket a sütiket releváns hirdetések megjelenítésére használjuk."
 
@@ -463,8 +463,8 @@ msgid ""
 "are listed in \"rejected\" with the reason."
 msgstr ""
 "Az LW Cookie hozzájárulási beállításainak frissítése. Az értékeket ugyanúgy "
-"ellenőrzi és tisztítja, mint a beállítások oldal; az érvénytelen, ismeretlen"
-" vagy zárolt kulcsokat nem menti, hanem indoklással a \"rejected\" listában "
+"ellenőrzi és tisztítja, mint a beállítások oldal; az érvénytelen, ismeretlen "
+"vagy zárolt kulcsokat nem menti, hanem indoklással a \"rejected\" listában "
 "adja vissza."
 
 #: includes/SiteManager/CookieAbilities.php:85
@@ -497,56 +497,56 @@ msgstr "Cookie-k keresése"
 #: includes/SiteManager/CookieAbilities.php:154
 msgid "Trigger an HTTP header pre-scan to detect cookies across site URLs."
 msgstr ""
-"HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei"
-" között."
+"HTTP-fejléc előszkennelés indítása a cookie-k észleléséhez a webhely URL-jei "
+"között."
 
-#: includes/SiteManager/CookieService.php:51
+#: includes/SiteManager/CookieService.php:53
 msgid "Provide an options object with at least one key."
 msgstr "Adj meg egy beállítások objektumot legalább egy kulccsal."
 
 #. translators: %s: list of "key: reason" pairs
-#: includes/SiteManager/CookieService.php:68
+#: includes/SiteManager/CookieService.php:70
 #, php-format
 msgid "No option was updated. %s"
 msgstr "Egy beállítás sem frissült. %s"
 
 #. translators: 1: number of options updated, 2: number of options rejected
-#: includes/SiteManager/CookieService.php:82
+#: includes/SiteManager/CookieService.php:84
 #, php-format
 msgid "%1$d option(s) updated, %2$d rejected."
 msgstr "%1$d beállítás frissült, %2$d elutasítva."
 
-#: includes/SiteManager/CookieService.php:102
+#: includes/SiteManager/CookieService.php:104
 msgid "Unknown setting, or not writable through automation."
 msgstr "Ismeretlen beállítás, vagy automatizálással nem írható."
 
-#: includes/SiteManager/CookieService.php:104
+#: includes/SiteManager/CookieService.php:106
 msgid "Managed by the active multilingual plugin; translate it there."
 msgstr "Az aktív többnyelvű bővítmény kezeli; ott fordítsd."
 
-#: includes/SiteManager/CookieService.php:106
+#: includes/SiteManager/CookieService.php:108
 msgid "Must be true or false."
 msgstr "Csak true vagy false lehet."
 
-#: includes/SiteManager/CookieService.php:108
+#: includes/SiteManager/CookieService.php:110
 msgid "Must be a whole number."
 msgstr "Egész számnak kell lennie."
 
-#: includes/SiteManager/CookieService.php:110
+#: includes/SiteManager/CookieService.php:112
 msgid "Must be a list of cookie rows."
 msgstr "Sütisorok listájának kell lennie."
 
 #. translators: %s: comma-separated list of allowed values
-#: includes/SiteManager/CookieService.php:113
+#: includes/SiteManager/CookieService.php:115
 #, php-format
 msgid "Must be one of: %s."
 msgstr "Ezek egyike lehet: %s."
 
-#: includes/SiteManager/CookieService.php:115
+#: includes/SiteManager/CookieService.php:117
 msgid "Must be a hex colour such as #2271b1."
 msgstr "Hexa színkódnak kell lennie, például #2271b1."
 
-#: includes/SiteManager/CookieService.php:117
+#: includes/SiteManager/CookieService.php:119
 msgid "Must be a text value."
 msgstr "Szöveges értéknek kell lennie."
 
@@ -560,8 +560,7 @@ msgid ""
 "directory, or re-install the plugin from a release ZIP."
 msgstr ""
 "Az autoloader nem található. Futtasd a \"composer install\" parancsot a "
-"bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-"
-"ből."
+"bővítmény könyvtárában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
 
 #: assets/hub/index.js:1
 msgid "All LW plugins on GitHub"
@@ -800,8 +799,8 @@ msgid ""
 "cookies. Cookies you already declared are kept."
 msgstr ""
 "Az adatbázisban Complianz-beállításokat találtunk. Importáld a sáv "
-"szövegeit, színeit, pozícióját, a hozzájárulás időtartamát, a Google Consent"
-" Mode beállítást és a nyilatkozatban szereplő cookie-kat. A már felvett "
+"szövegeit, színeit, pozícióját, a hozzájárulás időtartamát, a Google Consent "
+"Mode beállítást és a nyilatkozatban szereplő cookie-kat. A már felvett "
 "cookie-k megmaradnak."
 
 #. translators: %d: number of changes
@@ -1023,8 +1022,7 @@ msgid_plural "%d external fonts"
 msgstr[0] "%d külső betűtípus"
 msgstr[1] "%d külső betűtípus"
 
-#. translators: %s: comma-separated counts, e.g. "3 new cookies, 1 external
-#. domain".
+#. translators: %s: comma-separated counts, e.g. "3 new cookies, 1 external domain".
 #: build/index.js:11
 msgid "%s found."
 msgstr "Találat: %s."
@@ -1032,6 +1030,10 @@ msgstr "Találat: %s."
 #: build/index.js:11
 msgid "Unknown"
 msgstr "Ismeretlen"
+
+#: build/index.js:11
+msgid "Registered by a plugin"
+msgstr "Egy bővítmény regisztrálta"
 
 #: build/index.js:11
 msgid "Already added"
@@ -1134,8 +1136,7 @@ msgid "Policy Version"
 msgstr "Irányelv verziója"
 
 #: build/index.js:12
-msgid ""
-"Change this when you update your privacy policy to request new consent."
+msgid "Change this when you update your privacy policy to request new consent."
 msgstr ""
 "Változtasd meg, amikor frissíted az adatvédelmi irányelveket, hogy új "
 "hozzájárulást kérj."
@@ -1280,8 +1281,7 @@ msgstr "Jobb alsó"
 msgid ""
 "Customize the names and descriptions of cookie categories shown to users."
 msgstr ""
-"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és "
-"leírását."
+"Szabd testre a felhasználóknak megjelenő cookie-kategóriák nevét és leírását."
 
 #: build/index.js:12
 msgid "Necessary Cookies"
@@ -1324,8 +1324,8 @@ msgid ""
 "Customize all user-facing text. Leave a field empty to use the built-in "
 "default for the current site language."
 msgstr ""
-"Az összes látogatói szöveg testreszabása. Hagyd üresen a mezőt, ha a webhely"
-" nyelvének beépített alapszövegét szeretnéd."
+"Az összes látogatói szöveg testreszabása. Hagyd üresen a mezőt, ha a webhely "
+"nyelvének beépített alapszövegét szeretnéd."
 
 #. translators: %d: number of cookies added to the list.
 #: build/index.js:13
@@ -1470,8 +1470,7 @@ msgstr[1] "%d kijelölve"
 msgid "%1$d selected, %2$d on this page"
 msgstr "%1$d kijelölve, ebből %2$d ezen az oldalon"
 
-#. translators: 1: cookies the action applies to, 2: selected cookies on this
-#. page.
+#. translators: 1: cookies the action applies to, 2: selected cookies on this page.
 #: build/index.js:17
 msgid "applies to %1$d of %2$d"
 msgstr "%2$d közül %1$d elemre vonatkozik"
@@ -1486,8 +1485,7 @@ msgstr "Shortcode"
 
 #: build/index.js:17
 msgid "Use this shortcode to display the cookie list on any page."
-msgstr ""
-"Ezzel a shortcode-dal bármely oldalon megjelenítheted a cookie-listát."
+msgstr "Ezzel a shortcode-dal bármely oldalon megjelenítheted a cookie-listát."
 
 #: build/index.js:17
 msgid "Consent"
@@ -1516,12 +1514,12 @@ msgstr "Bejelentkezett felhasználók"
 
 #: build/index.js:17
 msgid ""
-"Do not show the consent banner to logged-in users — e.g. so it never pops up"
-" for administrators while they work. The banner is always hidden inside "
-"page-builder editors (Bricks, Elementor)."
+"Do not show the consent banner to logged-in users — e.g. so it never pops up "
+"for administrators while they work. The banner is always hidden inside page-"
+"builder editors (Bricks, Elementor)."
 msgstr ""
-"A bejelentkezett felhasználók ne lássák a hozzájárulási sávot — például hogy"
-" munka közben ne ugorjon fel az adminisztrátoroknak. Oldalépítő "
+"A bejelentkezett felhasználók ne lássák a hozzájárulási sávot — például hogy "
+"munka közben ne ugorjon fel az adminisztrátoroknak. Oldalépítő "
 "szerkesztőkben (Bricks, Elementor) a sáv mindig rejtve van."
 
 #: build/index.js:17
@@ -1578,8 +1576,8 @@ msgstr "youtube-nocookie.com beágyazások betöltése hozzájárulás nélkül"
 
 #: build/index.js:17
 msgid ""
-"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce"
-" tracking, but it is not consent-free: loading the player still sends the "
+"YouTube's Privacy Enhanced Mode (youtube-nocookie.com) is designed to reduce "
+"tracking, but it is not consent-free: loading the player still sends the "
 "visitor's IP address and browser data to Google. Turn this on only if your "
 "privacy policy covers it. Videos embedded from youtube.com stay blocked "
 "until consent."

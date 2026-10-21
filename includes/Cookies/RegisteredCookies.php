@@ -93,8 +93,8 @@ final class RegisteredCookies {
 	 * A manual row wins, except that a registered "necessary" category is
 	 * kept so the declaration matches what the guard lets through.
 	 *
-	 * @param array<int, Entry> $declared Manual rows.
-	 * @return array<int, Entry>
+	 * @param array<int|string, mixed> $declared Manual rows (stored data, so not guaranteed complete).
+	 * @return array<int, mixed>
 	 */
 	public static function merge_into( array $declared ): array {
 		$registered = [];
@@ -104,9 +104,9 @@ final class RegisteredCookies {
 		}
 
 		foreach ( $declared as $i => $row ) {
-			$name = $row['name'];
+			$name = is_array( $row ) ? (string) ( $row['name'] ?? '' ) : '';
 
-			if ( isset( $registered[ $name ] ) ) {
+			if ( '' !== $name && isset( $registered[ $name ] ) ) {
 				if ( 'necessary' === $registered[ $name ]['category'] ) {
 					$declared[ $i ]['category'] = 'necessary';
 				}

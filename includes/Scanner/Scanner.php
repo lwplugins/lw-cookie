@@ -334,12 +334,12 @@ class Scanner {
 	 */
 	public static function enrich_cookies( array $cookie_names ): array {
 		$enriched       = [];
-		$declared       = Options::get( 'declared_cookies', [] );
+		$declared       = \LightweightPlugins\Cookie\Cookies\RegisteredCookies::merge_into( Options::get( 'declared_cookies', [] ) );
 		$declared_names = array_column( $declared, 'name' );
 
 		foreach ( $cookie_names as $name ) {
 			$is_declared = self::is_cookie_declared( $name, $declared_names );
-			$api_data    = Api::search( $name );
+			$api_data    = \LightweightPlugins\Cookie\Cookies\RegisteredCookies::scan_lookup( $name ) ?? Api::search( $name );
 
 			if ( $api_data ) {
 				$enriched[] = array_merge(
@@ -347,7 +347,7 @@ class Scanner {
 					[
 						'original_name' => $name,
 						'is_declared'   => $is_declared,
-						'source'        => 'api',
+						'source'        => $api_data['source'] ?? 'api',
 					]
 				);
 			} else {

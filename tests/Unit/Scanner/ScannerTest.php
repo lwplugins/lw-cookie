@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Tests\Unit\Scanner;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Scanner\Scanner;
@@ -64,5 +65,38 @@ final class ScannerTest extends MonkeyTestCase {
 
 	public function test_other_session_cookies_stay_necessary(): void {
 		$this->assertSame( 'necessary', Scanner::enrich_cookies( [ 'wp_woocommerce_session_1a2b' ] )[0]['category'] );
+	}
+
+	/**
+	 * Register one cookie through the filter.
+	 *
+	 * @param string $name     Cookie name.
+	 * @param string $category Category.
+	 */
+	private function register_cookie( string $name, string $category ): void {
+		Functions\when( 'sanitize_text_field' )->returnArg();
+		Filters\expectApplied( 'lw_cookie_known_cookies' )->zeroOrMoreTimes()->andReturn(
+			[
+				[
+					'name'     => $name,
+					'provider' => 'LW Firewall',
+					'purpose'  => 'Plugin',
+					'duration' => '1 year',
+					'category' => $category,
+					'type'     => 'persistent',
+				],
+			]
+		);
+	}
+
+	public function test_registered_cookie_is_necessary_from_a_plugin_and_skips_the_api(): void {
+		Functions\expect( 'wp_remote_get' )->never();
+		$this->register_cookie( 'lwfw_v', 'necessary' );
+
+		$cookie = Scanner::enrich_cookies( [ 'lwfw_v' ] )[0];
+
+		$this->assertSame( 'necessary', $cookie['category'] );
+		$this->assertSame( 'plugin', $cookie['source'] );
+		$this->assertTrue( $cookie['is_declared'] );
 	}
 }

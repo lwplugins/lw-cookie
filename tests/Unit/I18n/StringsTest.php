@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Tests\Unit\I18n;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use LightweightPlugins\Cookie\I18n\Strings;
 use LightweightPlugins\Cookie\Options;
@@ -110,6 +111,63 @@ final class StringsTest extends MonkeyTestCase {
 		$this->assertSame(
 			'Textdomain modal title',
 			Strings::get_or_default( 'modal_title', 'Textdomain modal title' )
+		);
+	}
+
+	/**
+	 * Register one cookie through the filter.
+	 *
+	 * @param string $name     Cookie name.
+	 * @param string $category Category.
+	 */
+	private function register_cookie( string $name, string $category ): void {
+		Functions\when( 'sanitize_text_field' )->returnArg();
+		Filters\expectApplied( 'lw_cookie_known_cookies' )->zeroOrMoreTimes()->andReturn(
+			[
+				[
+					'name'     => $name,
+					'provider' => 'LW Firewall',
+					'purpose'  => 'Plugin',
+					'duration' => '1 year',
+					'category' => $category,
+					'type'     => 'persistent',
+				],
+			]
+		);
+	}
+
+	public function test_registered_necessary_cookie_overrides_a_manual_functional_row(): void {
+		Functions\when( 'sanitize_key' )->alias( static fn( $v ): string => strtolower( (string) $v ) );
+		Functions\when( 'get_option' )->justReturn(
+			[ 'declared_cookies' => [ [ 'name' => 'lwfw_v', 'category' => 'functional' ] ] ]
+		);
+		$this->register_cookie( 'lwfw_v', 'necessary' );
+
+		$grouped = Strings::get_cookies_by_category();
+
+		$this->assertSame( 'lwfw_v', $grouped['necessary'][0]['name'] );
+		$this->assertArrayNotHasKey( 'functional', $grouped );
+	}
+
+	public function test_without_registered_cookies_the_declaration_is_unchanged(): void {
+		Functions\when( 'sanitize_key' )->alias( static fn( $v ): string => strtolower( (string) $v ) );
+		Functions\when( 'get_option' )->justReturn(
+			[ 'declared_cookies' => [ [ 'name' => 'my_cookie', 'category' => 'functional', 'provider' => 'Me', 'purpose' => 'P', 'duration' => '1 day' ] ] ]
+		);
+
+		$this->assertSame(
+			[
+				'functional' => [
+					[
+						'name'     => 'my_cookie',
+						'provider' => 'Me',
+						'purpose'  => 'P',
+						'duration' => '1 day',
+						'type'     => 'persistent',
+					],
+				],
+			],
+			Strings::get_cookies_by_category()
 		);
 	}
 }

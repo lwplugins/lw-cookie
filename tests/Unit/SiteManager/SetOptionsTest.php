@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Tests\Unit\SiteManager;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\SiteManager\AutomationPolicy;
@@ -211,5 +212,20 @@ final class SetOptionsTest extends MonkeyTestCase {
 		$this->assertArrayHasKey( 'banner_title', (array) $result['rejected'] );
 		$this->assertSame( 'We value your privacy', $this->stored['banner_title'] );
 		$this->assertNotContains( 'banner_title', CookieService::get_options( [] )['writable_keys'] );
+	}
+
+	public function test_get_options_lists_the_registered_cookies(): void {
+		Functions\when( 'sanitize_text_field' )->returnArg();
+		Filters\expectApplied( 'lw_cookie_known_cookies' )->zeroOrMoreTimes()->andReturn(
+			[ [ 'name' => 'lwfw_v', 'category' => 'necessary' ] ]
+		);
+
+		$result = CookieService::get_options( [] );
+
+		$this->assertSame( 'lwfw_v', $result['registered_cookies'][0]['name'] );
+	}
+
+	public function test_get_options_has_an_empty_registered_cookies_list_by_default(): void {
+		$this->assertSame( [], CookieService::get_options( [] )['registered_cookies'] );
 	}
 }

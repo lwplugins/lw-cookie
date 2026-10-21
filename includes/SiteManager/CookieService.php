@@ -11,6 +11,7 @@ namespace LightweightPlugins\Cookie\SiteManager;
 
 use LightweightPlugins\Cookie\Admin\SettingsSanitizer;
 use LightweightPlugins\Cookie\Admin\SettingsStore;
+use LightweightPlugins\Cookie\Cookies\RegisteredCookies;
 use LightweightPlugins\Cookie\Database\Schema;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 
@@ -28,9 +29,10 @@ final class CookieService {
 	 */
 	public static function get_options( array $input ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Required by ability callback interface.
 		return [
-			'success'       => true,
-			'options'       => SettingsStore::current(),
-			'writable_keys' => AutomationPolicy::writable_keys(),
+			'success'            => true,
+			'options'            => SettingsStore::current(),
+			'writable_keys'      => AutomationPolicy::writable_keys(),
+			'registered_cookies' => RegisteredCookies::all(),
 		];
 	}
 

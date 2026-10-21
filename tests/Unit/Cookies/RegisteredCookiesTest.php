@@ -205,4 +205,13 @@ final class RegisteredCookiesTest extends MonkeyTestCase {
 			RegisteredCookies::guard_map( [ '_ga_' => 'analytics', 'fr' => 'marketing' ] )
 		);
 	}
+
+	public function test_merge_into_tolerates_incomplete_manual_rows(): void {
+		$this->register( [ $this->entry( 'lwfw_v' ) ] );
+
+		$merged = RegisteredCookies::merge_into( [ [ 'category' => 'functional' ], 'junk' ] );
+
+		$this->assertCount( 3, $merged );
+		$this->assertSame( 'lwfw_v', $merged[2]['name'] );
+	}
 }

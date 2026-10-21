@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Blocking;
 
+use LightweightPlugins\Cookie\Cookies\RegisteredCookies;
 use LightweightPlugins\Cookie\Options;
 
 /**
@@ -130,7 +131,7 @@ final class Entities {
 	public static function get_js_config(): array {
 		return [
 			'domains' => self::get_domains(),
-			'cookies' => self::get_cookies(),
+			'cookies' => RegisteredCookies::guard_map( self::get_cookies() ),
 		];
 	}
 

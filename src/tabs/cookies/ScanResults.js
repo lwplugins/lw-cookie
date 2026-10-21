@@ -160,6 +160,14 @@ export default function ScanResults( {
 													API
 												</StatusBadge>
 											) }
+											{ cookie.source === 'plugin' && (
+												<StatusBadge status="info">
+													{ __(
+														'Registered by a plugin',
+														'lw-cookie'
+													) }
+												</StatusBadge>
+											) }
 											{ declared && (
 												<StatusBadge status="ok">
 													{ __(
