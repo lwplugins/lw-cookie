@@ -73,6 +73,9 @@ final class Entities {
 	/**
 	 * Get known tracking cookie patterns with their categories.
 	 *
+	 * Name syntax (see CookiePattern): a trailing "_" or "*" is a prefix, any
+	 * other name is exact; the most specific matching key wins.
+	 *
 	 * @return array<string, string> cookie name/pattern => category
 	 */
 	public static function get_cookies(): array {
@@ -82,6 +85,7 @@ final class Entities {
 			'_ga_'                   => 'analytics',
 			'_gid'                   => 'analytics',
 			'_gat'                   => 'analytics',
+			'_gat_'                  => 'analytics',
 			'_gac_'                  => 'analytics',
 			'__utma'                 => 'analytics',
 			'__utmb'                 => 'analytics',
@@ -89,8 +93,8 @@ final class Entities {
 			'__utmz'                 => 'analytics',
 			'__utmt'                 => 'analytics',
 			'_hjid'                  => 'analytics',
-			'_hjSession'             => 'analytics',
-			'_hjSessionUser'         => 'analytics',
+			'_hjSession_'            => 'analytics',
+			'_hjSessionUser_'        => 'analytics',
 			'_clck'                  => 'analytics',
 			'_clsk'                  => 'analytics',
 			// Marketing cookies.

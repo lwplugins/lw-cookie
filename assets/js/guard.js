@@ -166,16 +166,26 @@
 	function isCookieBlocked( name ) {
 		var keys       = Object.keys( COOKIES );
 		var keysLength = keys.length;
+		var best       = -1;
+		var bestKey    = null;
 		for ( var i = 0; i < keysLength; i++ ) {
-			// Prefix match for patterns like '_ga_'.
-			if ( name === keys[i] || name.indexOf( keys[i] ) === 0 ) {
-				var category = COOKIES[ keys[i] ];
-				if ( ! cats[ category ] ) {
-					return true;
-				}
+			var key  = keys[i];
+			var last = key.charAt( key.length - 1 );
+			var score;
+			// Exact name, unless it ends in '_' or '*' (a prefix; the '*' is dropped).
+			if ( last !== '_' && last !== '*' ) {
+				score = key === name ? Infinity : -1;
+			} else {
+				var stem = last === '*' ? key.slice( 0, -1 ) : key;
+				score    = name.indexOf( stem ) === 0 ? stem.length : -1;
+			}
+			// The most specific key wins, not the first.
+			if ( score > best ) {
+				best    = score;
+				bestKey = key;
 			}
 		}
-		return false;
+		return bestKey !== null && ! cats[ COOKIES[ bestKey ] ];
 	}
 
 	// Removing a cookie stores nothing, so it is always let through: a script

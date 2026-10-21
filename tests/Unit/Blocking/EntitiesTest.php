@@ -12,6 +12,7 @@ namespace LightweightPlugins\Cookie\Tests\Unit\Blocking;
 
 use Brain\Monkey\Functions;
 use LightweightPlugins\Cookie\Blocking\Entities;
+use LightweightPlugins\Cookie\Cookies\CookiePattern;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Tests\Unit\MonkeyTestCase;
 
@@ -146,5 +147,23 @@ final class EntitiesTest extends MonkeyTestCase {
 	 */
 	public function test_snap_licdn_is_linkedin_marketing(): void {
 		$this->assertSame( 'marketing', Entities::get_domains()['snap.licdn.com'] ?? null );
+	}
+
+	public function test_cookie_keys_follow_the_name_syntax(): void {
+		$cookies = Entities::get_cookies();
+
+		$this->assertArrayHasKey( '_hjSession_', $cookies );
+		$this->assertArrayHasKey( '_hjSessionUser_', $cookies );
+		$this->assertArrayNotHasKey( '_hjSession', $cookies );
+		$this->assertArrayNotHasKey( '_hjSessionUser', $cookies );
+		$this->assertArrayHasKey( '_gat', $cookies );
+		$this->assertArrayHasKey( '_gat_', $cookies );
+		$this->assertSame( 'marketing', $cookies['fr'] );
+		$this->assertSame( PHP_INT_MAX, CookiePattern::specificity( 'fr', 'fr' ) );
+		$this->assertSame( -1, CookiePattern::specificity( 'fr', 'fruit_pref' ) );
+
+		foreach ( array_keys( $cookies ) as $key ) {
+			$this->assertTrue( CookiePattern::is_valid( (string) $key ), (string) $key );
+		}
 	}
 }
