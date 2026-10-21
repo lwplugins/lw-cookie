@@ -92,6 +92,8 @@ final class Entities {
 			'__utmc'                 => 'analytics',
 			'__utmz'                 => 'analytics',
 			'__utmt'                 => 'analytics',
+			'__utmt_'                => 'analytics',
+			'_gaexp'                 => 'analytics',
 			'_hjid'                  => 'analytics',
 			'_hjSession_'            => 'analytics',
 			'_hjSessionUser_'        => 'analytics',
@@ -113,6 +115,8 @@ final class Entities {
 			'tt_pixel_session_index' => 'marketing',
 			'_ttp'                   => 'marketing',
 			'_scid'                  => 'marketing',
+			'_scid_'                 => 'marketing',
+			'_gads'                  => 'marketing',
 			'_sctr'                  => 'marketing',
 			// WooCommerce Order Attribution (sourcebuster.js): sbjs_session, sbjs_current, etc.
 			'sbjs_'                  => 'marketing',

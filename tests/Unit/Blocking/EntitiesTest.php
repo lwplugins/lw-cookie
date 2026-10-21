@@ -159,6 +159,11 @@ final class EntitiesTest extends MonkeyTestCase {
 		$this->assertArrayHasKey( '_gat', $cookies );
 		$this->assertArrayHasKey( '_gat_', $cookies );
 		$this->assertSame( 'marketing', $cookies['fr'] );
+		// Vendor variants the old prefix rule caught: _scid_r, __utmt_<tracker>, _gaexp, _gads.
+		$this->assertSame( 'marketing', $cookies['_scid_'] );
+		$this->assertSame( 'analytics', $cookies['__utmt_'] );
+		$this->assertSame( 'analytics', $cookies['_gaexp'] );
+		$this->assertSame( 'marketing', $cookies['_gads'] );
 		$this->assertSame( PHP_INT_MAX, CookiePattern::specificity( 'fr', 'fr' ) );
 		$this->assertSame( -1, CookiePattern::specificity( 'fr', 'fruit_pref' ) );
 

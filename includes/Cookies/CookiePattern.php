@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\Cookie\Cookies;
 
 /**
- * A trailing "_" or "*" makes a name a prefix ("_ga_" and "lwfw_*" match
+ * A trailing "_" or "*" (after a stem of 2+ characters) makes a name a prefix ("_ga_" and "lwfw_*" match
  * "_ga_ABC" and "lwfw_v"); any other name is exact. "*" anywhere else is
  * invalid. Matching is case-sensitive, like cookie names themselves.
  */
@@ -28,7 +28,13 @@ final class CookiePattern {
 
 		$star = strpos( $pattern, '*' );
 
-		return false === $star || strlen( $pattern ) - 1 === $star;
+		if ( false !== $star && strlen( $pattern ) - 1 !== $star ) {
+			return false;
+		}
+
+		// A prefix needs a stem of at least 2 characters, or it would match nearly everything.
+		$last = substr( $pattern, -1 );
+		return ( '*' !== $last && '_' !== $last ) || strlen( $pattern ) >= 3;
 	}
 
 	/**

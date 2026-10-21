@@ -48,4 +48,25 @@ final class CookiePatternTest extends TestCase {
 		$this->assertTrue( CookiePattern::is_valid( '_ga_' ) );
 		$this->assertTrue( CookiePattern::is_valid( 'fr' ) );
 	}
+
+	public function test_prefix_stem_must_be_at_least_two_characters(): void {
+		foreach ( [ '*', '_', 'a*', 'a_' ] as $bad ) {
+			$this->assertFalse( CookiePattern::is_valid( $bad ), $bad );
+		}
+		foreach ( [ 'ab_', 'ab*', 'ab' ] as $good ) {
+			$this->assertTrue( CookiePattern::is_valid( $good ), $good );
+		}
+	}
+
+	public function test_longer_prefix_and_exact_name_win(): void {
+		$name = '_ga_custom_x';
+		$this->assertGreaterThan(
+			CookiePattern::specificity( '_ga_', $name ),
+			CookiePattern::specificity( '_ga_custom_', $name )
+		);
+		$this->assertGreaterThan(
+			CookiePattern::specificity( '_ga_custom_*', $name ),
+			CookiePattern::specificity( $name, $name )
+		);
+	}
 }
