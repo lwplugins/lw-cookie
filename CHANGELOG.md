@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.7] - 2026-10-21
+
+### Added
+- The `lw_cookie_known_cookies` filter: plugins register the cookies they set (name, provider, purpose, duration, category, type). Registered cookies appear in the cookie declaration and the scanner (marked "Registered by a plugin"), and are guarded by their category. A cookie registered as `necessary` is never blocked, even if a manual entry in Declared cookies puts it in another category; manual entries otherwise keep priority. Registered cookies are also listed under `registered_cookies` in the Site Manager get-options ability (#17).
+
+### Fixed
+- The cookie guard no longer blocks every cookie whose name starts with "fr". Only Facebook's `fr` cookie itself is blocked without marketing consent.
+- `_gads` (Google AdSense) is now treated as a marketing cookie instead of analytics.
+
 ## [1.9.6] - 2026-10-20
 
 ### Fixed

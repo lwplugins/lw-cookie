@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +55,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 * dataLayer.push events for GTM triggers (`lw_cookie_consent_update`)
 * WordPress filters for other plugins to query consent state
+* `lw_cookie_known_cookies` filter: plugins register the cookies they set, and LW Cookie declares and guards them
 
 **Admin Features**
 
@@ -183,6 +184,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.7 =
+* New: The `lw_cookie_known_cookies` filter: plugins register the cookies they set (name, provider, purpose, duration, category, type). Registered cookies appear in the cookie declaration and the scanner (marked "Registered by a plugin"), and are guarded by their category. A cookie registered as `necessary` is never blocked, even if a manual entry in Declared cookies puts it in another category; manual entries otherwise keep priority. Registered cookies are also listed under `registered_cookies` in the Site Manager get-options ability (#17).
+* Fix: The cookie guard no longer blocks every cookie whose name starts with "fr". Only Facebook's `fr` cookie itself is blocked without marketing consent.
+* Fix: `_gads` (Google AdSense) is now treated as a marketing cookie instead of analytics.
 
 = 1.9.6 =
 * Fix: Tracker scripts that a plugin or theme enqueues are no longer downloaded before consent. They are printed without their address and load once the visitor allows their category, so the visitor's IP no longer reaches the vendor on the first visit (#16).
