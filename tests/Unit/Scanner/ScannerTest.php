@@ -99,4 +99,29 @@ final class ScannerTest extends MonkeyTestCase {
 		$this->assertSame( 'plugin', $cookie['source'] );
 		$this->assertTrue( $cookie['is_declared'] );
 	}
+
+	/**
+	 * @dataProvider provide_prefix_registrations
+	 *
+	 * @param string $registered Registered prefix form.
+	 */
+	public function test_cookie_matched_by_a_registered_prefix_counts_as_declared( string $registered ): void {
+		Functions\expect( 'wp_remote_get' )->never();
+		$this->register_cookie( $registered, 'necessary' );
+
+		$cookie = Scanner::enrich_cookies( [ 'myplugin_abc' ] )[0];
+
+		$this->assertTrue( $cookie['is_declared'] );
+		$this->assertSame( 'plugin', $cookie['source'] );
+	}
+
+	/**
+	 * @return array<string, array{string}>
+	 */
+	public static function provide_prefix_registrations(): array {
+		return [
+			'trailing underscore' => [ 'myplugin_' ],
+			'trailing star'       => [ 'myplugin*' ],
+		];
+	}
 }

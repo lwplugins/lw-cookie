@@ -346,7 +346,7 @@ class Scanner {
 					$api_data,
 					[
 						'original_name' => $name,
-						'is_declared'   => $is_declared,
+						'is_declared'   => $is_declared || isset( $api_data['source'] ),
 						'source'        => $api_data['source'] ?? 'api',
 					]
 				);
