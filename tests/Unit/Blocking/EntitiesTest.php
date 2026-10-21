@@ -120,7 +120,7 @@ final class EntitiesTest extends MonkeyTestCase {
 	 * @param string $cookie Cookie name.
 	 */
 	public function test_snap_pixel_cookies_are_marketing( string $cookie ): void {
-		$this->assertSame( 'marketing', Entities::get_cookies()[ $cookie ] ?? null );
+		$this->assertSame( 'marketing', Entities::get_cookies()[ $cookie . '*' ] ?? null );
 	}
 
 	/**
@@ -149,23 +149,45 @@ final class EntitiesTest extends MonkeyTestCase {
 		$this->assertSame( 'marketing', Entities::get_domains()['snap.licdn.com'] ?? null );
 	}
 
-	public function test_cookie_keys_follow_the_name_syntax(): void {
+	public function test_every_1_9_6_cookie_name_is_still_matched_except_fr_which_is_exact(): void {
+		$cookies = Entities::get_cookies();
+		$old     = [
+			'_ga', '_ga_', '_gid', '_gat', '_gac_', '__utma', '__utmb', '__utmc', '__utmz', '__utmt',
+			'_hjid', '_hjSession', '_hjSessionUser', '_clck', '_clsk', '_fbp', '_fbc', '_gcl_au',
+			'_gcl_aw', 'IDE', 'test_cookie', 'li_fat_id', 'li_sugr', '_pin_unauth', 'muc_ads',
+			'personalization_id', 'tt_pixel_session_index', '_ttp', '_scid', '_sctr', 'sbjs_',
+		];
+
+		foreach ( $old as $name ) {
+			// The name itself and a suffixed variant, as the old prefix rule matched both.
+			foreach ( [ $name, $name . 'Rejected' ] as $variant ) {
+				$best = -1;
+				foreach ( array_keys( $cookies ) as $key ) {
+					$best = max( $best, CookiePattern::specificity( (string) $key, $variant ) );
+				}
+				$this->assertGreaterThanOrEqual( 0, $best, $variant );
+			}
+		}
+	}
+
+	public function test_fr_is_exact_and_gads_is_marketing(): void {
 		$cookies = Entities::get_cookies();
 
-		$this->assertArrayHasKey( '_hjSession_', $cookies );
-		$this->assertArrayHasKey( '_hjSessionUser_', $cookies );
-		$this->assertArrayNotHasKey( '_hjSession', $cookies );
-		$this->assertArrayNotHasKey( '_hjSessionUser', $cookies );
-		$this->assertArrayHasKey( '_gat', $cookies );
-		$this->assertArrayHasKey( '_gat_', $cookies );
 		$this->assertSame( 'marketing', $cookies['fr'] );
-		// Vendor variants the old prefix rule caught: _scid_r, __utmt_<tracker>, _gaexp, _gads.
-		$this->assertSame( 'marketing', $cookies['_scid_'] );
-		$this->assertSame( 'analytics', $cookies['__utmt_'] );
-		$this->assertSame( 'analytics', $cookies['_gaexp'] );
-		$this->assertSame( 'marketing', $cookies['_gads'] );
 		$this->assertSame( PHP_INT_MAX, CookiePattern::specificity( 'fr', 'fr' ) );
 		$this->assertSame( -1, CookiePattern::specificity( 'fr', 'fruit_pref' ) );
+		$this->assertSame( 'marketing', $cookies['_gads'] );
+		$this->assertGreaterThan(
+			CookiePattern::specificity( '_ga*', '_gads' ),
+			CookiePattern::specificity( '_gads', '_gads' )
+		);
+	}
+
+	public function test_hotjar_session_variants_stay_analytics_and_all_keys_are_valid(): void {
+		$cookies = Entities::get_cookies();
+
+		$this->assertSame( 'analytics', $cookies['_hjSession*'] );
+		$this->assertGreaterThanOrEqual( 0, CookiePattern::specificity( '_hjSession*', '_hjSessionRejected' ) );
 
 		foreach ( array_keys( $cookies ) as $key ) {
 			$this->assertTrue( CookiePattern::is_valid( (string) $key ), (string) $key );

@@ -74,52 +74,51 @@ final class Entities {
 	 * Get known tracking cookie patterns with their categories.
 	 *
 	 * Name syntax (see CookiePattern): a trailing "_" or "*" is a prefix, any
-	 * other name is exact; the most specific matching key wins.
+	 * other name is exact; the most specific matching key wins. Keys end in "*"
+	 * to keep the prefix matching earlier versions had; only "fr" and "_gads"
+	 * are exact ("fr" must not block "fruit_pref").
 	 *
 	 * @return array<string, string> cookie name/pattern => category
 	 */
 	public static function get_cookies(): array {
 		return [
 			// Analytics cookies.
-			'_ga'                    => 'analytics',
-			'_ga_'                   => 'analytics',
-			'_gid'                   => 'analytics',
-			'_gat'                   => 'analytics',
-			'_gat_'                  => 'analytics',
-			'_gac_'                  => 'analytics',
-			'__utma'                 => 'analytics',
-			'__utmb'                 => 'analytics',
-			'__utmc'                 => 'analytics',
-			'__utmz'                 => 'analytics',
-			'__utmt'                 => 'analytics',
-			'__utmt_'                => 'analytics',
-			'_gaexp'                 => 'analytics',
-			'_hjid'                  => 'analytics',
-			'_hjSession_'            => 'analytics',
-			'_hjSessionUser_'        => 'analytics',
-			'_clck'                  => 'analytics',
-			'_clsk'                  => 'analytics',
+			'_ga*'                    => 'analytics',
+			'_ga_'                    => 'analytics',
+			'_gid*'                   => 'analytics',
+			'_gat*'                   => 'analytics',
+			'_gac_'                   => 'analytics',
+			'__utma*'                 => 'analytics',
+			'__utmb*'                 => 'analytics',
+			'__utmc*'                 => 'analytics',
+			'__utmz*'                 => 'analytics',
+			'__utmt*'                 => 'analytics',
+			'_hjid*'                  => 'analytics',
+			'_hjSession*'             => 'analytics',
+			'_hjSessionUser*'         => 'analytics',
+			'_clck*'                  => 'analytics',
+			'_clsk*'                  => 'analytics',
 			// Marketing cookies.
-			'_fbp'                   => 'marketing',
-			'_fbc'                   => 'marketing',
-			'fr'                     => 'marketing',
-			'_gcl_au'                => 'marketing',
-			'_gcl_aw'                => 'marketing',
-			'IDE'                    => 'marketing',
-			'test_cookie'            => 'marketing',
-			'li_fat_id'              => 'marketing',
-			'li_sugr'                => 'marketing',
-			'_pin_unauth'            => 'marketing',
-			'muc_ads'                => 'marketing',
-			'personalization_id'     => 'marketing',
-			'tt_pixel_session_index' => 'marketing',
-			'_ttp'                   => 'marketing',
-			'_scid'                  => 'marketing',
-			'_scid_'                 => 'marketing',
-			'_gads'                  => 'marketing',
-			'_sctr'                  => 'marketing',
+			'_fbp*'                   => 'marketing',
+			'_fbc*'                   => 'marketing',
+			'fr'                      => 'marketing',
+			'_gcl_au*'                => 'marketing',
+			'_gcl_aw*'                => 'marketing',
+			'IDE*'                    => 'marketing',
+			'test_cookie*'            => 'marketing',
+			'li_fat_id*'              => 'marketing',
+			'li_sugr*'                => 'marketing',
+			'_pin_unauth*'            => 'marketing',
+			'muc_ads*'                => 'marketing',
+			'personalization_id*'     => 'marketing',
+			'tt_pixel_session_index*' => 'marketing',
+			'_ttp*'                   => 'marketing',
+			'_scid*'                  => 'marketing',
+			'_sctr*'                  => 'marketing',
+			// Exact; beats the _ga* prefix so AdSense's cookie is marketing.
+			'_gads'                   => 'marketing',
 			// WooCommerce Order Attribution (sourcebuster.js): sbjs_session, sbjs_current, etc.
-			'sbjs_'                  => 'marketing',
+			'sbjs_'                   => 'marketing',
 		];
 	}
 
