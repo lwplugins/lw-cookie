@@ -33,6 +33,8 @@ final class GuardRewriteSafetyTest extends MonkeyTestCase {
 			static fn( $args, $defaults = [] ) => array_merge( (array) $defaults, (array) $args )
 		);
 		Functions\when( 'home_url' )->alias( static fn( $path = '' ) => 'https://example.test' . $path );
+		Functions\when( 'wp_parse_url' )->alias( static fn( $url, $component = -1 ) => parse_url( $url, $component ) );
+		Functions\when( 'trailingslashit' )->alias( static fn( $value ) => rtrim( $value, "/\\" ) . '/' );
 		Functions\when( 'wp_json_encode' )->alias( static fn( $data ) => json_encode( $data ) );
 		Functions\when( '__' )->returnArg();
 		Functions\when( 'has_filter' )->justReturn( false );

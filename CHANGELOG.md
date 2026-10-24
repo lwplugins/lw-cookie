@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.9.8] - 2026-10-25
+
+### Fixed
+- The Service Worker now starts on sites whose home is a subdirectory, such as Bedrock installs served under `/hu/`: it is registered for the home path instead of `/`, and the built-in fallback answers on the subdirectory address.
+- The Service Worker file is copied back to the site root when it goes missing, for example after a deploy that creates a fresh release directory, instead of only after a plugin update.
+
 ## [1.9.7] - 2026-10-21
 
 ### Added

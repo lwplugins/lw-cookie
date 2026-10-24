@@ -39,6 +39,19 @@ final class ServiceWorkerManager {
 	}
 
 	/**
+	 * Registration scope for the Service Worker: the home path.
+	 *
+	 * A worker served from below a subdirectory home (e.g. /hu/lw-cookie-sw.js)
+	 * may only control that subdirectory unless the response carries a
+	 * Service-Worker-Allowed header, which a statically served copy does not.
+	 *
+	 * @return string Home path with a trailing slash ("/" on a root install).
+	 */
+	public static function get_sw_scope(): string {
+		return trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+	}
+
+	/**
 	 * Filesystem path of the public webroot the SW URL resolves to.
 	 *
 	 * On subdirectory-core installs (Bedrock/Radicle) the webroot is the site
@@ -97,22 +110,43 @@ final class ServiceWorkerManager {
 	}
 
 	/**
-	 * Refresh the webroot copy once after a plugin update.
+	 * Refresh the webroot copy once after a plugin update, and restore it
+	 * when it went missing.
 	 *
 	 * Updates do not fire the activation hook, and the web server serves the
 	 * webroot copy directly, so without this an updated worker would never
-	 * reach browsers. Costs one autoloaded option read per request.
+	 * reach browsers. Atomic-release deploys (a fresh release directory per
+	 * deploy) drop the copy while the recorded version stays current. Costs
+	 * one autoloaded option read and one stat per request.
 	 *
 	 * @return void
 	 */
 	public static function maybe_upgrade(): void {
 		if ( get_option( self::VERSION_OPTION ) === LW_COOKIE_VERSION ) {
+			self::restore_missing_copy();
 			return;
 		}
 
 		// Record first, so an unwritable webroot is not retried on every request
 		// (the dynamic fallback then serves the current file).
 		update_option( self::VERSION_OPTION, LW_COOKIE_VERSION );
+		self::install();
+	}
+
+	/**
+	 * Copy the SW back when the webroot lost it. An unwritable webroot is not
+	 * retried (the copy would warn on every request); the dynamic fallback
+	 * serves the worker there.
+	 *
+	 * @return void
+	 */
+	private static function restore_missing_copy(): void {
+		$root = self::get_root_path();
+
+		if ( file_exists( $root . self::SW_FILENAME ) || ! wp_is_writable( $root ) ) {
+			return;
+		}
+
 		self::install();
 	}
 
@@ -145,6 +179,17 @@ final class ServiceWorkerManager {
 	}
 
 	/**
+	 * Whether a request URI asks for the Service Worker: its path must match
+	 * the path of `get_sw_url()`, e.g. /hu/lw-cookie-sw.js on a subdirectory home.
+	 *
+	 * @param string $request_uri Request URI, query string allowed.
+	 * @return bool
+	 */
+	public static function is_sw_request( string $request_uri ): bool {
+		return (string) wp_parse_url( self::get_sw_url(), PHP_URL_PATH ) === strtok( $request_uri, '?' );
+	}
+
+	/**
 	 * Serve the Service Worker file dynamically.
 	 *
 	 * @return void
@@ -153,7 +198,7 @@ final class ServiceWorkerManager {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$request_uri = wp_unslash( $_SERVER['REQUEST_URI'] ?? '' );
 
-		if ( '/' . self::SW_FILENAME !== strtok( $request_uri, '?' ) ) {
+		if ( ! self::is_sw_request( (string) $request_uri ) ) {
 			return;
 		}
 

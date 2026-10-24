@@ -98,6 +98,7 @@ final class GuardScript {
 			'domains'         => $blocking['domains'],
 			'cookies'         => $blocking['cookies'],
 			'swUrl'           => ServiceWorkerManager::get_sw_url(),
+			'swScope'         => ServiceWorkerManager::get_sw_scope(),
 			'preview'         => Preview::is_active(),
 			// Advanced → Content Blocking: embedded iframes and their placeholders.
 			'contentBlocking' => (bool) Options::get( 'content_blocking' ),

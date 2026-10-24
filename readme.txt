@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.7
+Stable tag: 1.9.8
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -184,6 +184,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.8 =
+* Fix: The Service Worker now starts on sites whose home is a subdirectory, such as Bedrock installs served under `/hu/`: it is registered for the home path instead of `/`, and the built-in fallback answers on the subdirectory address.
+* Fix: The Service Worker file is copied back to the site root when it goes missing, for example after a deploy that creates a fresh release directory, instead of only after a plugin update.
 
 = 1.9.7 =
 * New: The `lw_cookie_known_cookies` filter: plugins register the cookies they set (name, provider, purpose, duration, category, type). Registered cookies appear in the cookie declaration and the scanner (marked "Registered by a plugin"), and are guarded by their category. A cookie registered as `necessary` is never blocked, even if a manual entry in Declared cookies puts it in another category; manual entries otherwise keep priority. Registered cookies are also listed under `registered_cookies` in the Site Manager get-options ability (#17).

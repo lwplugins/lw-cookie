@@ -33,6 +33,8 @@ final class GuardScriptTest extends MonkeyTestCase {
 			static fn( $args, $defaults = [] ) => array_merge( (array) $defaults, (array) $args )
 		);
 		Functions\when( 'home_url' )->alias( static fn( $path = '' ) => 'https://example.test' . $path );
+		Functions\when( 'wp_parse_url' )->alias( static fn( $url, $component = -1 ) => parse_url( $url, $component ) );
+		Functions\when( 'trailingslashit' )->alias( static fn( $value ) => rtrim( $value, "/\\" ) . '/' );
 		Functions\when( 'wp_json_encode' )->alias( static fn( $data ) => json_encode( $data ) );
 		Functions\when( '__' )->returnArg();
 		Functions\when( 'has_filter' )->justReturn( false );
@@ -60,6 +62,10 @@ final class GuardScriptTest extends MonkeyTestCase {
 		$this->assertSame( 1, preg_match( '#window\.__lwGuardCfg=(\{.*?\});/\*\*#s', $html, $match ) );
 
 		return json_decode( $match[1], true );
+	}
+
+	public function test_the_guard_gets_the_service_worker_scope(): void {
+		$this->assertSame( '/', $this->guard_config( [] )['swScope'] );
 	}
 
 	public function test_content_blocking_is_on_by_default(): void {

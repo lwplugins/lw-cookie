@@ -6,6 +6,8 @@
  * ABSPATH, on subdir-core installs such as Bedrock/Radicle) and the follow-up
  * regression it introduced: resolving that webroot must not depend on
  * get_home_path(), which returns "/" outside wp-admin on those very installs.
+ * Also covers subdirectory homes (URL, fallback route and scope under /hu/)
+ * and atomic-release deploys that drop the webroot copy.
  *
  * @package LightweightPlugins\Cookie
  */
@@ -169,19 +171,16 @@ final class ServiceWorkerManagerTest extends MonkeyTestCase {
 
 	/**
 	 * maybe_upgrade() runs on every request: once the copy matches the running
-	 * version it must neither write the option nor touch the filesystem.
+	 * version and is still in the webroot, it must neither write the option
+	 * nor copy anything.
 	 */
-	public function test_maybe_upgrade_is_a_noop_for_the_current_version(): void {
+	public function test_maybe_upgrade_is_a_noop_while_the_current_copy_is_in_place(): void {
+		$this->stub_urls( 'https://example.test', 'https://example.test' );
 		Functions\when( 'get_option' )->justReturn( LW_COOKIE_VERSION );
+		Functions\when( 'file_exists' )->justReturn( true );
 
 		$touched = false;
 		Functions\when( 'update_option' )->alias(
-			static function () use ( &$touched ) {
-				$touched = true;
-				return true;
-			}
-		);
-		Functions\when( 'file_exists' )->alias(
 			static function () use ( &$touched ) {
 				$touched = true;
 				return true;
@@ -197,6 +196,108 @@ final class ServiceWorkerManagerTest extends MonkeyTestCase {
 		ServiceWorkerManager::maybe_upgrade();
 
 		$this->assertFalse( $touched );
+	}
+
+	/**
+	 * Atomic-release deploys (a fresh release directory per deploy, switched by
+	 * symlink) drop the webroot copy while the recorded version stays current,
+	 * so a missing copy is restored without waiting for a version change.
+	 */
+	public function test_maybe_upgrade_restores_a_missing_copy_for_the_current_version(): void {
+		$this->stub_urls( 'https://example.test/hu', 'https://example.test/hu/wp' );
+		Functions\when( 'get_option' )->justReturn( LW_COOKIE_VERSION );
+		Functions\when( 'file_exists' )->alias( static fn( $path ) => '/var/www/lw-cookie-sw.js' !== $path );
+		Functions\when( 'wp_is_writable' )->justReturn( true );
+		Functions\when( 'update_option' )->justReturn( true );
+
+		$dest = null;
+		Functions\when( 'copy' )->alias(
+			static function ( $source, $target ) use ( &$dest ) {
+				$dest = $target;
+				return true;
+			}
+		);
+
+		ServiceWorkerManager::maybe_upgrade();
+
+		$this->assertSame( '/var/www/lw-cookie-sw.js', $dest );
+	}
+
+	/**
+	 * An unwritable webroot is not retried on every request: the dynamic
+	 * fallback serves the worker instead.
+	 */
+	public function test_maybe_upgrade_does_not_retry_an_unwritable_webroot(): void {
+		$this->stub_urls( 'https://example.test', 'https://example.test' );
+		Functions\when( 'get_option' )->justReturn( LW_COOKIE_VERSION );
+		Functions\when( 'file_exists' )->alias( static fn( $path ) => ABSPATH . 'lw-cookie-sw.js' !== $path );
+		Functions\when( 'wp_is_writable' )->justReturn( false );
+
+		$copied = false;
+		Functions\when( 'copy' )->alias(
+			static function () use ( &$copied ) {
+				$copied = true;
+				return true;
+			}
+		);
+
+		ServiceWorkerManager::maybe_upgrade();
+
+		$this->assertFalse( $copied );
+	}
+
+	/**
+	 * The dynamic fallback answers on the advertised SW URL's path, which on a
+	 * subdirectory home is not "/lw-cookie-sw.js".
+	 *
+	 * @dataProvider provide_sw_requests
+	 *
+	 * @param string $home        Home URL, no trailing slash.
+	 * @param string $request_uri Request URI.
+	 * @param bool   $expected    Whether the request is for the worker.
+	 */
+	public function test_is_sw_request_matches_the_sw_url_path( string $home, string $request_uri, bool $expected ): void {
+		$this->stub_urls( $home, $home );
+
+		$this->assertSame( $expected, ServiceWorkerManager::is_sw_request( $request_uri ) );
+	}
+
+	/**
+	 * @return array<string, array{0: string, 1: string, 2: bool}>
+	 */
+	public static function provide_sw_requests(): array {
+		return [
+			'root install'               => [ 'https://example.test', '/lw-cookie-sw.js', true ],
+			'root install, query string' => [ 'https://example.test', '/lw-cookie-sw.js?v=2', true ],
+			'subdirectory home'          => [ 'https://example.test/hu', '/hu/lw-cookie-sw.js', true ],
+			'subdirectory, root path'    => [ 'https://example.test/hu', '/lw-cookie-sw.js', false ],
+			'other file'                 => [ 'https://example.test', '/other.js', false ],
+		];
+	}
+
+	/**
+	 * A worker served from below a subdirectory home may only control that
+	 * subdirectory: registering it with scope "/" fails in the browser.
+	 *
+	 * @dataProvider provide_sw_scopes
+	 *
+	 * @param string $home     Home URL, no trailing slash.
+	 * @param string $expected Expected scope.
+	 */
+	public function test_sw_scope_is_the_home_path( string $home, string $expected ): void {
+		$this->stub_urls( $home, $home );
+
+		$this->assertSame( $expected, ServiceWorkerManager::get_sw_scope() );
+	}
+
+	/**
+	 * @return array<string, array{0: string, 1: string}>
+	 */
+	public static function provide_sw_scopes(): array {
+		return [
+			'root install'      => [ 'https://example.test', '/' ],
+			'subdirectory home' => [ 'https://example.test/hu', '/hu/' ],
+		];
 	}
 
 	/**

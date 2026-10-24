@@ -29,6 +29,7 @@
 	var DOMAINS        = cfg.domains || {};
 	var COOKIES        = cfg.cookies || {};
 	var SW_URL         = cfg.swUrl || '';
+	var SW_SCOPE       = cfg.swScope || '/';
 	var PREVIEW        = ! ! cfg.preview;
 	var TEXT           = cfg.text || {};
 
@@ -904,7 +905,8 @@
 		}
 
 		if ( SCRIPT_BLOCKING ) {
-			navigator.serviceWorker.register( SW_URL, { scope: '/' } ).catch(
+			// The home path: a worker served below a subdirectory home may not claim "/".
+			navigator.serviceWorker.register( SW_URL, { scope: SW_SCOPE } ).catch(
 				function () {
 					// Registration failed: the guard above still blocks in the page.
 				}
