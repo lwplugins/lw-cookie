@@ -64,6 +64,16 @@ final class GuardScriptTest extends MonkeyTestCase {
 		return json_decode( $match[1], true );
 	}
 
+	public function test_the_guard_script_is_marked_not_to_be_delayed(): void {
+		Functions\when( 'get_option' )->justReturn( [] );
+
+		ob_start();
+		( new GuardScript() )->output_guard();
+		$html = (string) ob_get_clean();
+
+		$this->assertStringContainsString( '<script id="lw-cookie-guard" data-no-defer="1" data-no-optimize="1"', $html );
+	}
+
 	public function test_the_guard_gets_the_service_worker_scope(): void {
 		$this->assertSame( '/', $this->guard_config( [] )['swScope'] );
 	}

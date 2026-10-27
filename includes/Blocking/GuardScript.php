@@ -11,6 +11,7 @@ namespace LightweightPlugins\Cookie\Blocking;
 
 use LightweightPlugins\Cookie\Banner\Preview;
 use LightweightPlugins\Cookie\I18n\Strings;
+use LightweightPlugins\Cookie\Integrations\CacheCompat;
 use LightweightPlugins\Cookie\Options;
 use LightweightPlugins\Cookie\Consent\Storage;
 
@@ -69,7 +70,7 @@ final class GuardScript {
 		echo '<style id="lw-cookie-guard-css">' . self::PLACEHOLDER_CSS . '</style>';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted JS from local file, JSON via wp_json_encode.
-		echo '<script id="lw-cookie-guard">window.__lwGuardCfg=' . wp_json_encode( $config ) . ';' . $guard . '</script>';
+		echo '<script id="lw-cookie-guard" ' . CacheCompat::attribute_markup() . '>window.__lwGuardCfg=' . wp_json_encode( $config ) . ';' . $guard . '</script>';
 
 		self::$printed = true;
 	}

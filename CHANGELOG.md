@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.9] - 2026-10-27
+
+### Fixed
+- With LiteSpeed Cache's "Load JS Deferred: Delayed" setting, accepting cookies no longer reloads the page into the banner again. LiteSpeed delayed the consent settings and the inline guard while the consent script ran at once, so the saved consent had no policy version and was ignored. Both are now kept out of cache plugins' defer and delay (LiteSpeed's defer exclusions, WP Rocket's delay exclusions and the usual no-defer attributes).
+
 ## [1.9.8] - 2026-10-25
 
 ### Fixed

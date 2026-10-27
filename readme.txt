@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.8
+Stable tag: 1.9.9
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -184,6 +184,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.9 =
+* Fix: With LiteSpeed Cache's "Load JS Deferred: Delayed" setting, accepting cookies no longer reloads the page into the banner again. LiteSpeed delayed the consent settings and the inline guard while the consent script ran at once, so the saved consent had no policy version and was ignored. Both are now kept out of cache plugins' defer and delay (LiteSpeed's defer exclusions, WP Rocket's delay exclusions and the usual no-defer attributes).
 
 = 1.9.8 =
 * Fix: The Service Worker now starts on sites whose home is a subdirectory, such as Bedrock installs served under `/hu/`: it is registered for the home path instead of `/`, and the built-in fallback answers on the subdirectory address.
