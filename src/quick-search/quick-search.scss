@@ -1,0 +1,252 @@
+// Quick search: sidebar field + Cmd/Ctrl+K dialog. Core WPDS tokens with
+// fallbacks; the accent is the plugin's --wp-admin-theme-color.
+
+$surface: var(--wpds-color-background-surface-neutral-strong, #fff);
+$page: var(--wpds-color-background-surface-neutral, #fcfcfc);
+$stroke: var(--wpds-color-stroke-surface-neutral, #ddd);
+$stroke-weak: var(--wpds-color-stroke-surface-neutral-weak, #f0f0f0);
+$text: var(--wpds-color-foreground-content-neutral, #1e1e1e);
+$muted: var(--wpds-color-foreground-content-neutral-weak, #707070);
+$brand: var(--wp-admin-theme-color, #3858e9);
+$brand-rgb: var(--wp-admin-theme-color--rgb, 56, 88, 233);
+$mono: var(--wpds-typography-font-family-mono, monospace);
+
+.lw-admin-sidebar__search {
+	flex-shrink: 0;
+	padding: 16px 12px 0;
+}
+
+// The nav's own top padding would double the gap under the field.
+.lw-admin-sidebar__search ~ .lw-admin-sidenav {
+	padding-top: 6px;
+}
+
+.lw-qs-trigger {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid $stroke;
+	border-radius: 8px;
+	background: $surface;
+	color: $muted;
+	font: inherit;
+	font-size: 14px;
+	text-align: left;
+	cursor: pointer;
+	transition: border-color 0.15s;
+
+	svg {
+		flex: none;
+		fill: currentColor;
+	}
+
+	&:hover {
+		border-color: $brand;
+	}
+
+	&:focus-visible {
+		outline: 2px solid $brand;
+		outline-offset: 1px;
+	}
+}
+
+.lw-qs-trigger__label {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.lw-qs-kbd {
+	flex: none;
+	padding: 1px 6px;
+	border: 1px solid $stroke;
+	border-radius: 5px;
+	background: $page;
+	color: $muted;
+	font: 12px/1.5 $mono;
+}
+
+.lw-qs-scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 100000; // Above the admin bar and menu.
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 12vh 16px 16px;
+	background: rgba(0, 0, 0, 0.35);
+}
+
+.lw-qs-dialog {
+	display: flex;
+	flex-direction: column;
+	width: min(640px, 100%);
+	max-height: min(560px, 76vh);
+	overflow: hidden;
+	border: 1px solid $stroke;
+	border-radius: 14px;
+	background: $surface;
+	color: $text;
+	box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.lw-qs-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 16px;
+	border-bottom: 1px solid $stroke-weak;
+
+	> svg {
+		flex: none;
+		fill: $muted;
+	}
+}
+
+// Higher specificity than the wp-admin input[type=text] rule.
+.lw-qs-dialog .lw-qs-input {
+	flex: 1;
+	min-width: 0;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	box-shadow: none;
+	background: transparent;
+	color: $text;
+	font-size: 17px;
+	line-height: 1.4;
+
+	&:focus {
+		border: 0;
+		box-shadow: none;
+		outline: 0;
+	}
+}
+
+.lw-qs-list {
+	overflow-y: auto;
+	padding: 4px 8px 10px;
+}
+
+.lw-qs-group {
+	padding: 10px 10px 4px;
+	color: $muted;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.lw-qs-option {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	padding: 9px 10px;
+	border-radius: 8px;
+	font-size: 15px;
+	cursor: pointer;
+
+	> svg {
+		flex: none;
+		fill: $muted;
+	}
+
+	.lw-qs-go {
+		visibility: hidden;
+	}
+
+	&[aria-selected="true"] {
+		background: rgba($brand-rgb, 0.08);
+
+		.lw-qs-go {
+			visibility: visible;
+		}
+	}
+
+	mark {
+		border-radius: 3px;
+		background: rgba($brand-rgb, 0.2);
+		color: inherit;
+	}
+}
+
+.lw-qs-path {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.lw-qs-crumb {
+	color: $muted;
+
+	&::after {
+		content: "›";
+		margin: 0 6px;
+	}
+}
+
+.lw-qs-empty {
+	margin: 0;
+	padding: 24px 12px;
+	color: $muted;
+	text-align: center;
+}
+
+.lw-qs-foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	padding: 10px 16px;
+	border-top: 1px solid $stroke-weak;
+	background: $page;
+	color: $muted;
+	font-size: 13px;
+
+	span {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+}
+
+// The opened setting lights up briefly.
+.lw-qs-flash {
+	border-radius: 8px;
+	animation: lw-qs-flash 1.8s ease-out;
+}
+
+@keyframes lw-qs-flash {
+	0%,
+	40% {
+		box-shadow: 0 0 0 3px rgba($brand-rgb, 0.35);
+		background-color: rgba($brand-rgb, 0.08);
+	}
+
+	100% {
+		box-shadow: 0 0 0 3px rgba($brand-rgb, 0);
+		background-color: transparent;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lw-qs-flash {
+		animation: none;
+		box-shadow: 0 0 0 3px rgba($brand-rgb, 0.35);
+	}
+}
+
+@media (max-width: 782px) {
+	.lw-qs-scrim {
+		padding-top: 16px;
+	}
+
+	.lw-qs-trigger .lw-qs-kbd,
+	.lw-qs-foot {
+		display: none;
+	}
+}

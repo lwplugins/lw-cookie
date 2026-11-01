@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.10] - 2026-11-01
+
+### Added
+- Admin quick search: a search field at the top of the sidebar (also Cmd/Ctrl+K) finds sections, cards and settings by name or help text, accent-insensitive, and opens the match: it switches to the tab, scrolls to the setting and highlights it. Recently opened results are listed first.
+
 ## [1.9.9] - 2026-10-27
 
 ### Fixed

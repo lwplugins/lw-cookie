@@ -59,6 +59,11 @@ Block third-party embeds until consent is given:
 
 Optionally, **Advanced → Load youtube-nocookie.com embeds without consent** (off by default) lets YouTube's Privacy Enhanced Mode embeds load right away while `youtube.com` embeds stay blocked. Privacy Enhanced Mode still sends the visitor's IP address to Google, so enable it only if your privacy policy covers it.
 
+### Admin
+
+- Modern tabbed settings interface
+- Quick search in the sidebar (Cmd/Ctrl+K) to jump to any section or setting
+
 ### Cookie Scanner
 
 Detect cookies on your website:

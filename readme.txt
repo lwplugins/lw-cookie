@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.9
+Stable tag: 1.9.10
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -61,6 +61,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 * Unified "LW Plugins" admin menu
 * Modern tabbed settings interface
+* Quick search in the sidebar (Cmd/Ctrl+K) to jump to any section or setting
 * Easy customization of all texts and labels
 * Privacy policy page linking
 
@@ -184,6 +185,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.10 =
+* New: Admin quick search: a search field at the top of the sidebar (also Cmd/Ctrl+K) finds sections, cards and settings by name or help text, accent-insensitive, and opens the match: it switches to the tab, scrolls to the setting and highlights it. Recently opened results are listed first.
 
 = 1.9.9 =
 * Fix: With LiteSpeed Cache's "Load JS Deferred: Delayed" setting, accepting cookies no longer reloads the page into the banner again. LiteSpeed delayed the consent settings and the inline guard while the consent script ran at once, so the saved consent had no policy version and was ignored. Both are now kept out of cache plugins' defer and delay (LiteSpeed's defer exclusions, WP Rocket's delay exclusions and the usual no-defer attributes).

@@ -23,12 +23,13 @@ import { DOCS_URL, VERSION } from '../data/boot';
  * Full-height sidebar: plugin header, section links, docs link. On mobile the
  * list collapses behind a "current section" toggle.
  *
- * @param {Object} props
- * @param {Array}  props.tabs    Tab registry.
- * @param {string} props.current Active tab id.
- * @param {Object} props.meta    Optional node per tab id, after the label.
+ * @param {Object}  props
+ * @param {Array}   props.tabs    Tab registry.
+ * @param {string}  props.current Active tab id.
+ * @param {Object}  props.meta    Optional node per tab id, after the label.
+ * @param {Element} props.search  Quick search, under the plugin header.
  */
-export default function SideNav( { tabs, current, meta = {} } ) {
+export default function SideNav( { tabs, current, meta = {}, search } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const navId = useInstanceId( SideNav, 'lw-admin-sidenav' );
 	const active = tabs.find( ( tab ) => tab.id === current );
@@ -48,6 +49,9 @@ export default function SideNav( { tabs, current, meta = {} } ) {
 				</a>
 				<Badge intent="informational">{ `v${ VERSION }` }</Badge>
 			</div>
+			{ search && (
+				<div className="lw-admin-sidebar__search">{ search }</div>
+			) }
 			<button
 				type="button"
 				className="lw-admin-sidebar__toggle"
