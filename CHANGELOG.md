@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.11] - 2026-11-02
+
+### Fixed
+- WooCommerce Order Attribution records the traffic source on orders again (#18, #19). Since the consent bridge in 1.9.5, WooCommerce started every page with tracking off, so it deleted the sbjs_* cookies on each page view and the checkout's hidden attribution fields stayed empty even after the visitor accepted marketing cookies. WooCommerce now starts with tracking on when marketing consent is already stored, the checkout fields are filled again, and consent changes on the page no longer restart the tracker.
+
 ## [1.9.10] - 2026-11-01
 
 ### Added
