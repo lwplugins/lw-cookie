@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.11
+Stable tag: 1.9.12
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -185,6 +185,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.12 =
+* Fix: Admin quick search: moving the mouse over a result no longer breaks the dialog (a console error, and Enter or the arrow keys stopped working); the result under the pointer becomes the selected one.
 
 = 1.9.11 =
 * Fix: WooCommerce Order Attribution records the traffic source on orders again (#18, #19). Since the consent bridge in 1.9.5, WooCommerce started every page with tracking off, so it deleted the sbjs_* cookies on each page view and the checkout's hidden attribution fields stayed empty even after the visitor accepted marketing cookies. WooCommerce now starts with tracking on when marketing consent is already stored, the checkout fields are filled again, and consent changes on the page no longer restart the tracker.

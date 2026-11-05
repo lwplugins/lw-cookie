@@ -220,8 +220,7 @@ export default function SearchDialog( {
 										aria-selected={ at === active }
 										className="lw-qs-option"
 										onMouseMove={ () =>
-											index !== active &&
-											setActive( index )
+											at !== active && setActive( at )
 										}
 										onMouseDown={ ( event ) =>
 											event.preventDefault()
