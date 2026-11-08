@@ -8,9 +8,11 @@
 		"build": "wp-scripts build src/index.js",
 		"start": "wp-scripts start src/index.js",
 		"lint:js": "wp-scripts lint-js src",
+		"test:e2e": "playwright test -c tests/e2e",
 		"i18n": "wp i18n make-pot . languages/lw-cookie.pot --slug=lw-cookie --domain=lw-cookie --exclude=node_modules,vendor,src,tests,docs && msgmerge --quiet --update --backup=none --no-fuzzy-matching languages/lw-cookie-hu_HU.po languages/lw-cookie.pot && msgfmt languages/lw-cookie-hu_HU.po -o languages/lw-cookie-hu_HU.mo && wp i18n make-json languages --no-purge"
 	},
 	"devDependencies": {
+		"@playwright/test": "1.63.0",
 		"@wordpress/scripts": "^36.0.0"
 	},
 	"dependencies": {

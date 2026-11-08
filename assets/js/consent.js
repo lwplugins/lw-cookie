@@ -243,6 +243,10 @@
 	 * @param {boolean} skipReload  Skip page reload.
 	 */
 	function saveConsent( categories, actionType, skipReload ) {
+		// Decided before the guard learns the new state: what is blocked on
+		// the page reflects the consent it was loaded with.
+		var reload = ! skipReload && needsReload( categories );
+
 		// Save to cookie immediately.
 		saveCookie( categories );
 
@@ -284,7 +288,7 @@
 
 		// Reload only if scripts were previously blocked and now need loading.
 		// The SW can block but cannot retroactively load scripts.
-		if ( ! skipReload && needsReload( categories ) ) {
+		if ( reload ) {
 			reloadWhenSynced( synced );
 		}
 	}
@@ -321,14 +325,30 @@
 	/**
 	 * Check if a page reload is needed.
 	 *
-	 * Reload if any previously blocked category is now allowed,
-	 * since blocked scripts cannot be un-blocked without reload.
+	 * Only when a newly granted category has something blocked on the page:
+	 * a blocked script cannot be un-blocked without a reload. Otherwise the
+	 * page stays, since a reload replaces document.referrer with the page's
+	 * own URL and analytics loaded after consent would lose the visitor's
+	 * real traffic source.
 	 *
 	 * @param {Object} categories New categories.
 	 * @return {boolean}
 	 */
 	function needsReload( categories ) {
-		return categories.analytics || categories.marketing || categories.functional;
+		var guard = window.__lwGuard;
+
+		// A guard from a page cached before 1.9.13 cannot tell: reload on any grant.
+		if ( ! guard || typeof guard.hasBlockedScripts !== 'function' ) {
+			return ! ! ( categories.analytics || categories.marketing || categories.functional );
+		}
+
+		var before = ( typeof guard.getConsent === 'function' && guard.getConsent() ) || {};
+
+		return [ 'functional', 'analytics', 'marketing' ].some(
+			function ( cat ) {
+				return categories[ cat ] && ! before[ cat ] && guard.hasBlockedScripts( cat );
+			}
+		);
 	}
 
 	/**

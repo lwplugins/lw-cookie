@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.13] - 2026-11-08
+
+### Fixed
+- Accepting cookies no longer reloads the page when nothing on it was blocked, so analytics keeps the visitor's real referrer (#20).
+
 ## [1.9.12] - 2026-11-05
 
 ### Fixed

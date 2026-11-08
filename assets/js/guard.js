@@ -951,6 +951,25 @@
 		updateGCM( cats );
 	}
 
+	// A request the Service Worker answered in place of a blocked one (e.g.
+	// a pixel from new Image(), which never enters the DOM) leaves no marker
+	// on the page, only a resource timing entry. The worker blocks only with
+	// Script Blocking on, and only categories not granted to this page.
+	function hasBlockedRequests( category ) {
+		if ( ! SCRIPT_BLOCKING || cats[ category ] || ! window.performance || typeof performance.getEntriesByType !== 'function' ) {
+			return false;
+		}
+		var entries    = performance.getEntriesByType( 'resource' );
+		var entriesLen = entries.length;
+		for ( var i = 0; i < entriesLen; i++ ) {
+			// Iframes are restored in place (restoreAllowed).
+			if ( entries[i].initiatorType !== 'iframe' && getCategoryForUrl( entries[i].name ) === category ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// ── 8. Public API for consent.js ─────────────────────────────────
 	window.__lwGuard = {
 		/**
@@ -974,22 +993,27 @@
 		},
 
 		/**
-		 * Whether a script of this category is blocked on the page. Such a
-		 * script cannot be restored in place (code relying on it has already
-		 * run without it), so consent.js reloads instead.
+		 * Whether something of this category is blocked on the page that
+		 * cannot be restored in place, so consent.js reloads instead: a
+		 * blocked script (code relying on it has already run without it), a
+		 * server-rendered placeholder (5c) the chain skipped, a tracking pixel
+		 * <img>, or a request only the Service Worker blocked. Iframes are
+		 * not counted: restoreAllowed() loads them in place.
 		 *
 		 * @param {string} category Category key.
 		 * @return {boolean}
 		 */
 		hasBlockedScripts: function ( category ) {
-			var blocked    = document.querySelectorAll( 'script[data-lw-blocked="1"]' );
+			var blocked    = document.querySelectorAll( 'script[data-lw-blocked="1"],img[data-lw-blocked="1"]' );
 			var blockedLen = blocked.length;
 			for ( var i = 0; i < blockedLen; i++ ) {
-				if ( blocked[i].getAttribute( 'data-lw-category' ) === category ) {
+				var el  = blocked[i];
+				var cat = el.getAttribute( 'data-lw-category' ) || getCategoryForUrl( el.getAttribute( 'data-lw-original-src' ) || '' );
+				if ( cat === category ) {
 					return true;
 				}
 			}
-			return false;
+			return hasBlockedRequests( category );
 		},
 
 		/**

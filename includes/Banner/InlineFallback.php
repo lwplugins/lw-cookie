@@ -28,7 +28,9 @@ final class InlineFallback {
 	/**
 	 * Output minimal inline script after banner HTML.
 	 *
-	 * Uses event delegation and defers to consent.js when loaded.
+	 * Uses event delegation and defers to consent.js when loaded. Like
+	 * consent.js, it reloads only when a newly granted category has something
+	 * blocked on the page (a reload costs the visitor's referrer).
 	 * Attributes prevent cache plugins from delaying this script.
 	 *
 	 * @return void
@@ -57,13 +59,16 @@ var g=window.__lwGuardCfg||{},cn=g.cookieName||'lw_cookie_consent',
 pv=g.policyVersion||'1.0',bn=document.getElementById('lw-cookie-notice'),
 md=document.getElementById('lw-cookie-preferences');
 function sv(cats){
+var h=window.__lwGuard,b=h&&typeof h.getConsent==='function'&&h.getConsent()||{},
+rl=h&&typeof h.hasBlockedScripts==='function'?['functional','analytics','marketing'].some(function(k){return cats[k]&&!b[k]&&h.hasBlockedScripts(k)}):true;
 var d=JSON.stringify({id:Math.random().toString(36).substr(2,9),version:pv,
 timestamp:Math.floor(Date.now()/1000),categories:cats});
 var ex=new Date();ex.setDate(ex.getDate()+365);
 document.cookie=cn+'='+btoa(d)+';expires='+ex.toUTCString()+';path=/;SameSite=Lax';
 if(bn)bn.classList.add('lw-cookie-hidden');
 if(md)md.style.display='none';
-var s=window.__lwGuard?window.__lwGuard.refresh(cats):null,r=function(){location.reload()};
+var s=h?h.refresh(cats):null,r=function(){location.reload()};
+if(!rl)return;
 if(window.Promise){Promise.all([s,new Promise(function(x){setTimeout(x,100)})]).then(r,r)}else{setTimeout(r,100)}
 }
 if(e.target.closest('[data-lw-cookie-accept]')){
