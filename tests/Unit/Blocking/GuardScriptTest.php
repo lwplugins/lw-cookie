@@ -35,7 +35,7 @@ final class GuardScriptTest extends MonkeyTestCase {
 		Functions\when( 'home_url' )->alias( static fn( $path = '' ) => 'https://example.test' . $path );
 		Functions\when( 'wp_parse_url' )->alias( static fn( $url, $component = -1 ) => parse_url( $url, $component ) );
 		Functions\when( 'trailingslashit' )->alias( static fn( $value ) => rtrim( $value, "/\\" ) . '/' );
-		Functions\when( 'wp_json_encode' )->alias( static fn( $data ) => json_encode( $data ) );
+		Functions\when( 'wp_json_encode' )->alias( static fn( $data, $flags = 0 ) => json_encode( $data, $flags ) );
 		Functions\when( '__' )->returnArg();
 		Functions\when( 'has_filter' )->justReturn( false );
 		Functions\when( 'pll__' )->returnArg();
@@ -62,6 +62,23 @@ final class GuardScriptTest extends MonkeyTestCase {
 		$this->assertSame( 1, preg_match( '#window\.__lwGuardCfg=(\{.*?\});/\*\*#s', $html, $match ) );
 
 		return json_decode( $match[1], true );
+	}
+
+	/**
+	 * Output buffers that split the page at the first "<body" (or "<head",
+	 * "</script") must not find one inside the guard: the script and its
+	 * config carry no tag-like text, only the real closing tag.
+	 */
+	public function test_the_guard_output_carries_no_tag_like_text(): void {
+		Functions\when( 'get_option' )->justReturn( [ 'blocked_embed_message' => 'Load it </script><body onload=x>' ] );
+
+		ob_start();
+		( new GuardScript() )->output_guard();
+		$html   = (string) ob_get_clean();
+		$script = substr( $html, (int) strpos( $html, '<script id="lw-cookie-guard"' ) );
+		$inner  = substr( $script, (int) strpos( $script, '>' ) + 1, -strlen( '</script>' ) );
+
+		$this->assertSame( 0, preg_match( '#</?(body|head|html|script)\b#i', $inner ) );
 	}
 
 	public function test_the_guard_script_is_marked_not_to_be_delayed(): void {

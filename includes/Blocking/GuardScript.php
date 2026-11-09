@@ -70,7 +70,7 @@ final class GuardScript {
 		echo '<style id="lw-cookie-guard-css">' . self::PLACEHOLDER_CSS . '</style>';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted JS from local file, JSON via wp_json_encode.
-		echo '<script id="lw-cookie-guard" ' . CacheCompat::attribute_markup() . '>window.__lwGuardCfg=' . wp_json_encode( $config ) . ';' . $guard . '</script>';
+		echo '<script id="lw-cookie-guard" ' . CacheCompat::attribute_markup() . '>window.__lwGuardCfg=' . wp_json_encode( $config, JSON_HEX_TAG | JSON_HEX_AMP ) . ';' . $guard . '</script>';
 
 		self::$printed = true;
 	}

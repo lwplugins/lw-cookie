@@ -3,6 +3,7 @@
 ## [1.9.13] - 2026-11-08
 
 ### Fixed
+- Pages no longer go blank next to plugins that split the page at the first "<body" text (for example Email Encoder): the inline guard script carries no tag-like text, and its settings are encoded so saved texts cannot add any.
 - Accepting cookies no longer reloads the page when nothing on it was blocked, so analytics keeps the visitor's real referrer (#20).
 
 ## [1.9.12] - 2026-11-05

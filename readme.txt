@@ -187,6 +187,7 @@ Yes! LW Cookie has full WP-CLI support:
 == Changelog ==
 
 = 1.9.13 =
+* Fix: Pages no longer go blank next to plugins that split the page at the first "<body" text (for example Email Encoder): the inline guard script carries no tag-like text, and its settings are encoded so saved texts cannot add any.
 * Fix: Accepting cookies no longer reloads the page when nothing on it was blocked, so analytics keeps the visitor's real referrer (#20).
 
 = 1.9.12 =

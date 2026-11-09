@@ -1,9 +1,9 @@
 /**
  * LW Cookie — Client-Side Guard (inline, runs before any body element).
  *
- * This script is inlined by GuardScript.php in <head> at priority 1.
+ * This script is inlined by GuardScript.php in the document head at priority 1.
  * It MUST NOT be enqueued — it needs to execute before the parser
- * reaches any <body> content so that MutationObserver and cookie
+ * reaches any body content so that MutationObserver and cookie
  * override are active before tracking scripts load.
  *
  * @package LightweightPlugins\Cookie
@@ -352,7 +352,7 @@
 		setAttr.call( el, 'data-lw-category', category );
 	}
 
-	// ── 5b. Script-created <script> elements ─────────────────────────
+	// ── 5b. Script-created script elements ─────────────────────────
 	// A script inserted by another script is prepared as soon as it is
 	// connected (or gets its src), before the observer runs, so rewriting its
 	// type there is too late. Scripts made with createElement are therefore
