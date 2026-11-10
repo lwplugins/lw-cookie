@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\Cookie\Admin;
 
+use LightweightPlugins\Cookie\Banner\ButtonOrder;
 use LightweightPlugins\Cookie\Blocking\CustomRules;
 
 /**
@@ -36,6 +37,7 @@ final class SettingsSanitizer {
 	public const PROBLEM_TEXT    = 'not_text';
 	public const PROBLEM_CHOICE  = 'not_choice';
 	public const PROBLEM_COLOR   = 'not_color';
+	public const PROBLEM_ORDER   = 'not_button_order';
 
 	/**
 	 * Sanitize the submitted keys.
@@ -90,6 +92,10 @@ final class SettingsSanitizer {
 			return self::PROBLEM_TEXT;
 		}
 
+		if ( ButtonOrder::OPTION === $key ) {
+			return ButtonOrder::is_valid( $value ) ? null : self::PROBLEM_ORDER;
+		}
+
 		if ( isset( self::CHOICES[ $key ] ) ) {
 			return in_array( (string) $value, self::CHOICES[ $key ], true ) ? null : self::PROBLEM_CHOICE;
 		}
@@ -140,6 +146,10 @@ final class SettingsSanitizer {
 		}
 
 		$value = (string) $value;
+
+		if ( ButtonOrder::OPTION === $key ) {
+			return ButtonOrder::normalize( $value );
+		}
 
 		if ( isset( self::CHOICES[ $key ] ) ) {
 			return $value;

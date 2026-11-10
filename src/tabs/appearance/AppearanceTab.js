@@ -12,6 +12,7 @@ import Section from '../../components/Section';
 import Segmented from '../../components/Segmented';
 import SettingRow from '../../components/SettingRow';
 import BannerPreview from './BannerPreview';
+import ButtonOrderField from './ButtonOrderField';
 
 /**
  * SettingRow + soft segmented control bound to one option.
@@ -89,6 +90,7 @@ export default function AppearanceTab( { store } ) {
 						right: __( 'Right', 'lw-cookie' ),
 					} }
 				/>
+				<ButtonOrderField store={ store } />
 				<ColorField
 					title={ __( 'Primary Color', 'lw-cookie' ) }
 					help={ __( 'Button and accent color.', 'lw-cookie' ) }

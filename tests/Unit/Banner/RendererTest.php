@@ -66,4 +66,34 @@ final class RendererTest extends MonkeyTestCase {
 			'preferences modal' => [ 'lw-cookie-preferences' ],
 		];
 	}
+
+	/**
+	 * @dataProvider provide_button_orders
+	 *
+	 * @param array<string, mixed> $saved    Saved options.
+	 * @param array<int, string>   $expected Button order in the markup.
+	 */
+	public function test_banner_buttons_follow_the_configured_order( array $saved, array $expected ): void {
+		Functions\when( 'get_option' )->justReturn( $saved );
+
+		ob_start();
+		( new Renderer() )->render_banner();
+		$html = (string) ob_get_clean();
+
+		preg_match( '/<div class="lw-cookie-actions">(.*?)<\/div>/s', $html, $actions );
+		preg_match_all( '/data-lw-cookie-(accept|reject|customize)\b/', $actions[1] ?? '', $found );
+
+		$this->assertSame( $expected, $found[1] );
+	}
+
+	/**
+	 * @return array<string, array{0: array<string, mixed>, 1: array<int, string>}>
+	 */
+	public static function provide_button_orders(): array {
+		return [
+			'default (unchanged)' => [ [], [ 'customize', 'reject', 'accept' ] ],
+			'accept first'        => [ [ 'banner_button_order' => 'accept,customize,reject' ], [ 'accept', 'customize', 'reject' ] ],
+			'invalid saved value' => [ [ 'banner_button_order' => 'accept,accept' ], [ 'customize', 'reject', 'accept' ] ],
+		];
+	}
 }

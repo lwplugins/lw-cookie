@@ -1039,6 +1039,90 @@ body.lw-cookie-screen {
 	}
 }
 
+// Button order (Appearance tab) ------------------------------------------------
+// Sortable rows: native drag and drop with the mouse, arrow buttons for the
+// keyboard and touch. Chip colours follow the banner settings.
+
+.lw-cookie-order {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: $gap-sm;
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		align-self: stretch;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+		gap: $gap-md;
+		margin: 0;
+		padding: 6px 8px 6px 10px;
+		border: 1px solid $stroke;
+		border-radius: $radius-lg;
+		background: $surface;
+		cursor: grab;
+
+		&.is-dragging {
+			border-color: $brand;
+			opacity: 0.7;
+		}
+	}
+
+	&__handle {
+		display: flex;
+		color: $muted;
+
+		svg {
+			fill: currentColor;
+		}
+	}
+
+	&__pos {
+		min-width: 20px;
+		color: $muted;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__chip {
+		flex: 1 1 auto;
+		max-width: max-content;
+		padding: 5px 12px;
+		border: 1px solid;
+		border-radius: $radius;
+		font-size: 12px;
+		font-weight: 600;
+		white-space: nowrap;
+
+		&.is-primary {
+			border-color: var(--lw-preview-primary);
+			background: var(--lw-preview-primary);
+			color: #fff;
+		}
+
+		&.is-outline {
+			border-color: var(--lw-preview-primary);
+			color: var(--lw-preview-primary);
+		}
+
+		&.is-secondary {
+			border-color: var(--lw-preview-text);
+			color: var(--lw-preview-text);
+		}
+	}
+
+	&__chip + .components-button {
+		margin-left: auto;
+	}
+}
+
 // Scanner modal.
 // The actions stay in view at the bottom of the scrolling modal content, so
 // "Add Selected" is reachable without scrolling through every result. The

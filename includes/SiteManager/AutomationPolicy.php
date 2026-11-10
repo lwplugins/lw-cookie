@@ -32,6 +32,7 @@ final class AutomationPolicy {
 		'banner_position',
 		'banner_layout',
 		'banner_box_alignment',
+		'banner_button_order',
 		'primary_color',
 		'text_color',
 		'background_color',

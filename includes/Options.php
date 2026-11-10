@@ -42,6 +42,7 @@ final class Options {
 			'banner_position'        => 'bottom',
 			'banner_layout'          => 'bar',
 			'banner_box_alignment'   => 'right',
+			'banner_button_order'    => 'customize,reject,accept',
 			'primary_color'          => '#2271b1',
 			'text_color'             => '#1d2327',
 			'background_color'       => '#ffffff',

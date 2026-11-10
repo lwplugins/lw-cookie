@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.14] - 2026-11-10
+
+### Added
+- Banner button order is adjustable: Appearance → Button Order lists Accept All, Customize and Reject All; drag them into order with the mouse or move them with the arrow buttons (keyboard and touch). The banner markup follows the order, so the Tab and screen-reader order match what visitors see, and the live preview shows it before saving. The default stays Customize → Reject All → Accept All, so existing banners do not change. Also available to automation as `banner_button_order` (#27).
+
 ## [1.9.13] - 2026-11-08
 
 ### Fixed

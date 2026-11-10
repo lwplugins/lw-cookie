@@ -22,6 +22,15 @@ use LightweightPlugins\Cookie\Options;
 final class Renderer {
 
 	/**
+	 * First-layer buttons: key => [ style suffix, text key ].
+	 */
+	private const BUTTONS = [
+		'customize' => [ 'secondary', 'btn_customize' ],
+		'reject'    => [ 'outline', 'btn_reject_all' ],
+		'accept'    => [ 'primary', 'btn_accept_all' ],
+	];
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -80,15 +89,12 @@ final class Renderer {
 					</p>
 				</div>
 				<div class="lw-cookie-actions">
-					<button type="button" class="lw-cookie-btn lw-cookie-btn-secondary" data-lw-cookie-customize>
-						<?php echo esc_html( Strings::get( 'btn_customize' ) ); ?>
-					</button>
-					<button type="button" class="lw-cookie-btn lw-cookie-btn-outline" data-lw-cookie-reject>
-						<?php echo esc_html( Strings::get( 'btn_reject_all' ) ); ?>
-					</button>
-					<button type="button" class="lw-cookie-btn lw-cookie-btn-primary" data-lw-cookie-accept>
-						<?php echo esc_html( Strings::get( 'btn_accept_all' ) ); ?>
-					</button>
+					<?php foreach ( ButtonOrder::resolve( Options::get( ButtonOrder::OPTION ) ) as $button ) : ?>
+						<?php [ $style, $text ] = self::BUTTONS[ $button ]; ?>
+						<button type="button" class="lw-cookie-btn lw-cookie-btn-<?php echo esc_attr( $style ); ?>" data-lw-cookie-<?php echo esc_attr( $button ); ?>>
+							<?php echo esc_html( Strings::get( $text ) ); ?>
+						</button>
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>

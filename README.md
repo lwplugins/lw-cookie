@@ -22,6 +22,7 @@ GDPR-compliant cookie consent banner for WordPress - minimal footprint, full com
 
 - Customizable position (top, bottom, modal)
 - Customizable layout (full-width bar, floating box)
+- Adjustable button order on the banner (drag and drop)
 - Customizable colors and border radius
 - Accept All / Reject All / Customize buttons
 - Floating button for easy access to preferences
@@ -134,7 +135,7 @@ Navigate to **LW Plugins → Cookie** in your WordPress admin to access settings
 | Tab | Description |
 |-----|-------------|
 | **General** | Enable/disable, privacy policy page, policy version |
-| **Appearance** | Position, layout, colors, border radius |
+| **Appearance** | Position, layout, button order, colors, border radius |
 | **Categories** | Customize category names and descriptions |
 | **Texts** | Banner title, message, and button labels |
 | **Advanced** | Consent duration, script blocking, Google Consent Mode |

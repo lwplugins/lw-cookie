@@ -171,6 +171,19 @@ final class SetOptionsTest extends MonkeyTestCase {
 		$this->assertSame( 0, $this->writes );
 	}
 
+	public function test_button_order_is_stored_without_spaces(): void {
+		CookieService::set_options( [ 'options' => [ 'banner_button_order' => ' accept , customize,reject' ] ] );
+
+		$this->assertSame( 'accept,customize,reject', $this->stored['banner_button_order'] );
+	}
+
+	public function test_button_order_missing_a_button_is_rejected(): void {
+		$result = CookieService::set_options( [ 'options' => [ 'banner_button_order' => 'accept,customize' ] ] );
+
+		$this->assertInstanceOf( \WP_Error::class, $result );
+		$this->assertSame( [ 'banner_button_order' ], array_keys( $result->get_error_data()['rejected'] ) );
+	}
+
 	public function test_an_empty_options_object_is_an_error(): void {
 		$result = CookieService::set_options( [ 'options' => [] ] );
 

@@ -113,6 +113,8 @@ final class CookieService {
 			case SettingsSanitizer::PROBLEM_CHOICE:
 				/* translators: %s: comma-separated list of allowed values */
 				return sprintf( __( 'Must be one of: %s.', 'lw-cookie' ), implode( ', ', SettingsSanitizer::choices( $key ) ) );
+			case SettingsSanitizer::PROBLEM_ORDER:
+				return __( 'Must list accept, customize and reject once each, comma-separated.', 'lw-cookie' );
 			case SettingsSanitizer::PROBLEM_COLOR:
 				return __( 'Must be a hex colour such as #2271b1.', 'lw-cookie' );
 			default:

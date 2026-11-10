@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.13
+Stable tag: 1.9.14
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,6 +28,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 
 * Customizable position (top, bottom, modal)
 * Customizable layout (full-width bar, floating box)
+* Adjustable button order on the banner (drag and drop)
 * Customizable colors and border radius
 * Accept All / Reject All / Customize buttons
 * Floating button for easy access to change preferences
@@ -185,6 +186,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.14 =
+* New: Banner button order is adjustable: Appearance → Button Order lists Accept All, Customize and Reject All; drag them into order with the mouse or move them with the arrow buttons (keyboard and touch). The banner markup follows the order, so the Tab and screen-reader order match what visitors see, and the live preview shows it before saving. The default stays Customize → Reject All → Accept All, so existing banners do not change. Also available to automation as `banner_button_order` (#27).
 
 = 1.9.13 =
 * Fix: Pages no longer go blank next to plugins that split the page at the first "<body" text (for example Email Encoder): the inline guard script carries no tag-like text, and its settings are encoded so saved texts cannot add any.

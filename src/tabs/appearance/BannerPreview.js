@@ -4,6 +4,11 @@
 import { __ } from '@wordpress/i18n';
 
 /**
+ * Internal dependencies
+ */
+import { BUTTONS, resolveOrder } from './buttonOrder';
+
+/**
  * Banner text: the option value, else the field's placeholder (the default
  * the frontend falls back to).
  *
@@ -12,7 +17,7 @@ import { __ } from '@wordpress/i18n';
  * @param {string} key     Text key.
  * @return {string} Text.
  */
-const text = ( options, meta, key ) => {
+export const text = ( options, meta, key ) => {
 	if ( options[ key ] ) {
 		return options[ key ];
 	}
@@ -24,6 +29,19 @@ const text = ( options, meta, key ) => {
 	}
 	return '';
 };
+
+/**
+ * Built-in label of a button, when neither the option nor a placeholder has one.
+ *
+ * @param {string} key Button key.
+ * @return {string} Label.
+ */
+export const fallbackLabel = ( key ) =>
+	( {
+		customize: __( 'Customize', 'lw-cookie' ),
+		reject: __( 'Reject All', 'lw-cookie' ),
+		accept: __( 'Accept All', 'lw-cookie' ),
+	} )[ key ];
 
 /**
  * Lightweight live mock of the consent banner (bar / box / modal) using the
@@ -62,18 +80,20 @@ export default function BannerPreview( { options, meta } ) {
 					<p>{ text( options, meta, 'banner_message' ) }</p>
 				</div>
 				<div className="lw-preview__actions">
-					<span className="lw-preview__btn is-secondary">
-						{ text( options, meta, 'btn_customize' ) ||
-							__( 'Customize', 'lw-cookie' ) }
-					</span>
-					<span className="lw-preview__btn is-outline">
-						{ text( options, meta, 'btn_reject_all' ) ||
-							__( 'Reject All', 'lw-cookie' ) }
-					</span>
-					<span className="lw-preview__btn is-primary">
-						{ text( options, meta, 'btn_accept_all' ) ||
-							__( 'Accept All', 'lw-cookie' ) }
-					</span>
+					{ resolveOrder( options.banner_button_order ).map(
+						( key ) => (
+							<span
+								key={ key }
+								className={ `lw-preview__btn is-${ BUTTONS[ key ].style }` }
+							>
+								{ text(
+									options,
+									meta,
+									BUTTONS[ key ].textKey
+								) || fallbackLabel( key ) }
+							</span>
+						)
+					) }
 				</div>
 			</div>
 		</div>

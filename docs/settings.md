@@ -78,6 +78,13 @@ The current version of your cookie/privacy policy. When you update this version 
 | `bar` | Horizontal bar spanning the viewport width |
 | `box` | Compact box in the corner |
 
+### Button Order
+
+**Option:** `banner_button_order`
+**Default:** `customize,reject,accept`
+
+The order of the three first-layer banner buttons: their keys (`accept`, `customize`, `reject`), each exactly once, comma-separated. In the admin, drag the rows into order or use the arrow buttons. The banner markup follows this order, so the keyboard (Tab) and screen-reader order match what visitors see. An invalid value falls back to the default. Since 1.9.14.
+
 ### Primary Color
 
 **Option:** `primary_color`
