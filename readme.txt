@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.14
+Stable tag: 1.9.15
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +55,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 **Third-Party Plugin Integration**
 
 * dataLayer.push events for GTM triggers (`lw_cookie_consent_update`)
+* `lwCookieConsent` browser event after every consent choice. It fires once the Service Worker knows the new choice, so a script loaded from the listener is not blocked; `e.detail.ready` is a promise for the same moment (`e.detail.ready.then(load)`)
 * WordPress filters for other plugins to query consent state
 * `lw_cookie_known_cookies` filter: plugins register the cookies they set, and LW Cookie declares and guards them
 
@@ -186,6 +187,10 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.15 =
+* Fix: Scripts that a theme or plugin loads when the visitor accepts cookies (from the `lwCookieConsent` event, for example Google Tag Manager) are no longer blocked on that first page: the event now fires once the Service Worker knows the new choice, so the first page view of a new visitor is recorded (#28).
+* New: The `lwCookieConsent` event carries `detail.ready`, a promise that resolves once the Service Worker holds the new choice, for code that loads scripts outside the event.
 
 = 1.9.14 =
 * New: Banner button order is adjustable: Appearance → Button Order lists Accept All, Customize and Reject All; drag them into order with the mouse or move them with the arrow buttons (keyboard and touch). The banner markup follows the order, so the Tab and screen-reader order match what visitors see, and the live preview shows it before saving. The default stays Customize → Reject All → Accept All, so existing banners do not change. Also available to automation as `banner_button_order` (#27).

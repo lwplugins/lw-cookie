@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.15] - 2026-11-17
+
+### Fixed
+- Scripts that a theme or plugin loads when the visitor accepts cookies (from the `lwCookieConsent` event, for example Google Tag Manager) are no longer blocked on that first page: the event now fires once the Service Worker knows the new choice, so the first page view of a new visitor is recorded (#28).
+
+### Added
+- The `lwCookieConsent` event carries `detail.ready`, a promise that resolves once the Service Worker holds the new choice, for code that loads scripts outside the event.
+
 ## [1.9.14] - 2026-11-10
 
 ### Added

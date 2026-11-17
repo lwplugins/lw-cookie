@@ -531,6 +531,23 @@ window.addEventListener('lwCookieConsent', function(e) {
 });
 ```
 
+With Script Blocking on, the event (and the `lw_cookie_consent_update` dataLayer event) fires only once the Service Worker holds the new choice, so a script loaded from the listener is not answered with `403 Blocked by LW Cookie`. The wait is short and capped. Since 1.9.15.
+
+`e.detail.ready` is a Promise that resolves at that same moment (at once when no Service Worker is used). Use it to load a consent-dependent script from code that keeps the event for later:
+
+```javascript
+window.addEventListener('lwCookieConsent', function(e) {
+    if (e.detail.categories.analytics) {
+        e.detail.ready.then(function() {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX';
+            document.head.appendChild(s);
+        });
+    }
+});
+```
+
 ### Conditional Script Loading
 
 You can use the API to conditionally load scripts:

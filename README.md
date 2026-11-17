@@ -179,6 +179,21 @@ window.addEventListener('lwCookieConsent', function(e) {
     console.log('Action:', e.detail.action);
 });
 
+// e.detail.ready: a Promise that resolves once the Service Worker holds the
+// new choice (already resolved when no Service Worker is used). The event
+// itself fires only after that (since 1.9.15), so a script loaded from the
+// listener is not blocked; keep the promise for loading it later or elsewhere.
+window.addEventListener('lwCookieConsent', function(e) {
+    if (e.detail.categories.analytics) {
+        e.detail.ready.then(function() {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX';
+            document.head.appendChild(s);
+        });
+    }
+});
+
 // Delete all cookies (for "forget me" functionality)
 LWCookie.deleteAllCookies();
 ```

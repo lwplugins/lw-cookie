@@ -14,6 +14,10 @@
 	var config      = window.lwCookieConfig || {};
 	var COOKIE_NAME = config.cookieName || 'lw_cookie_consent';
 
+	// Longest wait for the Service Worker before lwCookieConsent fires anyway
+	// (guard.js gives up after 2 s itself).
+	var SYNC_CAP = 3000;
+
 	/**
 	 * Read consent data from the browser cookie.
 	 *
@@ -283,14 +287,57 @@
 			);
 		}
 
-		// Dispatch events for other scripts.
-		dispatchConsentEvent( categories, actionType );
+		// Tell other scripts, once the Service Worker holds the new state: a
+		// tracker a listener loads right away must not reach a worker that
+		// still blocks it (#28). Without a worker, at once.
+		var ready = whenSynced( synced );
+		if ( synced && ready ) {
+			ready.then(
+				function () {
+					dispatchConsentEvent( categories, actionType, ready );
+				}
+			);
+		} else {
+			dispatchConsentEvent( categories, actionType, ready );
+		}
 
 		// Reload only if scripts were previously blocked and now need loading.
 		// The SW can block but cannot retroactively load scripts.
 		if ( reload ) {
 			reloadWhenSynced( synced );
 		}
+	}
+
+	/**
+	 * A promise that settles once the Service Worker holds the new state.
+	 *
+	 * Never rejects and never hangs: guard.js caps its hand-off itself, and
+	 * SYNC_CAP covers a guard that does not. Resolves at once when no worker
+	 * is in use. Null only where the browser has no Promise.
+	 *
+	 * @param {Promise|null} synced What __lwGuard.refresh() returned.
+	 * @return {Promise|null}
+	 */
+	function whenSynced( synced ) {
+		if ( typeof Promise === 'undefined' ) {
+			return null;
+		}
+		if ( ! synced || typeof synced.then !== 'function' ) {
+			return Promise.resolve();
+		}
+
+		var cap = new Promise(
+			function ( resolve ) {
+				setTimeout( resolve, SYNC_CAP );
+			}
+		);
+
+		return Promise.race( [ synced, cap ] ).then(
+			function () {},
+			function ( error ) {
+				console.warn( 'LW Cookie: consent hand-off to the Service Worker failed', error );
+			}
+		);
 	}
 
 	/**
@@ -425,16 +472,22 @@
 	/**
 	 * Dispatch consent event for other scripts.
 	 *
-	 * @param {Object} categories Category consent states.
-	 * @param {string} actionType Action type.
+	 * Fires after the Service Worker holds the new state. detail.ready is a
+	 * promise that settles at that point (already settled by now), so code
+	 * that runs before or outside the event can wait for it too.
+	 *
+	 * @param {Object}       categories Category consent states.
+	 * @param {string}       actionType Action type.
+	 * @param {Promise|null} ready      Settles when the SW has the new state.
 	 */
-	function dispatchConsentEvent( categories, actionType ) {
+	function dispatchConsentEvent( categories, actionType, ready ) {
 		var event = new CustomEvent(
 			'lwCookieConsent',
 			{
 				detail: {
 					categories: categories,
-					action: actionType
+					action: actionType,
+					ready: ready
 				}
 			}
 		);

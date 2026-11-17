@@ -872,7 +872,9 @@
 		);
 
 		return Promise.race( [ synced, timeout ] ).catch(
-			function () {}
+			function ( error ) {
+				console.warn( 'LW Cookie guard: Service Worker sync failed', error );
+			}
 		);
 	}
 
@@ -894,7 +896,9 @@
 				}
 			}
 		).catch(
-			function () {}
+			function ( error ) {
+				console.warn( 'LW Cookie guard: retiring the Service Worker failed', error );
+			}
 		);
 	}
 
@@ -907,8 +911,9 @@
 		if ( SCRIPT_BLOCKING ) {
 			// The home path: a worker served below a subdirectory home may not claim "/".
 			navigator.serviceWorker.register( SW_URL, { scope: SW_SCOPE } ).catch(
-				function () {
-					// Registration failed: the guard above still blocks in the page.
+				function ( error ) {
+					// The guard above still blocks in the page.
+					console.warn( 'LW Cookie guard: Service Worker registration failed', error );
 				}
 			);
 
