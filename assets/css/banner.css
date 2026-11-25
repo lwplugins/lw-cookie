@@ -264,6 +264,30 @@
 	padding: 24px;
 }
 
+/*
+ * Text color: the theme's own label/th/td/code/p/h2 rules must not win over
+ * the configured text color (unreadable on a dark background otherwise).
+ * The ID scope outranks class-level theme selectors; :where() adds nothing.
+ */
+#lw-cookie-notice .lw-cookie-content,
+#lw-cookie-notice .lw-cookie-content :where(h2, p, span),
+#lw-cookie-preferences .lw-cookie-modal-content,
+#lw-cookie-preferences .lw-cookie-modal-content :where(h2, label, span, p, table, th, td, code) {
+	color: var(--lw-cookie-text);
+}
+
+#lw-cookie-preferences .lw-cookie-category,
+#lw-cookie-preferences .lw-cookie-modal-actions,
+#lw-cookie-preferences .lw-cookie-category-cookies th,
+#lw-cookie-preferences .lw-cookie-category-cookies td,
+#lw-cookie-preferences .lw-cookie-category-cookies tr {
+	border-color: color-mix(in srgb, var(--lw-cookie-text) 15%, transparent);
+}
+
+#lw-cookie-preferences .lw-cookie-category-cookies td code {
+	background: color-mix(in srgb, var(--lw-cookie-text) 10%, transparent);
+}
+
 #lw-cookie-preferences .lw-cookie-modal-close {
 	position: absolute !important;
 	top: 12px;

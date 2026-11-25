@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.17] - 2026-11-25
+
+### Fixed
+- The cookie banner and the preferences window now always use the text color set under Appearance, even when the theme styles labels, table cells, code or headings itself, so they stay readable on a dark background. The cookie table's borders and code background follow the text color too.
+
 ## [1.9.16] - 2026-11-25
 
 ### Added

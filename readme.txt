@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.16
+Stable tag: 1.9.17
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -190,6 +190,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.17 =
+* Fix: The cookie banner and the preferences window now always use the text color set under Appearance, even when the theme styles labels, table cells, code or headings itself, so they stay readable on a dark background. The cookie table's borders and code background follow the text color too.
 
 = 1.9.16 =
 * New: Consent log retention setting (Advanced → Consent log retention (days), option `log_retention_days`). Entries older than the set number of days are deleted automatically once a day, in batches. The default 0 keeps the log forever, so updating deletes nothing until you set a value.
