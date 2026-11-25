@@ -192,12 +192,21 @@ final class SetOptionsTest extends MonkeyTestCase {
 	}
 
 	public function test_policy_covers_exactly_the_settings_model(): void {
-		$keys = AutomationPolicy::KEYS;
+		$keys = array_merge( AutomationPolicy::KEYS, AutomationPolicy::ADMIN_ONLY );
 		sort( $keys );
 		$model = array_keys( Options::get_defaults() );
 		sort( $model );
 
 		$this->assertSame( $model, $keys );
+	}
+
+	public function test_log_retention_is_admin_only(): void {
+		$result = CookieService::set_options( [ 'options' => [ 'log_retention_days' => 1 ] ] );
+
+		$this->assertInstanceOf( \WP_Error::class, $result );
+		$this->assertArrayHasKey( 'log_retention_days', (array) $result->get_error_data()['rejected'] );
+		$this->assertArrayNotHasKey( 'log_retention_days', $this->stored );
+		$this->assertFalse( AutomationPolicy::allows( 'log_retention_days' ) );
 	}
 
 	public function test_get_options_matches_what_set_options_can_write(): void {

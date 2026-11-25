@@ -33,6 +33,18 @@ export default function AdvancedTab( { store } ) {
 					max={ 730 }
 					suffix={ __( 'days', 'lw-cookie' ) }
 				/>
+				<NumberRow
+					title={ __( 'Consent log retention (days)', 'lw-cookie' ) }
+					help={ __(
+						'Log entries older than this are deleted automatically once a day. 0 keeps them forever.',
+						'lw-cookie'
+					) }
+					store={ store }
+					name="log_retention_days"
+					min={ 0 }
+					max={ 3650 }
+					suffix={ __( 'days', 'lw-cookie' ) }
+				/>
 				<SwitchRow
 					title={ __( 'Logged-in users', 'lw-cookie' ) }
 					help={ __(

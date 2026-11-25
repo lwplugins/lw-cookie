@@ -11,6 +11,7 @@ namespace LightweightPlugins\Cookie;
 
 use LightweightPlugins\Cookie\Database\Schema;
 use LightweightPlugins\Cookie\Blocking\ServiceWorkerManager;
+use LightweightPlugins\Cookie\Consent\LogRetention;
 
 /**
  * Handles plugin activation and deactivation.
@@ -36,6 +37,7 @@ final class Activator {
 	 */
 	public static function deactivate(): void {
 		ServiceWorkerManager::uninstall();
+		LogRetention::unschedule();
 	}
 
 	/**

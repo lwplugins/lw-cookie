@@ -15,7 +15,7 @@ use LightweightPlugins\Cookie\Admin\SettingsStore;
  * The explicit list of option keys the Site Manager set-options ability may
  * write. It covers the whole settings model of the React admin; a test keeps
  * it in step with Options::get_defaults(), so a new setting has to be
- * classified here before it ships.
+ * classified here (or in ADMIN_ONLY) before it ships.
  */
 final class AutomationPolicy {
 
@@ -81,6 +81,15 @@ final class AutomationPolicy {
 
 		// Cookie declaration.
 		'declared_cookies',
+	];
+
+	/**
+	 * Settings only an administrator may change in wp-admin. A short consent
+	 * log retention deletes the proof of consent, so a remote write must not
+	 * be able to set it.
+	 */
+	public const ADMIN_ONLY = [
+		'log_retention_days',
 	];
 
 	/**

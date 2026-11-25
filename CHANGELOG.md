@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.16] - 2026-11-25
+
+### Added
+- Consent log retention setting (Advanced → Consent log retention (days), option `log_retention_days`). Entries older than the set number of days are deleted automatically once a day, in batches. The default 0 keeps the log forever, so updating deletes nothing until you set a value.
+
+### Fixed
+- `wp lw-cookie clear-logs`, the name in the documentation, now works; before it failed with "'clear-logs' is not a registered subcommand". The old `wp lw-cookie clear_logs` name keeps working as an alias.
+- An invalid `--older-than` value (0, negative, empty or text) no longer deletes the whole consent log; the command now stops with an error and deletes nothing. The cutoff uses the site's time zone, the same clock the entries are stored with.
+
 ## [1.9.15] - 2026-11-17
 
 ### Fixed

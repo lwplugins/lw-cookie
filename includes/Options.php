@@ -88,6 +88,7 @@ final class Options {
 			'hide_for_logged_in'     => false,
 			'show_floating_button'   => true,
 			'floating_button_pos'    => 'bottom-left',
+			'log_retention_days'     => 0,
 
 			// Cookie declaration.
 			'declared_cookies'       => [],

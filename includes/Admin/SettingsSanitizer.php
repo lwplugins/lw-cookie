@@ -11,6 +11,7 @@ namespace LightweightPlugins\Cookie\Admin;
 
 use LightweightPlugins\Cookie\Banner\ButtonOrder;
 use LightweightPlugins\Cookie\Blocking\CustomRules;
+use LightweightPlugins\Cookie\Consent\LogRetention;
 
 /**
  * Sanitizes submitted settings against the option defaults.
@@ -135,6 +136,10 @@ final class SettingsSanitizer {
 
 		if ( is_bool( $default ) ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+		}
+
+		if ( LogRetention::OPTION === $key ) {
+			return LogRetention::sanitize_days( $value );
 		}
 
 		if ( is_int( $default ) ) {

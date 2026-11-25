@@ -106,7 +106,7 @@ jobs:
             --exclude='node_modules' --exclude='/src' --exclude='/package.json' --exclude='/package-lock.json' --exclude='.gitignore' --exclude='.gitattributes' \
             --exclude='tests' --exclude='docs' --exclude='.claude' --exclude='.superpowers' \
             --exclude='phpstan.neon.dist' --exclude='phpstan-baseline.neon' \
-            --exclude='phpstan-bootstrap.php' --exclude='phpunit.xml.dist' --exclude='*.log' . dist/lw-cookie/
+            --exclude='phpstan-bootstrap.php' --exclude='phpunit.xml.dist' --exclude='patchwork.json' --exclude='*.log' . dist/lw-cookie/
           cd dist && zip -r "lw-cookie-${VERSION}.zip" lw-cookie/
 
       - name: Create tag and release

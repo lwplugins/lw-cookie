@@ -10,6 +10,7 @@
 /phpstan-baseline.neon	export-ignore
 /phpstan-bootstrap.php	export-ignore
 /phpunit.xml.dist	export-ignore
+/patchwork.json	export-ignore
 /src	export-ignore
 /package.json	export-ignore
 /package-lock.json	export-ignore

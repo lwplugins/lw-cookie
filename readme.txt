@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.15
+Stable tag: 1.9.16
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,6 +21,7 @@ LW Cookie provides a lightweight, GDPR-compliant cookie consent solution. No blo
 * Opt-in by default - all optional categories are OFF until user consents
 * Granular category selection (Necessary, Functional, Analytics, Marketing)
 * Consent logging with timestamp for compliance proof
+* Optional log retention: entries older than a set number of days are deleted once a day (off by default)
 * Policy version tracking - automatic re-consent on policy changes
 * Anonymized IP logging (GDPR-compliant)
 
@@ -158,6 +159,8 @@ Yes, all consent actions are logged to the database with:
 - Policy version
 - Timestamp
 
+By default the log is kept forever. To delete old entries automatically, set **Advanced → Consent log retention (days)**; a daily task then removes entries older than that. You can also run `wp lw-cookie clear-logs --older-than=365`.
+
 = What happens when I update my privacy policy? =
 
 Change the "Policy Version" setting in the General tab. Users will be asked for consent again on their next visit.
@@ -174,7 +177,7 @@ Yes! LW Cookie has full WP-CLI support:
 `wp lw-cookie settings set enabled true` - Change a setting
 `wp lw-cookie stats` - View consent statistics
 `wp lw-cookie export --format=csv` - Export consent logs
-`wp lw-cookie clear-logs --older-than=365` - Clean up old logs
+`wp lw-cookie clear-logs --older-than=365` - Clean up old logs (on 1.9.15 and older the command is `clear_logs`; from 1.9.16 both names work)
 `wp lw-cookie migrate complianz --dry-run` - Preview a Complianz import
 `wp lw-cookie blocking-rules add code.tidio.co functional` - Add a custom blocking rule
 
@@ -187,6 +190,11 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.16 =
+* New: Consent log retention setting (Advanced → Consent log retention (days), option `log_retention_days`). Entries older than the set number of days are deleted automatically once a day, in batches. The default 0 keeps the log forever, so updating deletes nothing until you set a value.
+* Fix: `wp lw-cookie clear-logs`, the name in the documentation, now works; before it failed with "'clear-logs' is not a registered subcommand". The old `wp lw-cookie clear_logs` name keeps working as an alias.
+* Fix: An invalid `--older-than` value (0, negative, empty or text) no longer deletes the whole consent log; the command now stops with an error and deletes nothing. The cutoff uses the site's time zone, the same clock the entries are stored with.
 
 = 1.9.15 =
 * Fix: Scripts that a theme or plugin loads when the visitor accepts cookies (from the `lwCookieConsent` event, for example Google Tag Manager) are no longer blocked on that first page: the event now fires once the Service Worker knows the new choice, so the first page view of a new visitor is recorded (#28).

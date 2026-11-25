@@ -23,6 +23,7 @@ final class SettingsStoreTest extends MonkeyTestCase {
 		'enabled'            => true,
 		'gcm_enabled'        => false,
 		'consent_duration'   => 365,
+		'log_retention_days' => 0,
 		'banner_position'    => 'bottom',
 		'primary_color'      => '#2271b1',
 		'cat_analytics_name' => 'Analytics',
@@ -171,6 +172,31 @@ final class SettingsStoreTest extends MonkeyTestCase {
 		$result = $this->merge( [ 'consent_duration' => '-30' ] );
 
 		$this->assertSame( 30, $result['consent_duration'] );
+	}
+
+	/**
+	 * @dataProvider provide_log_retention_days
+	 *
+	 * @param mixed $submitted Submitted retention.
+	 * @param int   $expected  Stored retention.
+	 */
+	public function test_merge_keeps_log_retention_days_between_zero_and_the_maximum( $submitted, int $expected ): void {
+		$result = $this->merge( [ 'log_retention_days' => $submitted ], [ 'log_retention_days' => 60 ] );
+
+		$this->assertSame( $expected, $result['log_retention_days'] );
+	}
+
+	/**
+	 * @return array<string, array{0: mixed, 1: int}>
+	 */
+	public static function provide_log_retention_days(): array {
+		return [
+			'days'                     => [ '90', 90 ],
+			'zero keeps forever'       => [ 0, 0 ],
+			'negative keeps forever'   => [ '-30', 0 ],
+			'capped at the maximum'    => [ '99999', 3650 ],
+			'not a number keeps stored' => [ 'forever', 60 ],
+		];
 	}
 
 	public function test_merge_replaces_declared_cookies_as_a_whole(): void {

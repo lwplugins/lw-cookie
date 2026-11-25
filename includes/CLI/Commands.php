@@ -30,8 +30,8 @@ use WP_CLI;
  *     # View consent statistics
  *     wp lw-cookie stats
  *
- *     # Clear all consent logs
- *     wp lw-cookie clear-logs --yes
+ *     # Clear consent logs older than a year
+ *     wp lw-cookie clear-logs --older-than=365 --yes
  */
 class Commands {
 
@@ -307,63 +307,6 @@ class Commands {
 	}
 
 	/**
-	 * Clear consent logs from database.
-	 *
-	 * ## OPTIONS
-	 *
-	 * [--yes]
-	 * : Skip confirmation prompt.
-	 *
-	 * [--older-than=<days>]
-	 * : Only delete logs older than X days.
-	 *
-	 * ## EXAMPLES
-	 *
-	 *     wp lw-cookie clear-logs --yes
-	 *     wp lw-cookie clear-logs --older-than=365 --yes
-	 *
-	 * @param array $args       Positional arguments.
-	 * @param array $assoc_args Associative arguments.
-	 * @return void
-	 */
-	public function clear_logs( array $args, array $assoc_args ): void {
-		global $wpdb;
-
-		$table      = $wpdb->prefix . Schema::TABLE_CONSENTS;
-		$older_than = isset( $assoc_args['older-than'] ) ? (int) $assoc_args['older-than'] : null;
-
-		// Confirm action.
-		if ( $older_than ) {
-			$message = "Delete consent logs older than {$older_than} days?";
-		} else {
-			$message = 'Delete ALL consent logs? This cannot be undone.';
-		}
-
-		WP_CLI::confirm( $message, $assoc_args );
-
-		// Delete logs.
-		if ( $older_than ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$deleted = $wpdb->query(
-				$wpdb->prepare(
-					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-					"DELETE FROM {$table} WHERE created_at < DATE_SUB(NOW(), INTERVAL %d DAY)",
-					$older_than
-				)
-			);
-		} else {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$deleted = $wpdb->query( "TRUNCATE TABLE {$table}" );
-		}
-
-		if ( false === $deleted ) {
-			WP_CLI::error( 'Failed to delete logs.' );
-		}
-
-		WP_CLI::success( "Deleted {$deleted} consent log(s)." );
-	}
-
-	/**
 	 * Export consent logs.
 	 *
 	 * ## OPTIONS
@@ -577,6 +520,7 @@ class Commands {
 			'gcm_enabled'          => 'Enable Google Consent Mode',
 			'show_floating_button' => 'Show floating preferences button',
 			'floating_button_pos'  => 'Floating button position',
+			'log_retention_days'   => 'Consent log retention in days (0 = keep forever)',
 		];
 
 		$defaults = Options::get_defaults();

@@ -12,6 +12,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+// Remove the daily consent log cleanup.
+wp_clear_scheduled_hook( 'lw_cookie_log_retention' );
+
 // Delete plugin options.
 delete_option( 'lw_cookie_options' );
 delete_option( 'lw_cookie_sw_version' );

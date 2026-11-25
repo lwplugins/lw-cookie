@@ -15,6 +15,7 @@ GDPR-compliant cookie consent banner for WordPress - minimal footprint, full com
 - **Opt-in by default** - All optional categories are OFF until user consents
 - **Granular category selection** - Necessary, Functional, Analytics, Marketing
 - **Consent logging** - Timestamp and policy version for compliance proof
+- **Log retention** - Optionally delete consent log entries older than a set number of days, once a day (off by default)
 - **Policy version tracking** - Automatic re-consent on policy changes
 - **Anonymized IP logging** - GDPR-compliant data storage
 
@@ -108,7 +109,7 @@ wp lw-cookie settings list              # List all settings
 wp lw-cookie settings set enabled true  # Change settings
 wp lw-cookie stats                      # View consent statistics
 wp lw-cookie export --format=csv        # Export consent logs
-wp lw-cookie clear-logs --older-than=365 # Clean up old logs
+wp lw-cookie clear-logs --older-than=365 # Clean up old logs (1.9.15 and older: clear_logs)
 wp lw-cookie migrate complianz --dry-run # Preview a Complianz import
 wp lw-cookie blocking-rules add code.tidio.co functional # Custom blocking rule
 ```

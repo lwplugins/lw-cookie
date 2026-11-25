@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LW Cookie 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-cookie\n"
-"POT-Creation-Date: 2026-11-10T16:21:29+00:00\n"
+"POT-Creation-Date: 2026-11-25T06:10:43+00:00\n"
 "PO-Revision-Date: 2026-02-05 00:00+0000\n"
 "Last-Translator: Codex <codex@local>\n"
 "Language-Team: Hungarian\n"
@@ -544,7 +544,9 @@ msgstr "Ezek egyike lehet: %s."
 
 #: includes/SiteManager/CookieService.php:117
 msgid "Must list accept, customize and reject once each, comma-separated."
-msgstr "Az accept, customize és reject kulcs pontosan egyszer szerepeljen, vesszővel elválasztva."
+msgstr ""
+"Az accept, customize és reject kulcs pontosan egyszer szerepeljen, vesszővel "
+"elválasztva."
 
 #: includes/SiteManager/CookieService.php:119
 msgid "Must be a hex colour such as #2271b1."
@@ -1589,6 +1591,18 @@ msgstr ""
 #: build/index.js:21
 msgid "days"
 msgstr "nap"
+
+#: build/index.js:21
+msgid "Consent log retention (days)"
+msgstr "Hozzájárulási napló megőrzése (nap)"
+
+#: build/index.js:21
+msgid ""
+"Log entries older than this are deleted automatically once a day. 0 keeps "
+"them forever."
+msgstr ""
+"Az ennél régebbi naplóbejegyzések naponta egyszer automatikusan törlődnek. "
+"Ha 0-t adsz meg, örökre megmaradnak."
 
 #: build/index.js:21
 msgid "Logged-in users"

@@ -28,6 +28,8 @@ use LightweightPlugins\Cookie\Rest\Admin\Routes as AdminRoutes;
 use LightweightPlugins\Cookie\CLI\Commands as CLICommands;
 use LightweightPlugins\Cookie\CLI\MigrateCommand;
 use LightweightPlugins\Cookie\CLI\BlockingRulesCommand;
+use LightweightPlugins\Cookie\CLI\ClearLogsCommand;
+use LightweightPlugins\Cookie\Consent\LogRetention;
 use LightweightPlugins\Cookie\Shortcodes\CookieDeclaration;
 use LightweightPlugins\Cookie\Scanner\Scanner;
 use LightweightPlugins\Cookie\SiteManager\Integration as SiteManagerIntegration;
@@ -75,6 +77,8 @@ final class Plugin {
 		CLICommands::register();
 		MigrateCommand::register();
 		BlockingRulesCommand::register();
+		ClearLogsCommand::register();
+		LogRetention::init();
 		Scanner::init();
 		SiteManagerIntegration::init();
 		Strings::init();

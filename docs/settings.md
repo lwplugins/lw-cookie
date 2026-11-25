@@ -213,6 +213,24 @@ How long the consent cookie is stored. After this period, users will be prompted
 
 **GDPR Recommendation:** Maximum 12 months (365 days).
 
+### Consent Log Retention
+
+**Option:** `log_retention_days`
+**Default:** `0` (keep forever)
+**Range:** `0`–`3650` days
+
+Consent log entries (see [Consent Logging](#consent-logging)) older than this many days are deleted automatically once a day by a WP-Cron event (`lw_cookie_log_retention`), in batches of 1,000 rows (at most 100,000 rows per run; the rest follows the next day). `0` keeps the log forever and schedules nothing, so updating the plugin never deletes any entry until you set a value. The event is removed when the setting goes back to `0`, and on deactivation or uninstall.
+
+Set it in **Advanced → Consent → Consent log retention (days)**, or via WP-CLI:
+
+```bash
+wp lw-cookie settings set log_retention_days 365
+```
+
+This setting is admin-only: the Site Manager `set-options` ability cannot change it, so a remote automation cannot shorten the retention and delete the proof of consent.
+
+Keep the entries for as long as you may need to prove consent (for example as long as the consent itself is valid, plus any period your legal advisor recommends).
+
 ### Script Blocking
 
 **Option:** `script_blocking`
@@ -315,7 +333,7 @@ LW Cookie provides comprehensive WP-CLI support for managing settings and consen
 | `wp lw-cookie keys` | Show all available setting keys |
 | `wp lw-cookie stats` | Display consent statistics |
 | `wp lw-cookie export` | Export consent logs |
-| `wp lw-cookie clear-logs` | Clear consent logs |
+| `wp lw-cookie clear-logs` | Clear consent logs (alias: `clear_logs`) |
 | `wp lw-cookie blocking-rules list\|add\|remove` | Manage custom blocking rules ([details](#custom-blocking-rules)) |
 | `wp lw-cookie migrate complianz [--dry-run]` | Import Complianz settings ([details](#migrating-from-complianz)) |
 
@@ -453,6 +471,10 @@ wp lw-cookie clear-logs --yes
 wp lw-cookie clear-logs --older-than=365 --yes
 ```
 
+`--older-than` takes a whole number of days from 1 to 36500. Any other value (`0`, negative, empty, text) stops the command with an error and deletes nothing. Without `--older-than`, every log entry is deleted after confirmation. The cutoff uses the site's time zone, the same clock the entries are stored with.
+
+**Version note:** on LW Cookie 1.9.15 and older the command is only registered as `wp lw-cookie clear_logs` (with an underscore); `clear-logs` fails there with "'clear-logs' is not a registered subcommand". From 1.9.16 both names work, so existing scripts with `clear_logs` keep running. On 1.9.15 and older, also always pass a positive `--older-than`: an invalid value there deletes the whole log.
+
 ### Automation Examples
 
 #### Backup Settings Before Update
@@ -473,6 +495,8 @@ wp lw-cookie settings set primary_color "#0066cc"
 ```
 
 #### Scheduled Log Cleanup (Cron)
+
+The [Consent Log Retention](#consent-log-retention) setting does this daily without a system cron. If you prefer a system cron instead:
 
 ```bash
 # Add to crontab: delete logs older than 1 year
@@ -682,7 +706,7 @@ Consent is stored in a cookie named `lw_cookie_consent` containing base64-encode
 - **Consent proof:** All consents are logged with timestamps
 - **Re-consent:** Policy version changes trigger new consent requests
 - **IP anonymization:** IP addresses are hashed, not stored in plain text
-- **Data retention:** Consent logs can be purged based on your retention policy
+- **Data retention:** Consent logs can be deleted automatically after a set number of days ([Consent Log Retention](#consent-log-retention)) or purged with `wp lw-cookie clear-logs`
 
 ### Data Export
 
