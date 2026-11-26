@@ -84,6 +84,22 @@ final class EntitiesTest extends MonkeyTestCase {
 		$this->assertSame( 'marketing', $domains['youtu.be'] ?? null );
 	}
 
+	public function test_a_plugin_can_exempt_a_host_through_the_filter(): void {
+		// LW Pixel: Google tag before consent under Consent Mode v2.
+		Filters\expectApplied( 'lw_cookie_exempt_hosts' )->once()->andReturn( [ 'googletagmanager.com' ] );
+
+		$domains = Entities::get_domains();
+
+		$this->assertArrayNotHasKey( 'googletagmanager.com', $domains );
+		$this->assertSame( 'analytics', $domains['google-analytics.com'] ?? null );
+	}
+
+	public function test_empty_hosts_from_the_filter_are_dropped(): void {
+		Filters\expectApplied( 'lw_cookie_exempt_hosts' )->andReturn( [ '', 'googletagmanager.com' ] );
+
+		$this->assertSame( [ 'googletagmanager.com' ], Entities::get_exempt_hosts() );
+	}
+
 	public function test_js_config_carries_the_exemption_to_guard_and_worker(): void {
 		$this->allow_nocookie( true );
 

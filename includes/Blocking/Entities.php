@@ -43,12 +43,24 @@ final class Entities {
 	}
 
 	/**
-	 * Hosts the admin chose to load without consent.
+	 * Hosts loaded without consent: chosen by the admin, or asked for by a
+	 * plugin through `lw_cookie_exempt_hosts` (LW Pixel lets the Google tag
+	 * load before consent when Consent Mode v2 is on). Cookie writes stay
+	 * blocked for these hosts too.
 	 *
 	 * @return array<int, string>
 	 */
 	public static function get_exempt_hosts(): array {
-		return Options::get( 'allow_youtube_nocookie' ) ? [ self::NOCOOKIE_HOST ] : [];
+		$hosts = Options::get( 'allow_youtube_nocookie' ) ? [ self::NOCOOKIE_HOST ] : [];
+
+		/**
+		 * Filter the hosts whose scripts and embeds load without consent.
+		 *
+		 * @param array<int, string> $hosts Host names, e.g. 'googletagmanager.com'.
+		 */
+		$filtered = (array) apply_filters( 'lw_cookie_exempt_hosts', $hosts );
+
+		return array_values( array_filter( array_map( 'strval', $filtered ), static fn ( string $host ): bool => '' !== $host ) );
 	}
 
 	/**

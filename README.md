@@ -215,6 +215,17 @@ $has_consent = apply_filters( 'lw_cookie_has_consent', false );
 $analytics_ok = apply_filters( 'lw_cookie_is_category_allowed', false, 'analytics' );
 ```
 
+### Loading a host without consent
+
+`lw_cookie_exempt_hosts` lists the hosts whose scripts and embeds the blocker lets through before consent. Cookie writes stay blocked until the visitor consents. LW Pixel uses it to load the Google tag before consent when Google Consent Mode v2 is on:
+
+```php
+add_filter( 'lw_cookie_exempt_hosts', static function ( array $hosts ): array {
+	$hosts[] = 'googletagmanager.com';
+	return $hosts;
+} );
+```
+
 ### Registering your plugin's cookies
 
 A plugin that sets cookies can register them with `lw_cookie_known_cookies`:

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.18] - 2026-11-26
+
+### Added
+- `lw_cookie_exempt_hosts` filter: another plugin can let a host's scripts load before consent (cookie writes stay blocked). LW Pixel uses it to load the Google tag before consent under Google Consent Mode v2.
+
 ## [1.9.17] - 2026-11-25
 
 ### Fixed

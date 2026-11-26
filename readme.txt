@@ -3,7 +3,7 @@ Contributors: lwplugins
 Tags: cookie, gdpr, consent, privacy, compliance
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 1.9.17
+Stable tag: 1.9.18
 Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -190,6 +190,9 @@ Yes! LW Cookie has full WP-CLI support:
 5. Settings page - Categories tab
 
 == Changelog ==
+
+= 1.9.18 =
+* New: `lw_cookie_exempt_hosts` filter: another plugin can let a host's scripts load before consent (cookie writes stay blocked). LW Pixel uses it to load the Google tag before consent under Google Consent Mode v2.
 
 = 1.9.17 =
 * Fix: The cookie banner and the preferences window now always use the text color set under Appearance, even when the theme styles labels, table cells, code or headings itself, so they stay readable on a dark background. The cookie table's borders and code background follow the text color too.
